@@ -85,11 +85,9 @@ struct MyView: View {
   // ...
   var body: some View {
     NavigationView {
-      Button(action: {
-        NavigationLink(destination: AfterpayWebLoginView(url: self.redirectCheckoutUrl)) {
-          Text("Pay with Afterpay")
-        }.buttonStyle(PlainButtonStyle())
-      })
+      NavigationLink(destination: AfterpayWebLoginView(url: self.redirectCheckoutUrl)) {
+        Text("Pay with Afterpay")
+      }.buttonStyle(PlainButtonStyle())
     }
   }
 }
