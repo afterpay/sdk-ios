@@ -48,9 +48,18 @@
 			children = (
 				668F160A2487653A0040345C /* Afterpay.h */,
 				668F160B2487653A0040345C /* Info.plist */,
+				668F16122487793B0040345C /* iOS */,
 			);
 			name = Afterpay;
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		668F16122487793B0040345C /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iOS;
+			path = "afterpay-ios";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
