@@ -3,16 +3,23 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 
 # Table of Contents
 
-* [Integration](#integration)
-  * [Requirements](#requirements)
-  * [CocoaPods](#cocoapods)
-  * [Carthage](#carthage)
-  * [Swift Package Manager](#swift-package-manager)
-  * [Manual](#manual)
-* [Features](#features)
-  * [Web Checkout](#web-checkout)
-* [Getting Started](#getting-started)
-  * [Presenting Web Checkout](#presenting-web-checkout)
+- [Afterpay iOS SDK](#afterpay-ios-sdk)
+- [Table of Contents](#table-of-contents)
+  - [Integration](#integration)
+    - [Requirements](#requirements)
+    - [CocoaPods](#cocoapods)
+    - [Carthage](#carthage)
+    - [Swift Package Manager](#swift-package-manager)
+    - [Manual](#manual)
+      - [Manual Download](#manual-download)
+      - [Git Submodule](#git-submodule)
+  - [Features](#features)
+    - [Web Checkout](#web-checkout)
+  - [Getting Started](#getting-started)
+    - [Presenting Web Checkout](#presenting-web-checkout)
+      - [In code (UIKit)](#in-code-uikit)
+      - [In code (SwiftUI)](#in-code-swiftui)
+      - [In Interface Builder](#in-interface-builder)
 
 ## Integration
 
