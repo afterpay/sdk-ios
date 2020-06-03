@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "afterpay-ios",
+    name: "Afterpay",
     products: [
-        .library(name: "Afterpay", targets: ["afterpay-ios"]),
+        .library(name: "Afterpay", targets: ["Afterpay"]),
     ],
     dependencies: [],
     targets: [
-        .target(name: "afterpay-ios", dependencies: []),
-        .testTarget(name: "afterpay-iosTests", dependencies: ["afterpay-ios"]),
+        .target(name: "Afterpay", dependencies: []),
+        .testTarget(name: "afterpay-iosTests", dependencies: ["Afterpay"]),
     ]
 )

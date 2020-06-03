@@ -6,8 +6,8 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import UIKit
-import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         window = UIWindow(windowScene: scene as! UIWindowScene)
-        window?.rootViewController = UIHostingController(rootView: ContentView())
+        window?.rootViewController = WebLoginViewController()
         window?.makeKeyAndVisible()
     }
 
