@@ -11,6 +11,5 @@ let package = Package(
     dependencies: [],
     targets: [
         .target(name: "Afterpay", dependencies: []),
-        .testTarget(name: "afterpay-iosTests", dependencies: ["Afterpay"]),
     ]
 )
