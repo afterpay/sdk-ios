@@ -30,7 +30,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 ### CocoaPods
 
 ```
-pod 'afterpay', '~> 1.0'
+pod 'afterpay-ios', '~> 1.0'
 ```
 
 ### Carthage
