@@ -32,6 +32,7 @@
 		668F160A2487653A0040345C /* Afterpay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Afterpay.h; sourceTree = "<group>"; };
 		668F160B2487653A0040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66FBB4292488D638005B6225 /* WebLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebLoginViewController.swift; sourceTree = "<group>"; };
+		66FBB42D2488D94B005B6225 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +74,7 @@
 		668F15FD2487653A0040345C = {
 			isa = PBXGroup;
 			children = (
+				66FBB42C2488D931005B6225 /* Deployment */,
 				668F16092487653A0040345C /* Afterpay */,
 				665FC5782488766C00A5A93E /* AfterpayTests */,
 				668F16082487653A0040345C /* Products */,
@@ -98,6 +100,14 @@
 			);
 			name = Afterpay;
 			path = Sources/Afterpay;
+			sourceTree = "<group>";
+		};
+		66FBB42C2488D931005B6225 /* Deployment */ = {
+			isa = PBXGroup;
+			children = (
+				66FBB42D2488D94B005B6225 /* Package.swift */,
+			);
+			name = Deployment;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
