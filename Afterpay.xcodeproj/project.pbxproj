@@ -10,7 +10,7 @@
 		665FC57A2488766C00A5A93E /* AfterpayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FC5792488766C00A5A93E /* AfterpayTests.swift */; };
 		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
 		668F160C2487653A0040345C /* Afterpay.h in Headers */ = {isa = PBXBuildFile; fileRef = 668F160A2487653A0040345C /* Afterpay.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		668F161424877B920040345C /* WebLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668F161324877B920040345C /* WebLoginViewController.swift */; };
+		66FBB42A2488D638005B6225 /* WebLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FBB4292488D638005B6225 /* WebLoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,7 @@
 		668F16072487653A0040345C /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		668F160A2487653A0040345C /* Afterpay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Afterpay.h; sourceTree = "<group>"; };
 		668F160B2487653A0040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		668F161324877B920040345C /* WebLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLoginViewController.swift; sourceTree = "<group>"; };
+		66FBB4292488D638005B6225 /* WebLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebLoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,19 +94,10 @@
 			children = (
 				668F160A2487653A0040345C /* Afterpay.h */,
 				668F160B2487653A0040345C /* Info.plist */,
-				668F16122487793B0040345C /* Sources */,
+				66FBB4292488D638005B6225 /* WebLoginViewController.swift */,
 			);
 			name = Afterpay;
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		668F16122487793B0040345C /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				668F161324877B920040345C /* WebLoginViewController.swift */,
-			);
-			name = Sources;
-			path = Afterpay;
+			path = Sources/Afterpay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,7 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				668F161424877B920040345C /* WebLoginViewController.swift in Sources */,
+				66FBB42A2488D638005B6225 /* WebLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +260,7 @@
 		665FC57F2488766C00A5A93E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				INFOPLIST_FILE = AfterpayTests/Info.plist;
@@ -287,6 +279,7 @@
 		665FC5802488766C00A5A93E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				INFOPLIST_FILE = AfterpayTests/Info.plist;
@@ -433,7 +426,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/Afterpay/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -461,7 +454,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/Afterpay/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
