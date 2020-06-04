@@ -7,11 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		665FC57A2488766C00A5A93E /* AfterpayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FC5792488766C00A5A93E /* AfterpayTests.swift */; };
+		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
 		668F160C2487653A0040345C /* Afterpay.h in Headers */ = {isa = PBXBuildFile; fileRef = 668F160A2487653A0040345C /* Afterpay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		668F161424877B920040345C /* WebLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668F161324877B920040345C /* WebLoginViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		665FC57D2488766C00A5A93E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 668F15FE2487653A0040345C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 668F16062487653A0040345C;
+			remoteInfo = Afterpay;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		665FC5772488766C00A5A93E /* AfterpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AfterpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		665FC5792488766C00A5A93E /* AfterpayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayTests.swift; sourceTree = "<group>"; };
+		665FC57B2488766C00A5A93E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		668F16072487653A0040345C /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		668F160A2487653A0040345C /* Afterpay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Afterpay.h; sourceTree = "<group>"; };
 		668F160B2487653A0040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -19,6 +34,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		665FC5742488766C00A5A93E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		668F16042487653A0040345C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -29,10 +52,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		665FC5782488766C00A5A93E /* AfterpayTests */ = {
+			isa = PBXGroup;
+			children = (
+				665FC5792488766C00A5A93E /* AfterpayTests.swift */,
+				665FC57B2488766C00A5A93E /* Info.plist */,
+			);
+			path = AfterpayTests;
+			sourceTree = "<group>";
+		};
 		668F15FD2487653A0040345C = {
 			isa = PBXGroup;
 			children = (
 				668F16092487653A0040345C /* Afterpay */,
+				665FC5782488766C00A5A93E /* AfterpayTests */,
 				668F16082487653A0040345C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				668F16072487653A0040345C /* Afterpay.framework */,
+				665FC5772488766C00A5A93E /* AfterpayTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,6 +113,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		665FC5762488766C00A5A93E /* AfterpayTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 665FC5812488766C00A5A93E /* Build configuration list for PBXNativeTarget "AfterpayTests" */;
+			buildPhases = (
+				665FC5732488766C00A5A93E /* Sources */,
+				665FC5742488766C00A5A93E /* Frameworks */,
+				665FC5752488766C00A5A93E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				665FC57E2488766C00A5A93E /* PBXTargetDependency */,
+			);
+			name = AfterpayTests;
+			productName = AfterpayTests;
+			productReference = 665FC5772488766C00A5A93E /* AfterpayTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		668F16062487653A0040345C /* Afterpay */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 668F160F2487653A0040345C /* Build configuration list for PBXNativeTarget "Afterpay" */;
@@ -103,9 +155,13 @@
 		668F15FE2487653A0040345C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = Afterpay;
 				TargetAttributes = {
+					665FC5762488766C00A5A93E = {
+						CreatedOnToolsVersion = 11.5;
+					};
 					668F16062487653A0040345C = {
 						CreatedOnToolsVersion = 11.5;
 						LastSwiftMigration = 1150;
@@ -126,11 +182,19 @@
 			projectRoot = "";
 			targets = (
 				668F16062487653A0040345C /* Afterpay */,
+				665FC5762488766C00A5A93E /* AfterpayTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		665FC5752488766C00A5A93E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		668F16052487653A0040345C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -141,6 +205,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		665FC5732488766C00A5A93E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				665FC57A2488766C00A5A93E /* AfterpayTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		668F16032487653A0040345C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -151,7 +223,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		665FC57E2488766C00A5A93E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 668F16062487653A0040345C /* Afterpay */;
+			targetProxy = 665FC57D2488766C00A5A93E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		665FC57F2488766C00A5A93E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KBY3G4JPGC;
+				INFOPLIST_FILE = AfterpayTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.afterpay.AfterpayTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		665FC5802488766C00A5A93E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KBY3G4JPGC;
+				INFOPLIST_FILE = AfterpayTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.afterpay.AfterpayTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		668F160D2487653A0040345C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -330,6 +446,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		665FC5812488766C00A5A93E /* Build configuration list for PBXNativeTarget "AfterpayTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				665FC57F2488766C00A5A93E /* Debug */,
+				665FC5802488766C00A5A93E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		668F16012487653A0040345C /* Build configuration list for PBXProject "Afterpay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
