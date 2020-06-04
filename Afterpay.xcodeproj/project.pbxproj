@@ -27,6 +27,7 @@
 		665FC5772488766C00A5A93E /* AfterpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AfterpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		665FC5792488766C00A5A93E /* AfterpayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayTests.swift; sourceTree = "<group>"; };
 		665FC57B2488766C00A5A93E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		665FC5832488847900A5A93E /* Afterpay.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.xctestplan; sourceTree = "<group>"; };
 		668F16072487653A0040345C /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		668F160A2487653A0040345C /* Afterpay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Afterpay.h; sourceTree = "<group>"; };
 		668F160B2487653A0040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,12 +62,21 @@
 			path = AfterpayTests;
 			sourceTree = "<group>";
 		};
+		665FC5822488843C00A5A93E /* TestPlans */ = {
+			isa = PBXGroup;
+			children = (
+				665FC5832488847900A5A93E /* Afterpay.xctestplan */,
+			);
+			path = TestPlans;
+			sourceTree = "<group>";
+		};
 		668F15FD2487653A0040345C = {
 			isa = PBXGroup;
 			children = (
 				668F16092487653A0040345C /* Afterpay */,
 				665FC5782488766C00A5A93E /* AfterpayTests */,
 				668F16082487653A0040345C /* Products */,
+				665FC5822488843C00A5A93E /* TestPlans */,
 			);
 			sourceTree = "<group>";
 		};

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "1206AC85-96AE-4AA5-A2DA-5BDDE6DF4D18",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Afterpay.xcodeproj",
+        "identifier" : "665FC5762488766C00A5A93E",
+        "name" : "AfterpayTests"
+      }
+    }
+  ],
+  "version" : 1
+}
