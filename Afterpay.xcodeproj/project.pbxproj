@@ -145,7 +145,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 668F160F2487653A0040345C /* Build configuration list for PBXNativeTarget "Afterpay" */;
 			buildPhases = (
-				66FBB41E2488B6B8005B6225 /* ShellScript */,
+				66FBB41E2488B6B8005B6225 /* swiftlint */,
 				668F16022487653A0040345C /* Headers */,
 				668F16032487653A0040345C /* Sources */,
 				668F16042487653A0040345C /* Frameworks */,
@@ -216,7 +216,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		66FBB41E2488B6B8005B6225 /* ShellScript */ = {
+		66FBB41E2488B6B8005B6225 /* swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -224,14 +224,17 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Package.swift",
+				"$(SRCROOT)/Sources",
 			);
+			name = swiftlint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Tools/swiftlint/swiftlint\n";
+			shellScript = "./Tools/swiftlint/swiftlint --quiet -- Package.swift Sources\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -1,6 +1,3 @@
-excluded:
-  - Example
-
 force_cast:
   severity: warning
 
