@@ -91,6 +91,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 668F163224877F980040345C /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
+				66FBB42F2488D9C1005B6225 /* swiftlint */,
 				668F161A24877F950040345C /* Sources */,
 				668F161B24877F950040345C /* Frameworks */,
 				668F161C24877F950040345C /* Resources */,
@@ -152,6 +153,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		66FBB42F2488D9C1005B6225 /* swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Example",
+			);
+			name = swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../Tools/swiftlint/swiftlint --quiet --config ../.swiftlint.yml\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		668F161A24877F950040345C /* Sources */ = {
