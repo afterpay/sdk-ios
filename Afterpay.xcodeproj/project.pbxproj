@@ -145,6 +145,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 668F160F2487653A0040345C /* Build configuration list for PBXNativeTarget "Afterpay" */;
 			buildPhases = (
+				66FBB41E2488B6B8005B6225 /* ShellScript */,
 				668F16022487653A0040345C /* Headers */,
 				668F16032487653A0040345C /* Sources */,
 				668F16042487653A0040345C /* Frameworks */,
@@ -213,6 +214,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		66FBB41E2488B6B8005B6225 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Tools/swiftlint/swiftlint\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		665FC5732488766C00A5A93E /* Sources */ = {
