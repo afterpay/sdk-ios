@@ -229,6 +229,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Package.swift",
 				"$(SRCROOT)/Sources",
+				"$(SRCROOT)/AfterpayTests",
 			);
 			name = swiftlint;
 			outputFileListPaths = (
@@ -237,7 +238,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Tools/swiftlint/swiftlint --quiet -- Package.swift Sources\n";
+			shellScript = "./Tools/swiftlint/swiftlint --quiet -- Package.swift Sources AfterpayTests\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
