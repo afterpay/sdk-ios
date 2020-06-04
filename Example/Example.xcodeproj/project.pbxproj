@@ -46,7 +46,9 @@
 				668F161F24877F950040345C /* Products */,
 				668F163A248786740040345C /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		668F161F24877F950040345C /* Products */ = {
 			isa = PBXGroup;

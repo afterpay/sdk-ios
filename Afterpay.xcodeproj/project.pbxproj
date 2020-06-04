@@ -80,7 +80,9 @@
 				668F16082487653A0040345C /* Products */,
 				665FC5822488843C00A5A93E /* TestPlans */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		668F16082487653A0040345C /* Products */ = {
 			isa = PBXGroup;

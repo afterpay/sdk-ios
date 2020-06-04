@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Afterpay",
-    products: [
-        .library(name: "Afterpay", targets: ["Afterpay"]),
-    ],
-    dependencies: [],
-    targets: [
-        .target(name: "Afterpay", dependencies: []),
-    ]
+  name: "Afterpay",
+  products: [
+    .library(name: "Afterpay", targets: ["Afterpay"]),
+  ],
+  dependencies: [],
+  targets: [
+    .target(name: "Afterpay", dependencies: []),
+  ]
 )

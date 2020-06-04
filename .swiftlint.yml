@@ -1,6 +1,12 @@
+opt_in_rules:
+  - indentation_width
+
 force_cast:
   severity: warning
 
 trailing_comma:
   # Providing trailing commas on multi-line collection literals produces cleaner diffs
   mandatory_comma: true
+
+indentation_width:
+  indentation_width: 2

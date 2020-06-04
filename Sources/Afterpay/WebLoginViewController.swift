@@ -9,11 +9,13 @@
 import UIKit
 
 public final class WebLoginViewController: UIViewController {
-    public override func viewDidLoad() {
-        if #available(iOS 13.0, *) {
-            view.backgroundColor = .systemBackground
-        } else {
-            view.backgroundColor = .white
-        }
+
+  public override func viewDidLoad() {
+    if #available(iOS 13.0, *) {
+      view.backgroundColor = .systemBackground
+    } else {
+      view.backgroundColor = .white
     }
+  }
+
 }
