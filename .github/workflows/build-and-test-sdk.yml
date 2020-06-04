@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and Test SDK
 env:
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
 on:
@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
