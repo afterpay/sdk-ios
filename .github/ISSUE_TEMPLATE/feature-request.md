@@ -1,7 +1,7 @@
 ---
 name: "\U0001F680 Feature request"
 about: Suggest a feature to enhance this project
-title: 'Feature: ...'
+title: 'Feature: '
 labels: 'enhancement'
 
 ---
