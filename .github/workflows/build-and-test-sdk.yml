@@ -2,6 +2,7 @@ name: Build and Test
 env:
   destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
+  workspace: Afterpay.xcworkspace
 on:
   push:
     branches: [ master ]
@@ -15,9 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild build-for-testing -project Afterpay.xcodeproj -scheme Afterpay -destination '${{ env.destination }}'
+      run: xcodebuild build-for-testing -workspace ${{ env.workspace }} -scheme Afterpay -destination '${{ env.destination }}'
     - name: Test
-      run: xcodebuild test-without-building -project Afterpay.xcodeproj -scheme Afterpay -destination '${{ env.destination }}'
+      run: xcodebuild test-without-building -workspace ${{ env.workspace }} -scheme Afterpay -destination '${{ env.destination }}'
 
   build-example:
     name: Build Example Project
@@ -25,4 +26,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild -project Example/Example.xcodeproj -scheme Example -destination '${{ env.destination }}'
+      run: xcodebuild -workspace ${{ env.workspace }} -scheme Example -destination '${{ env.destination }}'
