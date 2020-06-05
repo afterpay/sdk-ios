@@ -24,6 +24,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
       - [In Interface Builder](#in-interface-builder)
   - [Examples](#examples)
   - [Contributing](#contributing)
+  - [License](#license)
 
 ## Integration
 
@@ -115,8 +116,17 @@ final class MyViewController: UIViewController {
 
 ## Examples
 
-The [example project](./example) demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
+The [example project](example) demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
 
 ## Contributing
 
-Contributions are welcome! Please read our [contributing guidelines](./CONTRIBUTING.md).
+Contributions are welcome! Please read our [contributing guidelines](contributing).
+
+## License
+
+This project is licensed under the terms of the Apache 2.0 license. See the [LICENSE][license] file for more information.
+
+<!-- Links: -->
+[contributing]: CONTRIBUTING.md
+[example]: Example
+[license]: LICENSE
