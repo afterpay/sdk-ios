@@ -35,21 +35,21 @@ jobs:
     - name: Install Dependencies
       run: Tools/mint/mint bootstrap
 
-    - name: Build
+    - name: Build SDK Project
       run: |
         xcodebuild build-for-testing \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.afterpay-scheme }} \
           -destination '${{ env.destination }}'
   
-    - name: Test
+    - name: Test SDK Project
       run: |
         xcodebuild test-without-building \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.afterpay-scheme }} \
           -destination '${{ env.destination }}'
 
-    - name: Build
+    - name: Build Example Project
       run: |
         xcodebuild \
           -workspace ${{ env.workspace }} \
