@@ -10,7 +10,7 @@ import XCTest
 
 class AfterpayTests: XCTestCase {
 
-    func testExample() throws {
-    }
+  func testExample() throws {
+  }
 
 }
