@@ -6,7 +6,7 @@ labels: "bug"
 ---
 # 🌎 Environment
 
- - OS Version: eg, iOS 13.4.1
+ - OS Version: e.g. iOS 13.4.1
  - Version/Commit: e.g. 1.0.0
 
 # 💬 Description
@@ -65,4 +65,3 @@ Please provide references to any thing you think is related to this issue. Inclu
 
 Related PRs, Issues, Links:
 - #xxx, #yyy
-
