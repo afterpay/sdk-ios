@@ -175,7 +175,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../Scripts/swiftlint-example\n";
+			shellScript = "$SRCROOT/../Scripts/swiftlint-example\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
