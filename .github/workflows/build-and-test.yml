@@ -1,9 +1,7 @@
 name: Build and Test
 
 env:
-  destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
-  workspace: Afterpay.xcworkspace
 
 on:
   push:
@@ -13,11 +11,15 @@ on:
 
 jobs:
 
-  build-and-test-sdk:
-    name: Build and Test SDK Project
+  build-and-test:
+    name: Build and Test
     runs-on: macos-latest
+
     env:
-      scheme: Afterpay
+      afterpay-scheme: Afterpay
+      example-scheme: Example
+      destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
+      workspace: Afterpay.xcworkspace
 
     steps:
     - uses: actions/checkout@v2
@@ -26,7 +28,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /usr/local/lib/mint
-        key: ${{ hashFiles('Mintfile') }}
+        key: ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}
+        restore-keys: |
+          ${{ runner.os }}-mint-
 
     - name: Install Dependencies
       run: Tools/mint/mint bootstrap
@@ -35,37 +39,19 @@ jobs:
       run: |
         xcodebuild build-for-testing \
           -workspace ${{ env.workspace }} \
-          -scheme ${{ env.scheme }} \
+          -scheme ${{ env.afterpay-scheme }} \
           -destination '${{ env.destination }}'
   
     - name: Test
       run: |
         xcodebuild test-without-building \
           -workspace ${{ env.workspace }} \
-          -scheme ${{ env.scheme }} \
+          -scheme ${{ env.afterpay-scheme }} \
           -destination '${{ env.destination }}'
-
-  build-example:
-    name: Build Example Project
-    runs-on: macos-latest
-    env:
-      scheme: Example
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Cache Mint Packages
-      uses: actions/cache@v2
-      with:
-        path: /usr/local/lib/mint
-        key: ${{ hashFiles('Mintfile') }}
-
-    - name: Install Dependencies
-      run: Tools/mint/mint bootstrap
 
     - name: Build
       run: |
         xcodebuild \
           -workspace ${{ env.workspace }} \
-          -scheme ${{ env.scheme }} \
+          -scheme ${{ env.example-scheme }} \
           -destination '${{ env.destination }}'
