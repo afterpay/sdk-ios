@@ -1,8 +1,10 @@
 name: Build and Test
+
 env:
   destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
   workspace: Afterpay.xcworkspace
+
 on:
   push:
     branches: [ master ]
@@ -10,19 +12,32 @@ on:
     branches: [ master ]
 
 jobs:
+
   build-and-test-sdk:
     name: Build and Test SDK Project
     runs-on: macos-latest
     env:
       scheme: Afterpay
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Cache Mint Packages
+      uses: actions/cache@v2
+      with:
+        path: /usr/local/lib/mint
+        key: ${{ hashFiles('Mintfile') }}
+
+    - name: Install Dependencies
+      run: Tools/mint/mint bootstrap
+
     - name: Build
       run: |
         xcodebuild build-for-testing \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.scheme }} \
           -destination '${{ env.destination }}'
+  
     - name: Test
       run: |
         xcodebuild test-without-building \
@@ -35,8 +50,19 @@ jobs:
     runs-on: macos-latest
     env:
       scheme: Example
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Cache Mint Packages
+      uses: actions/cache@v2
+      with:
+        path: /usr/local/lib/mint
+        key: ${{ hashFiles('Mintfile') }}
+
+    - name: Install Dependencies
+      run: Tools/mint/mint bootstrap
+
     - name: Build
       run: |
         xcodebuild \
