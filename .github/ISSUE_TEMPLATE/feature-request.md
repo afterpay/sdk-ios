@@ -1,29 +1,42 @@
 ---
 name: "\U0001F680 Feature request"
-about: Suggest an idea for this project
+about: Suggest a feature to enhance this project
+title: 'Feature: ...'
+labels: 'enhancement'
 
 ---
-
 <!--
-Thank you for suggesting an idea to make the Afterpay SDK better.
+Thank you for suggesting an idea to make the Afterpay iOS SDK better.
 
-Please fill in as much of the template below as you're able.
+Please fill in as much of the template below as you're able, delete sections you do not think are relevant.
 -->
 
-## Is your feature request related to a problem?
+# 🗣 Context
 
 <!--
-Please describe the problem you are trying to solve.
+Describe the context of this suggestion. Why is it important to you?
 -->
 
-## Describe the solution you'd like
+# 🤝 Related Issues
+
+<!-- 
+Is this feature related to another issue? Please provide links to other issues, or URLs that help add context to this feature request.
+-->
+
+# 📝 Proposed Solution
 
 <!--
 Please describe the desired behavior.
 -->
 
-## Describe alternatives you've considered
+# 🔀 Alternative Solutions
 
 <!--
-Please describe alternative solutions or features you have considered, if any.
+Please describe alternatives you've considered.
+-->
+
+# 🚫 Out of Scope
+
+<!-- 
+Please describe what you consider to be out of scope in your suggestion.
 -->
