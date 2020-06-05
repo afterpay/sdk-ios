@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6632E0AE248A0171007F0BD9 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		665FC5772488766C00A5A93E /* AfterpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AfterpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		665FC5792488766C00A5A93E /* AfterpayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayTests.swift; sourceTree = "<group>"; };
 		665FC57B2488766C00A5A93E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,6 +54,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6632E0AD248A015E007F0BD9 /* Deployment */ = {
+			isa = PBXGroup;
+			children = (
+				6632E0AE248A0171007F0BD9 /* Package.swift */,
+			);
+			name = Deployment;
+			sourceTree = "<group>";
+		};
 		665FC5782488766C00A5A93E /* AfterpayTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,12 +82,15 @@
 		668F15FD2487653A0040345C = {
 			isa = PBXGroup;
 			children = (
+				6632E0AD248A015E007F0BD9 /* Deployment */,
 				668F16092487653A0040345C /* Afterpay */,
 				665FC5782488766C00A5A93E /* AfterpayTests */,
 				668F16082487653A0040345C /* Products */,
 				665FC5822488843C00A5A93E /* TestPlans */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		668F16082487653A0040345C /* Products */ = {
 			isa = PBXGroup;
@@ -145,6 +157,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 668F160F2487653A0040345C /* Build configuration list for PBXNativeTarget "Afterpay" */;
 			buildPhases = (
+				6632E0AC248A00D6007F0BD9 /* swiftlint */,
 				668F16022487653A0040345C /* Headers */,
 				668F16032487653A0040345C /* Sources */,
 				668F16042487653A0040345C /* Frameworks */,
@@ -213,6 +226,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6632E0AC248A00D6007F0BD9 /* swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Package.swift",
+				"$(SRCROOT)/Sources",
+			);
+			name = swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/output",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/Scripts/swiftlint-sdk\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		665FC5732488766C00A5A93E /* Sources */ = {
