@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail
+
+./Tools/mint/mint run swiftlint \
+  --quiet \
+  -- \
+  Package.swift \
+  Sources \
+  AfterpayTests
