@@ -1,5 +1,6 @@
 name: Build and Test
 env:
+  destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
 on:
   push:
@@ -14,9 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild build-for-testing -project Afterpay.xcodeproj -scheme Afterpay -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.5'
+      run: xcodebuild build-for-testing -project Afterpay.xcodeproj -scheme Afterpay -destination '${{ env.destination }}'
     - name: Test
-      run: xcodebuild test-without-building -project Afterpay.xcodeproj -scheme Afterpay -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.5'
+      run: xcodebuild test-without-building -project Afterpay.xcodeproj -scheme Afterpay -destination '${{ env.destination }}'
 
   build-example:
     name: Build Example Project
@@ -24,4 +25,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild -project Example/Example.xcodeproj -scheme Example -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.5'
+      run: xcodebuild -project Example/Example.xcodeproj -scheme Example -destination '${{ env.destination }}'
