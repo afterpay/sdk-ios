@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-./Tools/mint/mint run swiftlint \
+../Tools/mint/mint run swiftlint \
   --quiet \
   --path Example \
-  --config ../.swiftlint.yml
+  --config ../../.swiftlint.yml
