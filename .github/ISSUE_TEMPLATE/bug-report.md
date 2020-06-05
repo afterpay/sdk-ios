@@ -1,43 +1,68 @@
 ---
-name: "\U0001F41B Bug report"
-about: Create a report to help us improve
-
+name: Bug report
+about: Create a bug report to help us improve the Afterpay iOS SDK
+title: 'Bug: ...'
+labels: "bug"
 ---
+# 🌎 Environment
 
-<!---
-Thank you for reporting an issue.
+ - OS Version: eg, iOS 13.4.1
+ - Version/Commit: e.g. 1.0.0
 
-Please fill in as much of the template below as you're able.
--->
-
-- **Version**:
-- **Platform**:
-
-## Expected Behavior
-
-<!---
-Tell us what should happen.
--->
-
-## Current Behavior
-
-<!---
-Tell us what happens instead of the expected behavior.
--->
-
-## Steps to Reproduce
-
-<!---
-If possible please provide a link to a live example, or an unambiguous set of
-steps to reproduce this bug. Include code to reproduce, if relevant.
--->
-1.
-2.
-3.
-4.
-
-### Additional information
+# 💬 Description
 
 <!--
-Tell us anything else you think we should know.
+Please provide a clear and concise description of what the bug is.
 -->
+
+# 🦶 Reproduction Steps
+
+<!-- 
+Please provide detailed instructions on how to reproduce the issue.  Include code if necessary.
+-->
+
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+# 🤔 Expected Results
+
+<!--
+Please provide a clear and concise description of what you expected to happen.
+-->
+
+# 😲 Actual Results
+
+<!-- 
+Please provide a clear and concise description of what actually happened.
+-->
+
+## Screenshots
+
+<!--
+If applicable, add screenshots to help explain your problem.
+-->
+
+## 📄 Stack Traces
+
+```
+Include a stack trace if applicable...
+```
+
+## 🌳 Logs
+
+```
+Include any logs if applicable...
+```
+
+# 🤝 Related Issues
+
+<!--
+Please provide references to any thing you think is related to this issue. Include other PRs, Issues or links to things such as Stack Overflow posts, etc.
+-->
+
+Related PRs, Issues, Links:
+- #xxx, #yyy
+
