@@ -7,44 +7,44 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 
 - [Afterpay iOS SDK](#afterpay-ios-sdk)
 - [Table of Contents](#table-of-contents)
-  - [Integration](#integration)
-    - [Requirements](#requirements)
-    - [CocoaPods](#cocoapods)
-    - [Carthage](#carthage)
-    - [Swift Package Manager](#swift-package-manager)
-    - [Manual](#manual)
-      - [Manual Download](#manual-download)
-      - [Git Submodule](#git-submodule)
-  - [Features](#features)
-    - [Web Checkout](#web-checkout)
-  - [Getting Started](#getting-started)
-    - [Presenting Web Checkout](#presenting-web-checkout)
-      - [In code (UIKit)](#in-code-uikit)
-      - [In code (SwiftUI)](#in-code-swiftui)
-      - [In Interface Builder](#in-interface-builder)
-  - [Examples](#examples)
-  - [Contributing](#contributing)
-  - [License](#license)
+- [Integration](#integration)
+  - [Requirements](#requirements)
+  - [CocoaPods](#cocoapods)
+  - [Carthage](#carthage)
+  - [Swift Package Manager](#swift-package-manager)
+  - [Manual](#manual)
+    - [Manual Download](#manual-download)
+    - [Git Submodule](#git-submodule)
+- [Features](#features)
+  - [Web Checkout](#web-checkout)
+- [Getting Started](#getting-started)
+  - [Presenting Web Checkout](#presenting-web-checkout)
+    - [In code (UIKit)](#in-code-uikit)
+    - [In code (SwiftUI)](#in-code-swiftui)
+    - [In Interface Builder](#in-interface-builder)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Integration
+# Integration
 
-### Requirements
+## Requirements
 - iOS 12.0+
 - Swift 5.0+
 
-### CocoaPods
+## CocoaPods
 
 ```
 pod 'afterpay-ios', '~> 1.0'
 ```
 
-### Carthage
+## Carthage
 
 ```
 github "afterpay/afterpay-ios" ~> 1.0
 ```
 
-### Swift Package Manager
+## Swift Package Manager
 
 ```
 dependencies: [
@@ -52,28 +52,28 @@ dependencies: [
 ]
 ```
 
-### Manual
+## Manual
 You can always add the Afterpay SDK as an embedded framework manually if you prefer
 
-#### Manual Download
+### Manual Download
 Download instructions
 
-#### Git Submodule
+### Git Submodule
 Git submodule instructions
 
-## Features
+# Features
 The initial release of the SDK contains the web login and pre approval process with more features to come in subsequent releases.
 
-### Web Checkout
+## Web Checkout
 Provided the token generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration accounts for cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired.
 
-## Getting Started
+# Getting Started
 We provide options for integrating via code, interface builder or even SwiftUI
 
-### Presenting Web Checkout
+## Presenting Web Checkout
 The Web Login is a UIViewController that can be presented in the context of your choosing
 
-#### In code (UIKit)
+### In code (UIKit)
 ```swift
 final class MyViewController: UIViewController {
   // ...
@@ -84,7 +84,7 @@ final class MyViewController: UIViewController {
 }
 ```
 
-#### In code (SwiftUI)
+### In code (SwiftUI)
 ```swift
 struct MyView: View {
   // ...
@@ -98,7 +98,7 @@ struct MyView: View {
 }
 ```
 
-#### In Interface Builder
+### In Interface Builder
 
 In your storyboard:
 
@@ -114,15 +114,15 @@ final class MyViewController: UIViewController {
 }
 ```
 
-## Examples
+# Examples
 
 The [example project](example) demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
 
-## Contributing
+# Contributing
 
 Contributions are welcome! Please read our [contributing guidelines](contributing).
 
-## License
+# License
 
 This project is licensed under the terms of the Apache 2.0 license. See the [LICENSE][license] file for more information.
 
