@@ -13,17 +13,33 @@ jobs:
   build-and-test-sdk:
     name: Build and Test SDK Project
     runs-on: macos-latest
+    env:
+      scheme: Afterpay
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild build-for-testing -workspace ${{ env.workspace }} -scheme Afterpay -destination '${{ env.destination }}'
+      run: |
+        xcodebuild build-for-testing \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.scheme }} \
+          -destination '${{ env.destination }}'
     - name: Test
-      run: xcodebuild test-without-building -workspace ${{ env.workspace }} -scheme Afterpay -destination '${{ env.destination }}'
+      run: |
+        xcodebuild test-without-building \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.scheme }} \
+          -destination '${{ env.destination }}'
 
   build-example:
     name: Build Example Project
     runs-on: macos-latest
+    env:
+      scheme: Example
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild -workspace ${{ env.workspace }} -scheme Example -destination '${{ env.destination }}'
+      run: |
+        xcodebuild \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.scheme }} \
+          -destination '${{ env.destination }}'
