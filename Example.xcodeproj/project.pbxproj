@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		665D47082489D36500D487FF /* afterpay-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "afterpay-ios"; sourceTree = "<group>"; };
 		668F161E24877F950040345C /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		668F162124877F950040345C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		668F162324877F950040345C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -23,7 +24,6 @@
 		668F162A24877F980040345C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		668F162D24877F980040345C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		668F162F24877F980040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		668F1638248785920040345C /* afterpay-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "afterpay-ios"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +41,7 @@
 		668F161524877F950040345C = {
 			isa = PBXGroup;
 			children = (
-				668F1638248785920040345C /* afterpay-ios */,
+				665D47082489D36500D487FF /* afterpay-ios */,
 				668F162024877F950040345C /* Example */,
 				668F161F24877F950040345C /* Products */,
 				668F163A248786740040345C /* Frameworks */,
