@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: \U0001F41B Bug report
 about: Create a bug report to help us improve the Afterpay iOS SDK
 title: 'Bug: ...'
 labels: "bug"
