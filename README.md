@@ -116,7 +116,7 @@ final class MyViewController: UIViewController {
 
 # Examples
 
-The [example project](example) demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
+The [example project][example] demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
 
 # Contributing
 
