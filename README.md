@@ -120,7 +120,7 @@ The [example project][example] demonstrates how to include an Afterpay payment f
 
 # Contributing
 
-Contributions are welcome! Please read our [contributing guidelines](contributing).
+Contributions are welcome! Please read our [contributing guidelines][contributing].
 
 # License
 
