@@ -1,5 +1,5 @@
 # Afterpay iOS SDK
-![Build and Test](https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push)
+![Build and Test](https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 The Afterpay iOS SDK provides conveniences to make your Afterpay integration experience as smooth and straightforward as possible. We're working on crafting a great framework for developers with easy drop in components to make payments easy for your customers.
 
