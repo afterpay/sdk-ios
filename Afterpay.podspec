@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   DESC
   spec.homepage     = "https://github.com/ittybittyapps/afterpay-ios"
   spec.license      = "Apache License, Version 2.0"
-  spec.author    = "Adam Campbell"
+  spec.author    = "Afterpay"
   spec.platform     = :ios, "12.0"
   spec.source       = { :git => "https://github.com/ittybittyapps/afterpay-ios.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources"
