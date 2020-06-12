@@ -10,13 +10,22 @@ import UIKit
 
 final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
+  private let didCheckout: (String) -> Void
+
+  private var emailTextField: UITextField!
   private var centeringConstraint: NSLayoutConstraint!
+
+  init(didCheckout: @escaping (String) -> Void) {
+    self.didCheckout = didCheckout
+
+    super.init(nibName: nil, bundle: nil)
+  }
 
   override func loadView() {
     view = UIView()
     view.backgroundColor = .white
 
-    let emailTextField = UITextField()
+    emailTextField = UITextField()
     emailTextField.placeholder = "example@test.com"
     emailTextField.borderStyle = .roundedRect
     emailTextField.returnKeyType = .done
@@ -24,6 +33,7 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
     let submitButton = UIButton(type: .system)
     submitButton.setTitle("Checkout with Afterpay", for: .normal)
+    submitButton.addTarget(self, action: #selector(didTapCheckout), for: .touchUpInside)
 
     let stackView = UIStackView(arrangedSubviews: [emailTextField, submitButton])
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +78,14 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
+
     return true
+  }
+
+  // MARK: Checkout
+
+  @objc private func didTapCheckout() {
+    didCheckout(emailTextField.text ?? "")
   }
 
   // MARK: Keyboard Handling
@@ -90,6 +107,13 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
     UIView.animate(withDuration: 0.5) {
       self.view.layoutIfNeeded()
     }
+  }
+
+  // MARK: Unavailable
+
+  @available(*, unavailable)
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 
 }
