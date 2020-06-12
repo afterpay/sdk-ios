@@ -9,6 +9,7 @@
 import UIKit
 
 final class PaymentFlowController: UIViewController {
+
   private let ownedNavigationController: UINavigationController
 
   init() {
@@ -28,4 +29,5 @@ final class PaymentFlowController: UIViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
 }
