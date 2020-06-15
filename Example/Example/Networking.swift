@@ -34,8 +34,9 @@ func checkout(with email: String) -> AnyPublisher<URL, Error> {
 
   return session
     .dataTaskPublisher(for: request)
-    .map { data, _ in data }
-    .decode(type: CheckoutsResponse.self, decoder: JSONDecoder())
-    .map { $0.url }
+    .tryMap { data, _ -> URL in
+      let response = try JSONDecoder().decode(CheckoutsResponse.self, from: data)
+      return response.url
+    }
     .eraseToAnyPublisher()
 }
