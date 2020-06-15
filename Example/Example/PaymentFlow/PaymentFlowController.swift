@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Combine
 import Foundation
 import UIKit
@@ -21,10 +22,15 @@ final class PaymentFlowController: UIViewController {
     super.init(nibName: nil, bundle: nil)
 
     let dataEntry = DataEntryViewController { [weak self] email in
-      let cancellable = urlProvider(email).sink(
-        receiveCompletion: { _ in },
-        receiveValue: { url in print(url) }
-      )
+      let cancellable = urlProvider(email)
+        .receive(on: DispatchQueue.main)
+        .sink(
+          receiveCompletion: { _ in },
+          receiveValue: { url in
+            let checkout = CheckoutViewController(checkoutUrl: url)
+            self?.ownedNavigationController.pushViewController(checkout, animated: true)
+          }
+        )
 
       self?.cancellables.insert(cancellable)
     }
