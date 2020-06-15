@@ -44,6 +44,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		666262862496F46A0094FC26 /* PaymentFlow */ = {
+			isa = PBXGroup;
+			children = (
+				6620B5D124934FB3004162BC /* PaymentFlowController.swift */,
+				665E6A0824935555009E3BA1 /* DataEntryViewController.swift */,
+			);
+			path = PaymentFlow;
+			sourceTree = "<group>";
+		};
+		666262872496F48B0094FC26 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				668F162724877F980040345C /* Assets.xcassets */,
+				668F162C24877F980040345C /* LaunchScreen.storyboard */,
+				668F162F24877F980040345C /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		668F161524877F950040345C = {
 			isa = PBXGroup;
 			children = (
@@ -69,13 +88,10 @@
 			children = (
 				668F162124877F950040345C /* AppDelegate.swift */,
 				668F162324877F950040345C /* SceneDelegate.swift */,
-				6620B5D124934FB3004162BC /* PaymentFlowController.swift */,
-				665E6A0824935555009E3BA1 /* DataEntryViewController.swift */,
 				665E6A0A24935624009E3BA1 /* Helpers.swift */,
-				668F162724877F980040345C /* Assets.xcassets */,
-				668F162C24877F980040345C /* LaunchScreen.storyboard */,
-				668F162F24877F980040345C /* Info.plist */,
+				666262862496F46A0094FC26 /* PaymentFlow */,
 				668F162924877F980040345C /* Preview Content */,
+				666262872496F48B0094FC26 /* Resources */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -337,7 +353,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Example/Preview Content\"";
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Example/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -357,7 +373,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Example/Preview Content\"";
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Example/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
