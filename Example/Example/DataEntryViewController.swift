@@ -29,6 +29,8 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
     emailTextField.placeholder = "example@test.com"
     emailTextField.borderStyle = .roundedRect
     emailTextField.returnKeyType = .done
+    emailTextField.autocapitalizationType = .none
+    emailTextField.autocorrectionType = .no
     emailTextField.delegate = self
 
     let submitButton = UIButton(type: .system)
