@@ -6,19 +6,27 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Combine
+import Foundation
 import UIKit
 
 final class PaymentFlowController: UIViewController {
 
   private let ownedNavigationController: UINavigationController
+  private var cancellables: Set<AnyCancellable> = []
 
-  init() {
+  init(urlProvider: @escaping (String) -> AnyPublisher<URL, Error>) {
     ownedNavigationController = UINavigationController()
 
     super.init(nibName: nil, bundle: nil)
 
-    let dataEntry = DataEntryViewController { email in
-      print(email)
+    let dataEntry = DataEntryViewController { [weak self] email in
+      let cancellable = urlProvider(email).sink(
+        receiveCompletion: { _ in },
+        receiveValue: { url in print(url) }
+      )
+
+      self?.cancellables.insert(cancellable)
     }
 
     ownedNavigationController.setViewControllers([dataEntry], animated: false)
