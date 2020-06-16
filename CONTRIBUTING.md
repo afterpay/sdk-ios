@@ -21,7 +21,7 @@ If the above doesn't help, please [submit an issue][new-issue] via GitHub.
 
 ### Bootstrapping
 
-We are using [Mint](https://github.com/yonaskolb/Mint) to manage development dependencies. These can be pre-installed by running `./Tools/mint/mint bootstrap` from the root directory of the repository (recommended). Otherwise they will automatically install as part of a build phase script.
+We are using [Mint][mint] to manage development dependencies. These can be pre-installed by running `./Tools/mint/mint bootstrap` from the root directory of the repository (recommended). Otherwise they will automatically install as part of a build phase script.
 
 ### Recommended
 
@@ -72,6 +72,7 @@ All contributions to this project are also under this license as per [GitHub's T
 [github-terms-contribution]: https://help.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license
 [issues]: https://github.com/ittybittyapps/afterpay-ios/issues
 [license]: LICENSE
+[mint]: https://github.com/yonaskolb/Mint
 [new-issue]: https://github.com/ittybittyapps/afterpay-ios/issues/new/choose
 [pr-template]: .github/PULL_REQUEST_TEMPLATE.md
 [pr-docs]: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review
