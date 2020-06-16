@@ -10,13 +10,13 @@ import UIKit
 
 final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
-  private let didCheckout: (String) -> Void
+  private let didTapCheckout: (String) -> Void
 
   private var emailTextField: UITextField!
   private var centeringConstraint: NSLayoutConstraint!
 
-  init(didCheckout: @escaping (String) -> Void) {
-    self.didCheckout = didCheckout
+  init(didTapCheckout: @escaping (String) -> Void) {
+    self.didTapCheckout = didTapCheckout
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -87,7 +87,7 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
   // MARK: Checkout
 
   @objc private func didTapCheckout() {
-    didCheckout(emailTextField.text ?? "")
+    didTapCheckout(emailTextField.text ?? "")
   }
 
   // MARK: Keyboard Handling
