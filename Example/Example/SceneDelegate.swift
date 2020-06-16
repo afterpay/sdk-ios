@@ -18,8 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
-    // As per the scene configuration in AppDelegate a force cast is 'safe' here
-    // swiftlint:disable:next force_cast
     window = UIWindow(windowScene: scene as! UIWindowScene)
     window?.rootViewController = PaymentFlowController(urlProvider: checkout)
     window?.makeKeyAndVisible()
