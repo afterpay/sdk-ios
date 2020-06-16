@@ -35,7 +35,7 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
     let submitButton = UIButton(type: .system)
     submitButton.setTitle("Checkout with Afterpay", for: .normal)
-    submitButton.addTarget(self, action: #selector(didTapCheckout), for: .touchUpInside)
+    submitButton.addTarget(self, action: #selector(didTapCheckout(_:)), for: .touchUpInside)
 
     let stackView = UIStackView(arrangedSubviews: [emailTextField, submitButton])
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +86,7 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
   // MARK: Checkout
 
-  @objc private func didTapCheckout() {
+  @objc private func didTapCheckout(_ sender: UIButton) {
     didTapCheckout(emailTextField.text ?? "")
   }
 
