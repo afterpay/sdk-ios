@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# If swiftlint is building for the first time we want it to use
+# the default SDK for the platform not the one set by the build script
+unset SDKROOT
+
 ./Tools/mint/mint run swiftlint \
   --quiet \
   -- \
