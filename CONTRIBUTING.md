@@ -19,7 +19,11 @@ If the above doesn't help, please [submit an issue][new-issue] via GitHub.
     `git clone git@github.com:<YOUR_GITHUB_USER>/afterpay-ios.git`
 - See the [GitHub documentation][fork-docs] about managing your fork.
 
-#### Recommended
+### Bootstrapping
+
+We are using [Mint](https://github.com/yonaskolb/Mint) to manage development dependencies. These can be pre-installed by running `./Tools/mint/mint bootstrap` from the root directory of the repository (recommended). Otherwise they will automatically install as part of a build phase script.
+
+### Recommended
 
 - Create a new branch to work on with `git checkout -b <YOUR_BRANCH_NAME>`.
     - Branch names should be descriptive of what you're working on, eg: `docs/updating-contributing-guide`, `fix/create-user-crash`.
