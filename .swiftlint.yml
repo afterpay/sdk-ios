@@ -1,8 +1,9 @@
+disabled_rules:
+  # force casting is a common part of UIKit development discretion is left to the developer
+  - force_cast
+
 opt_in_rules:
   - indentation_width
-
-force_cast:
-  severity: warning
 
 trailing_comma:
   # Providing trailing commas on multi-line collection literals produces cleaner diffs
