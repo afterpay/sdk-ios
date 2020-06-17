@@ -26,7 +26,9 @@ final class PaymentFlowController: UIViewController {
         return
       }
 
-      let presentCheckout = { url in Afterpay.presentCheckout(loading: url, over: self) }
+      let presentCheckout = { checkoutUrl in
+        Afterpay.presentCheckout(over: self, loading: checkoutUrl)
+      }
 
       urlProvider(email)
         .receive(on: DispatchQueue.main)
