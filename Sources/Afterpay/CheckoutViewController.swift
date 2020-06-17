@@ -61,10 +61,10 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
     let status = navigationAction.request.url.flatMap(Status.init(url:))
 
     switch status {
-    case .some(.cancelled):
+    case .cancelled:
       decisionHandler(.cancel)
       dismiss(animated: true, completion: nil)
-    case .none:
+    case nil:
       decisionHandler(.allow)
     }
   }
