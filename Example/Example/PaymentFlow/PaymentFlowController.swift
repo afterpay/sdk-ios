@@ -16,26 +16,23 @@ final class PaymentFlowController: UIViewController {
   private let ownedNavigationController: UINavigationController
   private var cancellables: Set<AnyCancellable> = []
 
-  init(urlProvider: @escaping (String) -> AnyPublisher<URL, Error>) {
+  init(checkoutUrlProvider: @escaping (String) -> AnyPublisher<URL, Error>) {
     ownedNavigationController = UINavigationController()
 
     super.init(nibName: nil, bundle: nil)
 
-    let dataEntry = DataEntryViewController { [weak self] email in
-      let cancellable = urlProvider(email)
-        .receive(on: DispatchQueue.main)
-        .sink(
-          receiveCompletion: { _ in },
-          receiveValue: { url in
-            let checkout = CheckoutViewController(checkoutUrl: url)
-            self?.ownedNavigationController.pushViewController(checkout, animated: true)
-          }
-        )
+    let dataEntryViewController = DataEntryViewController { [unowned self] email in
+      let presentCheckout = { checkoutUrl in
+        Afterpay.presentCheckout(over: self, loading: checkoutUrl)
+      }
 
-      self?.cancellables.insert(cancellable)
+      checkoutUrlProvider(email)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { _ in }, receiveValue: presentCheckout)
+        .store(in: &self.cancellables)
     }
 
-    ownedNavigationController.setViewControllers([dataEntry], animated: false)
+    ownedNavigationController.setViewControllers([dataEntryViewController], animated: false)
   }
 
   override func loadView() {

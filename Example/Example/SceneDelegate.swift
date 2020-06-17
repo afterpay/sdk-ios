@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     options connectionOptions: UIScene.ConnectionOptions
   ) {
     window = UIWindow(windowScene: scene as! UIWindowScene)
-    window?.rootViewController = PaymentFlowController(urlProvider: checkout)
+    window?.rootViewController = PaymentFlowController(checkoutUrlProvider: checkout)
     window?.makeKeyAndVisible()
   }
 

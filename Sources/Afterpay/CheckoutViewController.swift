@@ -9,28 +9,33 @@
 import UIKit
 import WebKit
 
-public final class CheckoutViewController: UIViewController {
+final class CheckoutViewController: UIViewController {
+
   private let url: URL
 
   private var webView: WKWebView { view as! WKWebView }
 
-  public init(checkoutUrl: URL) {
+  init(checkoutUrl: URL) {
     url = checkoutUrl
 
     super.init(nibName: nil, bundle: nil)
   }
 
-  public override func loadView() {
+  override func loadView() {
     view = WKWebView()
   }
 
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
 
     webView.load(URLRequest(url: url))
   }
 
+  // MARK: Unavailable
+
+  @available(*, unavailable)
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
 }
