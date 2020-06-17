@@ -11,7 +11,7 @@ import WebKit
 
 final class CheckoutViewController: UIViewController {
 
-    private let url: URL
+  private let url: URL
 
   private var webView: WKWebView { view as! WKWebView }
 
