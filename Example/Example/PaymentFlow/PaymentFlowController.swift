@@ -21,11 +21,7 @@ final class PaymentFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let dataEntry = DataEntryViewController { [weak self] email in
-      guard let self = self else {
-        return
-      }
-
+    let dataEntryViewController = DataEntryViewController { [unowned self] email in
       let presentCheckout = { checkoutUrl in
         Afterpay.presentCheckout(over: self, loading: checkoutUrl)
       }
@@ -36,7 +32,7 @@ final class PaymentFlowController: UIViewController {
         .store(in: &self.cancellables)
     }
 
-    ownedNavigationController.setViewControllers([dataEntry], animated: false)
+    ownedNavigationController.setViewControllers([dataEntryViewController], animated: false)
   }
 
   override func loadView() {
