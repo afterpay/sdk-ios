@@ -16,7 +16,7 @@ final class PaymentFlowController: UIViewController {
   private let ownedNavigationController: UINavigationController
   private var cancellables: Set<AnyCancellable> = []
 
-  init(urlProvider: @escaping (String) -> AnyPublisher<URL, Error>) {
+  init(checkoutUrlProvider: @escaping (String) -> AnyPublisher<URL, Error>) {
     ownedNavigationController = UINavigationController()
 
     super.init(nibName: nil, bundle: nil)
@@ -26,7 +26,7 @@ final class PaymentFlowController: UIViewController {
         Afterpay.presentCheckout(over: self, loading: checkoutUrl)
       }
 
-      urlProvider(email)
+      checkoutUrlProvider(email)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in }, receiveValue: presentCheckout)
         .store(in: &self.cancellables)
