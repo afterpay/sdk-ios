@@ -22,17 +22,16 @@ final class PaymentFlowController: UIViewController {
     super.init(nibName: nil, bundle: nil)
 
     let dataEntry = DataEntryViewController { [weak self] email in
-      let cancellable = urlProvider(email)
-        .receive(on: DispatchQueue.main)
-        .sink(
-          receiveCompletion: { _ in },
-          receiveValue: { url in
-            let checkout = CheckoutViewController(checkoutUrl: url)
-            self?.ownedNavigationController.pushViewController(checkout, animated: true)
-          }
-        )
+      guard let self = self else {
+        return
+      }
 
-      self?.cancellables.insert(cancellable)
+      let presentCheckout = { Afterpay.presentCheckout(with: $0, from: self) }
+
+      urlProvider(email)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { _ in }, receiveValue: presentCheckout)
+        .store(in: &self.cancellables)
     }
 
     ownedNavigationController.setViewControllers([dataEntry], animated: false)
