@@ -11,7 +11,7 @@ import UIKit
 
 public enum Afterpay {
 
-  /// Present the Afterpay Checkout Web Flow modally from the passed view controller loading your
+  /// Present the Afterpay Checkout Web Flow modally over the specified view controller loading your
   /// generated checkout URL.
   /// - Parameters:
   ///   - viewController: The viewController on which `UIViewController.present` will be called.
