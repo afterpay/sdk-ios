@@ -11,16 +11,17 @@ import UIKit
 
 public enum Afterpay {
 
-  /// Present the Afterpay Checkout Web Flow modally from the passed view controller using your
+  /// Present the Afterpay Checkout Web Flow modally from the passed view controller loading your
   /// generated checkout URL.
   /// - Parameters:
-  ///   - checkoutUrl: The URL generated via the /checkouts endpoint on the Afterpay backend.
+  ///   - checkoutUrl: The checkout URL to load generated via the /checkouts endpoint on the
+  ///   Afterpay backend.
   ///   - viewController: The viewController on which `UIViewController.present` will be called.
   ///   - animated: Pass true to animate the presentation; otherwise, pass false.
   ///   - completion: The block to execute after the presentation finishes. This block has no return
   ///   value and takes no parameters. You may specify nil for this parameter.
   public static func presentCheckout(
-    with checkoutUrl: URL,
+    loading checkoutUrl: URL,
     from viewController: UIViewController,
     animated: Bool = true,
     completion: (() -> Void)? = nil
