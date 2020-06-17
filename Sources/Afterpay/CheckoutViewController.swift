@@ -36,13 +36,37 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
 
   // MARK: WKNavigationDelegate
 
+  private enum Status: String {
+    private static let name = "status"
+
+    case cancelled = "CANCELLED"
+
+    init?(url: URL) {
+      let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+      let queryItem = urlComponents?.queryItems?.first { $0.name == Status.name }
+
+      if let status = queryItem?.value.flatMap(Status.init(rawValue:)) {
+        self = status
+      } else {
+        return nil
+      }
+    }
+  }
+
   func webView(
     _ webView: WKWebView,
     decidePolicyFor navigationAction: WKNavigationAction,
     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
   ) {
-    print(navigationAction.request.url ?? "")
-    decisionHandler(.allow)
+    let status = navigationAction.request.url.flatMap(Status.init(url:))
+
+    switch status {
+    case .some(.cancelled):
+      decisionHandler(.cancel)
+      dismiss(animated: true, completion: nil)
+    case .none:
+      decisionHandler(.allow)
+    }
   }
 
   // MARK: Unavailable
