@@ -9,11 +9,13 @@
 import UIKit
 import WebKit
 
-final class CheckoutViewController: UIViewController {
+final class CheckoutViewController: UIViewController, WKNavigationDelegate {
 
   private let url: URL
 
   private var webView: WKWebView { view as! WKWebView }
+
+  // MARK: Initialization
 
   init(checkoutUrl: URL) {
     url = checkoutUrl
@@ -28,7 +30,19 @@ final class CheckoutViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    webView.navigationDelegate = self
     webView.load(URLRequest(url: url))
+  }
+
+  // MARK: WKNavigationDelegate
+
+  func webView(
+    _ webView: WKWebView,
+    decidePolicyFor navigationAction: WKNavigationAction,
+    decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+  ) {
+    print(navigationAction.request.url ?? "")
+    decisionHandler(.allow)
   }
 
   // MARK: Unavailable
