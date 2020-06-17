@@ -36,7 +36,7 @@ jobs:
       run: Tools/mint/mint bootstrap
 
     - name: SwiftLint
-      run Tools/mint/mint run swiftlint --reporter github-actions-logging
+      run: Tools/mint/mint run swiftlint --reporter github-actions-logging
 
     - name: Build SDK Project
       run: |
