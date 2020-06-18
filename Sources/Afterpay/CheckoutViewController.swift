@@ -11,14 +11,16 @@ import WebKit
 
 final class CheckoutViewController: UIViewController, WKNavigationDelegate {
 
-  private let url: URL
+  private let checkoutUrl: URL
+  private let successHandler: (_ token: String) -> Void
 
   private var webView: WKWebView { view as! WKWebView }
 
   // MARK: Initialization
 
-  init(checkoutUrl: URL) {
-    url = checkoutUrl
+  init(checkoutUrl: URL, successHandler: @escaping (_ token: String) -> Void) {
+    self.checkoutUrl = checkoutUrl
+    self.successHandler = successHandler
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -31,23 +33,26 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
     super.viewDidLoad()
 
     webView.navigationDelegate = self
-    webView.load(URLRequest(url: url))
+    webView.load(URLRequest(url: checkoutUrl))
   }
 
   // MARK: WKNavigationDelegate
 
-  private enum Status: String {
-    private static let name = "status"
-
-    case cancelled = "CANCELLED"
+  private enum Completion {
+    case success(token: String)
+    case cancelled
 
     init?(url: URL) {
-      let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-      let queryItem = urlComponents?.queryItems?.first { $0.name == Status.name }
+      let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+      let statusItem = queryItems?.first { $0.name == "status" }
+      let orderTokenItem = queryItems?.first { $0.name == "orderToken" }
 
-      if let status = queryItem?.value.flatMap(Status.init(rawValue:)) {
-        self = status
-      } else {
+      switch (statusItem?.value, orderTokenItem?.value) {
+      case ("SUCCESS", let token?):
+        self = .success(token: token)
+      case ("CANCELLED", _):
+        self = .cancelled
+      default:
         return nil
       }
     }
@@ -58,9 +63,12 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
     decidePolicyFor navigationAction: WKNavigationAction,
     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
   ) {
-    let status = navigationAction.request.url.flatMap(Status.init(url:))
+    let completion = navigationAction.request.url.flatMap(Completion.init(url:))
 
-    switch status {
+    switch completion {
+    case .success(let token):
+      decisionHandler(.cancel)
+      dismiss(animated: true) { self.successHandler(token) }
     case .cancelled:
       decisionHandler(.cancel)
       dismiss(animated: true, completion: nil)

@@ -23,7 +23,10 @@ final class PaymentFlowController: UIViewController {
 
     let dataEntryViewController = DataEntryViewController { [unowned self] email in
       let presentCheckout = { checkoutUrl in
-        Afterpay.presentCheckout(over: self, loading: checkoutUrl)
+        Afterpay.presentCheckout(over: self, loading: checkoutUrl) { token in
+          let successViewController = SuccessViewController(token: token)
+          self.ownedNavigationController.pushViewController(successViewController, animated: true)
+        }
       }
 
       checkoutUrlProvider(email)
