@@ -47,21 +47,14 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
       let statusItem = queryItems?.first { $0.name == "status" }
       let orderTokenItem = queryItems?.first { $0.name == "orderToken" }
 
-      let status = statusItem?.value.flatMap(Status.init(rawValue:))
-
-      switch (status, orderTokenItem?.value) {
-      case (.success, let token?):
+      switch (statusItem?.value, orderTokenItem?.value) {
+      case ("SUCCESS", let token?):
         self = .success(token: token)
-      case (.cancelled, _):
+      case ("CANCELLED", _):
         self = .cancelled
       default:
         return nil
       }
-    }
-
-    private enum Status: String {
-      case success = "SUCCESS"
-      case cancelled = "CANCELLED"
     }
   }
 
