@@ -20,16 +20,28 @@ public enum Afterpay {
   ///   - checkoutUrl: The checkout URL to load generated via the /checkouts endpoint on the
   ///   Afterpay backend.
   ///   - animated: Pass true to animate the presentation; otherwise, pass false.
-  ///   - completion: The block to execute after the presentation finishes. This block has no return
-  ///   value and takes no parameters. You may specify nil for this parameter.
+  ///   - presentationCompletion: The block to execute after the presentation finishes. This block
+  ///   has no return value and takes no parameters. You may specify nil for this parameter.
+  ///   - successHandler: The block executed when the user successfully completes the Afterpay Web
+  ///   Flow.
+  ///   - token: The token associated with the Afterpay payment.
   public static func presentCheckout(
     over viewController: UIViewController,
     loading checkoutUrl: URL,
     animated: Bool = true,
-    completion: (() -> Void)? = nil
+    presentationCompletion: (() -> Void)? = nil,
+    successHandler: @escaping (_ token: String) -> Void
   ) {
-    let checkoutViewController = CheckoutViewController(checkoutUrl: checkoutUrl)
-    viewController.present(checkoutViewController, animated: animated, completion: completion)
+    let checkoutViewController = CheckoutViewController(
+      checkoutUrl: checkoutUrl,
+      successHandler: successHandler
+    )
+
+    viewController.present(
+      checkoutViewController,
+      animated: animated,
+      completion: presentationCompletion
+    )
   }
 
 }
