@@ -39,6 +39,7 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
   private enum Status: String {
     private static let name = "status"
 
+    case success = "SUCCESS"
     case cancelled = "CANCELLED"
 
     init?(url: URL) {
@@ -61,7 +62,7 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
     let status = navigationAction.request.url.flatMap(Status.init(url:))
 
     switch status {
-    case .cancelled:
+    case .success, .cancelled:
       decisionHandler(.cancel)
       dismiss(animated: true, completion: nil)
     case nil:
