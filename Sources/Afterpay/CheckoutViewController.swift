@@ -58,21 +58,33 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
     }
   }
 
+  private let externalLinkPathComponents = ["privacy-policy", "terms-of-service"]
+
   func webView(
     _ webView: WKWebView,
     decidePolicyFor navigationAction: WKNavigationAction,
     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
   ) {
-    let completion = navigationAction.request.url.flatMap(Completion.init(url:))
+    guard let url = navigationAction.request.url else {
+      return decisionHandler(.allow)
+    }
 
-    switch completion {
-    case .success(let token):
+    let shouldOpenExternally = externalLinkPathComponents.contains(url.lastPathComponent)
+
+    switch (shouldOpenExternally, Completion(url: url)) {
+    case (true, _):
+      decisionHandler(.cancel)
+      UIApplication.shared.open(url)
+
+    case (false, .success(let token)):
       decisionHandler(.cancel)
       dismiss(animated: true) { self.successHandler(token) }
-    case .cancelled:
+
+    case (false, .cancelled):
       decisionHandler(.cancel)
       dismiss(animated: true, completion: nil)
-    case nil:
+
+    case (false, nil):
       decisionHandler(.allow)
     }
   }
