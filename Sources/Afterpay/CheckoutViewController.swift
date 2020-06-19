@@ -9,7 +9,12 @@
 import UIKit
 import WebKit
 
-final class CheckoutViewController: UIViewController, WKNavigationDelegate {
+// swiftlint:disable:next colon
+final class CheckoutViewController:
+  UIViewController,
+  UIAdaptivePresentationControllerDelegate,
+  WKNavigationDelegate
+{ // swiftlint:disable:this opening_brace
 
   private let checkoutUrl: URL
   private let successHandler: (_ token: String) -> Void
@@ -32,8 +37,30 @@ final class CheckoutViewController: UIViewController, WKNavigationDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    presentationController?.delegate = self
+
     webView.navigationDelegate = self
     webView.load(URLRequest(url: checkoutUrl))
+  }
+
+  // MARK: UIAdaptivePresentationControllerDelegate
+
+  func presentationControllerShouldDismiss(
+    _ presentationController: UIPresentationController
+  ) -> Bool {
+    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let dismiss: (UIAlertAction) -> Void = { _ in self.dismiss(animated: true, completion: nil) }
+
+    let actions = [
+      UIAlertAction(title: "Discard Payment", style: .destructive, handler: dismiss),
+      UIAlertAction(title: "Cancel", style: .cancel, handler: nil),
+    ]
+
+    actions.forEach(actionSheet.addAction)
+
+    present(actionSheet, animated: true, completion: nil)
+
+    return false
   }
 
   // MARK: WKNavigationDelegate
