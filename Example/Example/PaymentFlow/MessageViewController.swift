@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-final class SuccessViewController: UIViewController {
+final class MessageViewController: UIViewController {
 
   private var label: UILabel { view as! UILabel }
 
-  private let token: String
+  private let message: String
 
-  init(token: String) {
-    self.token = token
+  init(message: String) {
+    self.message = message
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -28,7 +28,9 @@ final class SuccessViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    label.text = "Succeeded with token: \(token)"
+    label.text = message
+    label.font = .preferredFont(forTextStyle: .body)
+    label.adjustsFontForContentSizeCategory = true
     label.numberOfLines = 0
     label.textAlignment = .center
     label.backgroundColor = .systemBackground
