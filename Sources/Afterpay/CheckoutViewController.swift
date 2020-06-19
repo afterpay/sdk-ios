@@ -17,14 +17,20 @@ final class CheckoutViewController:
 { // swiftlint:disable:this opening_brace
 
   private let checkoutUrl: URL
+  private let cancelHandler: () -> Void
   private let successHandler: (_ token: String) -> Void
 
   private var webView: WKWebView { view as! WKWebView }
 
   // MARK: Initialization
 
-  init(checkoutUrl: URL, successHandler: @escaping (_ token: String) -> Void) {
+  init(
+    checkoutUrl: URL,
+    cancelHandler: @escaping () -> Void,
+    successHandler: @escaping (_ token: String) -> Void
+  ) {
     self.checkoutUrl = checkoutUrl
+    self.cancelHandler = cancelHandler
     self.successHandler = successHandler
 
     super.init(nibName: nil, bundle: nil)
@@ -49,7 +55,9 @@ final class CheckoutViewController:
     _ presentationController: UIPresentationController
   ) -> Bool {
     let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let dismiss: (UIAlertAction) -> Void = { _ in self.dismiss(animated: true, completion: nil) }
+    let dismiss: (UIAlertAction) -> Void = { _ in
+      self.dismiss(animated: true, completion: self.cancelHandler)
+    }
 
     let actions = [
       UIAlertAction(title: "Discard Payment", style: .destructive, handler: dismiss),
@@ -109,7 +117,7 @@ final class CheckoutViewController:
 
     case (false, .cancelled):
       decisionHandler(.cancel)
-      dismiss(animated: true, completion: nil)
+      dismiss(animated: true, completion: self.cancelHandler)
 
     case (false, nil):
       decisionHandler(.allow)
