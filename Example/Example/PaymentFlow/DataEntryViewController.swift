@@ -23,7 +23,7 @@ final class DataEntryViewController: UIViewController, UITextFieldDelegate {
 
   override func loadView() {
     view = UIView()
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
 
     emailTextField = UITextField()
     emailTextField.placeholder = "example@test.com"
