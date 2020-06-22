@@ -18,6 +18,7 @@
 		668F162B24877F980040345C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668F162A24877F980040345C /* Preview Assets.xcassets */; };
 		668F162E24877F980040345C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 668F162C24877F980040345C /* LaunchScreen.storyboard */; };
 		66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D8B924A0415700F65621 /* WindowHolder.swift */; };
+		66F2D8BC24A06E3300F65621 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */; };
 		66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; };
 		66F9767924999F5C001D38FA /* Afterpay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		668F162D24877F980040345C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		668F162F24877F980040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66F2D8B924A0415700F65621 /* WindowHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHolder.swift; sourceTree = "<group>"; };
+		66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		66F9767724999F5C001D38FA /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -69,8 +71,9 @@
 			isa = PBXGroup;
 			children = (
 				665E6A0824935555009E3BA1 /* DataEntryViewController.swift */,
-				6620B5D124934FB3004162BC /* PaymentFlowController.swift */,
 				663A228D249B030D0027C296 /* MessageViewController.swift */,
+				6620B5D124934FB3004162BC /* PaymentFlowController.swift */,
+				66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */,
 			);
 			path = PaymentFlow;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				6662628A2496F5EB0094FC26 /* Networking.swift in Sources */,
 				665E6A0B24935624009E3BA1 /* Helpers.swift in Sources */,
 				665E6A0924935555009E3BA1 /* DataEntryViewController.swift in Sources */,
+				66F2D8BC24A06E3300F65621 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

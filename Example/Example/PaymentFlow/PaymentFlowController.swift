@@ -29,7 +29,13 @@ final class PaymentFlowController: UIViewController {
       self.didEnter(email: email)
     }
 
-    let settingsItem = UIBarButtonItem(title: "Settings", style: .plain, target: nil, action: nil)
+    let settingsItem = UIBarButtonItem(
+      title: "Settings",
+      style: .plain,
+      target: self,
+      action: #selector(didTapSettings)
+    )
+
     dataEntryViewController.navigationItem.setRightBarButton(settingsItem, animated: false)
     dataEntryViewController.title = "Pay with Afterpay"
 
@@ -69,6 +75,13 @@ final class PaymentFlowController: UIViewController {
         break
       }
     }
+  }
+
+  // MARK: Settings
+
+  @objc private func didTapSettings() {
+    let navigationController = UINavigationController(rootViewController: SettingsViewController())
+    present(navigationController, animated: true, completion: nil)
   }
 
   // MARK: Unavailable
