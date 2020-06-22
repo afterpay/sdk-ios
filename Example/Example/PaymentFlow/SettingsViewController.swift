@@ -98,23 +98,30 @@ final class TextEntryCell: UITableViewCell {
     contentView.addSubview(titleLabel)
     contentView.addSubview(textField)
 
-    let leadingMarginConstraint = textField.leadingAnchor.constraint(
-      equalTo: contentView.readableContentGuide.leadingAnchor,
-      constant: 64
-    )
+    let layoutGuide = contentView.readableContentGuide
 
-    leadingMarginConstraint.priority = .defaultHigh
+    let titleConstraints = [
+      titleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
+      titleLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
+      titleLabel.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+    ]
 
-    NSLayoutConstraint.activate([
-      titleLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor),
-      titleLabel.topAnchor.constraint(equalTo: contentView.readableContentGuide.topAnchor),
-      titleLabel.bottomAnchor.constraint(equalTo: contentView.readableContentGuide.bottomAnchor),
-      textField.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor),
-      textField.topAnchor.constraint(equalTo: contentView.readableContentGuide.topAnchor),
-      textField.bottomAnchor.constraint(equalTo: contentView.readableContentGuide.bottomAnchor),
-      textField.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 8),
-      leadingMarginConstraint,
-    ])
+    let textFieldConstraints = [
+      textField.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
+      textField.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
+      textField.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+      textField.leadingAnchor.constraint(
+        greaterThanOrEqualTo: titleLabel.trailingAnchor,
+        constant: 8
+      ),
+      textField.leadingAnchor.constraint(
+        equalTo: layoutGuide.leadingAnchor,
+        constant: 64,
+        priority: .defaultHigh
+      ),
+    ]
+
+    NSLayoutConstraint.activate(titleConstraints + textFieldConstraints)
   }
 
   // MARK: Unavailable

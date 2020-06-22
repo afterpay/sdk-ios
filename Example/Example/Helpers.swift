@@ -27,3 +27,15 @@ extension UIViewController {
     child.didMove(toParent: self)
   }
 }
+
+extension NSLayoutAnchor {
+  @objc func constraint(
+    equalTo anchor: NSLayoutAnchor,
+    constant: CGFloat,
+    priority: UILayoutPriority
+  ) -> NSLayoutConstraint {
+    let layoutConstraint = constraint(equalTo: anchor, constant: constant)
+    layoutConstraint.priority = priority
+    return layoutConstraint
+  }
+}
