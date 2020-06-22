@@ -29,6 +29,10 @@ final class PaymentFlowController: UIViewController {
       self.didEnter(email: email)
     }
 
+    let settingsItem = UIBarButtonItem(title: "Settings", style: .plain, target: nil, action: nil)
+    dataEntryViewController.navigationItem.setRightBarButton(settingsItem, animated: false)
+    dataEntryViewController.title = "Pay with Afterpay"
+
     ownedNavigationController.setViewControllers([dataEntryViewController], animated: false)
   }
 
