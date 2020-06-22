@@ -7,16 +7,19 @@
 //
 
 import Afterpay
-import Combine
 import Foundation
 import UIKit
 
 final class PaymentFlowController: UIViewController {
 
   private let ownedNavigationController: UINavigationController
-  private var cancellables: Set<AnyCancellable> = []
 
-  init(checkoutUrlProvider: @escaping (String) -> AnyPublisher<URL, Error>) {
+  typealias UrlProvider = (
+    _ email: String,
+    _ completion: @escaping (Result<URL, Error>) -> Void
+  ) -> Void
+
+  init(checkoutUrlProvider: @escaping UrlProvider) {
     ownedNavigationController = UINavigationController()
 
     super.init(nibName: nil, bundle: nil)
@@ -40,10 +43,14 @@ final class PaymentFlowController: UIViewController {
         )
       }
 
-      checkoutUrlProvider(email)
-        .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { _ in }, receiveValue: presentCheckout)
-        .store(in: &self.cancellables)
+      checkoutUrlProvider(email) { result in
+        switch result {
+        case .success(let url):
+          DispatchQueue.main.async { presentCheckout(url) }
+        case .failure:
+          break
+        }
+      }
     }
 
     ownedNavigationController.setViewControllers([dataEntryViewController], animated: false)
