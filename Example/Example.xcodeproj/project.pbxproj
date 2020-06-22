@@ -17,6 +17,7 @@
 		668F162824877F980040345C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668F162724877F980040345C /* Assets.xcassets */; };
 		668F162B24877F980040345C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668F162A24877F980040345C /* Preview Assets.xcassets */; };
 		668F162E24877F980040345C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 668F162C24877F980040345C /* LaunchScreen.storyboard */; };
+		66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D8B924A0415700F65621 /* WindowHolder.swift */; };
 		66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; };
 		66F9767924999F5C001D38FA /* Afterpay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		668F162A24877F980040345C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		668F162D24877F980040345C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		668F162F24877F980040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66F2D8B924A0415700F65621 /* WindowHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHolder.swift; sourceTree = "<group>"; };
 		66F9767724999F5C001D38FA /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -109,6 +111,7 @@
 				668F162324877F950040345C /* SceneDelegate.swift */,
 				665E6A0A24935624009E3BA1 /* Helpers.swift */,
 				666262892496F5EB0094FC26 /* Networking.swift */,
+				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
 				666262862496F46A0094FC26 /* PaymentFlow */,
 				668F162924877F980040345C /* Preview Content */,
 				666262872496F48B0094FC26 /* Resources */,
@@ -231,6 +234,7 @@
 				6620B5D224934FB3004162BC /* PaymentFlowController.swift in Sources */,
 				663A228E249B030D0027C296 /* MessageViewController.swift in Sources */,
 				668F162224877F950040345C /* AppDelegate.swift in Sources */,
+				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
 				668F162424877F950040345C /* SceneDelegate.swift in Sources */,
 				6662628A2496F5EB0094FC26 /* Networking.swift in Sources */,
 				665E6A0B24935624009E3BA1 /* Helpers.swift in Sources */,
@@ -375,7 +379,7 @@
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Example/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -396,7 +400,7 @@
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Example/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

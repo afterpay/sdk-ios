@@ -9,15 +9,24 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, WindowHolder {
+
+  var window: UIWindow?
 
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    if #available(iOS 13.0, *) {
+      // Window installation handled by SceneDelegate
+    } else {
+      install(window: UIWindow(frame: UIScreen.main.bounds))
+    }
+
     return true
   }
 
+  @available(iOS 13.0, *)
   func application(
     _ application: UIApplication,
     configurationForConnecting connectingSceneSession: UISceneSession,

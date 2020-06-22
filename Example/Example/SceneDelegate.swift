@@ -9,7 +9,8 @@
 import Afterpay
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+@available(iOS 13.0, *)
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, WindowHolder {
 
   var window: UIWindow?
 
@@ -18,9 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
-    window = UIWindow(windowScene: scene as! UIWindowScene)
-    window?.rootViewController = PaymentFlowController(checkoutUrlProvider: checkout)
-    window?.makeKeyAndVisible()
+    install(window: UIWindow(windowScene: scene as! UIWindowScene))
   }
 
 }

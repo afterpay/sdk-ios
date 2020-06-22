@@ -33,8 +33,14 @@ final class MessageViewController: UIViewController {
     label.adjustsFontForContentSizeCategory = true
     label.numberOfLines = 0
     label.textAlignment = .center
-    label.backgroundColor = .systemBackground
-    label.textColor = .label
+
+    if #available(iOS 13.0, *) {
+      label.backgroundColor = .systemBackground
+      label.textColor = .label
+    } else {
+      label.backgroundColor = .white
+      label.textColor = .black
+    }
   }
 
   // MARK: Unavailable
