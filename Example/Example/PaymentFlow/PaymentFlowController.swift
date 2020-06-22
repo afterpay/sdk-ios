@@ -12,45 +12,21 @@ import UIKit
 
 final class PaymentFlowController: UIViewController {
 
-  private let ownedNavigationController: UINavigationController
-
-  typealias UrlProvider = (
+  typealias URLProvider = (
     _ email: String,
     _ completion: @escaping (Result<URL, Error>) -> Void
   ) -> Void
 
-  init(checkoutUrlProvider: @escaping UrlProvider) {
-    ownedNavigationController = UINavigationController()
+  private let checkoutUrlProvider: URLProvider
+  private let ownedNavigationController = UINavigationController()
+
+  init(checkoutUrlProvider: @escaping URLProvider) {
+    self.checkoutUrlProvider = checkoutUrlProvider
 
     super.init(nibName: nil, bundle: nil)
 
     let dataEntryViewController = DataEntryViewController { [unowned self] email in
-      let navigationController = self.ownedNavigationController
-
-      let presentCheckout = { checkoutUrl in
-        Afterpay.presentCheckout(
-          over: self,
-          loading: checkoutUrl,
-          cancelHandler: {
-            let messageViewController = MessageViewController(message: "Payment cancelled")
-            navigationController.pushViewController(messageViewController, animated: true)
-          },
-          successHandler: { token in
-            let message = "Succeeded with token: \(token)"
-            let messageViewController = MessageViewController(message: message)
-            navigationController.pushViewController(messageViewController, animated: true)
-          }
-        )
-      }
-
-      checkoutUrlProvider(email) { result in
-        switch result {
-        case .success(let url):
-          DispatchQueue.main.async { presentCheckout(url) }
-        case .failure:
-          break
-        }
-      }
+      self.didEnter(email: email)
     }
 
     ownedNavigationController.setViewControllers([dataEntryViewController], animated: false)
@@ -60,6 +36,35 @@ final class PaymentFlowController: UIViewController {
     view = UIView()
 
     install(ownedNavigationController)
+  }
+
+  // MARK: Checkout
+
+  private func didEnter(email: String) {
+    let presentCheckout = { [unowned self] checkoutUrl in
+      Afterpay.presentCheckout(
+        over: self,
+        loading: checkoutUrl,
+        cancelHandler: {
+          let messageViewController = MessageViewController(message: "Payment cancelled")
+          self.ownedNavigationController.pushViewController(messageViewController, animated: true)
+        },
+        successHandler: { token in
+          let message = "Succeeded with token: \(token)"
+          let messageViewController = MessageViewController(message: message)
+          self.ownedNavigationController.pushViewController(messageViewController, animated: true)
+        }
+      )
+    }
+
+    checkoutUrlProvider(email) { result in
+      switch result {
+      case .success(let url):
+        DispatchQueue.main.async { presentCheckout(url) }
+      case .failure:
+        break
+      }
+    }
   }
 
   // MARK: Unavailable
