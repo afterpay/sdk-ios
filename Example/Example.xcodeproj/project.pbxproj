@@ -79,7 +79,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		666262862496F46A0094FC26 /* PaymentFlow */ = {
+		666262862496F46A0094FC26 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				665E6A0824935555009E3BA1 /* CheckoutViewController.swift */,
@@ -87,7 +87,7 @@
 				6620B5D124934FB3004162BC /* PaymentFlowController.swift */,
 				66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */,
 			);
-			path = PaymentFlow;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		666262872496F48B0094FC26 /* Resources */ = {
@@ -128,7 +128,7 @@
 				666262892496F5EB0094FC26 /* Networking.swift */,
 				6686CC4824A08E450043EF94 /* Settings.swift */,
 				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
-				666262862496F46A0094FC26 /* PaymentFlow */,
+				666262862496F46A0094FC26 /* ViewControllers */,
 				660072B524A1B4EE00E9A2BC /* Views */,
 				668F162924877F980040345C /* Preview Content */,
 				666262872496F48B0094FC26 /* Resources */,
