@@ -10,7 +10,7 @@ import Afterpay
 import Foundation
 import UIKit
 
-final class PaymentFlowController: UIViewController {
+final class AppFlowController: UIViewController {
 
   typealias URLProvider = (
     _ email: String,
