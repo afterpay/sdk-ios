@@ -15,7 +15,7 @@ final class AppFlowController: UIViewController {
   typealias URLProvider = (
     _ email: String,
     _ completion: @escaping (Result<URL, Error>) -> Void
-  ) -> Void
+  ) throws -> Void
 
   private let checkoutUrlProvider: URLProvider
   private let ownedNavigationController = UINavigationController()
@@ -65,13 +65,25 @@ final class AppFlowController: UIViewController {
       )
     }
 
-    checkoutUrlProvider(Settings.email) { result in
-      switch result {
-      case .success(let url):
-        DispatchQueue.main.async { presentCheckout(url) }
-      case .failure:
-        break
+    let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+
+    let presentAlert = { [unowned self] (message: String) in
+      alert.message = message
+      self.present(alert, animated: true, completion: nil)
+    }
+
+    do {
+      try checkoutUrlProvider(Settings.email) { result in
+        switch result {
+        case .success(let url):
+          DispatchQueue.main.async { presentCheckout(url) }
+        case .failure:
+          DispatchQueue.main.async { presentAlert("Failed to retrieve checkout url") }
+        }
       }
+    } catch {
+      presentAlert("Invalid host and port settings")
     }
   }
 
