@@ -9,14 +9,37 @@
 import Foundation
 
 struct Settings {
-
-  @UserDefault("email", defaultValue: "email@example.com")
+  @Setting("email", defaultValue: "email@example.com", title: "Email")
   static var email: String
 
-  @UserDefault("host", defaultValue: "localhost")
+  @Setting("host", defaultValue: "localhost", title: "Host")
   static var host: String
 
-  @UserDefault("port", defaultValue: "3000")
+  @Setting("port", defaultValue: "3000", title: "Port")
   static var port: String
+}
 
+// Inspired by: https://www.avanderlee.com/swift/property-wrappers/
+@propertyWrapper
+struct Setting {
+  let key: String
+  let defaultValue: String
+  let title: String
+
+  init(_ key: String, defaultValue: String, title: String) {
+    self.key = key
+    self.defaultValue = defaultValue
+    self.title = title
+  }
+
+  var projectedValue: Setting { self }
+
+  var wrappedValue: String {
+    get {
+      return UserDefaults.standard.string(forKey: key) ?? defaultValue
+    }
+    set {
+      UserDefaults.standard.set(newValue, forKey: key)
+    }
+  }
 }

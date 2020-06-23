@@ -80,7 +80,12 @@ final class PaymentFlowController: UIViewController {
   // MARK: Settings
 
   @objc private func didTapSettings() {
-    let navigationController = UINavigationController(rootViewController: SettingsViewController())
+    let settingsViewController = SettingsViewController(
+      settings: [Settings.$email, Settings.$host, Settings.$port]
+    )
+
+    let navigationController = UINavigationController(rootViewController: settingsViewController)
+
     present(navigationController, animated: true, completion: nil)
   }
 

@@ -8,10 +8,10 @@
 
 import Foundation
 
-// Taken from: https://www.avanderlee.com/swift/property-wrappers/
+// Inspired by: https://www.avanderlee.com/swift/property-wrappers/
 
 @propertyWrapper
-struct UserDefault<T> {
+struct Setting<T> {
   let key: String
   let defaultValue: T
 
