@@ -25,9 +25,8 @@ final class AppFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let dataEntryViewController = CheckoutViewController { [unowned self] email in
-      self.didEnter(email: email)
-    }
+    let checkout = { [unowned self] in self.checkout() }
+    let checkoutViewController = CheckoutViewController(checkout: checkout)
 
     let settingsItem = UIBarButtonItem(
       title: "Settings",
@@ -36,10 +35,9 @@ final class AppFlowController: UIViewController {
       action: #selector(didTapSettings)
     )
 
-    dataEntryViewController.navigationItem.setRightBarButton(settingsItem, animated: false)
-    dataEntryViewController.title = "Pay with Afterpay"
+    checkoutViewController.navigationItem.setRightBarButton(settingsItem, animated: false)
 
-    ownedNavigationController.setViewControllers([dataEntryViewController], animated: false)
+    ownedNavigationController.setViewControllers([checkoutViewController], animated: false)
   }
 
   override func loadView() {
@@ -50,7 +48,7 @@ final class AppFlowController: UIViewController {
 
   // MARK: Checkout
 
-  private func didEnter(email: String) {
+  private func checkout() {
     let presentCheckout = { [unowned self] checkoutUrl in
       Afterpay.presentCheckout(
         over: self,
@@ -67,7 +65,7 @@ final class AppFlowController: UIViewController {
       )
     }
 
-    checkoutUrlProvider(email) { result in
+    checkoutUrlProvider(Settings.email) { result in
       switch result {
       case .success(let url):
         DispatchQueue.main.async { presentCheckout(url) }
