@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 // swiftlint:disable:next colon
-final class CheckoutViewController:
+final class WebViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
   WKNavigationDelegate

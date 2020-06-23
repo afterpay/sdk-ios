@@ -25,7 +25,7 @@ final class PaymentFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let dataEntryViewController = DataEntryViewController { [unowned self] email in
+    let dataEntryViewController = CheckoutViewController { [unowned self] email in
       self.didEnter(email: email)
     }
 

@@ -1,5 +1,5 @@
 //
-//  DataEntryViewController.swift
+//  PayWithAfterpayViewController.swift
 //  Example
 //
 //  Created by Adam Campbell on 12/6/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class DataEntryViewController: UIViewController, UITextFieldDelegate {
+final class CheckoutViewController: UIViewController, UITextFieldDelegate {
 
   private let didTapCheckout: (String) -> Void
 

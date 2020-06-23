@@ -34,7 +34,7 @@ public enum Afterpay {
     cancelHandler: (() -> Void)? = nil,
     successHandler: @escaping (_ token: String) -> Void
   ) {
-    let checkoutViewController = CheckoutViewController(
+    let checkoutViewController = WebViewController(
       checkoutUrl: checkoutUrl,
       cancelHandler: cancelHandler ?? {},
       successHandler: successHandler
