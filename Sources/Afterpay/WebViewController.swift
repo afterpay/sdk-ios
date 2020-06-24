@@ -43,6 +43,10 @@ final class WebViewController:
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    if #available(iOS 13.0, *) {
+      overrideUserInterfaceStyle = .light
+    }
+
     presentationController?.delegate = self
 
     webView.allowsLinkPreview = false
