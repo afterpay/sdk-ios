@@ -45,6 +45,7 @@ final class WebViewController:
 
     presentationController?.delegate = self
 
+    webView.allowsLinkPreview = false
     webView.navigationDelegate = self
     webView.load(URLRequest(url: checkoutUrl))
   }
