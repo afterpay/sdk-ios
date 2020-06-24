@@ -9,12 +9,7 @@
 import UIKit
 import WebKit
 
-// swiftlint:disable:next colon
-final class WebViewController:
-  UIViewController,
-  UIAdaptivePresentationControllerDelegate,
-  WKNavigationDelegate
-{ // swiftlint:disable:this opening_brace
+final class WebViewController: UIViewController, WKNavigationDelegate {
 
   private let checkoutUrl: URL
   private let cancelHandler: () -> Void
@@ -47,33 +42,28 @@ final class WebViewController:
       overrideUserInterfaceStyle = .light
     }
 
-    presentationController?.delegate = self
+    title = "Afterpay"
+
+    let closeItem: UIBarButtonItem
+    let closeAction = #selector(didTapClose)
+
+    if #available(iOS 13.0, *) {
+      closeItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: closeAction)
+    } else {
+      closeItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: closeAction)
+    }
+
+    navigationItem.rightBarButtonItem = closeItem
 
     webView.allowsLinkPreview = false
     webView.navigationDelegate = self
     webView.load(URLRequest(url: checkoutUrl))
   }
 
-  // MARK: UIAdaptivePresentationControllerDelegate
+  // MARK: Actions
 
-  func presentationControllerShouldDismiss(
-    _ presentationController: UIPresentationController
-  ) -> Bool {
-    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let dismiss: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true, completion: self.cancelHandler)
-    }
-
-    let actions = [
-      UIAlertAction(title: "Discard Payment", style: .destructive, handler: dismiss),
-      UIAlertAction(title: "Cancel", style: .cancel, handler: nil),
-    ]
-
-    actions.forEach(actionSheet.addAction)
-
-    present(actionSheet, animated: true, completion: nil)
-
-    return false
+  @objc private func didTapClose() {
+    dismiss(animated: true, completion: self.cancelHandler)
   }
 
   // MARK: WKNavigationDelegate

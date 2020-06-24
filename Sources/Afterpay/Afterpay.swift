@@ -34,14 +34,20 @@ public enum Afterpay {
     cancelHandler: (() -> Void)? = nil,
     successHandler: @escaping (_ token: String) -> Void
   ) {
-    let checkoutViewController = WebViewController(
+    let webViewController = WebViewController(
       checkoutUrl: checkoutUrl,
       cancelHandler: cancelHandler ?? {},
       successHandler: successHandler
     )
 
+    let navigationController = UINavigationController(rootViewController: webViewController)
+
+    if #available(iOS 13.0, *) {
+      navigationController.isModalInPresentation = true
+    }
+
     viewController.present(
-      checkoutViewController,
+      navigationController,
       animated: animated,
       completion: presentationCompletion
     )
