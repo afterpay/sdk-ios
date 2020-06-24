@@ -22,15 +22,23 @@ private struct CheckoutsResponse: Decodable {
   let url: URL
 }
 
-enum CheckoutError: Error { case unknown }
+enum CheckoutError: Error {
+  case malformedUrl
+  case unknown
+}
 
-func checkout(with email: String, completion: @escaping (Result<URL, Error>) -> Void) {
-  var urlComponents = baseUrlComponents
-  urlComponents.path = checkoutsPath
+func checkout(with email: String, completion: @escaping (Result<URL, Error>) -> Void) throws {
+  let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
+  var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: true) }
+  urlComponents?.path = checkoutsPath
 
-  var request = URLRequest(url: urlComponents.url!)
+  guard let url = urlComponents?.url else {
+    throw CheckoutError.malformedUrl
+  }
+
+  var request = URLRequest(url: url)
   request.httpMethod = "POST"
-  request.httpBody = try? JSONEncoder().encode(CheckoutsRequest(email: email))
+  request.httpBody = try JSONEncoder().encode(CheckoutsRequest(email: email))
   request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
   let task = session.dataTask(with: request) { data, _, error in
