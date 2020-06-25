@@ -32,6 +32,11 @@ final class AppFlowController: UIViewController {
     let checkoutTabBarItem = UITabBarItem(title: "Swift Checkout", image: checkoutImage, selectedImage: nil)
     checkoutNavigationController.tabBarItem = checkoutTabBarItem
 
+    let objcCheckoutViewController = ObjcCheckoutViewController()
+    let objcCheckoutNavigationController = UINavigationController(rootViewController: objcCheckoutViewController)
+    let objcCheckoutTabBarItem = UITabBarItem(title: "Objc Checkout", image: checkoutImage, selectedImage: nil)
+    objcCheckoutNavigationController.tabBarItem = objcCheckoutTabBarItem
+
     let settings = [Settings.$email, Settings.$host, Settings.$port]
     let settingsViewController = SettingsViewController(settings: settings)
     let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
@@ -39,7 +44,12 @@ final class AppFlowController: UIViewController {
     let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
     settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    let viewControllers = [checkoutNavigationController, settingsNavigationController]
+    let viewControllers = [
+      checkoutNavigationController,
+      objcCheckoutNavigationController,
+      settingsNavigationController,
+    ]
+
     ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }
 

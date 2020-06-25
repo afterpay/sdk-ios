@@ -18,7 +18,7 @@ final class CheckoutViewController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    self.title = "Checkout"
+    self.title = "Swift Checkout"
   }
 
   override func loadView() {

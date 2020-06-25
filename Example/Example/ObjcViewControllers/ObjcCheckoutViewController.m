@@ -29,6 +29,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
+  self.title = @"Objc Checkout";
+
   UIButton *payButton = self.checkoutView.payButton;
 
   [payButton addTarget:self
@@ -37,7 +39,7 @@
 }
 
 - (void)didTapPay {
-
+  [AfterpayObjc presentCheckoutWithViewController:self];
 }
 
 @end
