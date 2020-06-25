@@ -8,6 +8,7 @@
 
 #import "ObjcCheckoutViewController.h"
 #import "Example-Swift.h"
+#import <Afterpay/Afterpay-Swift.h>
 
 @interface ObjcCheckoutViewController ()
 
@@ -17,20 +18,22 @@
 
 @implementation ObjcCheckoutViewController
 
-- (CheckoutView *)checkoutView {
-  return (CheckoutView *)self.view;
-}
-
 - (void)loadView {
   self.view = [[CheckoutView alloc] init];
+}
+
+- (CheckoutView *)checkoutView {
+  return (CheckoutView *)self.view;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  [self.checkoutView.payButton addTarget:self
-                                  action:@selector(didTapPay)
-                        forControlEvents:UIControlEventTouchUpInside];
+  UIButton *payButton = self.checkoutView.payButton;
+
+  [payButton addTarget:self
+                action:@selector(didTapPay)
+      forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didTapPay {
