@@ -18,7 +18,7 @@ final class AppFlowController: UIViewController {
   ) throws -> Void
 
   private let checkoutUrlProvider: URLProvider
-  private let ownedNavigationController = UINavigationController()
+  private let ownedTabBarController = UITabBarController()
 
   init(checkoutUrlProvider: @escaping URLProvider) {
     self.checkoutUrlProvider = checkoutUrlProvider
@@ -27,23 +27,26 @@ final class AppFlowController: UIViewController {
 
     let checkout = { [unowned self] in self.checkout() }
     let checkoutViewController = CheckoutViewController(checkout: checkout)
+    let checkoutNavigationController = UINavigationController(rootViewController: checkoutViewController)
+    let checkoutImage = UIImage(named: "for-you")
+    let checkoutTabBarItem = UITabBarItem(title: "Swift Checkout", image: checkoutImage, selectedImage: nil)
+    checkoutNavigationController.tabBarItem = checkoutTabBarItem
 
-    let settingsItem = UIBarButtonItem(
-      title: "Settings",
-      style: .plain,
-      target: self,
-      action: #selector(didTapSettings)
-    )
+    let settings = [Settings.$email, Settings.$host, Settings.$port]
+    let settingsViewController = SettingsViewController(settings: settings)
+    let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+    let settingsImage = UIImage(named: "settings")
+    let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
+    settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    checkoutViewController.navigationItem.setRightBarButton(settingsItem, animated: false)
-
-    ownedNavigationController.setViewControllers([checkoutViewController], animated: false)
+    let viewControllers = [checkoutNavigationController, settingsNavigationController]
+    ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }
 
   override func loadView() {
     view = UIView()
 
-    install(ownedNavigationController)
+    install(ownedTabBarController)
   }
 
   // MARK: Checkout
@@ -54,13 +57,8 @@ final class AppFlowController: UIViewController {
         over: self,
         loading: checkoutUrl,
         cancelHandler: {
-          let messageViewController = MessageViewController(message: "Payment cancelled")
-          self.ownedNavigationController.pushViewController(messageViewController, animated: true)
         },
         successHandler: { token in
-          let message = "Succeeded with token: \(token)"
-          let messageViewController = MessageViewController(message: message)
-          self.ownedNavigationController.pushViewController(messageViewController, animated: true)
         }
       )
     }
@@ -85,18 +83,6 @@ final class AppFlowController: UIViewController {
     } catch {
       presentAlert("Invalid host and port settings")
     }
-  }
-
-  // MARK: Settings
-
-  @objc private func didTapSettings() {
-    let settingsViewController = SettingsViewController(
-      settings: [Settings.$email, Settings.$host, Settings.$port]
-    )
-
-    let navigationController = UINavigationController(rootViewController: settingsViewController)
-
-    present(navigationController, animated: true, completion: nil)
   }
 
   // MARK: Unavailable
