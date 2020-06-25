@@ -11,6 +11,7 @@ import UIKit
 final class CheckoutViewController: UIViewController {
 
   private let checkout: () -> Void
+  private var checkoutView: CheckoutView { view as! CheckoutView }
 
   init(checkout: @escaping () -> Void) {
     self.checkout = checkout
@@ -21,28 +22,13 @@ final class CheckoutViewController: UIViewController {
   }
 
   override func loadView() {
-    view = UIView()
+    view = CheckoutView()
+  }
 
-    if #available(iOS 13.0, *) {
-      view.backgroundColor = .systemBackground
-    } else {
-      view.backgroundColor = .white
-    }
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-    let payButton = UIButton(type: .system)
-    payButton.setTitle("Pay with Afterpay", for: .normal)
-    payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
-    payButton.translatesAutoresizingMaskIntoConstraints = false
-
-    view.addSubview(payButton)
-
-    let layoutGuide = view.readableContentGuide
-
-    NSLayoutConstraint.activate([
-      payButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
-      payButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
-      payButton.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor),
-    ])
+    checkoutView.payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
   }
 
   // MARK: Checkout
