@@ -6,15 +6,20 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import UIKit
 
 final class CheckoutViewController: UIViewController {
 
-  private let checkout: () -> Void
+  typealias URLProvider = (
+    _ completion: @escaping (Result<URL, Error>) -> Void
+  ) -> Void
+
+  private let urlProvider: URLProvider
   private var checkoutView: CheckoutView { view as! CheckoutView }
 
-  init(checkout: @escaping () -> Void) {
-    self.checkout = checkout
+  init(urlProvider: @escaping URLProvider) {
+    self.urlProvider = urlProvider
 
     super.init(nibName: nil, bundle: nil)
 
@@ -34,7 +39,31 @@ final class CheckoutViewController: UIViewController {
   // MARK: Checkout
 
   @objc private func didTapPay() {
-    checkout()
+    let presentCheckout = { [unowned self] url in
+      Afterpay.presentCheckout(
+        over: self,
+        loading: url,
+        successHandler: { _ in }
+      )
+    }
+
+    let presentError = { [unowned self] (error: Error) in
+      let alert = AlertFactory.alert(for: error)
+      self.present(alert, animated: true, completion: nil)
+    }
+
+    urlProvider { result in
+      var action = {}
+
+      switch result {
+      case .success(let url):
+        action = { presentCheckout(url) }
+      case .failure(let error):
+      action = { presentError(error) }
+      }
+
+      DispatchQueue.main.async(execute: action)
+    }
   }
 
   // MARK: Unavailable

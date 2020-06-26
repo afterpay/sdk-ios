@@ -6,7 +6,6 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
-import Afterpay
 import Foundation
 import UIKit
 
@@ -25,8 +24,7 @@ final class AppFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let checkout = { [unowned self] in self.checkout() }
-    let checkoutViewController = CheckoutViewController(checkout: checkout)
+    let checkoutViewController = CheckoutViewController { checkoutUrlProvider(Settings.email, $0) }
     let checkoutNavigationController = UINavigationController(rootViewController: checkoutViewController)
     let checkoutImage = UIImage(named: "for-you")
     let checkoutTabBarItem = UITabBarItem(title: "Swift Checkout", image: checkoutImage, selectedImage: nil)
@@ -40,7 +38,6 @@ final class AppFlowController: UIViewController {
         }
       }
     }
-
     let objcCheckoutNavigationController = UINavigationController(rootViewController: objcCheckoutViewController)
     let objcCheckoutTabBarItem = UITabBarItem(title: "Objc Checkout", image: checkoutImage, selectedImage: nil)
     objcCheckoutNavigationController.tabBarItem = objcCheckoutTabBarItem
@@ -65,40 +62,6 @@ final class AppFlowController: UIViewController {
     view = UIView()
 
     install(ownedTabBarController)
-  }
-
-  // MARK: Checkout
-
-  private func checkout() {
-    let presentCheckout = { [unowned self] checkoutUrl in
-      Afterpay.presentCheckout(
-        over: self,
-        loading: checkoutUrl,
-        cancelHandler: {
-        },
-        successHandler: { token in
-        }
-      )
-    }
-
-    let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-
-    let presentAlert = { [unowned self] (message: String) in
-      alert.message = message
-      self.present(alert, animated: true, completion: nil)
-    }
-
-    checkoutUrlProvider(Settings.email) { result in
-      switch result {
-      case .success(let url):
-        DispatchQueue.main.async { presentCheckout(url) }
-      case .failure(CheckoutError.malformedUrl):
-        presentAlert("Invalid host and port settings")
-      case .failure:
-        DispatchQueue.main.async { presentAlert("Failed to retrieve checkout url") }
-      }
-    }
   }
 
   // MARK: Unavailable

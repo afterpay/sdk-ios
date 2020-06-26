@@ -48,12 +48,37 @@
 }
 
 - (void)didTapPay {
-  self.urlProvider(^(NSURL *url, NSError *error) {
-    if (url) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [Afterpay presentCheckoutOverViewController:self loadingURL:url];
-      });
+  __weak __typeof__(self) weakSelf = self;
+
+  void (^presentCheckout)(NSURL *) = ^(NSURL *url) {
+    __typeof__(self) strongSelf = weakSelf;
+
+    if (strongSelf) {
+      [Afterpay presentCheckoutOverViewController:strongSelf loadingURL:url];
     }
+  };
+
+  void (^presentError)(NSError *) = ^(NSError *error) {
+    __typeof__(self) strongSelf = weakSelf;
+
+    UIAlertController *alert = [AlertFactory alertFor:error];
+    [strongSelf presentViewController:alert animated:YES completion:nil];
+  };
+
+  self.urlProvider(^(NSURL *url, NSError *error) {
+    void (^action)(void) = ^{};
+
+    if (url) {
+      action = ^{
+        presentCheckout(url);
+      };
+    } else if (error) {
+      action = ^{
+        presentError(error);
+      };
+    }
+
+    dispatch_async(dispatch_get_main_queue(), action);
   });
 }
 
