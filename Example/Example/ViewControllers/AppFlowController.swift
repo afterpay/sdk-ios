@@ -15,7 +15,7 @@ final class AppFlowController: UIViewController {
   typealias URLProvider = (
     _ email: String,
     _ completion: @escaping (Result<URL, Error>) -> Void
-  ) throws -> Void
+  ) -> Void
 
   private let checkoutUrlProvider: URLProvider
   private let ownedTabBarController = UITabBarController()
@@ -32,7 +32,15 @@ final class AppFlowController: UIViewController {
     let checkoutTabBarItem = UITabBarItem(title: "Swift Checkout", image: checkoutImage, selectedImage: nil)
     checkoutNavigationController.tabBarItem = checkoutTabBarItem
 
-    let objcCheckoutViewController = ObjcCheckoutViewController()
+    let objcCheckoutViewController = ObjcCheckoutViewController { callback in
+      checkoutUrlProvider(Settings.email) { result in
+        switch result {
+        case .success(let url): callback(url, nil)
+        case .failure(let error): callback(nil, error)
+        }
+      }
+    }
+
     let objcCheckoutNavigationController = UINavigationController(rootViewController: objcCheckoutViewController)
     let objcCheckoutTabBarItem = UITabBarItem(title: "Objc Checkout", image: checkoutImage, selectedImage: nil)
     objcCheckoutNavigationController.tabBarItem = objcCheckoutTabBarItem
@@ -81,17 +89,15 @@ final class AppFlowController: UIViewController {
       self.present(alert, animated: true, completion: nil)
     }
 
-    do {
-      try checkoutUrlProvider(Settings.email) { result in
-        switch result {
-        case .success(let url):
-          DispatchQueue.main.async { presentCheckout(url) }
-        case .failure:
-          DispatchQueue.main.async { presentAlert("Failed to retrieve checkout url") }
-        }
+    checkoutUrlProvider(Settings.email) { result in
+      switch result {
+      case .success(let url):
+        DispatchQueue.main.async { presentCheckout(url) }
+      case .failure(CheckoutError.malformedUrl):
+        presentAlert("Invalid host and port settings")
+      case .failure:
+        DispatchQueue.main.async { presentAlert("Failed to retrieve checkout url") }
       }
-    } catch {
-      presentAlert("Invalid host and port settings")
     }
   }
 

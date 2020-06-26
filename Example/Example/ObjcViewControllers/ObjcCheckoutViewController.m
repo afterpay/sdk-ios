@@ -13,10 +13,19 @@
 @interface ObjcCheckoutViewController ()
 
 @property (nonatomic, readonly) CheckoutView *checkoutView;
+@property (nonatomic, readonly, strong) URLProvider urlProvider;
 
 @end
 
 @implementation ObjcCheckoutViewController
+
+- (instancetype)initWithURLProvider:(URLProvider)urlProvider {
+  if (self = [super initWithNibName:nil bundle:nil]) {
+    _urlProvider = urlProvider;
+  }
+
+  return self;
+}
 
 - (void)loadView {
   self.view = [[CheckoutView alloc] init];
@@ -39,7 +48,13 @@
 }
 
 - (void)didTapPay {
-  [Afterpay presentCheckoutWithViewController:self];
+  self.urlProvider(^(NSURL *url, NSError *error) {
+    if (url) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [Afterpay presentCheckoutOverViewController:self loadingURL:url];
+      });
+    }
+  });
 }
 
 @end

@@ -16,11 +16,14 @@ public final class AfterpayWrapper: NSObject {
   @available(*, unavailable)
   public override init() {}
 
-  @objc
-  public static func presentCheckout(viewController: UIViewController) {
+  @objc(presentCheckoutOverViewController:loadingURL:)
+  public static func presentCheckout(
+    over viewController: UIViewController,
+    loading url: URL
+  ) {
     Afterpay.presentCheckout(
       over: viewController,
-      loading: URL(string: "https://google.com.au")!,
+      loading: url,
       animated: true,
       presentationCompletion: nil,
       cancelHandler: nil,
