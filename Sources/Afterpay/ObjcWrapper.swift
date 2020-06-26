@@ -9,10 +9,15 @@
 import Foundation
 import UIKit
 
+@objc(Afterpay)
 @available(swift, obsoleted: 1.0, message: "This wrapper should only be used from Objective-C")
-@objc public final class AfterpayObjc: NSObject {
+public final class AfterpayWrapper: NSObject {
 
-  @objc public static func presentCheckout(viewController: UIViewController) {
+  @available(*, unavailable)
+  public override init() {}
+
+  @objc
+  public static func presentCheckout(viewController: UIViewController) {
     Afterpay.presentCheckout(
       over: viewController,
       loading: URL(string: "https://google.com.au")!,

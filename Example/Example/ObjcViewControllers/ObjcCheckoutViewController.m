@@ -39,7 +39,7 @@
 }
 
 - (void)didTapPay {
-  [AfterpayObjc presentCheckoutWithViewController:self];
+  [Afterpay presentCheckoutWithViewController:self];
 }
 
 @end
