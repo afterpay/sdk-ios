@@ -26,25 +26,18 @@ public enum Afterpay {
   ///   - successHandler: The block executed when the user successfully completes the Afterpay Web
   ///   Flow.
   ///   - token: The token associated with the Afterpay payment.
-  public static func presentCheckout(
+  public static func presentCheckoutModally(
     over viewController: UIViewController,
     loading checkoutUrl: URL,
     animated: Bool = true,
-    presentationCompletion: (() -> Void)? = nil,
-    cancelHandler: (() -> Void)? = nil,
-    successHandler: @escaping (_ token: String) -> Void
+    completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     let checkoutViewController = WebViewController(
       checkoutUrl: checkoutUrl,
-      cancelHandler: cancelHandler ?? {},
-      successHandler: successHandler
+      completion: completion
     )
 
-    viewController.present(
-      checkoutViewController,
-      animated: animated,
-      completion: presentationCompletion
-    )
+    viewController.present(checkoutViewController, animated: animated, completion: nil)
   }
 
 }

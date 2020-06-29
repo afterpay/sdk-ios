@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A3AEC24A999A500EFD826 /* CheckoutResult.swift */; };
 		665FC57A2488766C00A5A93E /* AfterpayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FC5792488766C00A5A93E /* AfterpayTests.swift */; };
 		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
 		666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		662A3AEC24A999A500EFD826 /* CheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutResult.swift; sourceTree = "<group>"; };
 		6632E0AE248A0171007F0BD9 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		665FC5772488766C00A5A93E /* AfterpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AfterpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		665FC5792488766C00A5A93E /* AfterpayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayTests.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
+				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */,
 				667AD3532497121100BF94E5 /* WebViewController.swift */,
 			);
@@ -308,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				667AD3542497121200BF94E5 /* WebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,

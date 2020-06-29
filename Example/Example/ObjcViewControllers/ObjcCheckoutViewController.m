@@ -54,7 +54,7 @@
     __typeof__(self) strongSelf = weakSelf;
 
     if (strongSelf) {
-      [Afterpay presentCheckoutOverViewController:strongSelf loadingURL:url];
+      [Afterpay presentCheckoutModallyOverViewController:strongSelf loadingURL:url];
     }
   };
 
