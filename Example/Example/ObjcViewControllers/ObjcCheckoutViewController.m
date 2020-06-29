@@ -64,6 +64,7 @@
     if (strongSelf) {
       [APAfterpay presentCheckoutModallyOverViewController:strongSelf
                                                 loadingURL:url
+                                                  animated:YES
                                                 completion:completion];
     }
   };
