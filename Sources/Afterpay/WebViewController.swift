@@ -17,8 +17,7 @@ final class WebViewController:
 { // swiftlint:disable:this opening_brace
 
   private let checkoutUrl: URL
-  private let cancelHandler: () -> Void
-  private let successHandler: (_ token: String) -> Void
+  private let completion: (_ result: CheckoutResult) -> Void
 
   private var webView: WKWebView { view as! WKWebView }
 
@@ -26,12 +25,10 @@ final class WebViewController:
 
   init(
     checkoutUrl: URL,
-    cancelHandler: @escaping () -> Void,
-    successHandler: @escaping (_ token: String) -> Void
+    completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.checkoutUrl = checkoutUrl
-    self.cancelHandler = cancelHandler
-    self.successHandler = successHandler
+    self.completion = completion
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -61,7 +58,7 @@ final class WebViewController:
   ) -> Bool {
     let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let dismiss: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true, completion: self.cancelHandler)
+      self.dismiss(animated: true) { self.completion(.cancelled) }
     }
 
     let actions = [
@@ -118,11 +115,11 @@ final class WebViewController:
 
     case (false, .success(let token)):
       decisionHandler(.cancel)
-      dismiss(animated: true) { self.successHandler(token) }
+      dismiss(animated: true) { self.completion(.success(token: token)) }
 
     case (false, .cancelled):
       decisionHandler(.cancel)
-      dismiss(animated: true, completion: self.cancelHandler)
+      dismiss(animated: true) { self.completion(.cancelled) }
 
     case (false, nil):
       decisionHandler(.allow)

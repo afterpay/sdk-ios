@@ -9,25 +9,63 @@
 import Foundation
 import UIKit
 
-@objc(Afterpay)
+@objc(APAfterpay)
 @available(swift, obsoleted: 1.0, message: "This wrapper should only be used from Objective-C")
 public final class AfterpayWrapper: NSObject {
 
   @available(*, unavailable)
   public override init() {}
 
-  @objc(presentCheckoutOverViewController:loadingURL:)
-  public static func presentCheckout(
+  /// Cannot be instantiated, instances will be of type CheckoutResultSuccess or
+  /// CheckoutResultCancelled
+  @objc(APCheckoutResult)
+  public class CheckoutResult: NSObject {
+    @available(*, unavailable)
+    override init() {}
+
+    static func success(token: String) -> CheckoutResultSuccess {
+      CheckoutResultSuccess(token: token)
+    }
+
+    static func cancelled() -> CheckoutResultCancelled {
+      CheckoutResultCancelled(())
+    }
+  }
+
+  @objc(APCheckoutResultSuccess)
+  public class CheckoutResultSuccess: CheckoutResult {
+    @objc public let token: String
+
+    init(token: String) {
+      self.token = token
+    }
+  }
+
+  @objc(APCheckoutResultCancelled)
+  public class CheckoutResultCancelled: CheckoutResult {
+    // CheckoutResult init is unavailable so a disambiguated init is required
+    init(_ cancel: ()) {}
+  }
+
+  @objc(presentCheckoutModallyOverViewController:loadingURL:animated:completion:)
+  public static func presentCheckoutModally(
     over viewController: UIViewController,
-    loading url: URL
+    loading url: URL,
+    animated: Bool,
+    completion: @escaping (CheckoutResult) -> Void
   ) {
-    Afterpay.presentCheckout(
+    Afterpay.presentCheckoutModally(
       over: viewController,
       loading: url,
-      animated: true,
-      presentationCompletion: nil,
-      cancelHandler: nil,
-      successHandler: { _ in }
+      animated: animated,
+      completion: { result in
+        switch result {
+        case .success(let token):
+          completion(.success(token: token))
+        case .cancelled:
+          completion(.cancelled())
+        }
+      }
     )
   }
 

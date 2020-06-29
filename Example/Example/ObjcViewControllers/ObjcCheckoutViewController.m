@@ -53,8 +53,19 @@
   void (^presentCheckout)(NSURL *) = ^(NSURL *url) {
     __typeof__(self) strongSelf = weakSelf;
 
+    void (^completion)(APCheckoutResult *) = ^(APCheckoutResult *result) {
+      if ([result isKindOfClass:[APCheckoutResultSuccess class]]) {
+        NSLog(@"Checkout Token: %@", [(APCheckoutResultSuccess *)result token]);
+      } else if ([result isKindOfClass:[APCheckoutResultCancelled class]]) {
+        NSLog(@"Checkout Cancelled");
+      }
+    };
+
     if (strongSelf) {
-      [Afterpay presentCheckoutOverViewController:strongSelf loadingURL:url];
+      [APAfterpay presentCheckoutModallyOverViewController:strongSelf
+                                                loadingURL:url
+                                                  animated:YES
+                                                completion:completion];
     }
   };
 
