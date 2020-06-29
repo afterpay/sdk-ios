@@ -39,7 +39,10 @@ func checkout(with email: String, completion: @escaping (Result<URL, Error>) -> 
 
   var request = URLRequest(url: url)
   request.httpMethod = "POST"
-  request.httpBody = try? JSONEncoder().encode(CheckoutsRequest(email: email))
+
+  // A failed encoding operation here would represent programmer error
+  // swiftlint:disable:next force_try
+  request.httpBody = try! JSONEncoder().encode(CheckoutsRequest(email: email))
   request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
   let task = session.dataTask(with: request) { data, _, error in
