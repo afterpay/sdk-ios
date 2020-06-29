@@ -6,49 +6,64 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import UIKit
 
 final class CheckoutViewController: UIViewController {
 
-  private let checkout: () -> Void
+  typealias URLProvider = (
+    _ completion: @escaping (Result<URL, Error>) -> Void
+  ) -> Void
 
-  init(checkout: @escaping () -> Void) {
-    self.checkout = checkout
+  private let urlProvider: URLProvider
+  private var checkoutView: CheckoutView { view as! CheckoutView }
+
+  init(urlProvider: @escaping URLProvider) {
+    self.urlProvider = urlProvider
 
     super.init(nibName: nil, bundle: nil)
 
-    self.title = "Checkout"
+    self.title = "Swift Checkout"
   }
 
   override func loadView() {
-    view = UIView()
+    view = CheckoutView()
+  }
 
-    if #available(iOS 13.0, *) {
-      view.backgroundColor = .systemBackground
-    } else {
-      view.backgroundColor = .white
-    }
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-    let payButton = UIButton(type: .system)
-    payButton.setTitle("Pay with Afterpay", for: .normal)
-    payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
-    payButton.translatesAutoresizingMaskIntoConstraints = false
-
-    view.addSubview(payButton)
-
-    let layoutGuide = view.readableContentGuide
-
-    NSLayoutConstraint.activate([
-      payButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
-      payButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
-      payButton.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor),
-    ])
+    checkoutView.payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
   }
 
   // MARK: Checkout
 
   @objc private func didTapPay() {
-    checkout()
+    let presentCheckout = { [unowned self] url in
+      Afterpay.presentCheckout(
+        over: self,
+        loading: url,
+        successHandler: { _ in }
+      )
+    }
+
+    let presentError = { [unowned self] (error: Error) in
+      let alert = AlertFactory.alert(for: error)
+      self.present(alert, animated: true, completion: nil)
+    }
+
+    urlProvider { result in
+      let action: () -> Void
+
+      switch result {
+      case .success(let url):
+        action = { presentCheckout(url) }
+      case .failure(let error):
+        action = { presentError(error) }
+      }
+
+      DispatchQueue.main.async(execute: action)
+    }
   }
 
   // MARK: Unavailable

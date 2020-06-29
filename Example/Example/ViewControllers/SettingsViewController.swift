@@ -25,15 +25,6 @@ final class SettingsViewController: UITableViewController {
 
     title = "Settings"
 
-    let closeItem = UIBarButtonItem(
-      title: "Close",
-      style: .plain,
-      target: self,
-      action: #selector(didTapClose)
-    )
-
-    navigationItem.rightBarButtonItem = closeItem
-
     tableView.register(SettingCell.self, forCellReuseIdentifier: cellIdentifier)
     tableView.allowsSelection = false
   }
@@ -53,12 +44,6 @@ final class SettingsViewController: UITableViewController {
     settingCell.configure(with: settings[indexPath.row])
 
     return settingCell
-  }
-
-  // MARK: Actions
-
-  @objc private func didTapClose() {
-    dismiss(animated: true, completion: nil)
   }
 
   // MARK: Unavailable

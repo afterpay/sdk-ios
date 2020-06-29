@@ -11,7 +11,7 @@ import UIKit
 
 // Taken from / inspired by: https://rambo.codes/posts/2020-02-20-mvc-with-sugar
 extension UIViewController {
-  func install(_ child: UIViewController) {
+  func install(_ child: UIViewController, into view: UIView) {
     addChild(child)
 
     child.view.translatesAutoresizingMaskIntoConstraints = false

@@ -6,7 +6,6 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
-import Afterpay
 import Foundation
 import UIKit
 
@@ -15,88 +14,54 @@ final class AppFlowController: UIViewController {
   typealias URLProvider = (
     _ email: String,
     _ completion: @escaping (Result<URL, Error>) -> Void
-  ) throws -> Void
+  ) -> Void
 
   private let checkoutUrlProvider: URLProvider
-  private let ownedNavigationController = UINavigationController()
+  private let ownedTabBarController = UITabBarController()
 
   init(checkoutUrlProvider: @escaping URLProvider) {
     self.checkoutUrlProvider = checkoutUrlProvider
 
     super.init(nibName: nil, bundle: nil)
 
-    let checkout = { [unowned self] in self.checkout() }
-    let checkoutViewController = CheckoutViewController(checkout: checkout)
+    let checkoutViewController = CheckoutViewController { checkoutUrlProvider(Settings.email, $0) }
+    let checkoutNavigationController = UINavigationController(rootViewController: checkoutViewController)
+    let checkoutImage = UIImage(named: "for-you")
+    let checkoutTabBarItem = UITabBarItem(title: "Swift Checkout", image: checkoutImage, selectedImage: nil)
+    checkoutNavigationController.tabBarItem = checkoutTabBarItem
 
-    let settingsItem = UIBarButtonItem(
-      title: "Settings",
-      style: .plain,
-      target: self,
-      action: #selector(didTapSettings)
-    )
+    let objcCheckoutViewController = ObjcCheckoutViewController { callback in
+      checkoutUrlProvider(Settings.email) { result in
+        switch result {
+        case .success(let url): callback(url, nil)
+        case .failure(let error): callback(nil, error)
+        }
+      }
+    }
+    let objcCheckoutNavigationController = UINavigationController(rootViewController: objcCheckoutViewController)
+    let objcCheckoutTabBarItem = UITabBarItem(title: "Objc Checkout", image: checkoutImage, selectedImage: nil)
+    objcCheckoutNavigationController.tabBarItem = objcCheckoutTabBarItem
 
-    checkoutViewController.navigationItem.setRightBarButton(settingsItem, animated: false)
+    let settings = [Settings.$email, Settings.$host, Settings.$port]
+    let settingsViewController = SettingsViewController(settings: settings)
+    let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+    let settingsImage = UIImage(named: "settings")
+    let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
+    settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    ownedNavigationController.setViewControllers([checkoutViewController], animated: false)
+    let viewControllers = [
+      checkoutNavigationController,
+      objcCheckoutNavigationController,
+      settingsNavigationController,
+    ]
+
+    ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }
 
   override func loadView() {
-    view = UIView()
-
-    install(ownedNavigationController)
-  }
-
-  // MARK: Checkout
-
-  private func checkout() {
-    let presentCheckout = { [unowned self] checkoutUrl in
-      Afterpay.presentCheckout(
-        over: self,
-        loading: checkoutUrl,
-        cancelHandler: {
-          let messageViewController = MessageViewController(message: "Payment cancelled")
-          self.ownedNavigationController.pushViewController(messageViewController, animated: true)
-        },
-        successHandler: { token in
-          let message = "Succeeded with token: \(token)"
-          let messageViewController = MessageViewController(message: message)
-          self.ownedNavigationController.pushViewController(messageViewController, animated: true)
-        }
-      )
-    }
-
-    let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-
-    let presentAlert = { [unowned self] (message: String) in
-      alert.message = message
-      self.present(alert, animated: true, completion: nil)
-    }
-
-    do {
-      try checkoutUrlProvider(Settings.email) { result in
-        switch result {
-        case .success(let url):
-          DispatchQueue.main.async { presentCheckout(url) }
-        case .failure:
-          DispatchQueue.main.async { presentAlert("Failed to retrieve checkout url") }
-        }
-      }
-    } catch {
-      presentAlert("Invalid host and port settings")
-    }
-  }
-
-  // MARK: Settings
-
-  @objc private func didTapSettings() {
-    let settingsViewController = SettingsViewController(
-      settings: [Settings.$email, Settings.$host, Settings.$port]
-    )
-
-    let navigationController = UINavigationController(rootViewController: settingsViewController)
-
-    present(navigationController, animated: true, completion: nil)
+    let containerView = UIView()
+    install(ownedTabBarController, into: containerView)
+    view = containerView
   }
 
   // MARK: Unavailable

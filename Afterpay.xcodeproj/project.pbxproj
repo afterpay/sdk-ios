@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		665FC57A2488766C00A5A93E /* AfterpayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FC5792488766C00A5A93E /* AfterpayTests.swift */; };
 		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
+		666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */; };
 		667AD3542497121200BF94E5 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* WebViewController.swift */; };
-		668F160C2487653A0040345C /* Afterpay.h in Headers */ = {isa = PBXBuildFile; fileRef = 668F160A2487653A0040345C /* Afterpay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,9 +30,9 @@
 		665FC5792488766C00A5A93E /* AfterpayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayTests.swift; sourceTree = "<group>"; };
 		665FC57B2488766C00A5A93E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		665FC5832488847900A5A93E /* Afterpay.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.xctestplan; sourceTree = "<group>"; };
+		666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjcWrapper.swift; sourceTree = "<group>"; };
 		667AD3532497121100BF94E5 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		668F16072487653A0040345C /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		668F160A2487653A0040345C /* Afterpay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Afterpay.h; sourceTree = "<group>"; };
 		668F160B2487653A0040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66B57E4F248F5C7D0020C642 /* AfterpayTests-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AfterpayTests-Release.xcconfig"; sourceTree = "<group>"; };
 		66B57E50248F5C7D0020C642 /* Afterpay-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,7 +116,6 @@
 		668F16092487653A0040345C /* Afterpay */ = {
 			isa = PBXGroup;
 			children = (
-				668F160A2487653A0040345C /* Afterpay.h */,
 				668F160B2487653A0040345C /* Info.plist */,
 				668F16122487793B0040345C /* Sources */,
 			);
@@ -128,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
+				666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */,
 				667AD3532497121100BF94E5 /* WebViewController.swift */,
 			);
 			name = Sources;
@@ -157,7 +157,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				668F160C2487653A0040345C /* Afterpay.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +310,7 @@
 			files = (
 				667AD3542497121200BF94E5 /* WebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
+				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
