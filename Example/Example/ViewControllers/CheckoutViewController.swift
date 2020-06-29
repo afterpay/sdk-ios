@@ -53,13 +53,13 @@ final class CheckoutViewController: UIViewController {
     }
 
     urlProvider { result in
-      var action = {}
+      let action: () -> Void
 
       switch result {
       case .success(let url):
         action = { presentCheckout(url) }
       case .failure(let error):
-      action = { presentError(error) }
+        action = { presentError(error) }
       }
 
       DispatchQueue.main.async(execute: action)
