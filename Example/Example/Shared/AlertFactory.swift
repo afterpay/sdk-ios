@@ -16,7 +16,7 @@ import UIKit
 
   @objc static func alert(for checkoutUrlError: Error) -> UIAlertController {
     let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Error", style: .default, handler: nil))
+    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
 
     switch checkoutUrlError {
     case CheckoutError.malformedUrl:
