@@ -28,12 +28,19 @@ public enum Afterpay {
     animated: Bool = true,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
-    let checkoutViewController = WebViewController(
+    var viewControllerToPresent: UIViewController = WebViewController(
       checkoutUrl: checkoutUrl,
       completion: completion
     )
 
-    viewController.present(checkoutViewController, animated: animated, completion: nil)
+    if #available(iOS 13.0, *) {
+    } else {
+      // Wrap the modal in a navigation controller to allow dismiss via a bar button item prior
+      // to popover modals in iOS13
+      viewControllerToPresent = UINavigationController(rootViewController: viewControllerToPresent)
+    }
+
+    viewController.present(viewControllerToPresent, animated: animated, completion: nil)
   }
 
 }
