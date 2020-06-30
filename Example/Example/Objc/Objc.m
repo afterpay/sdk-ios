@@ -22,7 +22,7 @@
   };
 
   [APAfterpay presentCheckoutModallyOverViewController:viewController
-                                            loadingURL:url
+                                    loadingCheckoutURL:url
                                               animated:true
                                             completion:completion];
 }
