@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CheckoutResult {
+@frozen public enum CheckoutResult {
   case success(token: String)
   case cancelled
 }

@@ -39,8 +39,17 @@ final class CheckoutViewController: UIViewController {
   // MARK: Checkout
 
   @objc private func didTapPay() {
-    let presentCheckout = { [unowned self] url in
-      Afterpay.presentCheckoutModally(over: self, loading: url, completion: { _ in })
+    let successHandler = { [unowned self] token in
+      self.present(MessageViewController(message: token), animated: true, completion: nil)
+    }
+
+    let presentCheckout = { [unowned self] checkoutUrl in
+      Afterpay.presentCheckoutModally(over: self, loading: checkoutUrl) { result in
+        switch result {
+        case .success(let token): successHandler(token)
+        case .cancelled: break
+        }
+      }
     }
 
     let presentError = { [unowned self] (error: Error) in
