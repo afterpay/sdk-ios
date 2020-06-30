@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		152224B124AAF7AE006E7D78 /* Objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 152224B024AAF7AE006E7D78 /* Objc.m */; };
+		155AD16F24AB1C49000013B4 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155AD16E24AB1C49000013B4 /* Model.swift */; };
 		660072B724A1B55E00E9A2BC /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660072B624A1B55E00E9A2BC /* SettingCell.swift */; };
 		6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620B5D124934FB3004162BC /* AppFlowController.swift */; };
 		663A228E249B030D0027C296 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A228D249B030D0027C296 /* MessageViewController.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		152224AF24AAF7AE006E7D78 /* Objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Objc.h; sourceTree = "<group>"; };
 		152224B024AAF7AE006E7D78 /* Objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Objc.m; sourceTree = "<group>"; };
+		155AD16E24AB1C49000013B4 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		660072B624A1B55E00E9A2BC /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		6620B5D124934FB3004162BC /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
 		663A228D249B030D0027C296 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			children = (
 				664722A624A5D9B00079B1FB /* AlertFactory.swift */,
 				665E6A0A24935624009E3BA1 /* Extensions.swift */,
+				155AD16E24AB1C49000013B4 /* Model.swift */,
 				666262892496F5EB0094FC26 /* Networking.swift */,
 				6686CC4824A08E450043EF94 /* Settings.swift */,
 				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
@@ -278,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				155AD16F24AB1C49000013B4 /* Model.swift in Sources */,
 				152224B124AAF7AE006E7D78 /* Objc.m in Sources */,
 				6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */,
 				664722A724A5D9B00079B1FB /* AlertFactory.swift in Sources */,
