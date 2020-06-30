@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		152224B124AAF7AE006E7D78 /* Objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 152224B024AAF7AE006E7D78 /* Objc.m */; };
 		660072B724A1B55E00E9A2BC /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660072B624A1B55E00E9A2BC /* SettingCell.swift */; };
 		6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620B5D124934FB3004162BC /* AppFlowController.swift */; };
 		663A228E249B030D0027C296 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A228D249B030D0027C296 /* MessageViewController.swift */; };
@@ -43,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		152224AF24AAF7AE006E7D78 /* Objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Objc.h; sourceTree = "<group>"; };
+		152224B024AAF7AE006E7D78 /* Objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Objc.m; sourceTree = "<group>"; };
 		660072B624A1B55E00E9A2BC /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		6620B5D124934FB3004162BC /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
 		663A228D249B030D0027C296 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 		6656288324A32B2300BEC506 /* ObjcViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				152224AF24AAF7AE006E7D78 /* Objc.h */,
+				152224B024AAF7AE006E7D78 /* Objc.m */,
 				6656288524A32B9900BEC506 /* ObjcCheckoutViewController.h */,
 				6656288624A32B9900BEC506 /* ObjcCheckoutViewController.m */,
 			);
@@ -278,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				152224B124AAF7AE006E7D78 /* Objc.m in Sources */,
 				6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */,
 				664722A724A5D9B00079B1FB /* AlertFactory.swift in Sources */,
 				663A228E249B030D0027C296 /* MessageViewController.swift in Sources */,
