@@ -33,7 +33,7 @@ final class CheckoutViewController: UIViewController {
     var title: String {
       switch self {
       case .swift: return "Swift"
-      case .objc: return "Objc"
+      case .objc: return "Objective-C"
       }
     }
   }
