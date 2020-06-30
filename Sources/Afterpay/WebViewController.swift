@@ -42,6 +42,13 @@ final class WebViewController:
 
     if #available(iOS 13.0, *) {
       overrideUserInterfaceStyle = .light
+    } else {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(
+        title: "Cancel",
+        style: .plain,
+        target: self,
+        action: #selector(presentCancelConfirmation)
+      )
     }
 
     presentationController?.delegate = self
@@ -56,21 +63,32 @@ final class WebViewController:
   func presentationControllerShouldDismiss(
     _ presentationController: UIPresentationController
   ) -> Bool {
-    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let dismiss: (UIAlertAction) -> Void = { _ in
+    presentCancelConfirmation()
+
+    return false
+  }
+
+  // MARK: Actions
+
+  @objc private func presentCancelConfirmation() {
+    let actionSheet = UIAlertController(
+      title: "Are you sure you want to cancel the payment?",
+      message: nil,
+      preferredStyle: .actionSheet
+    )
+
+    let cancelPayment: (UIAlertAction) -> Void = { _ in
       self.dismiss(animated: true) { self.completion(.cancelled) }
     }
 
     let actions = [
-      UIAlertAction(title: "Discard Payment", style: .destructive, handler: dismiss),
-      UIAlertAction(title: "Cancel", style: .cancel, handler: nil),
+      UIAlertAction(title: "Yes", style: .destructive, handler: cancelPayment),
+      UIAlertAction(title: "No", style: .cancel, handler: nil),
     ]
 
     actions.forEach(actionSheet.addAction)
 
     present(actionSheet, animated: true, completion: nil)
-
-    return false
   }
 
   // MARK: WKNavigationDelegate
