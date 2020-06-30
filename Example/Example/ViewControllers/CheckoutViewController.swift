@@ -25,8 +25,6 @@ final class CheckoutViewController: UIViewController {
     self.urlProvider = urlProvider
 
     super.init(nibName: nil, bundle: nil)
-
-    self.title = "Swift Checkout"
   }
 
   private enum Language: Int, CaseIterable {
