@@ -19,4 +19,11 @@ struct ProductDisplay {
   let subtitle: String
   let displayPrice: String
   let quantity: String
+
+  init(product: Product, quantity: UInt) {
+    title = product.name
+    subtitle = product.description
+    displayPrice = "\(product.price)"
+    self.quantity = "\(quantity)"
+  }
 }

@@ -11,10 +11,10 @@ import UIKit
 
 final class ProductsViewController: UITableViewController {
 
-  private var products: [Product]
+  private var products: [ProductDisplay]
   private let cellIdentifier = String(describing: ProductCell.self)
 
-  init(products: [Product]) {
+  init(products: [ProductDisplay]) {
     self.products = products
 
     super.init(nibName: nil, bundle: nil)

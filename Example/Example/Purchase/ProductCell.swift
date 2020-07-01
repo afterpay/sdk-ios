@@ -45,10 +45,11 @@ final class ProductCell: UITableViewCell {
     ])
   }
 
-  func configure(with product: Product) {
-    titleLabel.text = product.name
-    priceLabel.text = "\(product.price)"
-    subtitleLabel.text = product.description
+  func configure(with product: ProductDisplay) {
+    titleLabel.text = product.title
+    priceLabel.text = product.displayPrice
+    subtitleLabel.text = product.subtitle
+    quantityLabel.text = product.quantity
   }
 
   required init?(coder: NSCoder) {

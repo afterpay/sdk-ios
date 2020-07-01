@@ -39,7 +39,7 @@ final class CheckoutView: UITableView, UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = dequeueReusableCell(withIdentifier: cellIdentifier) as! ProductCell
     let product = products[indexPath.row]
-    cell.configure(with: product)
+    cell.configure(with: ProductDisplay(product: product, quantity: 0))
     return cell
   }
 
