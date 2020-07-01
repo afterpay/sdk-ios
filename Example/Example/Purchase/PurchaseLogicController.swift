@@ -21,44 +21,59 @@ final class PurchaseLogicController {
     case products
   }
 
-  private let checkoutURLProvider: CheckoutURLProvider
-  private let products: [Product] = .stub
+  private struct State {
+    let products: [Product]
+    var quantities: [UUID: UInt]
+    var screen: Screen
+    var handler: PurchaseStateHandler
 
-  var stateHandler: PurchaseStateHandler = { _ in } {
-    didSet { stateHandler(purchaseState) }
-  }
-
-  private var screen: Screen = .products
-
-  private var productQuantities: [UUID: UInt] {
-    didSet { stateHandler(purchaseState) }
-  }
-
-  private var purchaseState: PurchaseState {
-    switch screen {
-    case .products:
-      let products = self.products.map {
-        ProductDisplay(product: $0, quantity: productQuantities[$0.id] ?? 0)
-      }
-      return .browsing(products: products)
+    private var displayModels: [ProductDisplay] {
+      products.map { ProductDisplay(product: $0, quantity: quantities[$0.id] ?? 0) }
     }
+
+    func didChange() {
+      switch screen {
+      case .products:
+        handler(.browsing(products: displayModels))
+      }
+    }
+  }
+
+  var stateHandler: PurchaseStateHandler {
+    get { state.handler }
+    set { state.handler = newValue }
+  }
+
+  private let checkoutURLProvider: CheckoutURLProvider
+
+  private var state: State {
+    didSet { state.didChange() }
   }
 
   init(checkoutURLProvider: @escaping CheckoutURLProvider) {
     self.checkoutURLProvider = checkoutURLProvider
-    self.productQuantities = products.reduce(into: [UUID: UInt](), { quantities, product in
+
+    let products: [Product] = .stub
+    let quantities = products.reduce(into: [UUID: UInt](), { quantities, product in
       quantities[product.id] = 0
     })
+
+    self.state = State(
+      products: products,
+      quantities: quantities,
+      screen: .products,
+      handler: { _ in }
+    )
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
-    let quantity = productQuantities[id] ?? 0
-    productQuantities[id] = quantity == .max ? .max : quantity + 1
+    let quantity = (state.quantities[id] ?? 0)
+    state.quantities[id] = quantity == .max ? .max : quantity + 1
   }
 
   func decrementQuantityOfProduct(with id: UUID) {
-    let quantity = productQuantities[id] ?? 0
-    productQuantities[id] = quantity == 0 ? 0 : quantity - 1
+    let quantity = (state.quantities[id] ?? 0)
+    state.quantities[id] = quantity == 0 ? 0 : quantity - 1
   }
 
 }
