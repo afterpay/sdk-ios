@@ -10,9 +10,12 @@ import Foundation
 
 final class PurchaseFlowController: UIViewController {
 
+  private let logicController: PurchaseLogicController
   private let ownedNavigationController = UINavigationController()
 
-  init() {
+  init(logicController purchaseLogicController: PurchaseLogicController) {
+    logicController = purchaseLogicController
+
     super.init(nibName: nil, bundle: nil)
 
     let productViewController = ProductsViewController(
