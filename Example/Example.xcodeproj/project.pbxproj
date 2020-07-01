@@ -83,26 +83,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		660072B524A1B4EE00E9A2BC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6656288824A336CB00BEC506 /* CheckoutView.swift */,
-				660072B624A1B55E00E9A2BC /* SettingCell.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		664722A524A5D98D0079B1FB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				664722A624A5D9B00079B1FB /* AlertFactory.swift */,
 				665E6A0A24935624009E3BA1 /* Extensions.swift */,
+				663A228D249B030D0027C296 /* MessageViewController.swift */,
 				155AD16E24AB1C49000013B4 /* Model.swift */,
 				666262892496F5EB0094FC26 /* Networking.swift */,
-				6686CC4824A08E450043EF94 /* Settings.swift */,
 				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		665311BE24AC1B7B0088A063 /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				155AD17024AB2464000013B4 /* CheckoutFlowController.swift */,
+				665E6A0824935555009E3BA1 /* CheckoutViewController.swift */,
+				6656288824A336CB00BEC506 /* CheckoutView.swift */,
+			);
+			path = Checkout;
+			sourceTree = "<group>";
+		};
+		665311BF24AC1E090088A063 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				660072B624A1B55E00E9A2BC /* SettingCell.swift */,
+				6686CC4824A08E450043EF94 /* Settings.swift */,
+				66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		6656288324A32B2300BEC506 /* Objc */ = {
@@ -112,18 +123,6 @@
 				152224B024AAF7AE006E7D78 /* Objc.m */,
 			);
 			path = Objc;
-			sourceTree = "<group>";
-		};
-		666262862496F46A0094FC26 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				6620B5D124934FB3004162BC /* AppFlowController.swift */,
-				155AD17024AB2464000013B4 /* CheckoutFlowController.swift */,
-				665E6A0824935555009E3BA1 /* CheckoutViewController.swift */,
-				663A228D249B030D0027C296 /* MessageViewController.swift */,
-				66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		666262872496F48B0094FC26 /* Resources */ = {
@@ -159,12 +158,13 @@
 			isa = PBXGroup;
 			children = (
 				668F162124877F950040345C /* AppDelegate.swift */,
+				6620B5D124934FB3004162BC /* AppFlowController.swift */,
 				6656288424A32B9900BEC506 /* Example-Bridging-Header.h */,
 				668F162324877F950040345C /* SceneDelegate.swift */,
+				665311BE24AC1B7B0088A063 /* Checkout */,
 				6656288324A32B2300BEC506 /* Objc */,
+				665311BF24AC1E090088A063 /* Settings */,
 				664722A524A5D98D0079B1FB /* Shared */,
-				666262862496F46A0094FC26 /* ViewControllers */,
-				660072B524A1B4EE00E9A2BC /* Views */,
 				668F162924877F980040345C /* Preview Content */,
 				666262872496F48B0094FC26 /* Resources */,
 			);
