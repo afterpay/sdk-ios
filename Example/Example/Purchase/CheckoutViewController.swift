@@ -16,7 +16,6 @@ final class CheckoutViewController: UIViewController {
   ) -> Void
 
   private let urlProvider: URLProvider
-  private var checkoutView: CheckoutView { view as! CheckoutView }
   private var segmentedControl: UISegmentedControl {
     navigationItem.titleView as! UISegmentedControl
   }
@@ -39,7 +38,7 @@ final class CheckoutViewController: UIViewController {
   }
 
   override func loadView() {
-    view = CheckoutView()
+    view = UIView()
     navigationItem.titleView = UISegmentedControl(
       items: Language.allCases.map(\.title)
     )
@@ -51,13 +50,13 @@ final class CheckoutViewController: UIViewController {
     segmentedControl.selectedSegmentIndex = Language.swift.rawValue
     // checkoutView.payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
-    checkoutView.configure(
-      with: [
-        Product(name: "Coffee", description: "Ground 250g", price: 12.99),
-        Product(name: "Milk", description: "Full Cream 2L", price: 3.49),
-        Product(name: "Drinking Chocolate", description: "Malted 460g", price: 7.00),
-      ]
-    )
+//    checkoutView.configure(
+//      with: [
+//        Product(name: "Coffee", description: "Ground 250g", price: 12.99),
+//        Product(name: "Milk", description: "Full Cream 2L", price: 3.49),
+//        Product(name: "Drinking Chocolate", description: "Malted 460g", price: 7.00),
+//      ]
+//    )
   }
 
   // MARK: Checkout

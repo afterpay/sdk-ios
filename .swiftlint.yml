@@ -11,3 +11,6 @@ trailing_comma:
 
 indentation_width:
   indentation_width: 2
+
+identifier_name:
+  min_length: 1

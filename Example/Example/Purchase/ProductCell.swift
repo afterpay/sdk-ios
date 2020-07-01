@@ -21,12 +21,24 @@ final class ProductCell: UITableViewCell {
     titleLabel.font = .preferredFont(forTextStyle: .headline)
     priceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
-    let horizontalStack = UIStackView(
+    let titlePriceStack = UIStackView(
       arrangedSubviews: [titleLabel, priceLabel]
     )
 
+    let plusButton = UIButton(type: .system)
+    plusButton.setTitle("+", for: .normal)
+    plusButton.addTarget(self, action: #selector(didTapPlus), for: .touchUpInside)
+
+    let minusButton = UIButton(type: .system)
+    minusButton.setTitle("-", for: .normal)
+    minusButton.addTarget(self, action: #selector(didTapMinus), for: .touchUpInside)
+
+    let quantityStack = UIStackView(
+      arrangedSubviews: [UIView(), minusButton, quantityLabel, plusButton]
+    )
+
     let verticalStack = UIStackView(
-      arrangedSubviews: [horizontalStack, subtitleLabel, quantityLabel]
+      arrangedSubviews: [titlePriceStack, subtitleLabel, quantityStack]
     )
 
     verticalStack.axis = .vertical
@@ -45,13 +57,39 @@ final class ProductCell: UITableViewCell {
     ])
   }
 
-  func configure(with product: ProductDisplay) {
+  var productId = UUID()
+
+  func configure(with product: ProductDisplay, actionHandler: @escaping (Action) -> Void) {
+    productId = product.id
+
     titleLabel.text = product.title
     priceLabel.text = product.displayPrice
     subtitleLabel.text = product.subtitle
     quantityLabel.text = product.quantity
+
+    self.actionHandler = actionHandler
   }
 
+  // MARK: Actions
+
+  enum Action {
+    case didTapPlus(productId: UUID)
+    case didTapMinus(productId: UUID)
+  }
+
+  var actionHandler: (Action) -> Void = { _ in }
+
+  @objc private func didTapPlus() {
+    actionHandler(.didTapPlus(productId: productId))
+  }
+
+  @objc private func didTapMinus() {
+    actionHandler(.didTapMinus(productId: productId))
+  }
+
+  // MARK: Unavailable
+
+  @available(*, unavailable)
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }

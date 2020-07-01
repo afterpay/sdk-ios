@@ -34,7 +34,7 @@ final class ProductsViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProductCell
     let product = products[indexPath.row]
-    cell.configure(with: product)
+    cell.configure(with: product) { _ in }
     return cell
   }
 
