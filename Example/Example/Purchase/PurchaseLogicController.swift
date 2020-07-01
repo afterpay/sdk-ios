@@ -15,17 +15,22 @@ final class PurchaseLogicController {
     _ completion: @escaping (Result<URL, Error>) -> Void
   ) -> Void
 
-  typealias StateHandler = (PurchaseState) -> Void
+  typealias PurchaseStateHandler = (PurchaseState) -> Void
 
   private struct State {
     var current: PurchaseState { purchaseState }
-    var handler: StateHandler = { _ in }
 
     private var purchaseState: PurchaseState = .initial
+    private var handler: PurchaseStateHandler = { _ in }
 
     mutating func update(state: PurchaseState) {
       purchaseState = state
       handler(state)
+    }
+
+    mutating func set(handler: @escaping PurchaseStateHandler) {
+      handler(purchaseState)
+      self.handler = handler
     }
   }
 
@@ -36,9 +41,8 @@ final class PurchaseLogicController {
     self.checkoutURLProvider = checkoutURLProvider
   }
 
-  func setStateHandler(stateHandler: @escaping StateHandler) {
-    stateHandler(state.current)
-    state.handler = stateHandler
+  func setStateHandler(stateHandler: @escaping PurchaseStateHandler) {
+    state.set(handler: stateHandler)
   }
 
 }
