@@ -20,8 +20,11 @@ final class PurchaseFlowController: UIViewController {
 
     let productViewController = ProductsViewController { event in
       switch event {
-      case .productEvent(let productEvent):
-        print(productEvent)
+      case .productEvent(.didTapPlus(let productId)):
+        purchaseLogicController.incrementQuantityOfProduct(with: productId)
+
+      case .productEvent(.didTapMinus(let productId)):
+        purchaseLogicController.decrementQuantityOfProduct(with: productId)
       }
     }
 
