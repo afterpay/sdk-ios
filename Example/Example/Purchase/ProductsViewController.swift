@@ -13,8 +13,15 @@ final class ProductsViewController: UITableViewController {
 
   private var products: [ProductDisplay] = []
   private let cellIdentifier = String(describing: ProductCell.self)
+  private let eventHandler: (Event) -> Void
 
-  init() {
+  enum Event {
+    case productEvent(ProductCell.Event)
+  }
+
+  init(eventHandler: @escaping (Event) -> Void) {
+    self.eventHandler = eventHandler
+
     super.init(nibName: nil, bundle: nil)
 
     tableView.register(ProductCell.self, forCellReuseIdentifier: cellIdentifier)
@@ -34,7 +41,7 @@ final class ProductsViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProductCell
     let product = products[indexPath.row]
-    cell.configure(with: product) { _ in }
+    cell.configure(with: product) { [unowned self] in self.eventHandler(.productEvent($0)) }
     return cell
   }
 

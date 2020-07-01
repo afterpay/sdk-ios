@@ -18,7 +18,12 @@ final class PurchaseFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let productViewController = ProductsViewController()
+    let productViewController = ProductsViewController { event in
+      switch event {
+      case .productEvent(let productEvent):
+        print(productEvent)
+      }
+    }
 
     logicController.setStateHandler { state in
       switch state {

@@ -59,7 +59,7 @@ final class ProductCell: UITableViewCell {
 
   var productId = UUID()
 
-  func configure(with product: ProductDisplay, actionHandler: @escaping (Action) -> Void) {
+  func configure(with product: ProductDisplay, eventHandler: @escaping (Event) -> Void) {
     productId = product.id
 
     titleLabel.text = product.title
@@ -67,24 +67,24 @@ final class ProductCell: UITableViewCell {
     subtitleLabel.text = product.subtitle
     quantityLabel.text = product.quantity
 
-    self.actionHandler = actionHandler
+    self.eventHandler = eventHandler
   }
 
   // MARK: Actions
 
-  enum Action {
+  enum Event {
     case didTapPlus(productId: UUID)
     case didTapMinus(productId: UUID)
   }
 
-  var actionHandler: (Action) -> Void = { _ in }
+  var eventHandler: (Event) -> Void = { _ in }
 
   @objc private func didTapPlus() {
-    actionHandler(.didTapPlus(productId: productId))
+    eventHandler(.didTapPlus(productId: productId))
   }
 
   @objc private func didTapMinus() {
-    actionHandler(.didTapMinus(productId: productId))
+    eventHandler(.didTapMinus(productId: productId))
   }
 
   // MARK: Unavailable
