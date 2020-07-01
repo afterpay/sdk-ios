@@ -18,13 +18,14 @@ final class PurchaseFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let productViewController = ProductsViewController(
-      products: [
-        Product(name: "Coffee", description: "Ground 250g", price: 12.99),
-        Product(name: "Milk", description: "Full Cream 2L", price: 3.49),
-        Product(name: "Drinking Chocolate", description: "Malted 460g", price: 7.00),
-      ].map { ProductDisplay(product: $0, quantity: 0) }
-    )
+    let productViewController = ProductsViewController()
+
+    logicController.setStateHandler { state in
+      switch state {
+      case .browsing(let products):
+        productViewController.update(products: products)
+      }
+    }
 
     ownedNavigationController.setViewControllers([productViewController], animated: false)
   }

@@ -11,15 +11,18 @@ import UIKit
 
 final class ProductsViewController: UITableViewController {
 
-  private var products: [ProductDisplay]
+  private var products: [ProductDisplay] = []
   private let cellIdentifier = String(describing: ProductCell.self)
 
-  init(products: [ProductDisplay]) {
-    self.products = products
-
+  init() {
     super.init(nibName: nil, bundle: nil)
 
     tableView.register(ProductCell.self, forCellReuseIdentifier: cellIdentifier)
+  }
+
+  func update(products: [ProductDisplay]) {
+    self.products = products
+    tableView.reloadData()
   }
 
   // MARK: UITableViewDataSource

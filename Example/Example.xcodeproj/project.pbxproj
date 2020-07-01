@@ -27,6 +27,7 @@
 		668F162E24877F980040345C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 668F162C24877F980040345C /* LaunchScreen.storyboard */; };
 		66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */; };
 		66E6FDA624AC377D00ED81E8 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA524AC377D00ED81E8 /* Product.swift */; };
+		66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */; };
 		66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D8B924A0415700F65621 /* WindowHolder.swift */; };
 		66F2D8BC24A06E3300F65621 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */; };
 		66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; };
@@ -72,6 +73,7 @@
 		668F162F24877F980040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseLogicController.swift; sourceTree = "<group>"; };
 		66E6FDA524AC377D00ED81E8 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseState.swift; sourceTree = "<group>"; };
 		66F2D8B924A0415700F65621 /* WindowHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHolder.swift; sourceTree = "<group>"; };
 		66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		66F9767724999F5C001D38FA /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,11 +108,12 @@
 			children = (
 				6656288824A336CB00BEC506 /* CheckoutView.swift */,
 				665E6A0824935555009E3BA1 /* CheckoutViewController.swift */,
+				66E6FDA524AC377D00ED81E8 /* Product.swift */,
 				665311C224AC23D10088A063 /* ProductCell.swift */,
 				665311C024AC22A10088A063 /* ProductsViewController.swift */,
 				155AD17024AB2464000013B4 /* PurchaseFlowController.swift */,
 				66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */,
-				66E6FDA524AC377D00ED81E8 /* Product.swift */,
+				66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */,
 			);
 			path = Purchase;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				665311C124AC22A10088A063 /* ProductsViewController.swift in Sources */,
 				663A228E249B030D0027C296 /* MessageViewController.swift in Sources */,
 				668F162224877F950040345C /* AppDelegate.swift in Sources */,
+				66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */,
 				66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */,
 				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
 				660072B724A1B55E00E9A2BC /* SettingCell.swift in Sources */,

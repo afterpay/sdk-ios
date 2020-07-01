@@ -15,10 +15,30 @@ final class PurchaseLogicController {
     _ completion: @escaping (Result<URL, Error>) -> Void
   ) -> Void
 
+  typealias StateHandler = (PurchaseState) -> Void
+
+  private struct State {
+    var current: PurchaseState { purchaseState }
+    var handler: StateHandler = { _ in }
+
+    private var purchaseState: PurchaseState = .initial
+
+    mutating func update(state: PurchaseState) {
+      purchaseState = state
+      handler(state)
+    }
+  }
+
   private let checkoutURLProvider: CheckoutURLProvider
+  private var state = State()
 
   init(checkoutURLProvider: @escaping CheckoutURLProvider) {
     self.checkoutURLProvider = checkoutURLProvider
+  }
+
+  func setStateHandler(stateHandler: @escaping StateHandler) {
+    stateHandler(state.current)
+    state.handler = stateHandler
   }
 
 }
