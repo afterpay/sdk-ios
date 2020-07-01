@@ -14,6 +14,16 @@ final class CheckoutFlowController: UIViewController {
 
   init() {
     super.init(nibName: nil, bundle: nil)
+
+    let productViewController = ProductsViewController(
+      products: [
+        Product(name: "Coffee", description: "Ground 250g", price: 12.99),
+        Product(name: "Milk", description: "Full Cream 2L", price: 3.49),
+        Product(name: "Drinking Chocolate", description: "Malted 460g", price: 7.00),
+      ]
+    )
+
+    ownedNavigationController.setViewControllers([productViewController], animated: false)
   }
 
   override func loadView() {
