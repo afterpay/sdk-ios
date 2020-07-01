@@ -9,13 +9,15 @@
 import Foundation
 import UIKit
 
-final class ProductsViewController: UITableViewController {
+final class ProductsViewController: UIViewController, UITableViewDataSource {
 
+  private var tableView: UITableView!
   private var products: [ProductDisplay] = []
   private let cellIdentifier = String(describing: ProductCell.self)
   private let eventHandler: (Event) -> Void
 
   enum Event {
+    case viewCart
     case productEvent(ProductCell.Event)
   }
 
@@ -24,21 +26,68 @@ final class ProductsViewController: UITableViewController {
 
     super.init(nibName: nil, bundle: nil)
 
+    self.title = "Products"
+  }
+
+  override func loadView() {
+    view = UIView()
+
+    if #available(iOS 13.0, *) {
+      view.backgroundColor = .systemBackground
+    } else {
+      view.backgroundColor = .white
+    }
+
+    tableView = UITableView()
+    tableView.dataSource = self
+    tableView.allowsSelection = false
+    tableView.delaysContentTouches = false
+    tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(ProductCell.self, forCellReuseIdentifier: cellIdentifier)
+
+    let cartButton = UIButton(type: .system)
+    cartButton.backgroundColor = .systemBlue
+    cartButton.setTitle("View Cart", for: .normal)
+    cartButton.setTitleColor(.white, for: .normal)
+    cartButton.translatesAutoresizingMaskIntoConstraints = false
+    cartButton.titleLabel?.font = .preferredFont(forTextStyle: .title2)
+    cartButton.addTarget(self, action: #selector(didTapViewCart), for: .touchUpInside)
+
+    view.addSubview(tableView)
+    view.addSubview(cartButton)
+
+    NSLayoutConstraint.activate([
+      tableView.topAnchor.constraint(equalTo: view.topAnchor),
+      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: cartButton.topAnchor),
+      cartButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      cartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      cartButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
+    ])
   }
 
   func update(products: [ProductDisplay]) {
     self.products = products
-    tableView.reloadData()
+
+    if isViewLoaded {
+      tableView.reloadData()
+    }
+  }
+
+  // MARK: Actions
+
+  @objc private func didTapViewCart() {
+    eventHandler(.viewCart)
   }
 
   // MARK: UITableViewDataSource
 
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     products.count
   }
 
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProductCell
     let product = products[indexPath.row]
     cell.configure(with: product) { [unowned self] in self.eventHandler(.productEvent($0)) }
