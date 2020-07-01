@@ -11,20 +11,13 @@ import UIKit
 
 final class AppFlowController: UIViewController {
 
-  typealias URLProvider = (
-    _ email: String,
-    _ completion: @escaping (Result<URL, Error>) -> Void
-  ) -> Void
-
-  private let checkoutUrlProvider: URLProvider
   private let ownedTabBarController = UITabBarController()
 
-  init(checkoutUrlProvider: @escaping URLProvider) {
-    self.checkoutUrlProvider = checkoutUrlProvider
-
+  init() {
     super.init(nibName: nil, bundle: nil)
 
-    let purchaseFlowController = PurchaseFlowController(logicController: PurchaseLogicController())
+    let purchaseLogicController = PurchaseLogicController(checkoutURLProvider: checkout)
+    let purchaseFlowController = PurchaseFlowController(logicController: purchaseLogicController)
     let purchaseImage = UIImage(named: "for-you")
     let checkoutTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
     purchaseFlowController.tabBarItem = checkoutTabBarItem

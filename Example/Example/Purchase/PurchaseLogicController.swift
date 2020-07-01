@@ -10,4 +10,15 @@ import Foundation
 
 final class PurchaseLogicController {
 
+  typealias CheckoutURLProvider = (
+    _ email: String,
+    _ completion: @escaping (Result<URL, Error>) -> Void
+  ) -> Void
+
+  private let checkoutURLProvider: CheckoutURLProvider
+
+  init(checkoutURLProvider: @escaping CheckoutURLProvider) {
+    self.checkoutURLProvider = checkoutURLProvider
+  }
+
 }
