@@ -28,7 +28,7 @@ final class PurchaseFlowController: UIViewController {
       }
     }
 
-    logicController.setStateHandler { state in
+    logicController.stateHandler = { state in
       switch state {
       case .browsing(let products):
         productViewController.update(products: products)

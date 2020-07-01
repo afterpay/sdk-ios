@@ -17,14 +17,31 @@ final class PurchaseLogicController {
 
   typealias PurchaseStateHandler = (PurchaseState) -> Void
 
+  private enum Screen {
+    case products
+  }
+
   private let checkoutURLProvider: CheckoutURLProvider
   private let products: [Product] = .stub
 
-  private var productQuantities: [UUID: UInt]
-  private var stateHandler: PurchaseStateHandler = { _ in }
+  var stateHandler: PurchaseStateHandler = { _ in } {
+    didSet { stateHandler(purchaseState) }
+  }
 
-  private var productDisplayModels: [ProductDisplay] {
-    products.map { ProductDisplay(product: $0, quantity: productQuantities[$0.id] ?? 0) }
+  private var screen: Screen = .products
+
+  private var productQuantities: [UUID: UInt] {
+    didSet { stateHandler(purchaseState) }
+  }
+
+  private var purchaseState: PurchaseState {
+    switch screen {
+    case .products:
+      let products = self.products.map {
+        ProductDisplay(product: $0, quantity: productQuantities[$0.id] ?? 0)
+      }
+      return .browsing(products: products)
+    }
   }
 
   init(checkoutURLProvider: @escaping CheckoutURLProvider) {
@@ -34,21 +51,14 @@ final class PurchaseLogicController {
     })
   }
 
-  func setStateHandler(stateHandler: @escaping PurchaseStateHandler) {
-    self.stateHandler = stateHandler
-    stateHandler(.browsing(products: productDisplayModels))
-  }
-
   func incrementQuantityOfProduct(with id: UUID) {
     let quantity = productQuantities[id] ?? 0
     productQuantities[id] = quantity == .max ? .max : quantity + 1
-    stateHandler(.browsing(products: productDisplayModels))
   }
 
   func decrementQuantityOfProduct(with id: UUID) {
     let quantity = productQuantities[id] ?? 0
     productQuantities[id] = quantity == 0 ? 0 : quantity - 1
-    stateHandler(.browsing(products: productDisplayModels))
   }
 
 }
