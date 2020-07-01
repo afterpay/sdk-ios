@@ -27,20 +27,8 @@ final class AppFlowController: UIViewController {
     let checkoutViewController = CheckoutViewController { checkoutUrlProvider(Settings.email, $0) }
     let checkoutNavigationController = UINavigationController(rootViewController: checkoutViewController)
     let checkoutImage = UIImage(named: "for-you")
-    let checkoutTabBarItem = UITabBarItem(title: "Swift Checkout", image: checkoutImage, selectedImage: nil)
+    let checkoutTabBarItem = UITabBarItem(title: "Checkout", image: checkoutImage, selectedImage: nil)
     checkoutNavigationController.tabBarItem = checkoutTabBarItem
-
-    let objcCheckoutViewController = ObjcCheckoutViewController { callback in
-      checkoutUrlProvider(Settings.email) { result in
-        switch result {
-        case .success(let url): callback(url, nil)
-        case .failure(let error): callback(nil, error)
-        }
-      }
-    }
-    let objcCheckoutNavigationController = UINavigationController(rootViewController: objcCheckoutViewController)
-    let objcCheckoutTabBarItem = UITabBarItem(title: "Objc Checkout", image: checkoutImage, selectedImage: nil)
-    objcCheckoutNavigationController.tabBarItem = objcCheckoutTabBarItem
 
     let settings = [Settings.$email, Settings.$host, Settings.$port]
     let settingsViewController = SettingsViewController(settings: settings)
@@ -49,11 +37,7 @@ final class AppFlowController: UIViewController {
     let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
     settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    let viewControllers = [
-      checkoutNavigationController,
-      objcCheckoutNavigationController,
-      settingsNavigationController,
-    ]
+    let viewControllers = [checkoutNavigationController, settingsNavigationController]
 
     ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }

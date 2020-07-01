@@ -47,16 +47,16 @@ public final class AfterpayWrapper: NSObject {
     init(_ cancel: ()) {}
   }
 
-  @objc(presentCheckoutModallyOverViewController:loadingURL:animated:completion:)
+  @objc(presentCheckoutModallyOverViewController:loadingCheckoutURL:animated:completion:)
   public static func presentCheckoutModally(
     over viewController: UIViewController,
-    loading url: URL,
+    loading checkoutURL: URL,
     animated: Bool,
     completion: @escaping (CheckoutResult) -> Void
   ) {
     Afterpay.presentCheckoutModally(
       over: viewController,
-      loading: url,
+      loading: checkoutURL,
       animated: animated,
       completion: { result in
         switch result {

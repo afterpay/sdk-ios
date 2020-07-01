@@ -17,30 +17,68 @@ final class CheckoutViewController: UIViewController {
 
   private let urlProvider: URLProvider
   private var checkoutView: CheckoutView { view as! CheckoutView }
+  private var segmentedControl: UISegmentedControl {
+    navigationItem.titleView as! UISegmentedControl
+  }
 
   init(urlProvider: @escaping URLProvider) {
     self.urlProvider = urlProvider
 
     super.init(nibName: nil, bundle: nil)
+  }
 
-    self.title = "Swift Checkout"
+  private enum Language: Int, CaseIterable {
+    case swift, objc
+
+    var title: String {
+      switch self {
+      case .swift: return "Swift"
+      case .objc: return "Objective-C"
+      }
+    }
   }
 
   override func loadView() {
     view = CheckoutView()
+    navigationItem.titleView = UISegmentedControl(
+      items: Language.allCases.map(\.title)
+    )
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    segmentedControl.selectedSegmentIndex = Language.swift.rawValue
     checkoutView.payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
   }
 
   // MARK: Checkout
 
   @objc private func didTapPay() {
-    let presentCheckout = { [unowned self] url in
-      Afterpay.presentCheckoutModally(over: self, loading: url, completion: { _ in })
+    let successHandler = { [unowned self] token in
+      self.show(MessageViewController(message: token), sender: self)
+    }
+
+    let completion = { (result: CheckoutResult) in
+      switch result {
+      case .success(let token): successHandler(token)
+      case .cancelled: break
+      }
+    }
+
+    let presentCheckout = { [unowned self] (checkoutUrl: URL) in
+      let language = Language(rawValue: self.segmentedControl.selectedSegmentIndex)
+
+      switch language {
+      case .swift:
+        Afterpay.presentCheckoutModally(over: self, loading: checkoutUrl, completion: completion)
+
+      case .objc:
+        Objc.presentCheckoutModally(over: self, loading: checkoutUrl, successHandler: successHandler)
+
+      default:
+        break
+      }
     }
 
     let presentError = { [unowned self] (error: Error) in
