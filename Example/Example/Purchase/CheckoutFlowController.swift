@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class CheckoutFlowController: UIViewController {
+final class PurchaseFlowController: UIViewController {
 
   private let ownedNavigationController = UINavigationController()
 

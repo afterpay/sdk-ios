@@ -24,10 +24,10 @@ final class AppFlowController: UIViewController {
 
     super.init(nibName: nil, bundle: nil)
 
-    let checkoutFlowController = CheckoutFlowController()
-    let checkoutImage = UIImage(named: "for-you")
-    let checkoutTabBarItem = UITabBarItem(title: "Checkout", image: checkoutImage, selectedImage: nil)
-    checkoutFlowController.tabBarItem = checkoutTabBarItem
+    let purchaseFlowController = PurchaseFlowController()
+    let purchaseImage = UIImage(named: "for-you")
+    let checkoutTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
+    purchaseFlowController.tabBarItem = checkoutTabBarItem
 
     let settings = [Settings.$email, Settings.$host, Settings.$port]
     let settingsViewController = SettingsViewController(settings: settings)
@@ -36,7 +36,7 @@ final class AppFlowController: UIViewController {
     let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
     settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    let viewControllers = [checkoutFlowController, settingsNavigationController]
+    let viewControllers = [purchaseFlowController, settingsNavigationController]
 
     ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }
