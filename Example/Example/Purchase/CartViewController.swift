@@ -72,6 +72,10 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   private enum Section: Int, CaseIterable {
     case products, total
+
+    static func from(section: Int) -> Section {
+      Section(rawValue: section)!
+    }
   }
 
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -79,9 +83,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let section: Section = section == 0 ? .products : .total
-
-    switch section {
+    switch Section.from(section: section) {
     case .products:
       return cart.products.count
     case .total:
@@ -90,10 +92,9 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let section: Section = indexPath.section == 0 ? .products : .total
     let cell: UITableViewCell
 
-    switch section {
+    switch Section.from(section: indexPath.section) {
     case .products:
       let productCell = tableView.dequeueReusableCell(
         withIdentifier: productCellIdentifier,
