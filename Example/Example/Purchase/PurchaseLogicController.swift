@@ -29,23 +29,26 @@ final class PurchaseLogicController {
     var handler: PurchaseStateHandler
 
     func didChange() {
+      let state: PurchaseState
+
       switch screen {
       case .products:
-        handler(.browsing(products: displayModels(editable: true)))
-      case .cart:
-        handler(.viewing(cart: displayModels(editable: false)))
-      }
-    }
-
-    private func displayModels(editable: Bool) -> [ProductDisplay] {
-      products.map {
-        ProductDisplay(
-          product: $0,
-          quantity: quantities[$0.id] ?? 0,
+        let productDisplayModels = [ProductDisplay](
+          products: products,
+          quantities: quantities,
           currencyCode: Settings.currencyCode,
-          editable: editable
-        )
+          editable: true)
+        state = .browsing(products: productDisplayModels)
+
+      case .cart:
+        let cart = CartDisplay(
+          products: products,
+          quantities: quantities,
+          currencyCode: Settings.currencyCode)
+        state = .viewing(cart: cart)
       }
+
+      handler(state)
     }
   }
 

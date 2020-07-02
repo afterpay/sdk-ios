@@ -11,11 +11,11 @@ import Foundation
 final class CartViewController: UIViewController, UITableViewDataSource {
 
   private var tableView: UITableView!
-  private let products: [ProductDisplay]
+  private let cart: CartDisplay
   private let cellIdentifier = String(describing: ProductCell.self)
 
-  init(products: [ProductDisplay]) {
-    self.products = products
+  init(cart: CartDisplay) {
+    self.cart = cart
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -66,12 +66,12 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: UITableViewDataSource
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    products.count
+    cart.products.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProductCell
-    let product = products[indexPath.row]
+    let product = cart.products[indexPath.row]
     cell.configure(with: product) { _ in }
     return cell
   }

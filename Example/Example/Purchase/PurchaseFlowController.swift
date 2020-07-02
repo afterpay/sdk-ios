@@ -49,7 +49,7 @@ final class PurchaseFlowController: UIViewController {
       case .browsing(let products):
         self.productsViewController.update(products: products)
       case .viewing(let cart):
-        let cartViewController = CartViewController(products: cart)
+        let cartViewController = CartViewController(cart: cart)
         self.ownedNavigationController.pushViewController(cartViewController, animated: true)
       }
     }

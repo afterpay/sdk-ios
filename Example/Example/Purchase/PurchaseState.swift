@@ -10,5 +10,5 @@ import Foundation
 
 enum PurchaseState {
   case browsing(products: [ProductDisplay])
-  case viewing(cart: [ProductDisplay])
+  case viewing(cart: CartDisplay)
 }
