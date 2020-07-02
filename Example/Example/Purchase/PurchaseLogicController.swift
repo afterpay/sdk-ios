@@ -89,6 +89,10 @@ final class PurchaseLogicController {
     state.quantities[id] = quantity == 0 ? 0 : quantity - 1
   }
 
+  func viewProducts() {
+    state.screen = .products
+  }
+
   func viewCart() {
     state.screen = .cart
   }

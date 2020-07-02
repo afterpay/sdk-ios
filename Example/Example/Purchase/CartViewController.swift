@@ -12,12 +12,15 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   private var tableView: UITableView!
   private let cart: CartDisplay
-  private let cellIdentifier = String(describing: ProductCell.self)
+  private let productCellIdentifier = String(describing: ProductCell.self)
+  private let totalPriceCellIdentifier = String(describing: TotalPriceCell.self)
 
   init(cart: CartDisplay) {
     self.cart = cart
 
     super.init(nibName: nil, bundle: nil)
+
+    self.title = "Cart"
   }
 
   override func loadView() {
@@ -32,9 +35,11 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView = UITableView()
     tableView.dataSource = self
     tableView.allowsSelection = false
+    tableView.tableFooterView = UIView()
     tableView.delaysContentTouches = false
     tableView.translatesAutoresizingMaskIntoConstraints = false
-    tableView.register(ProductCell.self, forCellReuseIdentifier: cellIdentifier)
+    tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
+    tableView.register(TotalPriceCell.self, forCellReuseIdentifier: totalPriceCellIdentifier)
 
     let payButton = UIButton(type: .system)
     payButton.backgroundColor = .systemBlue
@@ -65,14 +70,45 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   // MARK: UITableViewDataSource
 
+  private enum Section: Int, CaseIterable {
+    case products, total
+  }
+
+  func numberOfSections(in tableView: UITableView) -> Int {
+    Section.allCases.count
+  }
+
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    cart.products.count
+    let section: Section = section == 0 ? .products : .total
+
+    switch section {
+    case .products:
+      return cart.products.count
+    case .total:
+      return 1
+    }
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProductCell
-    let product = cart.products[indexPath.row]
-    cell.configure(with: product) { _ in }
+    let section: Section = indexPath.section == 0 ? .products : .total
+    let cell: UITableViewCell
+
+    switch section {
+    case .products:
+      let productCell = tableView.dequeueReusableCell(
+        withIdentifier: productCellIdentifier,
+        for: indexPath) as! ProductCell
+      productCell.configure(with: cart.products[indexPath.row])
+      cell = productCell
+
+    case .total:
+      let totalPriceCell = tableView.dequeueReusableCell(
+        withIdentifier: totalPriceCellIdentifier,
+        for: indexPath) as! TotalPriceCell
+      totalPriceCell.configure(with: cart.displayTotal)
+      cell = totalPriceCell
+    }
+
     return cell
   }
 
