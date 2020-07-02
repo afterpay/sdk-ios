@@ -13,26 +13,35 @@ struct Product {
   let name: String
   let description: String
   let price: Decimal
+  let currencyCode: String
 }
 
 extension Collection where Element == Product {
   static var stub: [Product] {
     [
-      Product(name: "Coffee", description: "Ground 250g", price: Decimal(string: "12.99")!),
-      Product(name: "Milk", description: "Full Cream 2L", price: Decimal(string: "3.49")!),
-      Product(name: "Drinking Chocolate", description: "Malted 460g", price: Decimal(string: "7.00")!),
+      Product(
+        name: "Coffee",
+        description: "Ground 250g",
+        price: Decimal(string: "12.99")!,
+        currencyCode: "AUD"
+      ),
+      Product(
+        name: "Milk",
+        description: "Full Cream 2L",
+        price: Decimal(string: "3.49")!,
+        currencyCode: "AUD"
+      ),
+      Product(
+        name: "Drinking Chocolate",
+        description: "Malted 460g",
+        price: Decimal(string: "7.00")!,
+        currencyCode: "AUD"
+      ),
     ]
   }
 }
 
 struct ProductDisplay {
-  private static let formatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    // TODO: Make currency code a part of product to format correctly
-    formatter.locale = .current
-    return formatter
-  }()
 
   let id: UUID
   let title: String
@@ -40,11 +49,20 @@ struct ProductDisplay {
   let displayPrice: String
   let quantity: String
 
+  private static let formatter = NumberFormatter()
+
   init(product: Product, quantity: UInt) {
     id = product.id
     title = product.name
     subtitle = product.description
-    displayPrice = Self.formatter.string(from: product.price as NSDecimalNumber) ?? ""
+
+    let formatter = Self.formatter
+    formatter.currencyCode = product.currencyCode
+    let currencyCode = Locale.current.currencyCode
+    formatter.numberStyle = currencyCode == product.currencyCode ? .currency : .currencyISOCode
+    displayPrice = formatter.string(from: product.price as NSDecimalNumber) ?? ""
+
     self.quantity = "\(quantity)"
   }
+
 }
