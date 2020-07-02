@@ -44,10 +44,11 @@ struct ProductDisplay {
   let subtitle: String
   let displayPrice: String
   let quantity: String
+  let isEditable: Bool
 
   private static let formatter = NumberFormatter()
 
-  init(product: Product, quantity: UInt, currencyCode: String) {
+  init(product: Product, quantity: UInt, currencyCode: String, isEditable: Bool) {
     id = product.id
     title = product.name
     subtitle = product.description
@@ -59,6 +60,7 @@ struct ProductDisplay {
     displayPrice = formatter.string(from: product.price as NSDecimalNumber) ?? ""
 
     self.quantity = "\(quantity)"
+    self.isEditable = isEditable
   }
 
 }

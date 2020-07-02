@@ -32,7 +32,8 @@ final class PurchaseLogicController {
         ProductDisplay(
           product: $0,
           quantity: quantities[$0.id] ?? 0,
-          currencyCode: Settings.currencyCode
+          currencyCode: Settings.currencyCode,
+          isEditable: true
         )
       }
     }

@@ -14,6 +14,8 @@ final class ProductCell: UITableViewCell {
   private let subtitleLabel = UILabel()
   private let priceLabel = UILabel()
   private let quantityLabel = UILabel()
+  private let plusButton = UIButton(type: .system)
+  private let minusButton = UIButton(type: .system)
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,11 +27,9 @@ final class ProductCell: UITableViewCell {
       arrangedSubviews: [titleLabel, priceLabel]
     )
 
-    let plusButton = UIButton(type: .system)
     plusButton.setTitle("+", for: .normal)
     plusButton.addTarget(self, action: #selector(didTapPlus), for: .touchUpInside)
 
-    let minusButton = UIButton(type: .system)
     minusButton.setTitle("-", for: .normal)
     minusButton.addTarget(self, action: #selector(didTapMinus), for: .touchUpInside)
 
@@ -59,15 +59,19 @@ final class ProductCell: UITableViewCell {
 
   var productId = UUID()
 
-  func configure(with product: ProductDisplay, eventHandler: @escaping (Event) -> Void) {
+  func configure(with product: ProductDisplay, eventHandler: ((Event) -> Void)? = nil) {
     productId = product.id
 
     titleLabel.text = product.title
     priceLabel.text = product.displayPrice
     subtitleLabel.text = product.subtitle
     quantityLabel.text = product.quantity
+    plusButton.isHidden = !product.isEditable
+    minusButton.isHidden = !product.isEditable
 
-    self.eventHandler = eventHandler
+    if let eventHandler = eventHandler {
+      self.eventHandler = eventHandler
+    }
   }
 
   // MARK: Actions
