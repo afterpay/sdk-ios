@@ -15,7 +15,7 @@ protocol WindowHolder: AnyObject {
 
 extension WindowHolder {
   func install(window: UIWindow) {
-    window.rootViewController = AppFlowController(checkoutUrlProvider: checkout)
+    window.rootViewController = AppFlowController()
     window.makeKeyAndVisible()
 
     self.window = window

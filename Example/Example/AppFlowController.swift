@@ -11,24 +11,16 @@ import UIKit
 
 final class AppFlowController: UIViewController {
 
-  typealias URLProvider = (
-    _ email: String,
-    _ completion: @escaping (Result<URL, Error>) -> Void
-  ) -> Void
-
-  private let checkoutUrlProvider: URLProvider
   private let ownedTabBarController = UITabBarController()
 
-  init(checkoutUrlProvider: @escaping URLProvider) {
-    self.checkoutUrlProvider = checkoutUrlProvider
-
+  init() {
     super.init(nibName: nil, bundle: nil)
 
-    let checkoutViewController = CheckoutViewController { checkoutUrlProvider(Settings.email, $0) }
-    let checkoutNavigationController = UINavigationController(rootViewController: checkoutViewController)
-    let checkoutImage = UIImage(named: "for-you")
-    let checkoutTabBarItem = UITabBarItem(title: "Checkout", image: checkoutImage, selectedImage: nil)
-    checkoutNavigationController.tabBarItem = checkoutTabBarItem
+    let purchaseLogicController = PurchaseLogicController(checkoutURLProvider: checkout)
+    let purchaseFlowController = PurchaseFlowController(logicController: purchaseLogicController)
+    let purchaseImage = UIImage(named: "for-you")
+    let checkoutTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
+    purchaseFlowController.tabBarItem = checkoutTabBarItem
 
     let settings = [Settings.$email, Settings.$host, Settings.$port]
     let settingsViewController = SettingsViewController(settings: settings)
@@ -37,7 +29,7 @@ final class AppFlowController: UIViewController {
     let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
     settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    let viewControllers = [checkoutNavigationController, settingsNavigationController]
+    let viewControllers = [purchaseFlowController, settingsNavigationController]
 
     ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }
