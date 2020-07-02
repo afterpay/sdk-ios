@@ -18,25 +18,47 @@ struct Product {
 extension Collection where Element == Product {
   static var stub: [Product] {
     [
-      Product(name: "Coffee", description: "Ground 250g", price: 12.99),
-      Product(name: "Milk", description: "Full Cream 2L", price: 3.49),
-      Product(name: "Drinking Chocolate", description: "Malted 460g", price: 7.00),
+      Product(
+        name: "Coffee",
+        description: "Ground 250g",
+        price: Decimal(string: "12.99")!
+      ),
+      Product(
+        name: "Milk",
+        description: "Full Cream 2L",
+        price: Decimal(string: "3.49")!
+      ),
+      Product(
+        name: "Drinking Chocolate",
+        description: "Malted 460g",
+        price: Decimal(string: "7.00")!
+      ),
     ]
   }
 }
 
 struct ProductDisplay {
+
   let id: UUID
   let title: String
   let subtitle: String
   let displayPrice: String
   let quantity: String
 
-  init(product: Product, quantity: UInt) {
+  private static let formatter = NumberFormatter()
+
+  init(product: Product, quantity: UInt, currencyCode: String) {
     id = product.id
     title = product.name
     subtitle = product.description
-    displayPrice = "\(product.price)"
+
+    let formatter = Self.formatter
+    formatter.currencyCode = currencyCode
+    let localCurrencyCode = Locale.current.currencyCode
+    formatter.numberStyle = localCurrencyCode == currencyCode ? .currency : .currencyISOCode
+    displayPrice = formatter.string(from: product.price as NSDecimalNumber) ?? ""
+
     self.quantity = "\(quantity)"
   }
+
 }
