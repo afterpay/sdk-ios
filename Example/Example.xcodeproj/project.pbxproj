@@ -23,6 +23,7 @@
 		668F162824877F980040345C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668F162724877F980040345C /* Assets.xcassets */; };
 		668F162B24877F980040345C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668F162A24877F980040345C /* Preview Assets.xcassets */; };
 		668F162E24877F980040345C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 668F162C24877F980040345C /* LaunchScreen.storyboard */; };
+		66BD11AE24ADA94800039DA6 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BD11AD24ADA94800039DA6 /* CartViewController.swift */; };
 		66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */; };
 		66E6FDA624AC377D00ED81E8 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA524AC377D00ED81E8 /* Product.swift */; };
 		66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */; };
@@ -67,6 +68,7 @@
 		668F162A24877F980040345C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		668F162D24877F980040345C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		668F162F24877F980040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66BD11AD24ADA94800039DA6 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseLogicController.swift; sourceTree = "<group>"; };
 		66E6FDA524AC377D00ED81E8 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseState.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		665311BE24AC1B7B0088A063 /* Purchase */ = {
 			isa = PBXGroup;
 			children = (
+				66BD11AD24ADA94800039DA6 /* CartViewController.swift */,
 				66E6FDA524AC377D00ED81E8 /* Product.swift */,
 				665311C224AC23D10088A063 /* ProductCell.swift */,
 				665311C024AC22A10088A063 /* ProductsViewController.swift */,
@@ -299,6 +302,7 @@
 				66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */,
 				66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */,
 				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
+				66BD11AE24ADA94800039DA6 /* CartViewController.swift in Sources */,
 				660072B724A1B55E00E9A2BC /* SettingCell.swift in Sources */,
 				668F162424877F950040345C /* SceneDelegate.swift in Sources */,
 				155AD17124AB2464000013B4 /* PurchaseFlowController.swift in Sources */,
