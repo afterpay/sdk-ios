@@ -14,9 +14,15 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let cart: CartDisplay
   private let productCellIdentifier = String(describing: ProductCell.self)
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
+  private let eventHandler: (Event) -> Void
 
-  init(cart: CartDisplay) {
+  enum Event {
+    case pay
+  }
+
+  init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
     self.cart = cart
+    self.eventHandler = eventHandler
 
     super.init(nibName: nil, bundle: nil)
 
@@ -66,6 +72,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: Actions
 
   @objc private func didTapPay() {
+    eventHandler(.pay)
   }
 
   // MARK: UITableViewDataSource

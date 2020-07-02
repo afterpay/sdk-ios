@@ -19,7 +19,7 @@ final class PurchaseLogicController {
 
   private enum Screen {
     case products
-    case cart
+    case cart(url: URL?)
   }
 
   private struct State {
@@ -40,12 +40,15 @@ final class PurchaseLogicController {
           editable: true)
         state = .browsing(products: productDisplayModels)
 
-      case .cart:
+      case .cart(nil):
         let cart = CartDisplay(
           products: products,
           quantities: quantities,
           currencyCode: Settings.currencyCode)
         state = .viewing(cart: cart)
+
+      case .cart(let url?):
+        state = .paying(url: url)
       }
 
       handler(state)
@@ -94,7 +97,20 @@ final class PurchaseLogicController {
   }
 
   func viewCart() {
-    state.screen = .cart
+    state.screen = .cart(url: nil)
+  }
+
+  func pay() {
+    checkoutURLProvider(Settings.email) { [unowned self] result in
+      switch result {
+      case .success(let url):
+        DispatchQueue.main.async {
+          self.state.screen = .cart(url: url)
+        }
+      case .failure:
+        break
+      }
+    }
   }
 
 }
