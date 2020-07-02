@@ -9,7 +9,11 @@
 import Foundation
 
 enum PurchaseState {
-  case browsing(products: [ProductDisplay])
-  case viewing(cart: CartDisplay)
-  case paying(url: URL)
+  case products([ProductDisplay])
+  case cart(CartState)
+}
+
+enum CartState {
+  case displaying(CartDisplay)
+  case presenting(checkoutURL: URL)
 }

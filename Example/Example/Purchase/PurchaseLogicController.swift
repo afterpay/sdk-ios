@@ -19,7 +19,7 @@ final class PurchaseLogicController {
 
   private enum Screen {
     case products
-    case cart(url: URL?)
+    case cart(checkoutURL: URL?)
   }
 
   private struct State {
@@ -38,17 +38,15 @@ final class PurchaseLogicController {
           quantities: quantities,
           currencyCode: Settings.currencyCode,
           editable: true)
-        state = .browsing(products: productDisplayModels)
+        state = .products(productDisplayModels)
 
-      case .cart(nil):
+      case .cart(let checkoutURL):
         let cart = CartDisplay(
           products: products,
           quantities: quantities,
           currencyCode: Settings.currencyCode)
-        state = .viewing(cart: cart)
-
-      case .cart(let url?):
-        state = .paying(url: url)
+        let cartState = checkoutURL.flatMap(CartState.presenting) ?? .displaying(cart)
+        state = .cart(cartState)
       }
 
       handler(state)
@@ -97,7 +95,7 @@ final class PurchaseLogicController {
   }
 
   func viewCart() {
-    state.screen = .cart(url: nil)
+    state.screen = .cart(checkoutURL: nil)
   }
 
   func pay() {
@@ -105,7 +103,7 @@ final class PurchaseLogicController {
       switch result {
       case .success(let url):
         DispatchQueue.main.async {
-          self.state.screen = .cart(url: url)
+          self.state.screen = .cart(checkoutURL: url)
         }
       case .failure:
         break

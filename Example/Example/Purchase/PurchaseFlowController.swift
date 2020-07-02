@@ -49,10 +49,10 @@ final class PurchaseFlowController: UIViewController, UINavigationControllerDele
 
     logicController.stateHandler = { [unowned self] state in
       switch state {
-      case .browsing(let products):
+      case .products(let products):
         self.productsViewController.update(products: products)
 
-      case .viewing(let cart):
+      case .cart(.displaying(let cart)):
         let cartViewController = CartViewController(cart: cart) { event in
           switch event {
           case .pay:
@@ -62,7 +62,7 @@ final class PurchaseFlowController: UIViewController, UINavigationControllerDele
 
         self.ownedNavigationController.pushViewController(cartViewController, animated: true)
 
-      case .paying(let url):
+      case .cart(.presenting(let url)):
         Afterpay.presentCheckoutModally(
           over: self.ownedNavigationController,
           loading: url,
