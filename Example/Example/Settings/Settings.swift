@@ -17,6 +17,9 @@ struct Settings {
 
   @Setting("port", defaultValue: "3000", title: "Port")
   static var port: String
+
+  @Setting("currencyCode", defaultValue: "AUD", title: "Currency Code")
+  static var currencyCode: String
 }
 
 // Inspired by: https://www.avanderlee.com/swift/property-wrappers/

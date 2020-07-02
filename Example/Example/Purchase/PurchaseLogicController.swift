@@ -28,7 +28,13 @@ final class PurchaseLogicController {
     var handler: PurchaseStateHandler
 
     private var displayModels: [ProductDisplay] {
-      products.map { ProductDisplay(product: $0, quantity: quantities[$0.id] ?? 0) }
+      products.map {
+        ProductDisplay(
+          product: $0,
+          quantity: quantities[$0.id] ?? 0,
+          currencyCode: Settings.currencyCode
+        )
+      }
     }
 
     func didChange() {
