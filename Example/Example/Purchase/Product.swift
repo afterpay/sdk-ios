@@ -18,14 +18,22 @@ struct Product {
 extension Collection where Element == Product {
   static var stub: [Product] {
     [
-      Product(name: "Coffee", description: "Ground 250g", price: 12.99),
-      Product(name: "Milk", description: "Full Cream 2L", price: 3.49),
-      Product(name: "Drinking Chocolate", description: "Malted 460g", price: 7.00),
+      Product(name: "Coffee", description: "Ground 250g", price: Decimal(string: "12.99")!),
+      Product(name: "Milk", description: "Full Cream 2L", price: Decimal(string: "3.49")!),
+      Product(name: "Drinking Chocolate", description: "Malted 460g", price: Decimal(string: "7.00")!),
     ]
   }
 }
 
 struct ProductDisplay {
+  private static let formatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    // TODO: Make currency code a part of product to format correctly
+    formatter.locale = .current
+    return formatter
+  }()
+
   let id: UUID
   let title: String
   let subtitle: String
@@ -36,7 +44,7 @@ struct ProductDisplay {
     id = product.id
     title = product.name
     subtitle = product.description
-    displayPrice = "\(product.price)"
+    displayPrice = Self.formatter.string(from: product.price as NSDecimalNumber) ?? ""
     self.quantity = "\(quantity)"
   }
 }
