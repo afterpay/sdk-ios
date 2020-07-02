@@ -66,8 +66,8 @@ final class ProductCell: UITableViewCell {
     priceLabel.text = product.displayPrice
     subtitleLabel.text = product.subtitle
     quantityLabel.text = product.quantity
-    plusButton.isHidden = !product.isEditable
-    minusButton.isHidden = !product.isEditable
+    plusButton.isHidden = !product.editable
+    minusButton.isHidden = !product.editable
 
     if let eventHandler = eventHandler {
       self.eventHandler = eventHandler

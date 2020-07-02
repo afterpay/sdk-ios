@@ -26,7 +26,7 @@ final class PurchaseFlowController: UIViewController {
         purchaseLogicController.decrementQuantityOfProduct(with: productId)
 
       case .viewCart:
-        break
+        purchaseLogicController.viewCart()
       }
     }
 
@@ -48,6 +48,9 @@ final class PurchaseFlowController: UIViewController {
       switch state {
       case .browsing(let products):
         self.productsViewController.update(products: products)
+      case .viewing(let cart):
+        let cartViewController = CartViewController(products: cart)
+        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
       }
     }
   }
