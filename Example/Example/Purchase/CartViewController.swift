@@ -13,7 +13,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private var tableView: UITableView!
   private let cart: CartDisplay
   private let productCellIdentifier = String(describing: ProductCell.self)
-  private let totalPriceCellIdentifier = String(describing: TotalPriceCell.self)
+  private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
 
   init(cart: CartDisplay) {
     self.cart = cart
@@ -39,7 +39,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.delaysContentTouches = false
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
-    tableView.register(TotalPriceCell.self, forCellReuseIdentifier: totalPriceCellIdentifier)
+    tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
     let payButton = UIButton(type: .system)
     payButton.backgroundColor = .systemBlue
@@ -103,11 +103,11 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       cell = productCell
 
     case .total:
-      let totalPriceCell = tableView.dequeueReusableCell(
-        withIdentifier: totalPriceCellIdentifier,
-        for: indexPath) as! TotalPriceCell
-      totalPriceCell.configure(with: cart.displayTotal)
-      cell = totalPriceCell
+      let titleSubtitleCell = tableView.dequeueReusableCell(
+        withIdentifier: titleSubtitleCellIdentifier,
+        for: indexPath) as! TitleSubtitleCell
+      titleSubtitleCell.configure(title: "Total", subtitle: cart.displayTotal)
+      cell = titleSubtitleCell
     }
 
     return cell

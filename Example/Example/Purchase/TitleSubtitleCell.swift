@@ -1,5 +1,5 @@
 //
-//  TotalPriceCell.swift
+//  TitleSubtitleCell.swift
 //  Example
 //
 //  Created by Adam Campbell on 2/7/20.
@@ -9,20 +9,18 @@
 import Foundation
 import UIKit
 
-final class TotalPriceCell: UITableViewCell {
+final class TitleSubtitleCell: UITableViewCell {
 
-  private let totalPriceLabel = UILabel()
+  private let titleLabel = UILabel()
+  private let subtitleLabel = UILabel()
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-    let totalDescriptionLabel = UILabel()
-    totalDescriptionLabel.text = "Total"
-    totalDescriptionLabel.font = .preferredFont(forTextStyle: .headline)
+    titleLabel.font = .preferredFont(forTextStyle: .headline)
+    subtitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
-    totalPriceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-
-    let stack = UIStackView(arrangedSubviews: [totalDescriptionLabel, totalPriceLabel])
+    let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
     stack.translatesAutoresizingMaskIntoConstraints = false
     stack.spacing = 8
 
@@ -38,8 +36,9 @@ final class TotalPriceCell: UITableViewCell {
     ])
   }
 
-  func configure(with totalPrice: String) {
-    totalPriceLabel.text = totalPrice
+  func configure(title: String, subtitle: String) {
+    titleLabel.text = title
+    subtitleLabel.text = subtitle
   }
 
   // MARK: Unavailable
