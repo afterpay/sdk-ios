@@ -13,6 +13,7 @@
 		666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */; };
 		667AD3542497121200BF94E5 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* WebViewController.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
+		94E2F5D924AEF5E8007BC135 /* WebCheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2F5D824AEF5E8007BC135 /* WebCheckoutView.swift */; };
 		94E2F5DB24AEF8A5007BC135 /* WebViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2F5DA24AEF8A5007BC135 /* WebViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		66B57E56248F5C7D0020C642 /* Project-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Release.xcconfig"; sourceTree = "<group>"; };
 		66B57E57248F5C7D0020C642 /* Afterpay-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Release.xcconfig"; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
+		94E2F5D824AEF5E8007BC135 /* WebCheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCheckoutView.swift; sourceTree = "<group>"; };
 		94E2F5DA24AEF8A5007BC135 /* WebViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,7 @@
 				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */,
 				667AD3532497121100BF94E5 /* WebViewController.swift */,
+				94E2F5D824AEF5E8007BC135 /* WebCheckoutView.swift */,
 				94E2F5DA24AEF8A5007BC135 /* WebViewDelegate.swift */,
 			);
 			name = Sources;
@@ -315,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
+				94E2F5D924AEF5E8007BC135 /* WebCheckoutView.swift in Sources */,
 				94E2F5DB24AEF8A5007BC135 /* WebViewDelegate.swift in Sources */,
 				667AD3542497121200BF94E5 /* WebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
