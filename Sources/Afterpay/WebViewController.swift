@@ -63,9 +63,13 @@ final class WebViewController:
   func presentationControllerShouldDismiss(
     _ presentationController: UIPresentationController
   ) -> Bool {
-    presentCancelConfirmation()
-
     return false
+  }
+
+  func presentationControllerDidAttemptToDismiss(
+    _ presentationController: UIPresentationController
+  ) {
+    presentCancelConfirmation()
   }
 
   // MARK: Actions
