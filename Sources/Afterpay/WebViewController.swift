@@ -18,6 +18,8 @@ final class WebViewController:
 
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
+  // swiftlint:disable:next weak_delegate
+  private var webViewDelegate: WebViewDelegate?
 
   private var webView: WKWebView { view as! WKWebView }
 
@@ -31,6 +33,12 @@ final class WebViewController:
     self.completion = completion
 
     super.init(nibName: nil, bundle: nil)
+
+    self.webViewDelegate = WebViewDelegate { [weak self] result in
+      self?.dismiss(animated: true) {
+        completion(result)
+      }
+    }
   }
 
   override func loadView() {
@@ -54,7 +62,7 @@ final class WebViewController:
     presentationController?.delegate = self
 
     webView.allowsLinkPreview = false
-    webView.navigationDelegate = self
+    webView.navigationDelegate = webViewDelegate
     webView.load(URLRequest(url: checkoutUrl))
   }
 
@@ -93,59 +101,6 @@ final class WebViewController:
     actions.forEach(actionSheet.addAction)
 
     present(actionSheet, animated: true, completion: nil)
-  }
-
-  // MARK: WKNavigationDelegate
-
-  private enum Completion {
-    case success(token: String)
-    case cancelled
-
-    init?(url: URL) {
-      let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
-      let statusItem = queryItems?.first { $0.name == "status" }
-      let orderTokenItem = queryItems?.first { $0.name == "orderToken" }
-
-      switch (statusItem?.value, orderTokenItem?.value) {
-      case ("SUCCESS", let token?):
-        self = .success(token: token)
-      case ("CANCELLED", _):
-        self = .cancelled
-      default:
-        return nil
-      }
-    }
-  }
-
-  private let externalLinkPathComponents = ["privacy-policy", "terms-of-service"]
-
-  func webView(
-    _ webView: WKWebView,
-    decidePolicyFor navigationAction: WKNavigationAction,
-    decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
-  ) {
-    guard let url = navigationAction.request.url else {
-      return decisionHandler(.allow)
-    }
-
-    let shouldOpenExternally = externalLinkPathComponents.contains(url.lastPathComponent)
-
-    switch (shouldOpenExternally, Completion(url: url)) {
-    case (true, _):
-      decisionHandler(.cancel)
-      UIApplication.shared.open(url)
-
-    case (false, .success(let token)):
-      decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.success(token: token)) }
-
-    case (false, .cancelled):
-      decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled) }
-
-    case (false, nil):
-      decisionHandler(.allow)
-    }
   }
 
   // MARK: Unavailable
