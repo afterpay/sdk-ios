@@ -29,6 +29,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 # Integration
 
 ## Requirements
+
 - iOS 12.0+
 - Swift 5.0+
 
@@ -62,18 +63,23 @@ Download instructions
 Git submodule instructions
 
 # Features
+
 The initial release of the SDK contains the web login and pre approval process with more features to come in subsequent releases.
 
 ## Web Checkout
+
 Provided the token generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration accounts for cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired.
 
 # Getting Started
+
 We provide options for integrating via code, interface builder or even SwiftUI
 
 ## Presenting Web Checkout
+
 The Web Login is a UIViewController that can be presented in the context of your choosing
 
 ### In code (UIKit)
+
 ```swift
 final class MyViewController: UIViewController {
   // ...
@@ -85,6 +91,7 @@ final class MyViewController: UIViewController {
 ```
 
 ### In code (SwiftUI)
+
 ```swift
 struct MyView: View {
   // ...
@@ -103,6 +110,7 @@ struct MyView: View {
 In your storyboard:
 
 In your view controller:
+
 ```swift
 final class MyViewController: UIViewController {
   // ...
