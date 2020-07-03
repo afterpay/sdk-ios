@@ -13,8 +13,10 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Carthage](#carthage)
   - [Swift Package Manager](#swift-package-manager)
   - [Manual](#manual)
-    - [Manual Download](#manual-download)
-    - [Git Submodule](#git-submodule)
+    - [Download](#download)
+      - [GitHub Release](#github-release)
+      - [Git Submodule](#git-submodule)
+    - [Framework Integration](#framework-integration)
 - [Features](#features)
   - [Web Checkout](#web-checkout)
 - [Getting Started](#getting-started)
@@ -54,13 +56,36 @@ dependencies: [
 ```
 
 ## Manual
-You can always add the Afterpay SDK as an embedded framework manually if you prefer
 
-### Manual Download
-Download instructions
+If you prefer not to use any of the supported dependency managers, you can choose to manually integrate the Afterpay SDK into your project.
 
-### Git Submodule
-Git submodule instructions
+### Download
+
+#### GitHub Release
+
+Download the [latest release][latest-release] from GitHub and unzip into an `Afterpay` folder in the root of your project.
+
+#### Git Submodule
+
+Add the Afterpay SDK as a git [submodule](https://git-scm.com/docs/git-submodule) by navigating to the root of your project and running the following commands:
+
+```
+git submodule add https://github.com/ittybittyapps/afterpay-ios.git Afterpay
+cd Afterpay
+git checkout 0.0.1
+```
+
+### Framework Integration
+
+Now that the project has been added to the `Afterpay` folder in the root of your project, the Afterpay SDK can be added to your project with the following steps:
+
+1. Open the new `Afterpay` folder, and drag `Afterpay.xcodeproj` into the Project Navigator of your application's Xcode project.
+2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
+3. In the tab bar at the top of that window, open the "General" panel.
+4. Click on the `+` button under the "Frameworks, Libraries, and Embedded Content" section.
+5. Select the `Afterpay.framework` for your target platform.
+
+And that's it, the Afterpay SDK is now ready to import and use within your application.
 
 # Features
 
@@ -137,4 +162,5 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 <!-- Links: -->
 [contributing]: CONTRIBUTING.md
 [example]: Example
+[latest-release]: https://github.com/ittybittyapps/afterpay-ios/releases/latest
 [license]: LICENSE
