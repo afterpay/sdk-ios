@@ -11,13 +11,20 @@ import Foundation
 struct CartDisplay {
 
   let products: [ProductDisplay]
+  let message: String?
   let displayTotal: String
+  let payEnabled: Bool
 
   init(products: [Product], quantities: [UUID: UInt], currencyCode: String) {
-    self.products = ProductDisplay
-      .products(products, quantities: quantities, currencyCode: currencyCode)
+    let productsInCart = products.filter { quantities[$0.id].map({ $0 > 0 }) ?? false }
 
-    let total = products.reduce(into: Decimal.zero) { total, product in
+    self.message = productsInCart.isEmpty ? "Please add some items to your cart." : nil
+    self.payEnabled = productsInCart.isEmpty ? false : true
+
+    self.products = ProductDisplay
+      .products(productsInCart, quantities: quantities, currencyCode: currencyCode)
+
+    let total = productsInCart.reduce(into: Decimal.zero) { total, product in
       let quantity = quantities[product.id] ?? 0
       total += product.price * Decimal(quantity)
     }
