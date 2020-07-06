@@ -58,11 +58,12 @@ struct ProductDisplay {
     self.editable = editable
   }
 
-}
-
-extension Array where Element == ProductDisplay {
-  init(products: [Product], quantities: [UUID: UInt], currencyCode: String, editable: Bool) {
-    self = products.map {
+  static func products(
+    _ products: [Product],
+    quantities: [UUID: UInt],
+    currencyCode: String, editable: Bool
+  ) -> [ProductDisplay] {
+    products.map {
       ProductDisplay(
         product: $0,
         quantity: quantities[$0.id] ?? 0,
@@ -71,4 +72,5 @@ extension Array where Element == ProductDisplay {
       )
     }
   }
+
 }

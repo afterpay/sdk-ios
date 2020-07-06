@@ -33,8 +33,8 @@ final class PurchaseLogicController {
 
       switch screen {
       case .products:
-        let productDisplayModels = [ProductDisplay](
-          products: products,
+        let productDisplayModels = ProductDisplay.products(
+          products,
           quantities: quantities,
           currencyCode: Settings.currencyCode,
           editable: true)

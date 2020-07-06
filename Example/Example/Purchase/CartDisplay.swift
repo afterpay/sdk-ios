@@ -9,15 +9,13 @@
 import Foundation
 
 struct CartDisplay {
+
   let products: [ProductDisplay]
   let displayTotal: String
 
   init(products: [Product], quantities: [UUID: UInt], currencyCode: String) {
-    self.products = [ProductDisplay](
-      products: products,
-      quantities: quantities,
-      currencyCode: currencyCode,
-      editable: false)
+    self.products = ProductDisplay
+      .products(products, quantities: quantities, currencyCode: currencyCode, editable: false)
 
     let total = products.reduce(into: Decimal.zero) { total, product in
       let quantity = quantities[product.id] ?? 0
@@ -27,4 +25,5 @@ struct CartDisplay {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     displayTotal = formatter.string(from: total)
   }
+
 }
