@@ -79,7 +79,7 @@ git checkout 0.0.1
 
 Now that the project has been added to the `Afterpay` folder in the root of your project, the Afterpay SDK can be added to your project with the following steps:
 
-1. Open the new `Afterpay` folder, and drag `Afterpay.xcodeproj` into the Project Navigator of your application's Xcode project.
+1. Open the new `Afterpay` folder, and drag `Afterpay.xcodeproj` into the Project Navigator of your application's Xcode project or workspace.
 2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
 3. In the tab bar at the top of that window, open the "General" panel.
 4. Click on the `+` button under the "Frameworks, Libraries, and Embedded Content" section.
