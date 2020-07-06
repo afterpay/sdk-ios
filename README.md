@@ -26,6 +26,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
     - [In code (SwiftUI)](#in-code-swiftui)
     - [In Interface Builder](#in-interface-builder)
 - [Examples](#examples)
+- [Building](#building)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -98,51 +99,59 @@ Provided the token generated during the checkout process we take care of pre app
 
 # Getting Started
 
-We provide options for integrating via code, interface builder or even SwiftUI
+We provide options for integrating the SDK in UIKit and SwiftUI.
 
 ## Presenting Web Checkout
 
-The Web Login is a UIViewController that can be presented in the context of your choosing
+The Web Login is a `UIViewController` that can be presented modally over the view controller of your choosing.
 
-### In code (UIKit)
-
-```swift
-final class MyViewController: UIViewController {
-  // ...
-  @objc func didTapPayWithAfterpay {
-    let webLoginViewController = AfterpayWebLoginViewController(url: redirectCheckoutUrl)
-    present(webLoginViewController, animated: true)
-  }
-}
-```
-
-### In code (SwiftUI)
+### UIKit
 
 ```swift
-struct MyView: View {
+import Afterpay
+import UIKit
+
+final class CheckoutViewController: UIViewController {
   // ...
-  var body: some View {
-    NavigationView {
-      NavigationLink(destination: AfterpayWebLoginView(url: self.redirectCheckoutUrl)) {
-        Text("Pay with Afterpay")
-      }.buttonStyle(PlainButtonStyle())
+  @objc func didTapPayWithAfterpay() {
+    Afterpay.presentCheckoutModally(over: self, loading: self.checkoutUrl) { result in
+      switch result {
+      case .success(let token):
+        // Handle successful Afterpay checkout
+      case .cancelled:
+        // Handle checkout cancellation
+      }
     }
   }
 }
 ```
 
-### In Interface Builder
-
-In your storyboard:
-
-In your view controller:
+### SwiftUI
 
 ```swift
-final class MyViewController: UIViewController {
+import Afterpay
+import SwiftUI
+
+struct CheckoutView: View {
+  @State private var presentCheckout = false
+
   // ...
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: Any?) {
-    if let webLoginViewController = segue.destination as? AfterpayWebLoginViewController {
-        webLoginViewController.url = redirectCheckoutUrl
+
+  var body: some View {
+    NavigationView {
+      Button("Checkout with Afterpay") {
+        self.presentCheckout = true
+      }
+    }
+    .sheet(isPresented: self.$presentCheckout) {
+      AfterpayWebCheckout(checkoutUrl: self.checkoutUrl) { result in
+        switch result {
+        case .success(let token):
+          // Handle successful Afterpay checkout
+        case .cancelled:
+          // Handle checkout cancellation
+        }
+      }
     }
   }
 }
@@ -151,6 +160,14 @@ final class MyViewController: UIViewController {
 # Examples
 
 The [example project][example] demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
+
+# Building
+
+The Afterpay SDK uses [Mint][mint] to install and run Swift command line packages. This has been pre-compiled and included in the repository under the [`Tools/mint`][mint-directory] directory, meaning it does not need to be installed or managed externally.
+
+> **NOTE:** Mint will automatically download the packages it manages on demand. To speed up the initial build of the SDK, the packages can be downloaded by running the [`Scripts/bootstrap`][bootstrap] script.
+
+Building the project is as simple as cloning the repository, opening [`Afterpay.xcworkspace`][afterpay-workspace] and building the `Afterpay` target. The example project can be built and run via the `Example` target.
 
 # Contributing
 
@@ -161,11 +178,15 @@ Contributions are welcome! Please read our [contributing guidelines][contributin
 This project is licensed under the terms of the Apache 2.0 license. See the [LICENSE][license] file for more information.
 
 <!-- Links: -->
+[afterpay-workspace]: Afterpay.xcworkspace
 [badge-ci]: https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
 [badge-carthage]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat
+[bootstrap]: Scripts/bootstrap
 [carthage]: https://github.com/Carthage/Carthage
 [contributing]: CONTRIBUTING.md
 [example]: Example
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/ittybittyapps/afterpay-ios/releases/latest
 [license]: LICENSE
+[mint]: https://github.com/yonaskolb/Mint
+[mint-directory]: Tools/mint
