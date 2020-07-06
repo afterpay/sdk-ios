@@ -26,6 +26,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
     - [In code (SwiftUI)](#in-code-swiftui)
     - [In Interface Builder](#in-interface-builder)
 - [Examples](#examples)
+- [Building](#building)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -152,6 +153,12 @@ final class MyViewController: UIViewController {
 
 The [example project][example] demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
 
+# Building
+
+The Afterpay SDK uses [Mint][mint] to install and run Swift command line packages. This has been pre-compiled and included in the repository under the [`Tools/mint`][mint-directory] directory, meaning it does not need to be installed or managed externally. Mint will automatically download the packages it manages on demand.
+
+Building the project is as simple as cloning the repository, opening [`Afterpay.xcworkspace`][afterpay-workspace] and building the `Afterpay` target. The example project can be built and run via the `Example` target.
+
 # Contributing
 
 Contributions are welcome! Please read our [contributing guidelines][contributing].
@@ -161,6 +168,7 @@ Contributions are welcome! Please read our [contributing guidelines][contributin
 This project is licensed under the terms of the Apache 2.0 license. See the [LICENSE][license] file for more information.
 
 <!-- Links: -->
+[afterpay-workspace]: Afterpay.xcworkspace
 [badge-ci]: https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
 [badge-carthage]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat
 [carthage]: https://github.com/Carthage/Carthage
@@ -169,3 +177,5 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/ittybittyapps/afterpay-ios/releases/latest
 [license]: LICENSE
+[mint]: https://github.com/yonaskolb/Mint
+[mint-directory]: Tools/mint
