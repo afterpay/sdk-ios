@@ -17,36 +17,16 @@ final class PurchaseLogicController {
 
   typealias PurchaseStateHandler = (PurchaseState) -> Void
 
-  private enum Screen {
-    case products
-    case cart
-  }
-
   private struct State {
     let products: [Product]
     var quantities: [UUID: UInt]
-    var screen: Screen
     var handler: PurchaseStateHandler
 
     func didChange() {
-      let state: PurchaseState
+      let productDisplayModels = ProductDisplay
+        .products(products, quantities: quantities, currencyCode: Settings.currencyCode)
 
-      switch screen {
-      case .products:
-        let productDisplayModels = ProductDisplay.products(
-          products,
-          quantities: quantities,
-          currencyCode: Settings.currencyCode,
-          editable: true)
-        state = PurchaseState(products: productDisplayModels)
-
-      case .cart:
-        let cart = CartDisplay(
-          products: products,
-          quantities: quantities,
-          currencyCode: Settings.currencyCode)
-        state = PurchaseState(products: cart.products)
-      }
+      let state = PurchaseState(products: productDisplayModels)
 
       handler(state)
     }
@@ -74,7 +54,6 @@ final class PurchaseLogicController {
     self.state = State(
       products: products,
       quantities: quantities,
-      screen: .products,
       handler: { _ in }
     )
   }
@@ -90,11 +69,9 @@ final class PurchaseLogicController {
   }
 
   func viewProducts() {
-    state.screen = .products
   }
 
   func viewCart() {
-    state.screen = .cart
   }
 
 }

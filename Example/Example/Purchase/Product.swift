@@ -59,7 +59,7 @@ struct ProductDisplay {
   static func products(
     _ products: [Product],
     quantities: [UUID: UInt],
-    currencyCode: String, editable: Bool
+    currencyCode: String
   ) -> [ProductDisplay] {
     products.map {
       ProductDisplay(

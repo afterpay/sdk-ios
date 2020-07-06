@@ -15,7 +15,7 @@ struct CartDisplay {
 
   init(products: [Product], quantities: [UUID: UInt], currencyCode: String) {
     self.products = ProductDisplay
-      .products(products, quantities: quantities, currencyCode: currencyCode, editable: false)
+      .products(products, quantities: quantities, currencyCode: currencyCode)
 
     let total = products.reduce(into: Decimal.zero) { total, product in
       let quantity = quantities[product.id] ?? 0
