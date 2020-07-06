@@ -47,13 +47,13 @@ final class PurchaseFlowController: UIViewController, UINavigationControllerDele
     super.viewDidLoad()
 
     logicController.stateHandler = { [unowned self] state in
-      switch state {
-      case .browsing(let products):
-        self.productsViewController.update(products: products)
-      case .viewing(let cart):
-        let cartViewController = CartViewController(cart: cart)
-        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
-      }
+      self.productsViewController.update(products: state.products)
+      //      switch state {
+      //      case .browsing(let products):
+      //      case .viewing(let cart):
+      //        let cartViewController = CartViewController(cart: cart)
+      //        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
+      //      }
     }
   }
 

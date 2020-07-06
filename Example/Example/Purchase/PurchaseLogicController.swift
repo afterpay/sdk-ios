@@ -38,14 +38,14 @@ final class PurchaseLogicController {
           quantities: quantities,
           currencyCode: Settings.currencyCode,
           editable: true)
-        state = .browsing(products: productDisplayModels)
+        state = PurchaseState(products: productDisplayModels)
 
       case .cart:
         let cart = CartDisplay(
           products: products,
           quantities: quantities,
           currencyCode: Settings.currencyCode)
-        state = .viewing(cart: cart)
+        state = PurchaseState(products: cart.products)
       }
 
       handler(state)

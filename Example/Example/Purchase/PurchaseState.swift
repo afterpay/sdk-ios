@@ -8,7 +8,6 @@
 
 import Foundation
 
-enum PurchaseState {
-  case browsing(products: [ProductDisplay])
-  case viewing(cart: CartDisplay)
+struct PurchaseState {
+  let products: [ProductDisplay]
 }
