@@ -103,7 +103,7 @@ We provide options for integrating the SDK in UIKit and SwiftUI.
 
 ## Presenting Web Checkout
 
-The Web Login is a UIViewController that can be presented in the context of your choosing.
+The Web Login is a `UIViewController` that can be presented modally over the view controller of your choosing.
 
 ### UIKit
 
