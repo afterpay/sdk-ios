@@ -44,9 +44,8 @@ struct ProductDisplay {
   let subtitle: String
   let displayPrice: String
   let quantity: String
-  let editable: Bool
 
-  init(product: Product, quantity: UInt, currencyCode: String, editable: Bool) {
+  init(product: Product, quantity: UInt, currencyCode: String) {
     id = product.id
     title = product.name
     subtitle = product.description
@@ -55,7 +54,6 @@ struct ProductDisplay {
     displayPrice = formatter.string(from: product.price)
 
     self.quantity = "\(quantity)"
-    self.editable = editable
   }
 
   static func products(
@@ -67,8 +65,7 @@ struct ProductDisplay {
       ProductDisplay(
         product: $0,
         quantity: quantities[$0.id] ?? 0,
-        currencyCode: currencyCode,
-        editable: editable
+        currencyCode: currencyCode
       )
     }
   }
