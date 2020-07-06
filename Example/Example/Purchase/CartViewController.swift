@@ -12,6 +12,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   private var tableView: UITableView!
   private let cart: CartDisplay
+  private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let productCellIdentifier = String(describing: ProductCell.self)
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
@@ -44,13 +45,16 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.tableFooterView = UIView()
     tableView.delaysContentTouches = false
     tableView.translatesAutoresizingMaskIntoConstraints = false
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
     let payButton = UIButton(type: .system)
+    payButton.isEnabled = cart.payEnabled
     payButton.backgroundColor = .systemBlue
-    payButton.setTitle("Pay with Afterpay", for: .normal)
     payButton.setTitleColor(.white, for: .normal)
+    payButton.setTitleColor(UIColor(white: 1, alpha: 0.5), for: .disabled)
+    payButton.setTitle("Pay with Afterpay", for: .normal)
     payButton.translatesAutoresizingMaskIntoConstraints = false
     payButton.titleLabel?.font = .preferredFont(forTextStyle: .title2)
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
@@ -78,7 +82,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: UITableViewDataSource
 
   private enum Section: Int, CaseIterable {
-    case products, total
+    case message, products, total
 
     static func from(section: Int) -> Section {
       Section(rawValue: section)!
@@ -91,6 +95,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch Section.from(section: section) {
+    case .message:
+      return cart.message == nil ? 0 : 1
     case .products:
       return cart.products.count
     case .total:
@@ -102,6 +108,12 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     let cell: UITableViewCell
 
     switch Section.from(section: indexPath.section) {
+    case .message:
+      cell = tableView.dequeueReusableCell(
+        withIdentifier: genericCellIdentifier,
+        for: indexPath)
+      cell.textLabel?.text = cart.message
+
     case .products:
       let productCell = tableView.dequeueReusableCell(
         withIdentifier: productCellIdentifier,

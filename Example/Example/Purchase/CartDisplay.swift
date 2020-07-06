@@ -11,9 +11,16 @@ import Foundation
 struct CartDisplay {
 
   let products: [ProductDisplay]
+  let message: String?
   let displayTotal: String
+  let payEnabled: Bool
 
   init(products: [Product], quantities: [UUID: UInt], currencyCode: String) {
+    let products = products.filter { quantities[$0.id].map({ $0 > 0 }) ?? false }
+
+    self.message = products.isEmpty ? "Please add some items to your cart." : nil
+    self.payEnabled = products.isEmpty ? false : true
+
     self.products = ProductDisplay
       .products(products, quantities: quantities, currencyCode: currencyCode)
 
