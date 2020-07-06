@@ -108,11 +108,20 @@ The Web Login is a UIViewController that can be presented in the context of your
 ### UIKit
 
 ```swift
-final class MyViewController: UIViewController {
+import Afterpay
+import UIKit
+
+final class CheckoutViewController: UIViewController {
   // ...
-  @objc func didTapPayWithAfterpay {
-    let webLoginViewController = AfterpayWebLoginViewController(url: redirectCheckoutUrl)
-    present(webLoginViewController, animated: true)
+  @objc func didTapPayWithAfterpay() {
+    Afterpay.presentCheckoutModally(over: self, loading: self.checkoutUrl) { result in
+      switch result {
+      case .success(let token):
+        // Handle successful Afterpay checkout
+      case .cancelled:
+        // Handle checkout cancellation
+      }
+    }
   }
 }
 ```
@@ -120,13 +129,29 @@ final class MyViewController: UIViewController {
 ### SwiftUI
 
 ```swift
-struct MyView: View {
+import Afterpay
+import SwiftUI
+
+struct CheckoutView: View {
+  @State private var presentCheckout = false
+
   // ...
+
   var body: some View {
     NavigationView {
-      NavigationLink(destination: AfterpayWebLoginView(url: self.redirectCheckoutUrl)) {
-        Text("Pay with Afterpay")
-      }.buttonStyle(PlainButtonStyle())
+      Button("Checkout with Afterpay") {
+        self.presentCheckout = true
+      }
+    }
+    .sheet(isPresented: self.$presentCheckout) {
+      AfterpayWebCheckout(checkoutUrl: self.checkoutUrl) { result in
+        switch result {
+        case .success(let token):
+          // Handle successful Afterpay checkout
+        case .cancelled:
+          // Handle checkout cancellation
+        }
+      }
     }
   }
 }
