@@ -44,14 +44,8 @@ final class PurchaseFlowController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    logicController.stateHandler = { [unowned self] state in
-      self.productsViewController.update(products: state.products)
-      //      switch state {
-      //      case .browsing(let products):
-      //      case .viewing(let cart):
-      //        let cartViewController = CartViewController(cart: cart)
-      //        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
-      //      }
+    logicController.stateHandler = { [productsViewController] state in
+      productsViewController.update(products: state.products)
     }
   }
 
