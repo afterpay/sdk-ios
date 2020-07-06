@@ -66,7 +66,16 @@ final class PurchaseFlowController: UIViewController {
 
       case .showAfterpayCheckout(let url):
         action = {
-          Afterpay.presentCheckoutModally(over: navigationController, loading: url) { _ in }
+          Afterpay.presentCheckoutModally(over: navigationController, loading: url) { result in
+            switch result {
+            case .success(let token):
+              let messageViewController = MessageViewController(message: "Success with: \(token)")
+              navigationController.pushViewController(messageViewController, animated: true)
+
+            case .cancelled:
+              break
+            }
+          }
         }
 
       case .showAlertForCheckoutURLError(let error):
