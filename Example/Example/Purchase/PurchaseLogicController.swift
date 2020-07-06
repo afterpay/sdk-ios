@@ -84,4 +84,7 @@ final class PurchaseLogicController {
     commandHandler(.showCart(cart))
   }
 
+  func payWithAfterpay() {
+  }
+
 }

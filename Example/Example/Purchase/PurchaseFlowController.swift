@@ -48,11 +48,17 @@ final class PurchaseFlowController: UIViewController {
       productsViewController.update(products: state.products)
     }
 
-    logicController.commandHandler = { [navigationController = ownedNavigationController] command in
+    logicController.commandHandler = { [unowned self] command in
       switch command {
       case .showCart(let cart):
-        let cartViewController = CartViewController(cart: cart)
-        navigationController.pushViewController(cartViewController, animated: true)
+        let cartViewController = CartViewController(cart: cart) { event in
+          switch event {
+          case .didTapPay:
+            self.logicController.payWithAfterpay()
+          }
+        }
+
+        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
       }
     }
   }
