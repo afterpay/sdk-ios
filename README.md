@@ -99,13 +99,13 @@ Provided the token generated during the checkout process we take care of pre app
 
 # Getting Started
 
-We provide options for integrating via code, interface builder or even SwiftUI
+We provide options for integrating the SDK in UIKit and SwiftUI.
 
 ## Presenting Web Checkout
 
-The Web Login is a UIViewController that can be presented in the context of your choosing
+The Web Login is a UIViewController that can be presented in the context of your choosing.
 
-### In code (UIKit)
+### UIKit
 
 ```swift
 final class MyViewController: UIViewController {
@@ -117,7 +117,7 @@ final class MyViewController: UIViewController {
 }
 ```
 
-### In code (SwiftUI)
+### SwiftUI
 
 ```swift
 struct MyView: View {
@@ -127,23 +127,6 @@ struct MyView: View {
       NavigationLink(destination: AfterpayWebLoginView(url: self.redirectCheckoutUrl)) {
         Text("Pay with Afterpay")
       }.buttonStyle(PlainButtonStyle())
-    }
-  }
-}
-```
-
-### In Interface Builder
-
-In your storyboard:
-
-In your view controller:
-
-```swift
-final class MyViewController: UIViewController {
-  // ...
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: Any?) {
-    if let webLoginViewController = segue.destination as? AfterpayWebLoginViewController {
-        webLoginViewController.url = redirectCheckoutUrl
     }
   }
 }
