@@ -163,7 +163,9 @@ The [example project][example] demonstrates how to include an Afterpay payment f
 
 # Building
 
-The Afterpay SDK uses [Mint][mint] to install and run Swift command line packages. This has been pre-compiled and included in the repository under the [`Tools/mint`][mint-directory] directory, meaning it does not need to be installed or managed externally. Mint will automatically download the packages it manages on demand.
+The Afterpay SDK uses [Mint][mint] to install and run Swift command line packages. This has been pre-compiled and included in the repository under the [`Tools/mint`][mint-directory] directory, meaning it does not need to be installed or managed externally.
+
+> **NOTE:** Mint will automatically download the packages it manages on demand. To speed up the initial build of the SDK, the packages can be downloaded by running the [`Scripts/bootstrap`][bootstrap] script.
 
 Building the project is as simple as cloning the repository, opening [`Afterpay.xcworkspace`][afterpay-workspace] and building the `Afterpay` target. The example project can be built and run via the `Example` target.
 
@@ -179,6 +181,7 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [afterpay-workspace]: Afterpay.xcworkspace
 [badge-ci]: https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
 [badge-carthage]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat
+[bootstrap]: Scripts/bootstrap
 [carthage]: https://github.com/Carthage/Carthage
 [contributing]: CONTRIBUTING.md
 [example]: Example
