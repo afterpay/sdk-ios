@@ -63,11 +63,11 @@ If you prefer not to use any of the supported dependency managers, you can choos
 
 #### GitHub Release
 
-Download the [latest release][latest-release] from GitHub and unzip into an `Afterpay` folder in the root of your project.
+Download the [latest release][latest-release] from GitHub and unzip into an `Afterpay` directory in the root of your working directory.
 
 #### Git Submodule
 
-Add the Afterpay SDK as a git [submodule](https://git-scm.com/docs/git-submodule) by navigating to the root of your project and running the following commands:
+Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the root of your working directory and running the following commands:
 
 ```
 git submodule add https://github.com/ittybittyapps/afterpay-ios.git Afterpay
@@ -77,9 +77,9 @@ git checkout 0.0.1
 
 ### Framework Integration
 
-Now that the project has been added to the `Afterpay` folder in the root of your project, the Afterpay SDK can be added to your project with the following steps:
+Now that the Afterpay SDK resides in the `Afterpay` directory in the root of your working directory, it can be added to your project or workspace with the following steps:
 
-1. Open the new `Afterpay` folder, and drag `Afterpay.xcodeproj` into the Project Navigator of your application's Xcode project or workspace.
+1. Open the new `Afterpay` directory, and drag `Afterpay.xcodeproj` into the Project Navigator of your application's Xcode project or workspace.
 2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
 3. In the tab bar at the top of that window, open the "General" panel.
 4. Click on the `+` button under the "Frameworks, Libraries, and Embedded Content" section.
@@ -162,5 +162,6 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 <!-- Links: -->
 [contributing]: CONTRIBUTING.md
 [example]: Example
+[git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/ittybittyapps/afterpay-ios/releases/latest
 [license]: LICENSE
