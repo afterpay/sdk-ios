@@ -40,6 +40,8 @@ final class PurchaseLogicController {
 
   enum Command {
     case showCart(CartDisplay)
+    case showAfterpayCheckout(URL)
+    case showAlertForCheckoutURLError(Error)
   }
 
   var commandHandler: (Command) -> Void = { _ in }
@@ -82,6 +84,17 @@ final class PurchaseLogicController {
       currencyCode: state.currencyCode)
 
     commandHandler(.showCart(cart))
+  }
+
+  func payWithAfterpay() {
+    checkoutURLProvider(Settings.email) { [commandHandler] result in
+      switch result {
+      case .success(let url):
+        commandHandler(.showAfterpayCheckout(url))
+      case .failure(let error):
+        commandHandler(.showAlertForCheckoutURLError(error))
+      }
+    }
   }
 
 }

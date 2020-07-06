@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Foundation
 
 final class PurchaseFlowController: UIViewController {
@@ -48,12 +49,33 @@ final class PurchaseFlowController: UIViewController {
       productsViewController.update(products: state.products)
     }
 
-    logicController.commandHandler = { [navigationController = ownedNavigationController] command in
+    logicController.commandHandler = { [unowned self] command in
+      let navigationController = self.ownedNavigationController
+      let action: () -> Void
+
       switch command {
       case .showCart(let cart):
-        let cartViewController = CartViewController(cart: cart)
-        navigationController.pushViewController(cartViewController, animated: true)
+        let cartViewController = CartViewController(cart: cart) { event in
+          switch event {
+          case .didTapPay:
+            self.logicController.payWithAfterpay()
+          }
+        }
+
+        action = { navigationController.pushViewController(cartViewController, animated: true) }
+
+      case .showAfterpayCheckout(let url):
+        action = {
+          Afterpay.presentCheckoutModally(over: navigationController, loading: url) { _ in }
+        }
+
+      case .showAlertForCheckoutURLError(let error):
+        let alert = AlertFactory.alert(for: error)
+
+        action = { navigationController.present(alert, animated: true, completion: nil) }
       }
+
+      DispatchQueue.main.async(execute: action)
     }
   }
 
