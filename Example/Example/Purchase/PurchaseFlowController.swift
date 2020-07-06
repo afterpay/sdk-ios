@@ -47,6 +47,14 @@ final class PurchaseFlowController: UIViewController {
     logicController.stateHandler = { [productsViewController] state in
       productsViewController.update(products: state.products)
     }
+
+    logicController.commandHandler = { [navigationController = ownedNavigationController] command in
+      switch command {
+      case .showCart(let cart):
+        let cartViewController = CartViewController(cart: cart)
+        navigationController.pushViewController(cartViewController, animated: true)
+      }
+    }
   }
 
   // MARK: Unavailable

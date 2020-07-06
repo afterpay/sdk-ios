@@ -21,10 +21,11 @@ final class PurchaseLogicController {
     let products: [Product]
     var quantities: [UUID: UInt]
     var handler: PurchaseStateHandler
+    var currencyCode: String { Settings.currencyCode }
 
     func didChange() {
       let productDisplayModels = ProductDisplay
-        .products(products, quantities: quantities, currencyCode: Settings.currencyCode)
+        .products(products, quantities: quantities, currencyCode: currencyCode)
 
       let state = PurchaseState(products: productDisplayModels)
 
@@ -36,6 +37,12 @@ final class PurchaseLogicController {
     get { state.handler }
     set { state.handler = newValue }
   }
+
+  enum Command {
+    case showCart(CartDisplay)
+  }
+
+  var commandHandler: (Command) -> Void = { _ in }
 
   private let checkoutURLProvider: CheckoutURLProvider
 
@@ -69,6 +76,12 @@ final class PurchaseLogicController {
   }
 
   func viewCart() {
+    let cart = CartDisplay(
+      products: state.products,
+      quantities: state.quantities,
+      currencyCode: state.currencyCode)
+
+    commandHandler(.showCart(cart))
   }
 
 }
