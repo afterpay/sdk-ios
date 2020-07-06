@@ -44,21 +44,33 @@ struct ProductDisplay {
   let subtitle: String
   let displayPrice: String
   let quantity: String
+  let editable: Bool
 
-  private static let formatter = NumberFormatter()
-
-  init(product: Product, quantity: UInt, currencyCode: String) {
+  init(product: Product, quantity: UInt, currencyCode: String, editable: Bool) {
     id = product.id
     title = product.name
     subtitle = product.description
 
-    let formatter = Self.formatter
-    formatter.currencyCode = currencyCode
-    let localCurrencyCode = Locale.current.currencyCode
-    formatter.numberStyle = localCurrencyCode == currencyCode ? .currency : .currencyISOCode
-    displayPrice = formatter.string(from: product.price as NSDecimalNumber) ?? ""
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    displayPrice = formatter.string(from: product.price)
 
     self.quantity = "\(quantity)"
+    self.editable = editable
+  }
+
+  static func products(
+    _ products: [Product],
+    quantities: [UUID: UInt],
+    currencyCode: String, editable: Bool
+  ) -> [ProductDisplay] {
+    products.map {
+      ProductDisplay(
+        product: $0,
+        quantity: quantities[$0.id] ?? 0,
+        currencyCode: currencyCode,
+        editable: editable
+      )
+    }
   }
 
 }

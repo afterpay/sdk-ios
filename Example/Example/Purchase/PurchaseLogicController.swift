@@ -19,6 +19,7 @@ final class PurchaseLogicController {
 
   private enum Screen {
     case products
+    case cart
   }
 
   private struct State {
@@ -27,21 +28,27 @@ final class PurchaseLogicController {
     var screen: Screen
     var handler: PurchaseStateHandler
 
-    private var displayModels: [ProductDisplay] {
-      products.map {
-        ProductDisplay(
-          product: $0,
-          quantity: quantities[$0.id] ?? 0,
-          currencyCode: Settings.currencyCode
-        )
-      }
-    }
-
     func didChange() {
+      let state: PurchaseState
+
       switch screen {
       case .products:
-        handler(.browsing(products: displayModels))
+        let productDisplayModels = ProductDisplay.products(
+          products,
+          quantities: quantities,
+          currencyCode: Settings.currencyCode,
+          editable: true)
+        state = .browsing(products: productDisplayModels)
+
+      case .cart:
+        let cart = CartDisplay(
+          products: products,
+          quantities: quantities,
+          currencyCode: Settings.currencyCode)
+        state = .viewing(cart: cart)
       }
+
+      handler(state)
     }
   }
 
@@ -80,6 +87,14 @@ final class PurchaseLogicController {
   func decrementQuantityOfProduct(with id: UUID) {
     let quantity = (state.quantities[id] ?? 0)
     state.quantities[id] = quantity == 0 ? 0 : quantity - 1
+  }
+
+  func viewProducts() {
+    state.screen = .products
+  }
+
+  func viewCart() {
+    state.screen = .cart
   }
 
 }

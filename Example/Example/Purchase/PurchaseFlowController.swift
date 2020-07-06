@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class PurchaseFlowController: UIViewController {
+final class PurchaseFlowController: UIViewController, UINavigationControllerDelegate {
 
   private let logicController: PurchaseLogicController
   private let ownedNavigationController: UINavigationController
@@ -26,13 +26,15 @@ final class PurchaseFlowController: UIViewController {
         purchaseLogicController.decrementQuantityOfProduct(with: productId)
 
       case .viewCart:
-        break
+        purchaseLogicController.viewCart()
       }
     }
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
 
     super.init(nibName: nil, bundle: nil)
+
+    ownedNavigationController.delegate = self
   }
 
   override func loadView() {
@@ -48,7 +50,22 @@ final class PurchaseFlowController: UIViewController {
       switch state {
       case .browsing(let products):
         self.productsViewController.update(products: products)
+      case .viewing(let cart):
+        let cartViewController = CartViewController(cart: cart)
+        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
       }
+    }
+  }
+
+  // MARK: UINavigationControllerDelegate
+
+  func navigationController(
+    _ navigationController: UINavigationController,
+    didShow viewController: UIViewController,
+    animated: Bool
+  ) {
+    if viewController == productsViewController {
+      logicController.viewProducts()
     }
   }
 
