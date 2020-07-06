@@ -1,5 +1,6 @@
 # Afterpay iOS SDK
-![Build and Test](https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+![Build and Test][badge-ci] [![Carthage compatible][badge-carthage]][carthage]
 
 The Afterpay iOS SDK provides conveniences to make your Afterpay integration experience as smooth and straightforward as possible. We're working on crafting a great framework for developers with easy drop in components to make payments easy for your customers.
 
@@ -13,8 +14,10 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Carthage](#carthage)
   - [Swift Package Manager](#swift-package-manager)
   - [Manual](#manual)
-    - [Manual Download](#manual-download)
-    - [Git Submodule](#git-submodule)
+    - [Download](#download)
+      - [GitHub Release](#github-release)
+      - [Git Submodule](#git-submodule)
+    - [Framework Integration](#framework-integration)
 - [Features](#features)
   - [Web Checkout](#web-checkout)
 - [Getting Started](#getting-started)
@@ -29,6 +32,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 # Integration
 
 ## Requirements
+
 - iOS 12.0+
 - Swift 5.0+
 
@@ -53,27 +57,55 @@ dependencies: [
 ```
 
 ## Manual
-You can always add the Afterpay SDK as an embedded framework manually if you prefer
 
-### Manual Download
-Download instructions
+If you prefer not to use any of the supported dependency managers, you can choose to manually integrate the Afterpay SDK into your project.
 
-### Git Submodule
-Git submodule instructions
+### Download
+
+#### GitHub Release
+
+Download the [latest release][latest-release] from GitHub and unzip into an `Afterpay` directory in the root of your working directory.
+
+#### Git Submodule
+
+Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the root of your working directory and running the following commands:
+
+```
+git submodule add https://github.com/ittybittyapps/afterpay-ios.git Afterpay
+cd Afterpay
+git checkout 0.0.1
+```
+
+### Framework Integration
+
+Now that the Afterpay SDK resides in the `Afterpay` directory in the root of your working directory, it can be added to your project or workspace with the following steps:
+
+1. Open the new `Afterpay` directory, and drag `Afterpay.xcodeproj` into the Project Navigator of your application's Xcode project or workspace.
+2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
+3. In the tab bar at the top of that window, open the "General" panel.
+4. Click on the `+` button under the "Frameworks, Libraries, and Embedded Content" section.
+5. Select the `Afterpay.framework` for your target platform.
+
+And that's it, the Afterpay SDK is now ready to import and use within your application.
 
 # Features
+
 The initial release of the SDK contains the web login and pre approval process with more features to come in subsequent releases.
 
 ## Web Checkout
+
 Provided the token generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration accounts for cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired.
 
 # Getting Started
+
 We provide options for integrating via code, interface builder or even SwiftUI
 
 ## Presenting Web Checkout
+
 The Web Login is a UIViewController that can be presented in the context of your choosing
 
 ### In code (UIKit)
+
 ```swift
 final class MyViewController: UIViewController {
   // ...
@@ -85,6 +117,7 @@ final class MyViewController: UIViewController {
 ```
 
 ### In code (SwiftUI)
+
 ```swift
 struct MyView: View {
   // ...
@@ -103,6 +136,7 @@ struct MyView: View {
 In your storyboard:
 
 In your view controller:
+
 ```swift
 final class MyViewController: UIViewController {
   // ...
@@ -127,6 +161,11 @@ Contributions are welcome! Please read our [contributing guidelines][contributin
 This project is licensed under the terms of the Apache 2.0 license. See the [LICENSE][license] file for more information.
 
 <!-- Links: -->
+[badge-ci]: https://github.com/ittybittyapps/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
+[badge-carthage]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat
+[carthage]: https://github.com/Carthage/Carthage
 [contributing]: CONTRIBUTING.md
 [example]: Example
+[git-submodule]: https://git-scm.com/docs/git-submodule
+[latest-release]: https://github.com/ittybittyapps/afterpay-ios/releases/latest
 [license]: LICENSE
