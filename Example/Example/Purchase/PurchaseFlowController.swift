@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class PurchaseFlowController: UIViewController, UINavigationControllerDelegate {
+final class PurchaseFlowController: UIViewController {
 
   private let logicController: PurchaseLogicController
   private let ownedNavigationController: UINavigationController
@@ -33,8 +33,6 @@ final class PurchaseFlowController: UIViewController, UINavigationControllerDele
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
 
     super.init(nibName: nil, bundle: nil)
-
-    ownedNavigationController.delegate = self
   }
 
   override func loadView() {
@@ -46,26 +44,16 @@ final class PurchaseFlowController: UIViewController, UINavigationControllerDele
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    logicController.stateHandler = { [unowned self] state in
-      switch state {
-      case .browsing(let products):
-        self.productsViewController.update(products: products)
-      case .viewing(let cart):
-        let cartViewController = CartViewController(cart: cart)
-        self.ownedNavigationController.pushViewController(cartViewController, animated: true)
-      }
+    logicController.stateHandler = { [productsViewController] state in
+      productsViewController.update(products: state.products)
     }
-  }
 
-  // MARK: UINavigationControllerDelegate
-
-  func navigationController(
-    _ navigationController: UINavigationController,
-    didShow viewController: UIViewController,
-    animated: Bool
-  ) {
-    if viewController == productsViewController {
-      logicController.viewProducts()
+    logicController.commandHandler = { [navigationController = ownedNavigationController] command in
+      switch command {
+      case .showCart(let cart):
+        let cartViewController = CartViewController(cart: cart)
+        navigationController.pushViewController(cartViewController, animated: true)
+      }
     }
   }
 

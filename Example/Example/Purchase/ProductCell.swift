@@ -59,17 +59,20 @@ final class ProductCell: UITableViewCell {
 
   var productId = UUID()
 
-  func configure(with product: ProductDisplay, eventHandler: ((Event) -> Void)? = nil) {
+  func configure(
+    with product: ProductDisplay,
+    eventHandler: ((Event) -> Void)? = nil
+  ) {
     productId = product.id
 
     titleLabel.text = product.title
     priceLabel.text = product.displayPrice
     subtitleLabel.text = product.subtitle
     quantityLabel.text = product.quantity
-    plusButton.isHidden = !product.editable
-    minusButton.isHidden = !product.editable
 
     self.eventHandler = eventHandler
+    plusButton.isHidden = eventHandler == nil
+    minusButton.isHidden = eventHandler == nil
   }
 
   // MARK: Actions
