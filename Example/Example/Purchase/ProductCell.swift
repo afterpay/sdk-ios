@@ -69,9 +69,7 @@ final class ProductCell: UITableViewCell {
     plusButton.isHidden = !product.editable
     minusButton.isHidden = !product.editable
 
-    if let eventHandler = eventHandler {
-      self.eventHandler = eventHandler
-    }
+    self.eventHandler = eventHandler
   }
 
   // MARK: Actions
@@ -81,14 +79,14 @@ final class ProductCell: UITableViewCell {
     case didTapMinus(productId: UUID)
   }
 
-  var eventHandler: (Event) -> Void = { _ in }
+  var eventHandler: ((Event) -> Void)?
 
   @objc private func didTapPlus() {
-    eventHandler(.didTapPlus(productId: productId))
+    eventHandler?(.didTapPlus(productId: productId))
   }
 
   @objc private func didTapMinus() {
-    eventHandler(.didTapMinus(productId: productId))
+    eventHandler?(.didTapMinus(productId: productId))
   }
 
   // MARK: Unavailable
