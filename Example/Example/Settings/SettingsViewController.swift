@@ -12,6 +12,7 @@ import UIKit
 final class SettingsViewController: UITableViewController {
 
   private let cellIdentifier = String(describing: SettingCell.self)
+  private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let settings: [Setting]
 
   init(settings: [Setting]) {
@@ -26,24 +27,53 @@ final class SettingsViewController: UITableViewController {
     title = "Settings"
 
     tableView.register(SettingCell.self, forCellReuseIdentifier: cellIdentifier)
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.allowsSelection = false
   }
 
   // MARK: UITableViewDataSource
 
+  enum Section: Int, CaseIterable {
+    case message, settings
+
+    static func from(section: Int) -> Section {
+      Section(rawValue: section)!
+    }
+  }
+
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    Section.allCases.count
+  }
+
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    settings.count
+    switch Section.from(section: section) {
+    case .message:
+      return 1
+
+    case .settings:
+      return settings.count
+    }
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let settingCell = tableView.dequeueReusableCell(
-      withIdentifier: cellIdentifier,
-      for: indexPath
-    ) as! SettingCell
+    let cell: UITableViewCell
 
-    settingCell.configure(with: settings[indexPath.row])
+    switch Section.from(section: indexPath.section) {
+    case .message:
+      cell = tableView.dequeueReusableCell(withIdentifier: genericCellIdentifier, for: indexPath)
+      cell.textLabel?.text = "Updates to email and currency code require a restart to take effect"
+      cell.textLabel?.font = .preferredFont(forTextStyle: .footnote)
+      cell.textLabel?.numberOfLines = 0
 
-    return settingCell
+    case .settings:
+      let settingCell = tableView.dequeueReusableCell(
+        withIdentifier: cellIdentifier,
+        for: indexPath) as! SettingCell
+      settingCell.configure(with: settings[indexPath.row])
+      cell = settingCell
+    }
+
+    return cell
   }
 
   // MARK: Unavailable
