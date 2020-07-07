@@ -45,15 +45,16 @@ final class PurchaseFlowController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    logicController.stateHandler = { [productsViewController] state in
-      productsViewController.update(products: state.products)
-    }
-
     logicController.commandHandler = { [unowned self] command in
       let navigationController = self.ownedNavigationController
       let action: () -> Void
 
       switch command {
+      case .updateProducts(let products):
+        action = {
+          self.productsViewController.update(products: products)
+        }
+
       case .showCart(let cart):
         let cartViewController = CartViewController(cart: cart) { event in
           switch event {

@@ -15,74 +15,48 @@ final class PurchaseLogicController {
     _ completion: @escaping (Result<URL, Error>) -> Void
   ) -> Void
 
-  typealias PurchaseStateHandler = (PurchaseState) -> Void
-
-  private struct State {
-    let products: [Product]
-    var quantities: [UUID: UInt]
-    var handler: PurchaseStateHandler
-    var currencyCode: String { Settings.currencyCode }
-
-    func didChange() {
-      let productDisplayModels = ProductDisplay
-        .products(products, quantities: quantities, currencyCode: currencyCode)
-
-      let state = PurchaseState(products: productDisplayModels)
-
-      handler(state)
-    }
-  }
-
-  var stateHandler: PurchaseStateHandler {
-    get { state.handler }
-    set { state.handler = newValue }
-  }
-
   enum Command {
+    case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
     case showAfterpayCheckout(URL)
     case showAlertForCheckoutURLError(Error)
   }
 
-  var commandHandler: (Command) -> Void = { _ in }
+  let products: [Product]
+  var commandHandler: (Command) -> Void = { _ in } {
+    didSet { commandHandler(.updateProducts(productDisplayModels)) }
+  }
 
   private let checkoutURLProvider: CheckoutURLProvider
-
-  private var state: State {
-    didSet { state.didChange() }
+  private var quantities: [UUID: UInt]
+  private var currencyCode: String { Settings.currencyCode }
+  private var productDisplayModels: [ProductDisplay] {
+    ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
   }
 
   init(checkoutURLProvider: @escaping CheckoutURLProvider) {
     self.checkoutURLProvider = checkoutURLProvider
 
-    let products: [Product] = .stub
-    let quantities = products.reduce(into: [UUID: UInt](), { quantities, product in
+    products = .stub
+    quantities = products.reduce(into: [UUID: UInt](), { quantities, product in
       quantities[product.id] = 0
     })
-
-    self.state = State(
-      products: products,
-      quantities: quantities,
-      handler: { _ in }
-    )
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
-    let quantity = (state.quantities[id] ?? 0)
-    state.quantities[id] = quantity == .max ? .max : quantity + 1
+    let quantity = (quantities[id] ?? 0)
+    quantities[id] = quantity == .max ? .max : quantity + 1
+    commandHandler(.updateProducts(productDisplayModels))
   }
 
   func decrementQuantityOfProduct(with id: UUID) {
-    let quantity = (state.quantities[id] ?? 0)
-    state.quantities[id] = quantity == 0 ? 0 : quantity - 1
+    let quantity = (quantities[id] ?? 0)
+    quantities[id] = quantity == 0 ? 0 : quantity - 1
+    commandHandler(.updateProducts(productDisplayModels))
   }
 
   func viewCart() {
-    let cart = CartDisplay(
-      products: state.products,
-      quantities: state.quantities,
-      currencyCode: state.currencyCode)
-
+    let cart = CartDisplay(products: products, quantities: quantities, currencyCode: currencyCode)
     commandHandler(.showCart(cart))
   }
 
