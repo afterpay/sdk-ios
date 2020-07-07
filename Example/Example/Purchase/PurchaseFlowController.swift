@@ -70,7 +70,8 @@ final class PurchaseFlowController: UIViewController {
             switch result {
             case .success(let token):
               let messageViewController = MessageViewController(message: "Success with: \(token)")
-              navigationController.pushViewController(messageViewController, animated: true)
+              let viewControllers = [self.productsViewController, messageViewController]
+              navigationController.setViewControllers(viewControllers, animated: true)
 
             case .cancelled:
               break
