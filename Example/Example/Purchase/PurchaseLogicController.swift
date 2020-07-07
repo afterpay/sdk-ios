@@ -44,13 +44,13 @@ final class PurchaseLogicController {
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
-    let quantity = (quantities[id] ?? 0)
+    let quantity = quantities[id] ?? 0
     quantities[id] = quantity == .max ? .max : quantity + 1
     commandHandler(.updateProducts(productDisplayModels))
   }
 
   func decrementQuantityOfProduct(with id: UUID) {
-    let quantity = (quantities[id] ?? 0)
+    let quantity = quantities[id] ?? 0
     quantities[id] = quantity == 0 ? 0 : quantity - 1
     commandHandler(.updateProducts(productDisplayModels))
   }
