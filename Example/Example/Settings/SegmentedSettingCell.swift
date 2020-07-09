@@ -40,8 +40,9 @@ final class SegmentedSettingCell: UITableViewCell, UITextFieldDelegate {
 
     let segmentedControlConstraints = [
       segmentedControl.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
-      segmentedControl.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
-      segmentedControl.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+      segmentedControl.topAnchor.constraint(greaterThanOrEqualTo: layoutGuide.topAnchor),
+      segmentedControl.bottomAnchor.constraint(lessThanOrEqualTo: layoutGuide.bottomAnchor),
+      segmentedControl.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor),
       segmentedControl.leadingAnchor.constraint(
         greaterThanOrEqualTo: titleLabel.trailingAnchor,
         constant: 8
