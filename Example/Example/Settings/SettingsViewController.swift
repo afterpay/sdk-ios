@@ -13,9 +13,9 @@ final class SettingsViewController: UITableViewController {
 
   private let cellIdentifier = String(describing: SettingCell.self)
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
-  private let settings: [Setting]
+  private let settings: [AppSetting]
 
-  init(settings: [Setting]) {
+  init(settings: [AppSetting]) {
     self.settings = settings
 
     super.init(style: .plain)
@@ -69,7 +69,11 @@ final class SettingsViewController: UITableViewController {
       let settingCell = tableView.dequeueReusableCell(
         withIdentifier: cellIdentifier,
         for: indexPath) as! SettingCell
-      settingCell.configure(with: settings[indexPath.row])
+      switch settings[indexPath.row] {
+      case .text(let setting):
+        settingCell.configure(with: setting)
+      }
+
       cell = settingCell
     }
 

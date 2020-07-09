@@ -11,7 +11,7 @@ import UIKit
 
 final class SettingCell: UITableViewCell, UITextFieldDelegate {
 
-  private var setting: Setting?
+  private var setting: TextSetting?
 
   private let titleLabel = UILabel()
   private let textField = UITextField()
@@ -62,7 +62,7 @@ final class SettingCell: UITableViewCell, UITextFieldDelegate {
     NSLayoutConstraint.activate(titleConstraints + textFieldConstraints)
   }
 
-  func configure(with setting: Setting) {
+  func configure(with setting: TextSetting) {
     titleLabel.text = setting.title
     textField.placeholder = setting.defaultValue
     textField.text = setting.wrappedValue == setting.defaultValue ? nil : setting.wrappedValue
