@@ -22,7 +22,6 @@ final class SegmentedSettingCell: UITableViewCell, UITextFieldDelegate {
     titleLabel.font = .preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
     segmentedControl.translatesAutoresizingMaskIntoConstraints = false
