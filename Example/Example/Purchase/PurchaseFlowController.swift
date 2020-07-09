@@ -70,9 +70,7 @@ final class PurchaseFlowController: UIViewController {
           Afterpay.presentCheckoutModally(over: navigationController, loading: url) { result in
             switch result {
             case .success(let token):
-              let messageViewController = MessageViewController(message: "Success with: \(token)")
-              let viewControllers = [self.productsViewController, messageViewController]
-              navigationController.setViewControllers(viewControllers, animated: true)
+              self.logicController.success(with: token)
 
             case .cancelled:
               break
@@ -84,6 +82,11 @@ final class PurchaseFlowController: UIViewController {
         let alert = AlertFactory.alert(for: error)
 
         action = { navigationController.present(alert, animated: true, completion: nil) }
+
+      case .showSuccessWithMessage(let message):
+        let messageViewController = MessageViewController(message: message)
+        let viewControllers = [self.productsViewController, messageViewController]
+        action = { navigationController.setViewControllers(viewControllers, animated: true) }
       }
 
       DispatchQueue.main.async(execute: action)
