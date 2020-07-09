@@ -60,15 +60,13 @@ final class SegmentedSettingCell: UITableViewCell, UITextFieldDelegate {
       segmentedControl.insertSegment(withTitle: title, at: index, animated: false)
     }
 
-    segmentedControl.selectedSegmentIndex = setting.selectedIndex
+    segmentedControl.selectedSegmentIndex = setting.wrappedValue
 
     self.setting = setting
   }
 
   @objc private func segmentedControlUpdated() {
-    if let title = segmentedControl.titleForSegment(at: segmentedControl.selectedSegmentIndex) {
-      setting?.wrappedValue = title
-    }
+    setting?.wrappedValue = segmentedControl.selectedSegmentIndex
   }
 
   // MARK: Unavailable
@@ -78,11 +76,4 @@ final class SegmentedSettingCell: UITableViewCell, UITextFieldDelegate {
     fatalError("init(coder:) has not been implemented")
   }
 
-}
-
-private extension PickerSetting {
-  var selectedIndex: Int {
-    let selection = wrappedValue
-    return options.firstIndex(where: { $0 == selection }) ?? -1
-  }
 }

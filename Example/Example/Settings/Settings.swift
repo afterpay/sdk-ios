@@ -8,9 +8,9 @@
 
 import Foundation
 
-enum Language: String, CaseIterable {
-  case swift = "Swift"
-  case objectiveC = "Objective-C"
+enum Language: Int, CaseIterable {
+  case swift
+  case objectiveC
 }
 
 struct Settings {
@@ -81,7 +81,7 @@ extension Setting where T == String {
   }
 }
 
-extension Setting where T: RawRepresentable, T.RawValue == String {
+extension Setting where T: RawRepresentable, T.RawValue == Int {
   init(_ key: String, defaultValue: T, title: String, userDefaults: UserDefaults = .standard) {
     self.init(
       key: key,
@@ -89,18 +89,27 @@ extension Setting where T: RawRepresentable, T.RawValue == String {
       title: title,
       userDefaults: userDefaults,
       adapter: UserDefaultsAdapter(
-        get: { defaults, key in defaults.string(forKey: key).flatMap(T.init(rawValue:)) },
+        get: { defaults, key in
+          guard defaults.object(forKey: key) != nil else {
+            return nil
+          }
+          return T(rawValue: defaults.integer(forKey: key))
+        },
         set: { defaults, key, value in defaults.set(value.rawValue, forKey: key) }
       )
     )
   }
 }
 
+protocol SelectableSetting: RawRepresentable, CaseIterable where RawValue == Int {
+  var label: String { get }
+}
+
 @propertyWrapper
 struct PickerSetting {
   private struct SettingAdapter {
-    var get: () -> String
-    var set: (String) -> Void
+    var get: () -> Int
+    var set: (Int) -> Void
   }
 
   let title: String
@@ -114,27 +123,36 @@ struct PickerSetting {
     self.adapter = adapter
   }
 
-  var wrappedValue: String {
+  var wrappedValue: Int {
     get { adapter.get() }
     set { adapter.set(newValue) }
   }
 }
 
 extension PickerSetting {
-  init<T>(_ setting: Setting<T>) where T: RawRepresentable & CaseIterable, T.RawValue == String {
+  init<T>(_ setting: Setting<T>) where T: SelectableSetting {
     var setting = setting
     self.init(
       title: setting.title,
-      options: T.allCases.map(\.rawValue),
+      options: T.allCases.map(\.label),
       adapter: SettingAdapter(
         get: { setting.wrappedValue.rawValue },
-        set: { rawNewValue in
-          if let newValue = T(rawValue: rawNewValue) {
-            setting.wrappedValue = newValue
+        set: { rawValue in
+          if let value = T(rawValue: rawValue) {
+            setting.wrappedValue = value
           }
         }
       )
     )
+  }
+}
+
+extension Language: SelectableSetting {
+  var label: String {
+    switch self {
+    case .swift: return "Swift"
+    case .objectiveC: return "Objective-C"
+    }
   }
 }
 
