@@ -20,6 +20,7 @@ final class PurchaseLogicController {
     case showCart(CartDisplay)
     case showAfterpayCheckout(URL)
     case showAlertForCheckoutURLError(Error)
+    case showSuccessWithMessage(String)
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
@@ -74,6 +75,12 @@ final class PurchaseLogicController {
         commandHandler(.showAlertForCheckoutURLError(error))
       }
     }
+  }
+
+  func success(with token: String) {
+    quantities = [:]
+    commandHandler(.updateProducts(productDisplayModels))
+    commandHandler(.showSuccessWithMessage("Success with: \(token)"))
   }
 
 }
