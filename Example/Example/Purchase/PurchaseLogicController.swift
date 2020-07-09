@@ -22,25 +22,30 @@ final class PurchaseLogicController {
     case showAlertForCheckoutURLError(Error)
   }
 
-  let products: [Product]
   var commandHandler: (Command) -> Void = { _ in } {
     didSet { commandHandler(.updateProducts(productDisplayModels)) }
   }
 
   private let checkoutURLProvider: CheckoutURLProvider
-  private var quantities: [UUID: UInt]
-  private var currencyCode: String { Settings.currencyCode }
+  private let products: [Product]
+  private let email: String
+  private let currencyCode: String
+
+  private var quantities: [UUID: UInt] = [:]
   private var productDisplayModels: [ProductDisplay] {
     ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
   }
 
-  init(checkoutURLProvider: @escaping CheckoutURLProvider) {
+  init(
+    checkoutURLProvider: @escaping CheckoutURLProvider,
+    products: [Product] = .stub,
+    email: String,
+    currencyCode: String
+  ) {
     self.checkoutURLProvider = checkoutURLProvider
-
-    products = .stub
-    quantities = products.reduce(into: [UUID: UInt](), { quantities, product in
-      quantities[product.id] = 0
-    })
+    self.products = products
+    self.email = email
+    self.currencyCode = currencyCode
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
@@ -61,7 +66,7 @@ final class PurchaseLogicController {
   }
 
   func payWithAfterpay() {
-    checkoutURLProvider(Settings.email) { [commandHandler] result in
+    checkoutURLProvider(email) { [commandHandler] result in
       switch result {
       case .success(let url):
         commandHandler(.showAfterpayCheckout(url))
