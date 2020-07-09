@@ -12,10 +12,11 @@ import UIKit
 final class SettingsViewController: UITableViewController {
 
   private let cellIdentifier = String(describing: SettingCell.self)
+  private let pickerCellIdentifier = String(describing: SettingPickerCell.self)
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
-  private let settings: [Setting]
+  private let settings: [AppSetting]
 
-  init(settings: [Setting]) {
+  init(settings: [AppSetting]) {
     self.settings = settings
 
     super.init(style: .plain)
@@ -27,6 +28,7 @@ final class SettingsViewController: UITableViewController {
     title = "Settings"
 
     tableView.register(SettingCell.self, forCellReuseIdentifier: cellIdentifier)
+    tableView.register(SettingPickerCell.self, forCellReuseIdentifier: pickerCellIdentifier)
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.allowsSelection = false
   }
@@ -66,11 +68,23 @@ final class SettingsViewController: UITableViewController {
       cell.textLabel?.numberOfLines = 0
 
     case .settings:
-      let settingCell = tableView.dequeueReusableCell(
-        withIdentifier: cellIdentifier,
-        for: indexPath) as! SettingCell
-      settingCell.configure(with: settings[indexPath.row])
-      cell = settingCell
+      switch settings[indexPath.row] {
+      case .text(let setting):
+        let settingCell = tableView.dequeueReusableCell(
+          withIdentifier: cellIdentifier,
+          for: indexPath
+        ) as! SettingCell
+        settingCell.configure(with: setting)
+        cell = settingCell
+
+      case .picker(let setting):
+        let settingCell = tableView.dequeueReusableCell(
+          withIdentifier: pickerCellIdentifier,
+          for: indexPath
+        ) as! SettingPickerCell
+        settingCell.configure(with: setting)
+        cell = settingCell
+      }
     }
 
     return cell

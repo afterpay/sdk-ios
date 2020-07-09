@@ -27,8 +27,7 @@ final class AppFlowController: UIViewController {
     let checkoutTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
     purchaseFlowController.tabBarItem = checkoutTabBarItem
 
-    let settings = [Settings.$email, Settings.$host, Settings.$port, Settings.$currencyCode]
-    let settingsViewController = SettingsViewController(settings: settings)
+    let settingsViewController = SettingsViewController(settings: AppSetting.allSettings)
     let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
     let settingsImage = UIImage(named: "settings")
     let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
