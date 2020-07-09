@@ -97,25 +97,6 @@ extension Setting where T: RawRepresentable, T.RawValue == String {
 }
 
 @propertyWrapper
-@dynamicMemberLookup
-struct TextSetting {
-  private(set) var setting: Setting<String>
-
-  init(_ setting: Setting<String>) {
-    self.setting = setting
-  }
-
-  subscript<Value>(dynamicMember keyPath: KeyPath<Setting<String>, Value>) -> Value {
-    return setting[keyPath: keyPath]
-  }
-
-  var wrappedValue: String {
-    get { setting.wrappedValue }
-    set { setting.wrappedValue = newValue }
-  }
-}
-
-@propertyWrapper
 struct PickerSetting {
   private struct SettingAdapter {
     var get: () -> String
@@ -158,17 +139,17 @@ extension PickerSetting {
 }
 
 enum AppSetting {
-  case text(TextSetting)
+  case text(Setting<String>)
   case picker(PickerSetting)
 }
 
 extension AppSetting {
   static var allSettings: [AppSetting] {
     return [
-      .text(TextSetting(Settings.$email)),
-      .text(TextSetting(Settings.$host)),
-      .text(TextSetting(Settings.$port)),
-      .text(TextSetting(Settings.$currencyCode)),
+      .text(Settings.$email),
+      .text(Settings.$host),
+      .text(Settings.$port),
+      .text(Settings.$currencyCode),
       .picker(PickerSetting(Settings.$language)),
     ]
   }
