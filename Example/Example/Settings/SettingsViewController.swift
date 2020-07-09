@@ -11,8 +11,8 @@ import UIKit
 
 final class SettingsViewController: UITableViewController {
 
-  private let cellIdentifier = String(describing: SettingCell.self)
-  private let pickerCellIdentifier = String(describing: SettingPickerCell.self)
+  private let textCellIdentifier = String(describing: TextSettingCell.self)
+  private let segmentedCellIdentifier = String(describing: SegmentedSettingCell.self)
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let settings: [AppSetting]
 
@@ -27,8 +27,8 @@ final class SettingsViewController: UITableViewController {
 
     title = "Settings"
 
-    tableView.register(SettingCell.self, forCellReuseIdentifier: cellIdentifier)
-    tableView.register(SettingPickerCell.self, forCellReuseIdentifier: pickerCellIdentifier)
+    tableView.register(TextSettingCell.self, forCellReuseIdentifier: textCellIdentifier)
+    tableView.register(SegmentedSettingCell.self, forCellReuseIdentifier: segmentedCellIdentifier)
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.allowsSelection = false
   }
@@ -71,17 +71,17 @@ final class SettingsViewController: UITableViewController {
       switch settings[indexPath.row] {
       case .text(let setting):
         let settingCell = tableView.dequeueReusableCell(
-          withIdentifier: cellIdentifier,
+          withIdentifier: textCellIdentifier,
           for: indexPath
-        ) as! SettingCell
+        ) as! TextSettingCell
         settingCell.configure(with: setting)
         cell = settingCell
 
       case .picker(let setting):
         let settingCell = tableView.dequeueReusableCell(
-          withIdentifier: pickerCellIdentifier,
+          withIdentifier: segmentedCellIdentifier,
           for: indexPath
-        ) as! SettingPickerCell
+        ) as! SegmentedSettingCell
         settingCell.configure(with: setting)
         cell = settingCell
       }

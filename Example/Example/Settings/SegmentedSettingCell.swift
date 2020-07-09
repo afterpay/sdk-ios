@@ -1,5 +1,5 @@
 //
-//  SettingPickerCell.swift
+//  SegmentedSettingCell.swift
 //  Example
 //
 //  Created by Ryan Davis on 9/7/20.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class SettingPickerCell: UITableViewCell, UITextFieldDelegate {
+final class SegmentedSettingCell: UITableViewCell, UITextFieldDelegate {
 
   private var setting: PickerSetting?
 
