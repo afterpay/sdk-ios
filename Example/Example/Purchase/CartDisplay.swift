@@ -15,22 +15,13 @@ struct CartDisplay {
   let displayTotal: String
   let payEnabled: Bool
 
-  init(products: [Product], quantities: [UUID: UInt], currencyCode: String) {
-    let productsInCart = products.filter { quantities[$0.id].map({ $0 > 0 }) ?? false }
-
-    self.message = productsInCart.isEmpty ? "Please add some items to your cart." : nil
-    self.payEnabled = productsInCart.isEmpty ? false : true
-
-    self.products = ProductDisplay
-      .products(productsInCart, quantities: quantities, currencyCode: currencyCode)
-
-    let total = productsInCart.reduce(into: Decimal.zero) { total, product in
-      let quantity = quantities[product.id] ?? 0
-      total += product.price * Decimal(quantity)
-    }
+  init(products: [ProductDisplay], total: Decimal, currencyCode: String) {
+    self.products = products
+    self.message = products.isEmpty ? "Please add some items to your cart." : nil
+    self.payEnabled = products.isEmpty ? false : true
 
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
-    displayTotal = formatter.string(from: total)
+    self.displayTotal = formatter.displayString(from: total)
   }
 
 }

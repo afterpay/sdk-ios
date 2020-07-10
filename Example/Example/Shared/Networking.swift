@@ -16,6 +16,7 @@ private let checkoutsPath = "/checkouts"
 
 private struct CheckoutsRequest: Encodable {
   let email: String
+  let amount: String
 }
 
 private struct CheckoutsResponse: Decodable {
@@ -27,7 +28,11 @@ enum CheckoutError: Error {
   case unknown
 }
 
-func checkout(with email: String, completion: @escaping (Result<URL, Error>) -> Void) {
+func checkout(
+  with email: String,
+  for amount: String,
+  completion: @escaping (Result<URL, Error>) -> Void
+) {
   let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
   var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: true) }
   urlComponents?.path = checkoutsPath
@@ -42,7 +47,7 @@ func checkout(with email: String, completion: @escaping (Result<URL, Error>) -> 
 
   // A failed encoding operation here would represent programmer error
   // swiftlint:disable:next force_try
-  request.httpBody = try! JSONEncoder().encode(CheckoutsRequest(email: email))
+  request.httpBody = try! JSONEncoder().encode(CheckoutsRequest(email: email, amount: amount))
   request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
   let task = session.dataTask(with: request) { data, _, error in

@@ -12,6 +12,7 @@ final class PurchaseLogicController {
 
   typealias CheckoutURLProvider = (
     _ email: String,
+    _ amount: String,
     _ completion: @escaping (Result<URL, Error>) -> Void
   ) -> Void
 
@@ -33,8 +34,16 @@ final class PurchaseLogicController {
   private let currencyCode: String
 
   private var quantities: [UUID: UInt] = [:]
+
   private var productDisplayModels: [ProductDisplay] {
     ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
+  }
+
+  private var total: Decimal {
+    products.reduce(into: Decimal.zero) { total, product in
+      let quantity = quantities[product.id] ?? 0
+      total += product.price * Decimal(quantity)
+    }
   }
 
   init(
@@ -62,12 +71,16 @@ final class PurchaseLogicController {
   }
 
   func viewCart() {
-    let cart = CartDisplay(products: products, quantities: quantities, currencyCode: currencyCode)
+    let productsInCart = productDisplayModels.filter { (quantities[$0.id] ?? 0) > 0 }
+    let cart = CartDisplay(products: productsInCart, total: total, currencyCode: currencyCode)
     commandHandler(.showCart(cart))
   }
 
   func payWithAfterpay() {
-    checkoutURLProvider(email) { [commandHandler] result in
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    let amount = formatter.string(from: total)
+
+    checkoutURLProvider(email, amount) { [commandHandler] result in
       switch result {
       case .success(let url):
         commandHandler(.showAfterpayCheckout(url))
