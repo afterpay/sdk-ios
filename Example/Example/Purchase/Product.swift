@@ -51,7 +51,7 @@ struct ProductDisplay {
     subtitle = product.description
 
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
-    displayPrice = formatter.string(from: product.price)
+    displayPrice = formatter.displayString(from: product.price)
 
     self.quantity = "\(quantity)"
   }

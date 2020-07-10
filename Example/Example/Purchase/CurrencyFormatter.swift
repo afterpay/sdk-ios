@@ -16,6 +16,12 @@ struct CurrencyFormatter {
 
   func string(from decimal: Decimal) -> String {
     let formatter = Self.formatter
+    formatter.numberStyle = .none
+    return formatter.string(from: decimal as NSDecimalNumber)!
+  }
+
+  func displayString(from decimal: Decimal) -> String {
+    let formatter = Self.formatter
     formatter.currencyCode = currencyCode
     let localCurrencyCode = Locale.current.currencyCode
     formatter.numberStyle = localCurrencyCode == currencyCode ? .currency : .currencyISOCode
