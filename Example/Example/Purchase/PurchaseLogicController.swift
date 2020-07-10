@@ -40,7 +40,7 @@ final class PurchaseLogicController {
   }
 
   private var total: Decimal {
-    products.reduce(into: Decimal.zero) { total, product in
+    products.reduce(into: .zero) { total, product in
       let quantity = quantities[product.id] ?? 0
       total += product.price * Decimal(quantity)
     }
