@@ -1,5 +1,5 @@
 //
-//  SettingPickerCell.swift
+//  SegmentedSettingCell.swift
 //  Example
 //
 //  Created by Ryan Davis on 9/7/20.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class SettingPickerCell: UITableViewCell, UITextFieldDelegate {
+final class SegmentedSettingCell: UITableViewCell, UITextFieldDelegate {
 
   private var setting: PickerSetting?
 
@@ -22,7 +22,6 @@ final class SettingPickerCell: UITableViewCell, UITextFieldDelegate {
     titleLabel.font = .preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
     segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -41,8 +40,9 @@ final class SettingPickerCell: UITableViewCell, UITextFieldDelegate {
 
     let segmentedControlConstraints = [
       segmentedControl.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
-      segmentedControl.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
-      segmentedControl.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+      segmentedControl.topAnchor.constraint(greaterThanOrEqualTo: layoutGuide.topAnchor),
+      segmentedControl.bottomAnchor.constraint(lessThanOrEqualTo: layoutGuide.bottomAnchor),
+      segmentedControl.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor),
       segmentedControl.leadingAnchor.constraint(
         greaterThanOrEqualTo: titleLabel.trailingAnchor,
         constant: 8
@@ -60,15 +60,13 @@ final class SettingPickerCell: UITableViewCell, UITextFieldDelegate {
       segmentedControl.insertSegment(withTitle: title, at: index, animated: false)
     }
 
-    segmentedControl.selectedSegmentIndex = setting.selectedIndex
+    segmentedControl.selectedSegmentIndex = setting.wrappedValue
 
     self.setting = setting
   }
 
   @objc private func segmentedControlUpdated() {
-    if let title = segmentedControl.titleForSegment(at: segmentedControl.selectedSegmentIndex) {
-      setting?.wrappedValue = title
-    }
+    setting?.wrappedValue = segmentedControl.selectedSegmentIndex
   }
 
   // MARK: Unavailable
@@ -78,11 +76,4 @@ final class SettingPickerCell: UITableViewCell, UITextFieldDelegate {
     fatalError("init(coder:) has not been implemented")
   }
 
-}
-
-private extension PickerSetting {
-  var selectedIndex: Int {
-    let selection = wrappedValue
-    return options.firstIndex(where: { $0 == selection }) ?? -1
-  }
 }

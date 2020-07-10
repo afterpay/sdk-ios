@@ -8,25 +8,25 @@
 
 import Foundation
 
-enum Language: String, CaseIterable {
-  case swift = "Swift"
-  case objectiveC = "Objective-C"
+enum Language: Int, CaseIterable {
+  case swift
+  case objectiveC
 }
 
 struct Settings {
-  @Setting("email", defaultValue: "email@example.com")
+  @Setting("email", defaultValue: "email@example.com", title: "Email")
   static var email: String
 
-  @Setting("host", defaultValue: "localhost")
+  @Setting("host", defaultValue: "localhost", title: "Host")
   static var host: String
 
-  @Setting("port", defaultValue: "3000")
+  @Setting("port", defaultValue: "3000", title: "Port")
   static var port: String
 
-  @Setting("currencyCode", defaultValue: "AUD")
+  @Setting("currencyCode", defaultValue: "AUD", title: "Currency Code")
   static var currencyCode: String
 
-  @Setting("language", defaultValue: .swift)
+  @Setting("language", defaultValue: .swift, title: "Language")
   static var language: Language
 }
 
@@ -39,6 +39,7 @@ struct Setting<T> {
 
   let key: String
   let defaultValue: T
+  let title: String
   let userDefaults: UserDefaults
 
   private let adapter: UserDefaultsAdapter
@@ -46,11 +47,13 @@ struct Setting<T> {
   private init(
     key: String,
     defaultValue: T,
+    title: String,
     userDefaults: UserDefaults,
     adapter: UserDefaultsAdapter
   ) {
     self.key = key
     self.defaultValue = defaultValue
+    self.title = title
     self.userDefaults = userDefaults
     self.adapter = adapter
   }
@@ -64,10 +67,11 @@ struct Setting<T> {
 }
 
 extension Setting where T == String {
-  init(_ key: String, defaultValue: String, userDefaults: UserDefaults = .standard) {
+  init(_ key: String, defaultValue: String, title: String, userDefaults: UserDefaults = .standard) {
     self.init(
       key: key,
       defaultValue: defaultValue,
+      title: title,
       userDefaults: userDefaults,
       adapter: UserDefaultsAdapter(
         get: { defaults, key in defaults.string(forKey: key) },
@@ -77,46 +81,35 @@ extension Setting where T == String {
   }
 }
 
-extension Setting where T: RawRepresentable, T.RawValue == String {
-  init(_ key: String, defaultValue: T, userDefaults: UserDefaults = .standard) {
+extension Setting where T: RawRepresentable, T.RawValue == Int {
+  init(_ key: String, defaultValue: T, title: String, userDefaults: UserDefaults = .standard) {
     self.init(
       key: key,
       defaultValue: defaultValue,
+      title: title,
       userDefaults: userDefaults,
       adapter: UserDefaultsAdapter(
-        get: { defaults, key in defaults.string(forKey: key).flatMap(T.init(rawValue:)) },
+        get: { defaults, key in
+          guard defaults.object(forKey: key) != nil else {
+            return nil
+          }
+          return T(rawValue: defaults.integer(forKey: key))
+        },
         set: { defaults, key, value in defaults.set(value.rawValue, forKey: key) }
       )
     )
   }
 }
 
-@propertyWrapper
-@dynamicMemberLookup
-struct TextSetting {
-  let title: String
-  private(set) var setting: Setting<String>
-
-  init(_ title: String, setting: Setting<String>) {
-    self.title = title
-    self.setting = setting
-  }
-
-  subscript<Value>(dynamicMember keyPath: KeyPath<Setting<String>, Value>) -> Value {
-    return setting[keyPath: keyPath]
-  }
-
-  var wrappedValue: String {
-    get { setting.wrappedValue }
-    set { setting.wrappedValue = newValue }
-  }
+protocol SelectableSetting: RawRepresentable, CaseIterable where RawValue == Int {
+  var label: String { get }
 }
 
 @propertyWrapper
 struct PickerSetting {
   private struct SettingAdapter {
-    var get: () -> String
-    var set: (String) -> Void
+    var get: () -> Int
+    var set: (Int) -> Void
   }
 
   let title: String
@@ -130,23 +123,23 @@ struct PickerSetting {
     self.adapter = adapter
   }
 
-  var wrappedValue: String {
+  var wrappedValue: Int {
     get { adapter.get() }
     set { adapter.set(newValue) }
   }
 }
 
 extension PickerSetting {
-  init<T>(_ title: String, setting: Setting<T>) where T: RawRepresentable & CaseIterable, T.RawValue == String {
+  init<T>(_ setting: Setting<T>) where T: SelectableSetting {
     var setting = setting
     self.init(
-      title: title,
-      options: T.allCases.map(\.rawValue),
+      title: setting.title,
+      options: T.allCases.map(\.label),
       adapter: SettingAdapter(
         get: { setting.wrappedValue.rawValue },
-        set: { rawNewValue in
-          if let newValue = T(rawValue: rawNewValue) {
-            setting.wrappedValue = newValue
+        set: { rawValue in
+          if let value = T(rawValue: rawValue) {
+            setting.wrappedValue = value
           }
         }
       )
@@ -154,19 +147,28 @@ extension PickerSetting {
   }
 }
 
+extension Language: SelectableSetting {
+  var label: String {
+    switch self {
+    case .swift: return "Swift"
+    case .objectiveC: return "Objective-C"
+    }
+  }
+}
+
 enum AppSetting {
-  case text(TextSetting)
+  case text(Setting<String>)
   case picker(PickerSetting)
 }
 
 extension AppSetting {
   static var allSettings: [AppSetting] {
     return [
-      .text(TextSetting("Email", setting: Settings.$email)),
-      .text(TextSetting("Host", setting: Settings.$host)),
-      .text(TextSetting("Port", setting: Settings.$port)),
-      .text(TextSetting("Currency Code", setting: Settings.$currencyCode)),
-      .picker(PickerSetting("Language", setting: Settings.$language)),
+      .text(Settings.$email),
+      .text(Settings.$host),
+      .text(Settings.$port),
+      .text(Settings.$currencyCode),
+      .picker(PickerSetting(Settings.$language)),
     ]
   }
 }
