@@ -49,13 +49,13 @@ final class PurchaseFlowController: UIViewController {
       let navigationController = self.ownedNavigationController
       let action: () -> Void
 
-      switch command {
-      case .updateProducts(let products):
+      switch (command, Settings.language) {
+      case (.updateProducts(let products), _):
         action = {
           self.productsViewController.update(products: products)
         }
 
-      case .showCart(let cart):
+      case (.showCart(let cart), _):
         let cartViewController = CartViewController(cart: cart) { event in
           switch event {
           case .didTapPay:
@@ -65,7 +65,7 @@ final class PurchaseFlowController: UIViewController {
 
         action = { navigationController.pushViewController(cartViewController, animated: true) }
 
-      case .showAfterpayCheckout(let url):
+      case (.showAfterpayCheckout(let url), .swift):
         action = {
           Afterpay.presentCheckoutModally(over: navigationController, loading: url) { result in
             switch result {
@@ -78,12 +78,19 @@ final class PurchaseFlowController: UIViewController {
           }
         }
 
-      case .showAlertForCheckoutURLError(let error):
+      case (.showAfterpayCheckout(let url), .objectiveC):
+        action = {
+          Objc.presentCheckoutModally(over: navigationController, loading: url) { token in
+            self.logicController.success(with: token)
+          }
+        }
+
+      case (.showAlertForCheckoutURLError(let error), _):
         let alert = AlertFactory.alert(for: error)
 
         action = { navigationController.present(alert, animated: true, completion: nil) }
 
-      case .showSuccessWithMessage(let message):
+      case (.showSuccessWithMessage(let message), _):
         let messageViewController = MessageViewController(message: message)
         let viewControllers = [self.productsViewController, messageViewController]
         action = { navigationController.setViewControllers(viewControllers, animated: true) }
