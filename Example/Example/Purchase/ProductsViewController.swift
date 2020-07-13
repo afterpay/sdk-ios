@@ -26,7 +26,7 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
 
     super.init(nibName: nil, bundle: nil)
 
-    self.title = "Products"
+    self.title = "Aftersnack"
   }
 
   override func loadView() {
