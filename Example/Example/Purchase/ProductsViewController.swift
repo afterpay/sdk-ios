@@ -45,12 +45,8 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(ProductCell.self, forCellReuseIdentifier: cellIdentifier)
 
-    let cartButton = UIButton(type: .system)
-    cartButton.backgroundColor = .systemBlue
+    let cartButton: UIButton = .primaryButton
     cartButton.setTitle("View Cart", for: .normal)
-    cartButton.setTitleColor(.white, for: .normal)
-    cartButton.translatesAutoresizingMaskIntoConstraints = false
-    cartButton.titleLabel?.font = .preferredFont(forTextStyle: .title2)
     cartButton.addTarget(self, action: #selector(didTapViewCart), for: .touchUpInside)
 
     view.addSubview(tableView)

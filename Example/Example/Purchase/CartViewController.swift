@@ -49,14 +49,9 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
-    let payButton = UIButton(type: .system)
+    let payButton: UIButton = .primaryButton
     payButton.isEnabled = cart.payEnabled
-    payButton.backgroundColor = .systemBlue
-    payButton.setTitleColor(.white, for: .normal)
-    payButton.setTitleColor(UIColor(white: 1, alpha: 0.5), for: .disabled)
     payButton.setTitle("Pay with Afterpay", for: .normal)
-    payButton.translatesAutoresizingMaskIntoConstraints = false
-    payButton.titleLabel?.font = .preferredFont(forTextStyle: .title2)
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
     view.addSubview(tableView)
