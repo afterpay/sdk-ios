@@ -46,57 +46,60 @@ final class PurchaseFlowController: UIViewController {
     super.viewDidLoad()
 
     logicController.commandHandler = { [unowned self] command in
-      let navigationController = self.ownedNavigationController
-      let action: () -> Void
+      DispatchQueue.main.async { self.execute(command: command) }
+    }
+  }
 
-      switch (command, Settings.language) {
-      case (.updateProducts(let products), _):
-        action = {
-          self.productsViewController.update(products: products)
+  private func execute(command: PurchaseLogicController.Command) {
+    let logicController = self.logicController
+    let navigationController = self.ownedNavigationController
+
+    switch command {
+    case .updateProducts(let products):
+      productsViewController.update(products: products)
+
+    case .showCart(let cart):
+      let cartViewController = CartViewController(cart: cart) { event in
+        switch event {
+        case .didTapPay:
+          logicController.payWithAfterpay()
         }
-
-      case (.showCart(let cart), _):
-        let cartViewController = CartViewController(cart: cart) { event in
-          switch event {
-          case .didTapPay:
-            self.logicController.payWithAfterpay()
-          }
-        }
-
-        action = { navigationController.pushViewController(cartViewController, animated: true) }
-
-      case (.showAfterpayCheckout(let url), .swift):
-        action = {
-          Afterpay.presentCheckoutModally(over: navigationController, loading: url) { result in
-            switch result {
-            case .success(let token):
-              self.logicController.success(with: token)
-
-            case .cancelled:
-              break
-            }
-          }
-        }
-
-      case (.showAfterpayCheckout(let url), .objectiveC):
-        action = {
-          Objc.presentCheckoutModally(over: navigationController, loading: url) { token in
-            self.logicController.success(with: token)
-          }
-        }
-
-      case (.showAlertForCheckoutURLError(let error), _):
-        let alert = AlertFactory.alert(for: error)
-
-        action = { navigationController.present(alert, animated: true, completion: nil) }
-
-      case (.showSuccessWithMessage(let message), _):
-        let messageViewController = MessageViewController(message: message)
-        let viewControllers = [self.productsViewController, messageViewController]
-        action = { navigationController.setViewControllers(viewControllers, animated: true) }
       }
 
-      DispatchQueue.main.async(execute: action)
+      navigationController.pushViewController(cartViewController, animated: true)
+
+    case .showAfterpayCheckout(let url):
+      presentAfterpayCheckoutModally(loading: url, language: Settings.language)
+
+    case .showAlertForCheckoutURLError(let error):
+      let alert = AlertFactory.alert(for: error)
+      navigationController.present(alert, animated: true, completion: nil)
+
+    case .showSuccessWithMessage(let message):
+      let messageViewController = MessageViewController(message: message)
+      let viewControllers = [productsViewController, messageViewController]
+      navigationController.setViewControllers(viewControllers, animated: true)
+    }
+  }
+
+  private func presentAfterpayCheckoutModally(loading url: URL, language: Language) {
+    let logicController = self.logicController
+    let viewController = self.ownedNavigationController
+
+    switch language {
+    case .swift:
+      Afterpay.presentCheckoutModally(over: viewController, loading: url) { result in
+        switch result {
+        case .success(let token):
+          logicController.success(with: token)
+        case .cancelled:
+          break
+        }
+      }
+    case .objectiveC:
+      Objc.presentCheckoutModally(over: viewController, loading: url) { token in
+        logicController.success(with: token)
+      }
     }
   }
 
