@@ -22,9 +22,8 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Web Checkout](#web-checkout)
 - [Getting Started](#getting-started)
   - [Presenting Web Checkout](#presenting-web-checkout)
-    - [In code (UIKit)](#in-code-uikit)
-    - [In code (SwiftUI)](#in-code-swiftui)
-    - [In Interface Builder](#in-interface-builder)
+    - [UIKit](#uikit)
+    - [Objective-C](#objective-c)
 - [Examples](#examples)
 - [Building](#building)
 - [Contributing](#contributing)
@@ -126,35 +125,35 @@ final class CheckoutViewController: UIViewController {
 }
 ```
 
-### SwiftUI
+### Objective-C
 
-```swift
-import Afterpay
-import SwiftUI
+```objc
+#import "ViewController.h"
+#import <Afterpay/Afterpay-Swift.h>
+#import <UIKit/UIKit.h>
 
-struct CheckoutView: View {
-  @State private var presentCheckout = false
+@implementation ViewController
 
-  // ...
+// ...
 
-  var body: some View {
-    NavigationView {
-      Button("Checkout with Afterpay") {
-        self.presentCheckout = true
-      }
+- (void)didTapPayWithAfterpay {
+
+  void (^completion)(APCheckoutResult *) = ^(APCheckoutResult *result) {
+    if ([result isKindOfClass:[APCheckoutResultSuccess class]]) {
+      // Handle success with [(APCheckoutResultSuccess *)result token]
+    } else {
+      // Handle cancellation
     }
-    .sheet(isPresented: self.$presentCheckout) {
-      AfterpayWebCheckout(checkoutUrl: self.checkoutUrl) { result in
-        switch result {
-        case .success(let token):
-          // Handle successful Afterpay checkout
-        case .cancelled:
-          // Handle checkout cancellation
-        }
-      }
-    }
-  }
+  };
+
+  [APAfterpay presentCheckoutModallyOverViewController:self
+                                    loadingCheckoutURL:self.checkoutUrl
+                                              animated:true
+                                            completion:completion];
+
 }
+
+@end
 ```
 
 # Examples
