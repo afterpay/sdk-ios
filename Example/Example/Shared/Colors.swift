@@ -9,25 +9,17 @@
 import Foundation
 
 extension UIColor {
+
+  // MARK: Brand Colors
+
   static let afterpayBlue = UIColor(red: 22, green: 160, blue: 213)
   static let afterpayNavy = UIColor(red: 7, green: 69, blue: 120)
 
-  static var afterpayAccent: UIColor {
-    if #available(iOS 13.0, *) {
-      return UIColor { traitCollection -> UIColor in
-        switch traitCollection.userInterfaceStyle {
-        case .dark:
-          return .afterpayBlue
-        case .light, .unspecified:
-          return .afterpayNavy
-        @unknown default:
-          return .afterpayNavy
-        }
-      }
-    } else {
-      return .afterpayNavy
-    }
-  }
+  // MARK: Semantic Colors
+
+  static let afterpayAccent = UIColor(lightColor: .afterpayNavy, darkColor: .afterpayBlue)
+
+  // MARK: Convenience Initializers
 
   private convenience init(red: UInt, green: UInt, blue: UInt) {
     let red = CGFloat(red) / 255
@@ -36,4 +28,22 @@ extension UIColor {
 
     self.init(red: red, green: green, blue: blue, alpha: 1.0)
   }
+
+  private convenience init(lightColor: UIColor, darkColor: UIColor) {
+    if #available(iOS 13.0, *) {
+      self.init { traitCollection -> UIColor in
+        switch traitCollection.userInterfaceStyle {
+        case .dark:
+          return darkColor
+        case .light, .unspecified:
+          fallthrough
+        @unknown default:
+          return lightColor
+        }
+      }
+    } else {
+      self.init(cgColor: lightColor.cgColor)
+    }
+  }
+
 }
