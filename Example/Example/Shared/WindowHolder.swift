@@ -16,6 +16,7 @@ protocol WindowHolder: AnyObject {
 extension WindowHolder {
   func install(window: UIWindow) {
     window.rootViewController = AppFlowController()
+    window.tintColor = .afterpayAccent
     window.makeKeyAndVisible()
 
     self.window = window
