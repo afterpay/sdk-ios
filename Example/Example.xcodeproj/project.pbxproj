@@ -190,12 +190,13 @@
 				6620B5D124934FB3004162BC /* AppFlowController.swift */,
 				6656288424A32B9900BEC506 /* Example-Bridging-Header.h */,
 				668F162324877F950040345C /* SceneDelegate.swift */,
+				668F162924877F980040345C /* Preview Content */,
 				665311BE24AC1B7B0088A063 /* Purchase */,
-				6656288324A32B2300BEC506 /* Objc */,
+				666262872496F48B0094FC26 /* Resources */,
 				665311BF24AC1E090088A063 /* Settings */,
 				664722A524A5D98D0079B1FB /* Shared */,
-				668F162924877F980040345C /* Preview Content */,
-				666262872496F48B0094FC26 /* Resources */,
+				66D685B324BD76F900C7287C /* SwiftUI */,
+				6656288324A32B2300BEC506 /* Objc */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -214,6 +215,13 @@
 				66F9767724999F5C001D38FA /* Afterpay.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		66D685B324BD76F900C7287C /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
