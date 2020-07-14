@@ -13,11 +13,11 @@ Pod::Spec.new do |spec|
   spec.description  = <<-DESC
     The Afterpay iOS SDK provides drop in UI Components for a smooth Afterpay integration.
   DESC
-  spec.homepage     = "https://github.com/afterpay/afterpay-ios"
+  spec.homepage     = "https://github.com/afterpay/sdk-ios"
   spec.license      = "Apache License, Version 2.0"
   spec.author       = "Afterpay"
   spec.platform     = :ios, "12.0"
-  spec.source       = { :git => "https://github.com/afterpay/afterpay-ios.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/afterpay/sdk-ios.git", :tag => "#{spec.version}" }
   spec.source_files = "Sources"
   spec.framework    = "UIKit"
 end

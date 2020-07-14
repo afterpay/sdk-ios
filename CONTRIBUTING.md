@@ -16,7 +16,7 @@ If the above doesn't help, please [submit an issue][new-issue] via GitHub.
 
 - Click the [Fork][fork-repo] button in the upper right corner of the repository.
 - Clone your fork:
-    `git clone git@github.com:<YOUR_GITHUB_USER>/afterpay-ios.git`
+    `git clone git@github.com:<YOUR_GITHUB_USER>/sdk-ios.git`
 - See the [GitHub documentation][fork-docs] about managing your fork.
 
 ### Bootstrapping
@@ -67,13 +67,13 @@ All contributions to this project are also under this license as per [GitHub's T
 [code-of-conduct]: CODE_OF_CONDUCT.md
 [code-owners]: .github/CODEOWNERS
 [commit-messages]: https://chris.beams.io/posts/git-commit/
-[fork-repo]: https://github.com/afterpay/afterpay-ios/fork
+[fork-repo]: https://github.com/afterpay/sdk-ios/fork
 [fork-docs]: https://help.github.com/articles/working-with-forks/
 [github-terms-contribution]: https://help.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license
-[issues]: https://github.com/afterpay/afterpay-ios/issues
+[issues]: https://github.com/afterpay/sdk-ios/issues
 [license]: LICENSE
 [mint]: https://github.com/yonaskolb/Mint
-[new-issue]: https://github.com/afterpay/afterpay-ios/issues/new/choose
+[new-issue]: https://github.com/afterpay/sdk-ios/issues/new/choose
 [pr-template]: .github/PULL_REQUEST_TEMPLATE.md
 [pr-docs]: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review
 [readme]: README.md
