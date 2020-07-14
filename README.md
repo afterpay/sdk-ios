@@ -98,7 +98,7 @@ Provided the token generated during the checkout process we take care of pre app
 
 # Getting Started
 
-We provide options for integrating the SDK in UIKit and SwiftUI.
+We provide options for integrating the SDK in Swift and Objective-C.
 
 ## Presenting Web Checkout
 
