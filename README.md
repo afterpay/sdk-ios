@@ -22,7 +22,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Web Checkout](#web-checkout)
 - [Getting Started](#getting-started)
   - [Presenting Web Checkout](#presenting-web-checkout)
-    - [UIKit](#uikit)
+    - [Swift](#swift)
     - [Objective-C](#objective-c)
 - [Examples](#examples)
 - [Building](#building)
@@ -104,7 +104,7 @@ We provide options for integrating the SDK in Swift and Objective-C.
 
 The Web Login is a `UIViewController` that can be presented modally over the view controller of your choosing.
 
-### UIKit
+### Swift
 
 ```swift
 import Afterpay
