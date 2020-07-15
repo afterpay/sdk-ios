@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 import UIKit
 
 final class AppFlowController: UIViewController {
@@ -22,10 +23,17 @@ final class AppFlowController: UIViewController {
       currencyCode: Settings.currencyCode
     )
 
-    let purchaseFlowController = PurchaseFlowController(logicController: purchaseLogicController)
+    let purchase: UIViewController
+
+    if #available(iOS 13.0, *) {
+      purchase = UIHostingController(rootView: PurchaseView())
+    } else {
+      purchase = PurchaseFlowController(logicController: purchaseLogicController)
+    }
+
     let purchaseImage = UIImage(named: "for-you")
-    let checkoutTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
-    purchaseFlowController.tabBarItem = checkoutTabBarItem
+    let purchaseTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
+    purchase.tabBarItem = purchaseTabBarItem
 
     let settingsViewController = SettingsViewController(settings: AppSetting.allSettings)
     let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
@@ -33,7 +41,7 @@ final class AppFlowController: UIViewController {
     let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
     settingsNavigationController.tabBarItem = settingsTabBarItem
 
-    let viewControllers = [purchaseFlowController, settingsNavigationController]
+    let viewControllers = [purchase, settingsNavigationController]
 
     ownedTabBarController.setViewControllers(viewControllers, animated: false)
   }
