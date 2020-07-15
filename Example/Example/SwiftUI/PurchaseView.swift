@@ -30,7 +30,14 @@ struct PurchaseView: View {
         }
       }
       .navigationBarTitle("Aftersnack")
-      .afterpayCheckout(checkoutURL: $checkoutURL)
+      .afterpayCheckout(checkoutURL: $checkoutURL) { result in
+        switch result {
+        case .success(let token):
+          print("Afterpay payment success with token: \(token)")
+        case .cancelled:
+          print("Afterpay payment cancelled")
+        }
+      }
     }
   }
 }
