@@ -45,14 +45,14 @@ pod 'afterpay-ios', '~> 1.0'
 ## Carthage
 
 ```
-github "afterpay/afterpay-ios" ~> 1.0
+github "afterpay/sdk-ios" ~> 1.0
 ```
 
 ## Swift Package Manager
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/afterpay-ios.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "1.0.0"))
 ]
 ```
 
@@ -71,7 +71,7 @@ Download the [latest release][latest-release] from GitHub and unzip into an `Aft
 Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the root of your working directory and running the following commands:
 
 ```
-git submodule add https://github.com/AfterpayTouch/afterpay-ios.git Afterpay
+git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
 git checkout 0.0.1
 ```
@@ -178,14 +178,14 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 
 <!-- Links: -->
 [afterpay-workspace]: Afterpay.xcworkspace
-[badge-ci]: https://github.com/AfterpayTouch/afterpay-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
+[badge-ci]: https://github.com/afterpay/sdk-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
 [badge-carthage]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat
 [bootstrap]: Scripts/bootstrap
 [carthage]: https://github.com/Carthage/Carthage
 [contributing]: CONTRIBUTING.md
 [example]: Example
 [git-submodule]: https://git-scm.com/docs/git-submodule
-[latest-release]: https://github.com/AfterpayTouch/afterpay-ios/releases/latest
+[latest-release]: https://github.com/afterpay/sdk-ios/releases/latest
 [license]: LICENSE
 [mint]: https://github.com/yonaskolb/Mint
 [mint-directory]: Tools/mint
