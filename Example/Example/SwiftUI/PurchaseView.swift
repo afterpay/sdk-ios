@@ -12,7 +12,7 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 struct PurchaseView: View {
-  @State private var checkoutURL: CheckoutURL?
+  @State private var checkoutURL: URL?
 
   var body: some View {
     NavigationView {
@@ -22,7 +22,7 @@ struct PurchaseView: View {
           checkout(with: Settings.email, for: "30.00") { result in
             switch result {
             case .success(let url):
-              DispatchQueue.main.async { self.checkoutURL = CheckoutURL(url: url) }
+              DispatchQueue.main.async { self.checkoutURL = url }
             case .failure:
               break
             }

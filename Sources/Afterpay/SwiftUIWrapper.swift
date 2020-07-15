@@ -10,29 +10,24 @@ import Foundation
 import SwiftUI
 import UIKit
 
-public struct CheckoutURL: Identifiable {
+@available(iOS 13.0, *)
+public extension View {
 
-  public var id: URL { url }
+  func afterpayCheckout(checkoutURL: Binding<URL?>) -> some View {
+    let itemBinding: Binding<URLItem?> = Binding(
+      get: { checkoutURL.wrappedValue.flatMap(URLItem.init) },
+      set: { checkoutURL.wrappedValue = $0?.id }
+    )
 
-  public let url: URL
-
-  public init(url: URL) {
-    self.url = url
+    return sheet(item: itemBinding) { item -> SwiftUIWrapper in
+      SwiftUIWrapper(checkoutURL: item.id)
+    }
   }
 
 }
 
-@available(iOS 13.0, *)
-public extension View {
-
-  func afterpayCheckout(checkoutURL: Binding<CheckoutURL?>) -> some View {
-    // Make a new binding from a URL binding
-
-    sheet(item: checkoutURL) { checkoutURL -> SwiftUIWrapper in
-      SwiftUIWrapper(checkoutURL: checkoutURL.url)
-    }
-  }
-
+struct URLItem: Identifiable {
+  let id: URL
 }
 
 struct SwiftUIWrapper: UIViewControllerRepresentable {
