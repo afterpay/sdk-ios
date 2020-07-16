@@ -78,7 +78,7 @@ final class WebViewController:
     )
 
     let cancelPayment: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled) }
+      self.dismiss(animated: true) { self.completion(.cancelled(error: nil)) }
     }
 
     let actions = [
@@ -137,7 +137,7 @@ final class WebViewController:
 
     case (false, .cancelled):
       decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled) }
+      dismiss(animated: true) { self.completion(.cancelled(error: nil)) }
 
     case (false, nil):
       decisionHandler(.allow)
@@ -155,7 +155,7 @@ final class WebViewController:
       preferredStyle: .alert)
 
     let cancelPayment: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled) }
+      self.dismiss(animated: true) { self.completion(.cancelled(error: error)) }
     }
 
     alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: cancelPayment))

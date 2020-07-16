@@ -27,8 +27,8 @@ public final class AfterpayWrapper: NSObject {
       CheckoutResultSuccess(token: token)
     }
 
-    static func cancelled() -> CheckoutResultCancelled {
-      CheckoutResultCancelled(())
+    static func cancelled(error: Error?) -> CheckoutResultCancelled {
+      CheckoutResultCancelled(error: error)
     }
   }
 
@@ -43,8 +43,11 @@ public final class AfterpayWrapper: NSObject {
 
   @objc(APCheckoutResultCancelled)
   public class CheckoutResultCancelled: CheckoutResult {
-    // CheckoutResult init is unavailable so a disambiguated init is required
-    init(_ cancel: ()) {}
+    @objc public let error: Error?
+
+    init(error: Error?) {
+      self.error = error
+    }
   }
 
   @objc(presentCheckoutModallyOverViewController:loadingCheckoutURL:animated:completion:)
@@ -62,8 +65,8 @@ public final class AfterpayWrapper: NSObject {
         switch result {
         case .success(let token):
           completion(.success(token: token))
-        case .cancelled:
-          completion(.cancelled())
+        case .cancelled(let error):
+          completion(.cancelled(error: error))
         }
       }
     )
