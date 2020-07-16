@@ -11,40 +11,59 @@ import Foundation
 import SwiftUI
 
 @available(iOS 13.0, *)
-struct SwiftUIExample: View {
+struct SwiftUIExampleView: View {
+
   @State private var checkoutURL: URL?
+
+  let checkoutResultHandler: (CheckoutResult) -> Void = { result in
+    switch result {
+    case .success(let token):
+      print("Afterpay payment success with token: \(token)")
+    case .cancelled:
+      print("Afterpay payment cancelled")
+    }
+  }
 
   var body: some View {
     NavigationView {
-      VStack {
-        Text("Welcome to the Afterpay SDK")
-        Button("Checkout") {
-          checkout(with: Settings.email, for: "30.00") { result in
-            switch result {
-            case .success(let url):
-              DispatchQueue.main.async { self.checkoutURL = url }
-            case .failure:
-              break
-            }
-          }
-        }
-      }
-      .navigationBarTitle("Aftersnack")
-      .afterpayCheckout(checkoutURL: $checkoutURL) { result in
-        switch result {
-        case .success(let token):
-          print("Afterpay payment success with token: \(token)")
-        case .cancelled:
-          print("Afterpay payment cancelled")
-        }
+      CheckoutView(urlBinding: $checkoutURL)
+        .navigationBarTitle("Aftersnack")
+        .afterpayCheckout(checkoutURL: $checkoutURL, completion: checkoutResultHandler)
+    }
+  }
+
+}
+
+@available(iOS 13.0.0, *)
+private struct CheckoutView: View {
+
+  let urlResultHandler: (Result<URL, Error>) -> Void
+
+  init(urlBinding: Binding<URL?>) {
+    urlResultHandler = { result in
+      switch result {
+      case .success(let url):
+        DispatchQueue.main.async { urlBinding.wrappedValue = url }
+      case .failure:
+        break
       }
     }
   }
+
+  var body: some View {
+    VStack {
+      Text("Welcome to the Afterpay SDK")
+      Button("Checkout") {
+        checkout(with: Settings.email, for: "30.00", completion: self.urlResultHandler)
+      }
+    }
+  }
+
 }
 
 @available(iOS 13.0.0, *)
 struct PurchaseView_Previews: PreviewProvider {
   static var previews: some View {
-    SwiftUIExample()
+    SwiftUIExampleView()
   }
 }
