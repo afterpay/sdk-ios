@@ -144,6 +144,25 @@ final class WebViewController:
     }
   }
 
+  func webView(
+    _ webView: WKWebView,
+    didFailProvisionalNavigation navigation: WKNavigation!,
+    withError error: Error
+  ) {
+    let alert = UIAlertController(
+      title: "Error",
+      message: "Failed to load Afterpay checkout",
+      preferredStyle: .alert)
+
+    let cancelPayment: (UIAlertAction) -> Void = { _ in
+      self.dismiss(animated: true) { self.completion(.cancelled) }
+    }
+
+    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: cancelPayment))
+
+    present(alert, animated: true, completion: nil)
+  }
+
   // MARK: Unavailable
 
   @available(*, unavailable)
