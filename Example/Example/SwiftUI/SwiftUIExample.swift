@@ -11,7 +11,7 @@ import Foundation
 import SwiftUI
 
 @available(iOS 13.0, *)
-struct PurchaseView: View {
+struct SwiftUIExample: View {
   @State private var checkoutURL: URL?
 
   var body: some View {
@@ -45,6 +45,6 @@ struct PurchaseView: View {
 @available(iOS 13.0.0, *)
 struct PurchaseView_Previews: PreviewProvider {
   static var previews: some View {
-    PurchaseView()
+    SwiftUIExample()
   }
 }

@@ -23,27 +23,20 @@ final class AppFlowController: UIViewController {
       currencyCode: Settings.currencyCode
     )
 
-    let purchase: UIViewController
+    let purchase = PurchaseFlowController(logicController: purchaseLogicController)
+    purchase.tabBarItem = UITabBarItem(
+      title: "Purchase",
+      image: UIImage(named: "for-you"),
+      selectedImage: nil)
 
-    if #available(iOS 13.0, *) {
-      purchase = UIHostingController(rootView: PurchaseView())
-    } else {
-      purchase = PurchaseFlowController(logicController: purchaseLogicController)
-    }
+    let settings = UINavigationController(
+      rootViewController: SettingsViewController(settings: AppSetting.allSettings))
+    settings.tabBarItem = UITabBarItem(
+      title: "Settings",
+      image: UIImage(named: "settings"),
+      selectedImage: nil)
 
-    let purchaseImage = UIImage(named: "for-you")
-    let purchaseTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
-    purchase.tabBarItem = purchaseTabBarItem
-
-    let settingsViewController = SettingsViewController(settings: AppSetting.allSettings)
-    let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
-    let settingsImage = UIImage(named: "settings")
-    let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
-    settingsNavigationController.tabBarItem = settingsTabBarItem
-
-    let viewControllers = [purchase, settingsNavigationController]
-
-    ownedTabBarController.setViewControllers(viewControllers, animated: false)
+    ownedTabBarController.setViewControllers([purchase, settings], animated: false)
   }
 
   override func loadView() {
