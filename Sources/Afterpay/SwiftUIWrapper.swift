@@ -18,7 +18,7 @@ public extension View {
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) -> some View {
     let itemBinding: Binding<URLItem?> = Binding(
-      get: { checkoutURL.wrappedValue.flatMap(URLItem.init) },
+      get: { checkoutURL.wrappedValue.map(URLItem.init) },
       set: { checkoutURL.wrappedValue = $0?.id }
     )
 
