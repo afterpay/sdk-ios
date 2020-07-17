@@ -18,6 +18,7 @@ final class WebViewController:
 
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
+  private let validHosts = ["portal.afterpay.com", "portal.sandbox.afterpay.com"]
 
   private var webView: WKWebView { view as! WKWebView }
 
@@ -55,6 +56,18 @@ final class WebViewController:
 
     webView.allowsLinkPreview = false
     webView.navigationDelegate = self
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+
+    guard
+      let host = URLComponents(url: checkoutUrl, resolvingAgainstBaseURL: false)?.host,
+      validHosts.contains(host)
+    else {
+      return dismiss(animated: true) { self.completion(.cancelled(reason: .invalidURL)) }
+    }
+
     webView.load(URLRequest(url: checkoutUrl))
   }
 
