@@ -10,5 +10,10 @@ import Foundation
 
 @frozen public enum CheckoutResult {
   case success(token: String)
-  case cancelled(error: Error?)
+  case cancelled(reason: CancellationReason)
+
+  public enum CancellationReason {
+    case userInitiated
+    case networkError(Error)
+  }
 }

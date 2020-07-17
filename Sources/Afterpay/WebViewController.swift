@@ -78,7 +78,7 @@ final class WebViewController:
     )
 
     let cancelPayment: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled(error: nil)) }
+      self.dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
     }
 
     let actions = [
@@ -137,7 +137,7 @@ final class WebViewController:
 
     case (false, .cancelled):
       decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled(error: nil)) }
+      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
 
     case (false, nil):
       decisionHandler(.allow)
@@ -159,7 +159,7 @@ final class WebViewController:
     }
 
     let cancelHandler: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled(error: error)) }
+      self.dismiss(animated: true) { self.completion(.cancelled(reason: .networkError(error))) }
     }
 
     alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: retryHandler))
