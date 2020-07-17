@@ -28,7 +28,7 @@ struct SwiftUIExampleView: View {
     NavigationView {
       CheckoutView(urlBinding: $checkoutURL)
         .navigationBarTitle("Aftersnack")
-        .afterpayCheckout(checkoutURL: $checkoutURL, completion: checkoutResultHandler)
+        .afterpayCheckout(url: $checkoutURL, completion: checkoutResultHandler)
     }
   }
 
