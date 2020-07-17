@@ -75,7 +75,9 @@ extension Setting where T == String {
       userDefaults: userDefaults,
       adapter: UserDefaultsAdapter(
         get: { defaults, key in defaults.string(forKey: key) },
-        set: { defaults, key, value in defaults.set(value, forKey: key) }
+        set: { defaults, key, value in
+          defaults.set(value.isEmpty ? nil : value, forKey: key)
+        }
       )
     )
   }
