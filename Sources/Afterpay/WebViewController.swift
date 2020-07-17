@@ -154,11 +154,16 @@ final class WebViewController:
       message: "Failed to load Afterpay checkout",
       preferredStyle: .alert)
 
-    let cancelPayment: (UIAlertAction) -> Void = { _ in
+    let retryHandler: (UIAlertAction) -> Void = { [checkoutUrl] _ in
+      webView.load(URLRequest(url: checkoutUrl))
+    }
+
+    let cancelHandler: (UIAlertAction) -> Void = { _ in
       self.dismiss(animated: true) { self.completion(.cancelled(error: error)) }
     }
 
-    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: cancelPayment))
+    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: retryHandler))
+    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler))
 
     present(alert, animated: true, completion: nil)
   }
