@@ -10,5 +10,5 @@ import Foundation
 
 @frozen public enum CheckoutResult {
   case success(token: String)
-  case cancelled
+  case cancelled(error: Error?)
 }

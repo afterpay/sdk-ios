@@ -78,7 +78,7 @@ final class WebViewController:
     )
 
     let cancelPayment: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled) }
+      self.dismiss(animated: true) { self.completion(.cancelled(error: nil)) }
     }
 
     let actions = [
@@ -137,11 +137,35 @@ final class WebViewController:
 
     case (false, .cancelled):
       decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled) }
+      dismiss(animated: true) { self.completion(.cancelled(error: nil)) }
 
     case (false, nil):
       decisionHandler(.allow)
     }
+  }
+
+  func webView(
+    _ webView: WKWebView,
+    didFailProvisionalNavigation navigation: WKNavigation!,
+    withError error: Error
+  ) {
+    let alert = UIAlertController(
+      title: "Error",
+      message: "Failed to load Afterpay checkout",
+      preferredStyle: .alert)
+
+    let retryHandler: (UIAlertAction) -> Void = { [checkoutUrl] _ in
+      webView.load(URLRequest(url: checkoutUrl))
+    }
+
+    let cancelHandler: (UIAlertAction) -> Void = { _ in
+      self.dismiss(animated: true) { self.completion(.cancelled(error: error)) }
+    }
+
+    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: retryHandler))
+    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler))
+
+    present(alert, animated: true, completion: nil)
   }
 
   // MARK: Unavailable
