@@ -27,8 +27,8 @@ public final class AfterpayWrapper: NSObject {
       CheckoutResultSuccess(token: token)
     }
 
-    static func cancelled(error: Error?) -> CheckoutResultCancelled {
-      CheckoutResultCancelled(error: error)
+    static func cancelled(reason: CancellationReason) -> CheckoutResultCancelled {
+      CheckoutResultCancelled(reason: reason)
     }
   }
 
@@ -43,9 +43,39 @@ public final class AfterpayWrapper: NSObject {
 
   @objc(APCheckoutResultCancelled)
   public class CheckoutResultCancelled: CheckoutResult {
-    @objc public let error: Error?
+    @objc public let reason: CancellationReason
 
-    init(error: Error?) {
+    init(reason: CancellationReason) {
+      self.reason = reason
+    }
+  }
+
+  /// Cannot be instantiated, instances will be of type CancellationReasonUserInitiated or
+  /// CancellationReasonNetworkError
+  @objc(APCancellationReason)
+  public class CancellationReason: NSObject {
+    @available(*, unavailable)
+    override init() {}
+
+    static func userInitiated() -> CancellationReasonUserInitiated {
+      CancellationReasonUserInitiated(())
+    }
+
+    static func networkError(error: Error) -> CancellationReasonNetworkError {
+      CancellationReasonNetworkError(error: error)
+    }
+  }
+
+  @objc(APCancellationReasonUserInitiated)
+  public class CancellationReasonUserInitiated: CancellationReason {
+    init(_ void: ()) {}
+  }
+
+  @objc(APCancellationReasonNetworkError)
+  public class CancellationReasonNetworkError: CancellationReason {
+    @objc public let error: Error
+
+    init(error: Error) {
       self.error = error
     }
   }
@@ -65,8 +95,12 @@ public final class AfterpayWrapper: NSObject {
         switch result {
         case .success(let token):
           completion(.success(token: token))
-        case .cancelled(let error):
-          completion(.cancelled(error: error))
+
+        case .cancelled(.userInitiated):
+          completion(.cancelled(reason: .userInitiated()))
+
+        case .cancelled(.networkError(let error)):
+          completion(.cancelled(reason: .networkError(error: error)))
         }
       }
     )
