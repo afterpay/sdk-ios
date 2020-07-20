@@ -16,6 +16,8 @@ final class WebViewController:
   WKNavigationDelegate
 { // swiftlint:disable:this opening_brace
 
+  private static let bundle = Bundle(for: WebViewController.self)
+
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
   private let validHosts: Set<String> = ["portal.afterpay.com", "portal.sandbox.afterpay.com"]
@@ -70,7 +72,13 @@ final class WebViewController:
       }
     }
 
-    webView.load(URLRequest(url: checkoutUrl))
+    var request = URLRequest(url: checkoutUrl)
+
+    let shortVersionString = Self.bundle.infoDictionary?["CFBundleShortVersionString"] as? String
+    let value = shortVersionString.map { version in "\(version)-ios" }
+    request.setValue(value, forHTTPHeaderField: "X-Afterpay-SDK")
+
+    webView.load(request)
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate
