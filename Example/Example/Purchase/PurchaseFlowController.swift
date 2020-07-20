@@ -75,6 +75,10 @@ final class PurchaseFlowController: UIViewController {
       let alert = AlertFactory.alert(for: error)
       navigationController.present(alert, animated: true, completion: nil)
 
+    case .showAlertForErrorMessage(let errorMessage):
+      let alert = AlertFactory.alert(for: errorMessage)
+      navigationController.present(alert, animated: true, completion: nil)
+
     case .showSuccessWithMessage(let message):
       let messageViewController = MessageViewController(message: message)
       let viewControllers = [productsViewController, messageViewController]
@@ -92,14 +96,20 @@ final class PurchaseFlowController: UIViewController {
         switch result {
         case .success(let token):
           logicController.success(with: token)
-        case .cancelled:
-          break
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
         }
       }
+
     case .objectiveC:
-      Objc.presentCheckoutModally(over: viewController, loading: url) { token in
-        logicController.success(with: token)
-      }
+      Objc.presentCheckoutModally(
+        over: viewController,
+        loading: url,
+        successHandler: { token in logicController.success(with: token) },
+        userInitiatedCancelHandler: { logicController.cancelled(with: .userInitiated) },
+        networkErrorCancelHandler: { error in logicController.cancelled(with: .networkError(error)) },
+        invalidURLCancelHandler: { url in logicController.cancelled(with: .invalidURL(url)) }
+      )
     }
   }
 

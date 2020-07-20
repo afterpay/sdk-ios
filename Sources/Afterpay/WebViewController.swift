@@ -65,7 +65,9 @@ final class WebViewController:
       let host = URLComponents(url: checkoutUrl, resolvingAgainstBaseURL: false)?.host,
       validHosts.contains(host)
     else {
-      return dismiss(animated: true) { self.completion(.cancelled(reason: .invalidURL)) }
+      return dismiss(animated: true) { [completion, checkoutUrl] in
+        completion(.cancelled(reason: .invalidURL(checkoutUrl)))
+      }
     }
 
     webView.load(URLRequest(url: checkoutUrl))

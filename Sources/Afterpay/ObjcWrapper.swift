@@ -50,8 +50,8 @@ public final class AfterpayWrapper: NSObject {
     }
   }
 
-  /// Cannot be instantiated, instances will be of type CancellationReasonUserInitiated or
-  /// CancellationReasonNetworkError
+  /// Cannot be instantiated, instances will be of type CancellationReasonUserInitiated,
+  /// CancellationReasonNetworkError or CancellationReasonInvalidURL
   @objc(APCancellationReason)
   public class CancellationReason: NSObject {
     @available(*, unavailable)
@@ -62,7 +62,11 @@ public final class AfterpayWrapper: NSObject {
     }
 
     static func networkError(error: Error) -> CancellationReasonNetworkError {
-      CancellationReasonNetworkError(error: error)
+      CancellationReasonNetworkError(error)
+    }
+
+    static func invalidURL(_ url: URL) -> CancellationReasonInvalidURL {
+      CancellationReasonInvalidURL(url)
     }
   }
 
@@ -75,8 +79,17 @@ public final class AfterpayWrapper: NSObject {
   public class CancellationReasonNetworkError: CancellationReason {
     @objc public let error: Error
 
-    init(error: Error) {
+    init(_ error: Error) {
       self.error = error
+    }
+  }
+
+  @objc(APCancellationReasonInvalidURL)
+  public class CancellationReasonInvalidURL: CancellationReason {
+    @objc public let url: URL
+
+    init(_ url: URL) {
+      self.url = url
     }
   }
 
@@ -101,6 +114,9 @@ public final class AfterpayWrapper: NSObject {
 
         case .cancelled(.networkError(let error)):
           completion(.cancelled(reason: .networkError(error: error)))
+
+        case .cancelled(reason: .invalidURL(let url)):
+          completion(.cancelled(reason: .invalidURL(url)))
         }
       }
     )
