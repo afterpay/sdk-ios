@@ -18,7 +18,7 @@ final class WebViewController:
 
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
-  private let validHosts = ["portal.afterpay.com", "portal.sandbox.afterpay.com"]
+  private let validHosts: Set<String> = ["portal.afterpay.com", "portal.sandbox.afterpay.com"]
 
   private var webView: WKWebView { view as! WKWebView }
 
