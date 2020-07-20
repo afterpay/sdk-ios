@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 import UIKit
 
 final class AppFlowController: UIViewController {
@@ -22,20 +23,20 @@ final class AppFlowController: UIViewController {
       currencyCode: Settings.currencyCode
     )
 
-    let purchaseFlowController = PurchaseFlowController(logicController: purchaseLogicController)
-    let purchaseImage = UIImage(named: "for-you")
-    let checkoutTabBarItem = UITabBarItem(title: "Purchase", image: purchaseImage, selectedImage: nil)
-    purchaseFlowController.tabBarItem = checkoutTabBarItem
+    let purchase = PurchaseFlowController(logicController: purchaseLogicController)
+    purchase.tabBarItem = UITabBarItem(
+      title: "Purchase",
+      image: UIImage(named: "for-you"),
+      selectedImage: nil)
 
-    let settingsViewController = SettingsViewController(settings: AppSetting.allSettings)
-    let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
-    let settingsImage = UIImage(named: "settings")
-    let settingsTabBarItem = UITabBarItem(title: "Settings", image: settingsImage, selectedImage: nil)
-    settingsNavigationController.tabBarItem = settingsTabBarItem
+    let settings = UINavigationController(
+      rootViewController: SettingsViewController(settings: AppSetting.allSettings))
+    settings.tabBarItem = UITabBarItem(
+      title: "Settings",
+      image: UIImage(named: "settings"),
+      selectedImage: nil)
 
-    let viewControllers = [purchaseFlowController, settingsNavigationController]
-
-    ownedTabBarController.setViewControllers(viewControllers, animated: false)
+    ownedTabBarController.setViewControllers([purchase, settings], animated: false)
   }
 
   override func loadView() {
