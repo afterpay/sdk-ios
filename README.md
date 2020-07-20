@@ -10,7 +10,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Table of Contents](#table-of-contents)
 - [Integration](#integration)
   - [Requirements](#requirements)
-  - [CocoaPods](#cocoapods)
+  - [CocoaPods (Coming soon)](#cocoapods-coming-soon)
   - [Carthage](#carthage)
   - [Swift Package Manager](#swift-package-manager)
   - [Manual](#manual)
@@ -39,9 +39,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - Swift 5.1+
 - XCode 11.0+
 
-## CocoaPods
-
-(Coming soon)
+## CocoaPods (Coming soon)
 
 ```
 pod 'afterpay-ios', '~> 1.0'
@@ -205,7 +203,7 @@ struct MyView: View {
 
 # Examples
 
-The [example project][example] demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
+The [example project][example] demonstrates how to include an Afterpay payment flow web experience.
 
 # Building
 
