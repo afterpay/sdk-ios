@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Foundation
 
 final class PurchaseLogicController {
@@ -21,6 +22,7 @@ final class PurchaseLogicController {
     case showCart(CartDisplay)
     case showAfterpayCheckout(URL)
     case showAlertForCheckoutURLError(Error)
+    case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String)
   }
 
@@ -94,6 +96,25 @@ final class PurchaseLogicController {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
     commandHandler(.showSuccessWithMessage("Success with: \(token)"))
+  }
+
+  func cancelled(with reason: CheckoutResult.CancellationReason) {
+    let errorMessageToShow: String?
+
+    switch reason {
+    case .networkError(let error):
+      errorMessageToShow = error.localizedDescription
+    case .userInitiated:
+      errorMessageToShow = nil
+    case .invalidURL(let url):
+      errorMessageToShow = "URL: \(url.absoluteString) is invalid for Afterpay Checkout"
+    @unknown default:
+      errorMessageToShow = "Something went wrong"
+    }
+
+    if let errorMessage = errorMessageToShow {
+      commandHandler(.showAlertForErrorMessage(errorMessage))
+    }
   }
 
 }

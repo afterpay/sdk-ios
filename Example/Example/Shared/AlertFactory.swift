@@ -14,7 +14,7 @@ import UIKit
   @available(*, unavailable)
   override init() {}
 
-  @objc static func alert(for checkoutUrlError: Error) -> UIAlertController {
+  static func alert(for checkoutUrlError: Error) -> UIAlertController {
     let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
 
@@ -27,4 +27,12 @@ import UIKit
 
     return alert
   }
+
+  static func alert(for errorMessage: String) -> UIAlertController {
+    let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+    alert.message = errorMessage
+    return alert
+  }
+
 }

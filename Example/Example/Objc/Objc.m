@@ -14,11 +14,27 @@
 + (void)presentCheckoutModallyOverViewController:(UIViewController *)viewController
                               loadingCheckoutURL:(NSURL *)url
                                   successHandler:(SuccessHandler)successHandler
+                      userInitiatedCancelHandler:(UserInitiatedCancelHandler)userInitiatedCancelHandler
+                       networkErrorCancelHandler:(NetworkErrorCancelHandler)networkErrorCancelHandler
+                         invalidURLCancelHandler:(InvalidURLCancelHandler)invalidURLCancelHandler
 {
   void (^completion)(APCheckoutResult *) = ^(APCheckoutResult *result) {
+
     if ([result isKindOfClass:[APCheckoutResultSuccess class]]) {
       successHandler([(APCheckoutResultSuccess *)result token]);
+      return;
     }
+
+    APCancellationReason *reason = [(APCheckoutResultCancelled *)result reason];
+
+    if ([reason isKindOfClass:[APCancellationReasonUserInitiated class]]) {
+      userInitiatedCancelHandler();
+    } else if ([reason isKindOfClass:[APCancellationReasonNetworkError class]]) {
+      networkErrorCancelHandler([(APCancellationReasonNetworkError *)reason error]);
+    } else if ([reason isKindOfClass:[APCancellationReasonInvalidURL class]]) {
+      invalidURLCancelHandler([(APCancellationReasonInvalidURL *)reason url]);
+    }
+
   };
 
   [APAfterpay presentCheckoutModallyOverViewController:viewController
