@@ -44,15 +44,6 @@ DEFINES_MODULE = YES
 
 
 
-// Development Team
-// 
-// The team ID of a development team to use for signing certificates and provisioning
-// profiles.
-
-DEVELOPMENT_TEAM = KBY3G4JPGC
-
-
-
 // Compatibility Version
 // 
 // Determines the compatibility version of the resulting library, bundle, or framework
