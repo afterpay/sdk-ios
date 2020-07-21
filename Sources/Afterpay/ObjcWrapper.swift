@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 
 @objc(APAfterpay)
-@available(swift, obsoleted: 1.0, message: "This wrapper should only be used from Objective-C")
-public final class AfterpayWrapper: NSObject {
+public final class ObjcWrapper: NSObject {
 
   @available(*, unavailable)
   public override init() {}

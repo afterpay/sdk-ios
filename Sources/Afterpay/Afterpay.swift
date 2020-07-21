@@ -9,38 +9,34 @@
 import Foundation
 import UIKit
 
-public enum Afterpay {
+/// Present Afterpay Checkout modally over the specified view controller loading your
+/// generated checkout URL.
+/// - Parameters:
+///   - viewController: The viewController on which `UIViewController.present` will be called.
+///   The Afterpay Checkout View Controller will be presented modally over this view controller
+///   or it's closest parent that is able to handle the presentation.
+///   - checkoutURL: The checkout URL to load generated via the /checkouts endpoint on the
+///   Afterpay backend.
+///   - animated: Pass true to animate the presentation; otherwise, pass false.
+///   - completion: The block executed after the user has completed the checkout.
+///   - result: The result of the user's completion (a success or cancellation).
+public func presentCheckoutModally(
+  over viewController: UIViewController,
+  loading checkoutURL: URL,
+  animated: Bool = true,
+  completion: @escaping (_ result: CheckoutResult) -> Void
+) {
+  var viewControllerToPresent: UIViewController = WebViewController(
+    checkoutUrl: checkoutURL,
+    completion: completion
+  )
 
-  /// Present Afterpay Checkout modally over the specified view controller loading your
-  /// generated checkout URL.
-  /// - Parameters:
-  ///   - viewController: The viewController on which `UIViewController.present` will be called.
-  ///   The Afterpay Checkout View Controller will be presented modally over this view controller
-  ///   or it's closest parent that is able to handle the presentation.
-  ///   - checkoutURL: The checkout URL to load generated via the /checkouts endpoint on the
-  ///   Afterpay backend.
-  ///   - animated: Pass true to animate the presentation; otherwise, pass false.
-  ///   - completion: The block executed after the user has completed the checkout.
-  ///   - result: The result of the user's completion (a success or cancellation).
-  public static func presentCheckoutModally(
-    over viewController: UIViewController,
-    loading checkoutURL: URL,
-    animated: Bool = true,
-    completion: @escaping (_ result: CheckoutResult) -> Void
-  ) {
-    var viewControllerToPresent: UIViewController = WebViewController(
-      checkoutUrl: checkoutURL,
-      completion: completion
-    )
-
-    if #available(iOS 13.0, *) {
-    } else {
-      // Wrap the modal in a navigation controller to allow dismiss via a bar button item prior
-      // to popover modals in iOS13
-      viewControllerToPresent = UINavigationController(rootViewController: viewControllerToPresent)
-    }
-
-    viewController.present(viewControllerToPresent, animated: animated, completion: nil)
+  if #available(iOS 13.0, *) {
+  } else {
+    // Wrap the modal in a navigation controller to allow dismiss via a bar button item prior
+    // to popover modals in iOS13
+    viewControllerToPresent = UINavigationController(rootViewController: viewControllerToPresent)
   }
 
+  viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
