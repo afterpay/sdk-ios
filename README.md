@@ -184,8 +184,6 @@ struct MyView: View {
   // Updating this state with a retrieved checkout URL will present the afterpay sheet
   @State private var checkoutURL: URL?
 
-  let checkoutResultHandler: (CheckoutResult) -> Void = 
-
   var body: some View {
     SomeView()
       .afterpayCheckout(url: $checkoutURL, completion: checkoutResultHandler) { result in
