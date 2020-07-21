@@ -10,7 +10,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Table of Contents](#table-of-contents)
 - [Integration](#integration)
   - [Requirements](#requirements)
-  - [CocoaPods](#cocoapods)
+  - [CocoaPods (Coming soon)](#cocoapods-coming-soon)
   - [Carthage](#carthage)
   - [Swift Package Manager](#swift-package-manager)
   - [Manual](#manual)
@@ -20,10 +20,12 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
     - [Framework Integration](#framework-integration)
 - [Features](#features)
   - [Web Checkout](#web-checkout)
+    - [Note](#note)
 - [Getting Started](#getting-started)
   - [Presenting Web Checkout](#presenting-web-checkout)
-    - [Swift](#swift)
-    - [Objective-C](#objective-c)
+    - [Swift (UIKit)](#swift-uikit)
+    - [Objective-C (UIKit)](#objective-c-uikit)
+    - [SwiftUI](#swiftui)
 - [Examples](#examples)
 - [Building](#building)
 - [Contributing](#contributing)
@@ -34,9 +36,10 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 ## Requirements
 
 - iOS 12.0+
-- Swift 5.0+
+- Swift 5.1+
+- XCode 11.0+
 
-## CocoaPods
+## CocoaPods (Coming soon)
 
 ```
 pod 'afterpay-ios', '~> 1.0'
@@ -94,7 +97,21 @@ The initial release of the SDK contains the web login and pre approval process w
 
 ## Web Checkout
 
-Provided the token generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration accounts for cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired.
+Provided the URL generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration accounts for cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired.
+
+### Note
+
+These cookies are stored in the default web kit website data store and can be cleared if required by writing code similar to:
+
+```swift
+let dataStore = WKWebsiteDataStore.default()
+let dataTypes = [WKWebsiteDataTypeCookies] as Set<String>
+
+dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
+  let afterpayRecords = records.filter { $0.displayName == "afterpay.com" }
+  dataStore.removeData(ofTypes: dataTypes, for: afterpayRecords) {}
+}
+```
 
 # Getting Started
 
@@ -104,7 +121,7 @@ We provide options for integrating the SDK in Swift and Objective-C.
 
 The Web Login is a `UIViewController` that can be presented modally over the view controller of your choosing.
 
-### Swift
+### Swift (UIKit)
 
 ```swift
 import Afterpay
@@ -117,15 +134,16 @@ final class CheckoutViewController: UIViewController {
       switch result {
       case .success(let token):
         // Handle successful Afterpay checkout
-      case .cancelled:
+      case .cancelled(let reason):
         // Handle checkout cancellation
+        // The SDK provides a few different reasons for cancellation that you can switch on as needed
       }
     }
   }
 }
 ```
 
-### Objective-C
+### Objective-C (UIKit)
 
 ```objc
 #import "ViewController.h"
@@ -139,11 +157,13 @@ final class CheckoutViewController: UIViewController {
 - (void)didTapPayWithAfterpay {
 
   void (^completion)(APCheckoutResult *) = ^(APCheckoutResult *result) {
+
     if ([result isKindOfClass:[APCheckoutResultSuccess class]]) {
       // Handle success with [(APCheckoutResultSuccess *)result token]
     } else {
-      // Handle cancellation
+      // Handle cancellation with [(APCheckoutResultCancelled *)result reason]
     }
+
   };
 
   [APAfterpay presentCheckoutModallyOverViewController:self
@@ -156,9 +176,32 @@ final class CheckoutViewController: UIViewController {
 @end
 ```
 
+### SwiftUI
+
+```swift
+struct MyView: View {
+
+  // Updating this state with a retrieved checkout URL will present the afterpay sheet
+  @State private var checkoutURL: URL?
+
+  var body: some View {
+    SomeView()
+      .afterpayCheckout(url: $checkoutURL, completion: checkoutResultHandler) { result in
+        switch result {
+        case .success(let token):
+          // Handle successful Afterpay checkout
+        case .cancelled(let reason):
+          // Handle checkout cancellation
+        }
+      }
+  }
+
+}
+```
+
 # Examples
 
-The [example project][example] demonstrates how to include an Afterpay payment flow using our prebuilt UI components.
+The [example project][example] demonstrates how to include an Afterpay payment flow web experience.
 
 # Building
 
