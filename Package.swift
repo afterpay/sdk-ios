@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
   name: "Afterpay",
+  platforms: [
+    .iOS(.v12),
+  ],
   products: [
     .library(name: "Afterpay", targets: ["Afterpay"]),
   ],
