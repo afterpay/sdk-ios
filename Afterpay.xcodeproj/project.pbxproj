@@ -279,7 +279,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Scripts/swiftlint-sdk\n";
+			shellScript = "\"$SRCROOT\"/Scripts/swiftlint-sdk\n";
 		};
 		66B57E61248F5D300020C642 /* Ensure No Project Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
