@@ -5,9 +5,13 @@ set -euo pipefail
 # the default SDK for the platform not the one set by the build script
 unset SDKROOT
 
-./Tools/mint/mint run swiftlint \
-  --quiet \
-  -- \
-  Package.swift \
-  Sources \
-  AfterpayTests
+: "${CARTHAGE:=NO}"
+
+if [ "$CARTHAGE" != "YES" ]; then
+  ./Tools/mint/mint run swiftlint \
+    --quiet \
+    -- \
+    Package.swift \
+    Sources \
+    AfterpayTests
+fi
