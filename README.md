@@ -10,14 +10,15 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Table of Contents](#table-of-contents)
 - [Integration](#integration)
   - [Requirements](#requirements)
-  - [CocoaPods (Coming soon)](#cocoapods-coming-soon)
-  - [Carthage](#carthage)
   - [Swift Package Manager](#swift-package-manager)
+  - [Carthage](#carthage)
+  - [CocoaPods (Coming soon)](#cocoapods-coming-soon)
   - [Manual](#manual)
-    - [Download](#download)
+    - [Source](#source)
       - [GitHub Release](#github-release)
       - [Git Submodule](#git-submodule)
-    - [Framework Integration](#framework-integration)
+      - [Project / Workspace Integration](#project--workspace-integration)
+    - [XCFramework](#xcframework)
 - [Features](#features)
   - [Web Checkout](#web-checkout)
     - [Note](#note)
@@ -30,7 +31,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Building](#building)
   - [Mint](#mint)
   - [Running](#running)
-  - [XCFramework](#xcframework)
+  - [XCFramework](#xcframework-1)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -42,18 +43,6 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - Swift 5.1+
 - XCode 11.0+
 
-## CocoaPods (Coming soon)
-
-```
-pod 'afterpay-ios', '~> 1.0'
-```
-
-## Carthage
-
-```
-github "afterpay/sdk-ios" ~> 1.0
-```
-
 ## Swift Package Manager
 
 ```
@@ -62,15 +51,27 @@ dependencies: [
 ]
 ```
 
+## Carthage
+
+```
+github "afterpay/sdk-ios" ~> 1.0
+```
+
+## CocoaPods (Coming soon)
+
+```
+pod 'afterpay-ios', '~> 1.0'
+```
+
 ## Manual
 
 If you prefer not to use any of the supported dependency managers, you can choose to manually integrate the Afterpay SDK into your project.
 
-### Download
+### Source
 
 #### GitHub Release
 
-Download the [latest release][latest-release] from GitHub and unzip into an `Afterpay` directory in the root of your working directory.
+Download the [latest release][latest-release] source zip from GitHub and unzip into an `Afterpay` directory in the root of your working directory.
 
 #### Git Submodule
 
@@ -79,10 +80,10 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 0.0.1
+git checkout 1.0.1
 ```
 
-### Framework Integration
+#### Project / Workspace Integration
 
 Now that the Afterpay SDK resides in the `Afterpay` directory in the root of your working directory, it can be added to your project or workspace with the following steps:
 
@@ -93,6 +94,12 @@ Now that the Afterpay SDK resides in the `Afterpay` directory in the root of you
 5. Select the `Afterpay.framework` for your target platform.
 
 And that's it, the Afterpay SDK is now ready to import and use within your application.
+
+### XCFramework
+
+1. Download the [latest release][latest-release] framework zip from GitHub and unzip it. 
+2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
+3. Drag the `Afterpay.xcframework` under the "Frameworks, Libraries, and Embedded Content" section of your application target in the General tab.
 
 # Features
 
