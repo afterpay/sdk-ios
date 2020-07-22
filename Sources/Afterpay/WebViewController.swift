@@ -191,6 +191,18 @@ final class WebViewController:
     present(alert, animated: true, completion: nil)
   }
 
+  func webView(
+    _ webView: WKWebView,
+    didReceive challenge: URLAuthenticationChallenge,
+    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+  ) {
+    let handled = authenticationChallengeHandler(challenge, completionHandler)
+
+    if handled == false {
+      completionHandler(.performDefaultHandling, nil)
+    }
+  }
+
   // MARK: Unavailable
 
   @available(*, unavailable)

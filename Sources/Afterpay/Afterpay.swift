@@ -40,3 +40,14 @@ public func presentCheckoutModally(
 
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
+
+public typealias AuthenticationChallengeHandler = (
+  _ challenge: URLAuthenticationChallenge,
+  _ completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+) -> Bool
+
+var authenticationChallengeHandler: AuthenticationChallengeHandler = { _, _ in false }
+
+public func setAuthenticationChallengeHandler(_ handler: @escaping AuthenticationChallengeHandler) {
+  authenticationChallengeHandler = handler
+}
