@@ -12,7 +12,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Requirements](#requirements)
   - [Swift Package Manager](#swift-package-manager)
   - [Carthage](#carthage)
-  - [CocoaPods (Coming soon)](#cocoapods-coming-soon)
+  - [CocoaPods](#cocoapods)
   - [Manual](#manual)
     - [Source](#source)
       - [GitHub Release](#github-release)
@@ -57,10 +57,10 @@ dependencies: [
 github "afterpay/sdk-ios" ~> 1.0
 ```
 
-## CocoaPods (Coming soon)
+## CocoaPods
 
 ```
-pod 'afterpay-ios', '~> 1.0'
+pod 'Afterpay', '~> 1.0'
 ```
 
 ## Manual
