@@ -9,30 +9,20 @@
 import Foundation
 import TrustKit
 
-struct Dependencies {
-
-  var pinningValidator: TSKPinningValidator { TrustKit.sharedInstance().pinningValidator }
-
-  init() {
-    let afterpay: [String: Any] = [
-      kTSKExpirationDate: "2022-06-25",
-      kTSKPublicKeyHashes: ["nQ1Tu17lpJ/Hsr3545eCkig+X9ZPcxRQoe5WMSyyqJI="],
-    ]
-
-    let sandbox: [String: Any] = [
-      kTSKExpirationDate: "2021-07-05",
-      kTSKPublicKeyHashes: ["15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4="],
-    ]
-
-    let configuration: [String: Any] = [
-      kTSKSwizzleNetworkDelegates: false,
-      kTSKPinnedDomains: [
-        "portal.afterpay.com": afterpay,
-        "portal.sandbox.afterpay.com": sandbox,
+func initializeDependencies() {
+  let configuration: [String: Any] = [
+    kTSKSwizzleNetworkDelegates: false,
+    kTSKPinnedDomains: [
+      "portal.afterpay.com": [
+        kTSKExpirationDate: "2022-06-25",
+        kTSKPublicKeyHashes: ["nQ1Tu17lpJ/Hsr3545eCkig+X9ZPcxRQoe5WMSyyqJI="],
       ],
-    ]
+      "portal.sandbox.afterpay.com": [
+        kTSKExpirationDate: "2021-07-05",
+        kTSKPublicKeyHashes: ["15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4="],
+      ],
+    ],
+  ]
 
-    TrustKit.initSharedInstance(withConfiguration: configuration)
-  }
-
+  TrustKit.initSharedInstance(withConfiguration: configuration)
 }

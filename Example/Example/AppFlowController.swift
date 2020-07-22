@@ -8,16 +8,16 @@
 
 import Foundation
 import SwiftUI
-import TrustKit
 import UIKit
 
 final class AppFlowController: UIViewController {
 
-  private let dependencies = Dependencies()
   private let ownedTabBarController = UITabBarController()
 
   init() {
     super.init(nibName: nil, bundle: nil)
+
+    initializeDependencies()
 
     let purchaseLogicController = PurchaseLogicController(
       checkoutURLProvider: checkout,
