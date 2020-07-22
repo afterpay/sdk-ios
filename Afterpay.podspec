@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = "Afterpay"
-  spec.version       = "1.0.1"
+  spec.version       = ENV['LIB_VERSION'] || '1.0.0' # fallback to major version
   spec.summary       = "Afterpay iOS SDK"
   spec.description   = <<-DESC
     The Afterpay iOS SDK provides drop in UI Components for a smooth Afterpay integration.
