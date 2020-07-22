@@ -1,6 +1,11 @@
 # Afterpay iOS SDK
 
-![Build and Test][badge-ci] [![Carthage compatible][badge-carthage]][carthage]
+![Build and Test][badge-ci]
+[![Swift Package Manager compatible][badge-spm]][spm]
+[![Carthage compatible][badge-carthage]][carthage]
+[![CocoaPods compatible][badge-ccp]][ccp]
+![Platform][badge-platform]
+![License][badge-license]
 
 The Afterpay iOS SDK provides conveniences to make your Afterpay integration experience as smooth and straightforward as possible. We're working on crafting a great framework for developers with easy drop in components to make payments easy for your customers.
 
@@ -12,7 +17,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Requirements](#requirements)
   - [Swift Package Manager](#swift-package-manager)
   - [Carthage](#carthage)
-  - [CocoaPods (Coming soon)](#cocoapods-coming-soon)
+  - [CocoaPods](#cocoapods)
   - [Manual](#manual)
     - [Source](#source)
       - [GitHub Release](#github-release)
@@ -57,10 +62,10 @@ dependencies: [
 github "afterpay/sdk-ios" ~> 1.0
 ```
 
-## CocoaPods (Coming soon)
+## CocoaPods
 
 ```
-pod 'afterpay-ios', '~> 1.0'
+pod 'Afterpay', '~> 1.0'
 ```
 
 ## Manual
@@ -241,8 +246,13 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [afterpay-workspace]: Afterpay.xcworkspace
 [badge-ci]: https://github.com/afterpay/sdk-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
 [badge-carthage]: https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat
+[badge-ccp]: http://img.shields.io/cocoapods/v/Afterpay.svg?style=flat
+[badge-license]: http://img.shields.io/cocoapods/l/Afterpay.svg?style=flat
+[badge-platform]: http://img.shields.io/cocoapods/p/Afterpay.svg?style=flat
+[badge-spm]: https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat
 [bootstrap]: Scripts/bootstrap
 [carthage]: https://github.com/Carthage/Carthage
+[ccp]: https://cocoapods.org/pods/Afterpay
 [contributing]: CONTRIBUTING.md
 [create-xcframework]: Scripts/create-xcframework
 [example]: Example
@@ -251,3 +261,4 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [license]: LICENSE
 [mint]: https://github.com/yonaskolb/Mint
 [mint-directory]: Tools/mint
+[spm]: https://github.com/apple/swift-package-manager
