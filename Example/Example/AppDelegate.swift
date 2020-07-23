@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WindowHolder {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    initializeDependencies()
+
     if #available(iOS 13.0, *) {
       // Window installation handled by SceneDelegate
     } else {

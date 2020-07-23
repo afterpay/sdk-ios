@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "TrustKit",
+        "repositoryURL": "https://github.com/datatheorem/TrustKit",
+        "state": {
+          "branch": null,
+          "revision": "714fd3fcdcada5b107d91bf6caaaefb00f792730",
+          "version": "1.6.5"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

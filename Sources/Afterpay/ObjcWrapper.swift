@@ -121,4 +121,11 @@ public final class ObjcWrapper: NSObject {
     )
   }
 
+  @objc
+  public static func setAuthenticationChallengeHandler(
+    _ handler: @escaping AuthenticationChallengeHandler
+  ) {
+    Afterpay.setAuthenticationChallengeHandler(handler)
+  }
+
 }
