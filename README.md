@@ -27,6 +27,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Features](#features)
   - [Web Checkout](#web-checkout)
     - [Note](#note)
+  - [Security](#security)
 - [Getting Started](#getting-started)
   - [Presenting Web Checkout](#presenting-web-checkout)
     - [Swift (UIKit)](#swift-uikit)
@@ -128,6 +129,17 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 }
 ```
 
+## Security
+
+For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
+
+```swift
+Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
+ let validator = TrustKit.sharedInstance().pinningValidator
+ return validator.handle(challenge, completionHandler: completionHandler)
+}
+```
+
 # Getting Started
 
 We provide options for integrating the SDK in Swift and Objective-C.
@@ -151,7 +163,6 @@ final class CheckoutViewController: UIViewController {
         // Handle successful Afterpay checkout
       case .cancelled(let reason):
         // Handle checkout cancellation
-        // The SDK provides a few different reasons for cancellation that you can switch on as needed
       }
     }
   }
@@ -201,7 +212,7 @@ struct MyView: View {
 
   var body: some View {
     SomeView()
-      .afterpayCheckout(url: $checkoutURL, completion: checkoutResultHandler) { result in
+      .afterpayCheckout(url: $checkoutURL) { result in
         switch result {
         case .success(let token):
           // Handle successful Afterpay checkout
@@ -262,3 +273,4 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [mint]: https://github.com/yonaskolb/Mint
 [mint-directory]: Tools/mint
 [spm]: https://github.com/apple/swift-package-manager
+[trust-kit]: https://github.com/datatheorem/TrustKit
