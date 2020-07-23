@@ -28,6 +28,8 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Web Checkout](#web-checkout)
     - [Note](#note)
   - [Security](#security)
+    - [Swift](#swift)
+    - [Objective-C](#objective-c)
 - [Getting Started](#getting-started)
   - [Presenting Web Checkout](#presenting-web-checkout)
     - [Swift (UIKit)](#swift-uikit)
@@ -133,11 +135,29 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 
 For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
 
+### Swift
+
 ```swift
 Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
  let validator = TrustKit.sharedInstance().pinningValidator
  return validator.handle(challenge, completionHandler: completionHandler)
 }
+```
+
+### Objective-C
+
+```objc
+typedef void (^ CompletionHandler)(NSURLSessionAuthChallengeDisposition, NSURLCredential *);
+
+BOOL (^challengeHandler)(NSURLAuthenticationChallenge *, CompletionHandler) = ^BOOL(
+ NSURLAuthenticationChallenge *challenge,
+ CompletionHandler completionHandler
+) {
+ TSKPinningValidator *pinningValidator = [[TrustKit sharedInstance] pinningValidator];
+ return [pinningValidator handleChallenge:challenge completionHandler:completionHandler];
+};
+
+[APAfterpay setAuthenticationChallengeHandler:challengeHandler];
 ```
 
 # Getting Started
