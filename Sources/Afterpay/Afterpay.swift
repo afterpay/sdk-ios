@@ -41,6 +41,14 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
+/// A handler that is passed a `challenge` a `completionHandler`. If the challenge has been
+/// handled (by calling the completionHandler) `true` should be returned, `false` otherwise.
+/// - Parameters:
+///   - challenge: The authentication challenge.
+///   - completionHandler: A block to invoke to respond to the challenge. The disposition parameter
+///   must be one of the constants of the enumerated type URLSession.AuthChallengeDisposition. When
+///   disposition is URLSession.AuthChallengeDisposition.useCredential, the credential parameter
+///   specifies the credential to use, or nil to continue without a credential.
 public typealias AuthenticationChallengeHandler = (
   _ challenge: URLAuthenticationChallenge,
   _ completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
@@ -48,6 +56,10 @@ public typealias AuthenticationChallengeHandler = (
 
 var authenticationChallengeHandler: AuthenticationChallengeHandler = { _, _ in false }
 
+/// Set the authentication challenge handler used by the Afterpay SDK to respond to authentication
+/// challenges during the checkout process.
+/// - Parameter handler: A handler that should return whether or not the challenge has been handled.
+/// `true` if the passed completionHandler has been called, `false` otherwise.
 public func setAuthenticationChallengeHandler(_ handler: @escaping AuthenticationChallengeHandler) {
   authenticationChallengeHandler = handler
 }
