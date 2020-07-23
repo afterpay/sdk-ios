@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftUI
 import UIKit
 
 final class AppFlowController: UIViewController {
@@ -16,8 +15,6 @@ final class AppFlowController: UIViewController {
 
   init() {
     super.init(nibName: nil, bundle: nil)
-
-    initializeDependencies()
 
     let purchaseLogicController = PurchaseLogicController(
       checkoutURLProvider: checkout,
