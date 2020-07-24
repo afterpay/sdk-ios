@@ -92,6 +92,21 @@ class ConfigurationTests: XCTestCase {
     failedToMatch(expectedError: ConfigurationError.invalidMaximum(negativeAmount))
   }
 
+  func testInvalidConfigurationInvalidMinimumMaximumOrdering() {
+    do {
+      _ = try Configuration(
+        minimumAmount: oneThousand,
+        maximumAmount: one,
+        currencyCode: usdCode)
+    } catch ConfigurationError.invalidOrdering(minimum: oneThousand, maximum: one) {
+      return
+    } catch {}
+
+    failedToMatch(
+      expectedError: ConfigurationError.invalidOrdering(minimum: oneThousand, maximum: one)
+    )
+  }
+
   func failedToMatch(expectedError: Error) {
     XCTFail("Failed to match expected error \(expectedError)")
   }

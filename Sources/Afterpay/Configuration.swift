@@ -30,8 +30,8 @@ struct Currency {
 public enum ConfigurationError: Error {
   case invalidMinimum(String)
   case invalidMaximum(String)
+  case invalidOrdering(minimum: String, maximum: String)
   case invalidCurrencyCode(String)
-  case minimumLargerThanMaximum(minimum: String, maximum: String)
 }
 
 public struct Configuration {
@@ -52,6 +52,10 @@ public struct Configuration {
 
     guard let maximumDecimal = Decimal(string: maximumAmount), maximumDecimal >= .zero else {
       throw ConfigurationError.invalidMaximum(maximumAmount)
+    }
+
+    guard !minimumSupplied || minimumDecimal! < maximumDecimal else {
+      throw ConfigurationError.invalidOrdering(minimum: minimumAmount!, maximum: maximumAmount)
     }
 
     guard let currency = Currency(currencyCode: currencyCode) else {
