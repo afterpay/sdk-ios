@@ -49,12 +49,37 @@ public enum ConfigurationError: LocalizedError {
 
 }
 
+/// A configuration that should be constructed from the results of a call to `/v2/configuration`
 public struct Configuration {
 
   let minimumAmount: Decimal?
   let maximumAmount: Decimal
   let currency: Currency
 
+
+  /// Creates a new configuration by taking in a minimum and maximum amount as well as a currency
+  /// code.
+  ///
+  /// These should be taken from the values supplied in `/v2/configuration` for example in the
+  /// response JSON:
+  ///
+  ///     {
+  ///         "minimumAmount": { "amount": "1.00", "currency": "AUD" },
+  ///         "maximumAmount": { "amount": "2000.00", "currency":"AUD" }
+  ///     }
+  ///
+  /// The matching initializer call would be:
+  ///
+  ///     Configuration(minimumAmount: "1.00", maximumAmount: "2000.00", currencyCode: "AUD")
+  ///
+  /// - Parameters:
+  ///   - minimumAmount: An optional minimum amount string representation of a decimal number,
+  ///   rounded to 2 decimal places. However values convertible to a Swift Decimal are accepted.
+  ///   - maximumAmount: A amount string representation of a decimal number, rounded to 2
+  ///   decimal places. However values convertible to a Swift Decimal are accepted.
+  ///   - currencyCode: The currency in ISO 4217 format. Supported values include "AUD", "NZD",
+  ///   "USD", and "CAD". However values recognized by Foundation are accepted.
+  /// - Throws: A ConfigurationError describing why the configuration values were rejected.
   public init(minimumAmount: String?, maximumAmount: String, currencyCode: String) throws {
     let minimumSupplied = minimumAmount != nil
     let minimumDecimal = minimumAmount.flatMap { Decimal(string: $0) }
