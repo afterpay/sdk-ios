@@ -27,22 +27,31 @@ struct Currency {
 
 }
 
+public enum ConfigurationError: Error {
+  case invalidDecimal(String)
+  case invalidCurrencyCode(String)
+}
+
 public struct Configuration {
 
   let minimumAmount: Decimal?
   let maximumAmount: Decimal
   let currency: Currency
 
-  public init?(minimumAmount: String?, maximumAmount: String, currencyCode: String) {
+  public init(minimumAmount: String?, maximumAmount: String, currencyCode: String) throws {
     let minimumSupplied = minimumAmount != nil
     let minimumDecimalAmount = minimumAmount.flatMap { Decimal(string: $0) }
 
-    guard
-      !minimumSupplied || (minimumSupplied && minimumDecimalAmount != nil),
-      let maximumDecimalAmount = Decimal(string: maximumAmount),
-      let currency = Currency(currencyCode: currencyCode)
-    else {
-      return nil
+    guard !minimumSupplied || (minimumSupplied && minimumDecimalAmount != nil) else {
+      throw ConfigurationError.invalidDecimal(minimumAmount!)
+    }
+
+    guard let maximumDecimalAmount = Decimal(string: maximumAmount) else {
+      throw ConfigurationError.invalidDecimal(maximumAmount)
+    }
+
+    guard let currency = Currency(currencyCode: currencyCode) else {
+      throw ConfigurationError.invalidCurrencyCode(currencyCode)
     }
 
     self.minimumAmount = minimumDecimalAmount

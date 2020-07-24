@@ -132,9 +132,10 @@ public final class ObjcWrapper: NSObject {
   public static func setConfiguration(
     minimumAmount: String,
     maximumAmount: String,
-    currencyCode: String
+    currencyCode: String,
+    error: UnsafeMutablePointer<NSError>
   ) -> Bool {
-    let optionalConfiguration = Configuration(
+    let optionalConfiguration = try? Configuration(
       minimumAmount: minimumAmount,
       maximumAmount: maximumAmount,
       currencyCode: currencyCode)
