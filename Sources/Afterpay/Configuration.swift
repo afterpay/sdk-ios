@@ -27,11 +27,26 @@ struct Currency {
 
 }
 
-public enum ConfigurationError: Error {
+public enum ConfigurationError: LocalizedError {
+
   case invalidMinimum(String)
   case invalidMaximum(String)
   case invalidOrdering(minimum: String, maximum: String)
   case invalidCurrencyCode(String)
+
+  public var failureReason: String? {
+    switch self {
+    case .invalidMinimum(let minimum):
+      return "Minimum (\(minimum)) is not convertible to a positive Decimal number"
+    case .invalidMaximum(let maximum):
+      return "Maximum (\(maximum)) is not convertible to a positive Decimal number"
+    case .invalidOrdering(let minimum, let maximum):
+      return "Minmum (\(minimum)) is not strictly less than maximum (\(maximum))"
+    case .invalidCurrencyCode(let currencyCode):
+      return "Currency code (\(currencyCode)) is not valid"
+    }
+  }
+
 }
 
 public struct Configuration {
