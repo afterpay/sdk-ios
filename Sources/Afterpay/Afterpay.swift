@@ -66,6 +66,8 @@ public func setAuthenticationChallengeHandler(_ handler: @escaping Authenticatio
 
 var configuration: Configuration?
 
+/// Sets the Configuration object to use for rendering UI Components in the Afterpay SDK.
+/// - Parameter configuration: The configuration.
 public func setConfiguration(_ configuration: Configuration) {
   Afterpay.configuration = configuration
 }
