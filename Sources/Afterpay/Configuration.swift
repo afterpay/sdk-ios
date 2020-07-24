@@ -29,13 +29,16 @@ struct Currency {
 
 public struct Configuration {
 
-  let minimumAmount: Decimal
+  let minimumAmount: Decimal?
   let maximumAmount: Decimal
   let currency: Currency
 
-  public init?(minimumAmount: String, maximumAmount: String, currencyCode: String) {
+  public init?(minimumAmount: String?, maximumAmount: String, currencyCode: String) {
+    let minimumSupplied = minimumAmount != nil
+    let minimumDecimalAmount = minimumAmount.flatMap { Decimal(string: $0) }
+
     guard
-      let minimumDecimalAmount = Decimal(string: minimumAmount),
+      !minimumSupplied || (minimumSupplied && minimumDecimalAmount != nil),
       let maximumDecimalAmount = Decimal(string: maximumAmount),
       let currency = Currency(currencyCode: currencyCode)
     else {
