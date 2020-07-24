@@ -13,6 +13,8 @@ class ConfigurationTests: XCTestCase {
 
   let one = "1.00"
   let oneThousand = "1000.00"
+  let invalidAlphaAmount = "foo"
+  let negativeAmount = "-1.00"
 
   let usdCode = "USD"
   let invalidCode = "XXX"
@@ -32,10 +34,40 @@ class ConfigurationTests: XCTestCase {
         maximumAmount: oneThousand,
         currencyCode: invalidCode)
     } catch ConfigurationError.invalidCurrencyCode(invalidCode) {
-    } catch {
-      let expectedError = ConfigurationError.invalidCurrencyCode(invalidCode)
-      XCTFail("Failed to match expected error \(expectedError)")
-    }
+      return
+    } catch {}
+
+    failedToMatch(expectedError: ConfigurationError.invalidCurrencyCode(invalidCode))
+  }
+
+  func testInvalidConfigurationInvalidMinimumWithAlphanumerics() {
+    do {
+      _ = try Configuration(
+        minimumAmount: invalidAlphaAmount,
+        maximumAmount: oneThousand,
+        currencyCode: usdCode)
+    } catch ConfigurationError.invalidMinimum(invalidAlphaAmount) {
+      return
+    } catch {}
+
+    failedToMatch(expectedError: ConfigurationError.invalidMinimum(invalidAlphaAmount))
+  }
+
+  func testInvalidConfigurationInvalidMinimumWithNegatives() {
+    do {
+      _ = try Configuration(
+        minimumAmount: negativeAmount,
+        maximumAmount: oneThousand,
+        currencyCode: usdCode)
+    } catch ConfigurationError.invalidMinimum(negativeAmount) {
+      return
+    } catch {}
+
+    failedToMatch(expectedError: ConfigurationError.invalidMinimum(negativeAmount))
+  }
+
+  func failedToMatch(expectedError: Error) {
+    XCTFail("Failed to match expected error \(expectedError)")
   }
 
 }

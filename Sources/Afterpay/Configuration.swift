@@ -28,8 +28,10 @@ struct Currency {
 }
 
 public enum ConfigurationError: Error {
-  case invalidDecimal(String)
+  case invalidMinimum(String)
+  case invalidMaximum(String)
   case invalidCurrencyCode(String)
+  case minimumLargerThanMaximum(minimum: String, maximum: String)
 }
 
 public struct Configuration {
@@ -41,13 +43,15 @@ public struct Configuration {
   public init(minimumAmount: String?, maximumAmount: String, currencyCode: String) throws {
     let minimumSupplied = minimumAmount != nil
     let minimumDecimalAmount = minimumAmount.flatMap { Decimal(string: $0) }
+    let minimumIsNotNegative = minimumDecimalAmount ?? .zero >= .zero
+    let minimumIsValid = minimumSupplied && minimumDecimalAmount != nil && minimumIsNotNegative
 
-    guard !minimumSupplied || (minimumSupplied && minimumDecimalAmount != nil) else {
-      throw ConfigurationError.invalidDecimal(minimumAmount!)
+    guard !minimumSupplied || minimumIsValid else {
+      throw ConfigurationError.invalidMinimum(minimumAmount!)
     }
 
     guard let maximumDecimalAmount = Decimal(string: maximumAmount) else {
-      throw ConfigurationError.invalidDecimal(maximumAmount)
+      throw ConfigurationError.invalidMaximum(maximumAmount)
     }
 
     guard let currency = Currency(currencyCode: currencyCode) else {
