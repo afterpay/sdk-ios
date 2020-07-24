@@ -63,3 +63,9 @@ var authenticationChallengeHandler: AuthenticationChallengeHandler = { _, _ in f
 public func setAuthenticationChallengeHandler(_ handler: @escaping AuthenticationChallengeHandler) {
   authenticationChallengeHandler = handler
 }
+
+var configuration: Configuration?
+
+public func setConfiguration(_ configuration: Configuration) {
+  Afterpay.configuration = configuration
+}
