@@ -128,4 +128,23 @@ public final class ObjcWrapper: NSObject {
     Afterpay.setAuthenticationChallengeHandler(handler)
   }
 
+  @objc
+  public static func setConfiguration(
+    minimumAmount: String,
+    maximumAmount: String,
+    currencyCode: String
+  ) -> Bool {
+    let optionalConfiguration = Configuration(
+      minimumAmount: minimumAmount,
+      maximumAmount: maximumAmount,
+      currencyCode: currencyCode)
+
+    guard let configuration = optionalConfiguration else {
+      return false
+    }
+
+    Afterpay.setConfiguration(configuration)
+    return true
+  }
+
 }
