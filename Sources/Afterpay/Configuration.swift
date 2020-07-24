@@ -42,15 +42,15 @@ public struct Configuration {
 
   public init(minimumAmount: String?, maximumAmount: String, currencyCode: String) throws {
     let minimumSupplied = minimumAmount != nil
-    let minimumDecimalAmount = minimumAmount.flatMap { Decimal(string: $0) }
-    let minimumIsNotNegative = minimumDecimalAmount ?? .zero >= .zero
-    let minimumIsValid = minimumSupplied && minimumDecimalAmount != nil && minimumIsNotNegative
+    let minimumDecimal = minimumAmount.flatMap { Decimal(string: $0) }
+    let minimumIsNotNegative = minimumDecimal ?? .zero >= .zero
+    let minimumIsValid = minimumSupplied && minimumDecimal != nil && minimumIsNotNegative
 
     guard !minimumSupplied || minimumIsValid else {
       throw ConfigurationError.invalidMinimum(minimumAmount!)
     }
 
-    guard let maximumDecimalAmount = Decimal(string: maximumAmount) else {
+    guard let maximumDecimal = Decimal(string: maximumAmount), maximumDecimal >= .zero else {
       throw ConfigurationError.invalidMaximum(maximumAmount)
     }
 
@@ -58,8 +58,8 @@ public struct Configuration {
       throw ConfigurationError.invalidCurrencyCode(currencyCode)
     }
 
-    self.minimumAmount = minimumDecimalAmount
-    self.maximumAmount = maximumDecimalAmount
+    self.minimumAmount = minimumDecimal
+    self.maximumAmount = maximumDecimal
     self.currency = currency
   }
 
