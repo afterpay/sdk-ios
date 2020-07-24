@@ -27,6 +27,7 @@ struct Currency {
 
 }
 
+/// Describes errors encountered when constructing a `Configuration`
 public enum ConfigurationError: LocalizedError {
 
   case invalidMinimum(String)
@@ -55,7 +56,6 @@ public struct Configuration {
   let minimumAmount: Decimal?
   let maximumAmount: Decimal
   let currency: Currency
-
 
   /// Creates a new configuration by taking in a minimum and maximum amount as well as a currency
   /// code.
