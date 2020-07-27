@@ -19,12 +19,16 @@ class ConfigurationTests: XCTestCase {
   let usdCode = "USD"
   let invalidCode = "XXX"
 
-  func testValidConfiguration() throws {
-    _ = try Configuration(minimumAmount: one, maximumAmount: oneThousand, currencyCode: usdCode)
+  func testValidConfiguration() {
+    XCTAssertNoThrow(
+      try Configuration(minimumAmount: one, maximumAmount: oneThousand, currencyCode: usdCode)
+    )
   }
 
-  func testValidConfigurationNoMinimum() throws {
-    _ = try Configuration(minimumAmount: nil, maximumAmount: oneThousand, currencyCode: usdCode)
+  func testValidConfigurationNoMinimum() {
+    XCTAssertNoThrow(
+      try Configuration(minimumAmount: nil, maximumAmount: oneThousand, currencyCode: usdCode)
+    )
   }
 
   func testInvalidConfigurationInvalidCurrencyCode() {
