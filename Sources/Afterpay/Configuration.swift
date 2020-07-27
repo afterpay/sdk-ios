@@ -28,7 +28,7 @@ struct Currency {
 }
 
 /// Describes errors encountered when constructing a `Configuration`
-public enum ConfigurationError: LocalizedError {
+public enum ConfigurationError: LocalizedError, Equatable {
 
   case invalidMinimum(String)
   case invalidMaximum(String)

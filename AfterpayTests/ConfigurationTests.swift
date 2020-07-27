@@ -32,87 +32,66 @@ class ConfigurationTests: XCTestCase {
   }
 
   func testInvalidConfigurationInvalidCurrencyCode() {
-    do {
-      _ = try Configuration(
-        minimumAmount: one,
-        maximumAmount: oneThousand,
-        currencyCode: invalidCode)
-    } catch ConfigurationError.invalidCurrencyCode(invalidCode) {
-      return
-    } catch {}
-
-    failedToMatch(expectedError: ConfigurationError.invalidCurrencyCode(invalidCode))
+    XCTAssertThrowsError(
+      try Configuration(minimumAmount: one, maximumAmount: oneThousand, currencyCode: invalidCode)
+    ) { error in
+      XCTAssertEqual(error as? ConfigurationError, .invalidCurrencyCode(invalidCode))
+    }
   }
 
   func testInvalidConfigurationInvalidMinimumWithAlphanumerics() {
-    do {
-      _ = try Configuration(
+    XCTAssertThrowsError(
+      try Configuration(
         minimumAmount: invalidAlphaAmount,
         maximumAmount: oneThousand,
-        currencyCode: usdCode)
-    } catch ConfigurationError.invalidMinimum(invalidAlphaAmount) {
-      return
-    } catch {}
-
-    failedToMatch(expectedError: ConfigurationError.invalidMinimum(invalidAlphaAmount))
+        currencyCode: usdCode
+      )
+    ) { error in
+      XCTAssertEqual(error as? ConfigurationError, .invalidMinimum(invalidAlphaAmount))
+    }
   }
 
   func testInvalidConfigurationInvalidMinimumWithNegatives() {
-    do {
-      _ = try Configuration(
+    XCTAssertThrowsError(
+      try Configuration(
         minimumAmount: negativeAmount,
         maximumAmount: oneThousand,
-        currencyCode: usdCode)
-    } catch ConfigurationError.invalidMinimum(negativeAmount) {
-      return
-    } catch {}
-
-    failedToMatch(expectedError: ConfigurationError.invalidMinimum(negativeAmount))
+        currencyCode: usdCode
+      )
+    ) { error in
+      XCTAssertEqual(error as? ConfigurationError, .invalidMinimum(negativeAmount))
+    }
   }
 
   func testInvalidConfigurationInvalidMaximumWithAlphanumerics() {
-    do {
-      _ = try Configuration(
+    XCTAssertThrowsError(
+      try Configuration(
         minimumAmount: one,
         maximumAmount: invalidAlphaAmount,
-        currencyCode: usdCode)
-    } catch ConfigurationError.invalidMaximum(invalidAlphaAmount) {
-      return
-    } catch {}
-
-    failedToMatch(expectedError: ConfigurationError.invalidMaximum(invalidAlphaAmount))
+        currencyCode: usdCode
+      )
+    ) { error in
+      XCTAssertEqual(error as? ConfigurationError, .invalidMaximum(invalidAlphaAmount))
+    }
   }
 
   func testInvalidConfigurationInvalidMaximumWithNegatives() {
-    do {
-      _ = try Configuration(
-        minimumAmount: one,
-        maximumAmount: negativeAmount,
-        currencyCode: usdCode)
-    } catch ConfigurationError.invalidMaximum(negativeAmount) {
-      return
-    } catch {}
-
-    failedToMatch(expectedError: ConfigurationError.invalidMaximum(negativeAmount))
+    XCTAssertThrowsError(
+      try Configuration(minimumAmount: one, maximumAmount: negativeAmount, currencyCode: usdCode)
+    ) { error in
+      XCTAssertEqual(error as? ConfigurationError, .invalidMaximum(negativeAmount))
+    }
   }
 
   func testInvalidConfigurationInvalidMinimumMaximumOrdering() {
-    do {
-      _ = try Configuration(
-        minimumAmount: oneThousand,
-        maximumAmount: one,
-        currencyCode: usdCode)
-    } catch ConfigurationError.invalidOrdering(minimum: oneThousand, maximum: one) {
-      return
-    } catch {}
-
-    failedToMatch(
-      expectedError: ConfigurationError.invalidOrdering(minimum: oneThousand, maximum: one)
-    )
-  }
-
-  func failedToMatch(expectedError: Error) {
-    XCTFail("Failed to match expected error \(expectedError)")
+    XCTAssertThrowsError(
+      try Configuration(minimumAmount: oneThousand, maximumAmount: one, currencyCode: usdCode)
+    ) { error in
+      XCTAssertEqual(
+        error as? ConfigurationError,
+        .invalidOrdering(minimum: oneThousand, maximum: one)
+      )
+    }
   }
 
 }
