@@ -16,6 +16,7 @@
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
 		66EBA2C124CE95C400242E6C /* Macaw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66EBA2C024CE95C400242E6C /* Macaw.framework */; platformFilter = ios; };
 		66EBA2C224CE95C400242E6C /* Macaw.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66EBA2C024CE95C400242E6C /* Macaw.framework */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		66EBA2C524CE97AF00242E6C /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EBA2C424CE97AF00242E6C /* Assets.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		66B57E57248F5C7D0020C642 /* Afterpay-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Release.xcconfig"; sourceTree = "<group>"; };
 		66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWrapper.swift; sourceTree = "<group>"; };
 		66EBA2C024CE95C400242E6C /* Macaw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Macaw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66EBA2C424CE97AF00242E6C /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
+				66EBA2C424CE97AF00242E6C /* Assets.swift */,
 				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				6689536B24C96CB5005090B4 /* Configuration.swift */,
 				666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */,
@@ -346,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6689536C24C96CB5005090B4 /* Configuration.swift in Sources */,
+				66EBA2C524CE97AF00242E6C /* Assets.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				667AD3542497121200BF94E5 /* WebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
