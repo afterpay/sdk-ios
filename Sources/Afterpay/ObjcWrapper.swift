@@ -128,4 +128,23 @@ public final class ObjcWrapper: NSObject {
     Afterpay.setAuthenticationChallengeHandler(handler)
   }
 
+  @objc
+  public static func setConfiguration(
+    minimumAmount: String,
+    maximumAmount: String,
+    currencyCode: String,
+    error: UnsafeMutablePointer<NSError>
+  ) {
+    do {
+      let configuration = try Configuration(
+        minimumAmount: minimumAmount,
+        maximumAmount: maximumAmount,
+        currencyCode: currencyCode)
+
+      Afterpay.setConfiguration(configuration)
+    } catch let configurationError {
+      error.initialize(to: configurationError as NSError)
+    }
+  }
+
 }
