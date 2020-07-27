@@ -1,0 +1,292 @@
+{
+  "contents" : [
+    {
+      "contents" : [
+        {
+          "contents" : [
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "100"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 50",
+              "text" : "100"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "200"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 85",
+              "text" : "200"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "300"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 120",
+              "text" : "300"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "400"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 155",
+              "text" : "400"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "500"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 190",
+              "text" : "500"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 32768
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "600"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 225",
+              "text" : "600"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 32768
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "700"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 260",
+              "text" : "700"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 32768
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "800"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 295",
+              "text" : "800"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 32768
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "900"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 360, 330",
+              "text" : "900"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "bold"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 60, 80",
+              "text" : "This is bold"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                "size" : 30,
+                "weight" : "normal"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 60, 130",
+              "text" : "This is normal"
+            },
+            {
+              "contents" : [
+                {
+                  "align" : "min",
+                  "baseline" : "bottom",
+                  "fill" : {
+                    "type" : "Color",
+                    "val" : 255
+                  },
+                  "font" : {
+                    "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                    "size" : 30,
+                    "weight" : "bolder"
+                  },
+                  "node" : "Text",
+                  "place" : "1, 0, 0, 1, 60, 180",
+                  "text" : "Blue is bolder"
+                }
+              ],
+              "node" : "Group"
+            },
+            {
+              "contents" : [
+                {
+                  "align" : "min",
+                  "baseline" : "bottom",
+                  "fill" : {
+                    "type" : "Color",
+                    "val" : 255
+                  },
+                  "font" : {
+                    "name" : "Georgia,'Times New Roman',Times,'MS Mincho',serif",
+                    "size" : 30,
+                    "weight" : "lighter"
+                  },
+                  "node" : "Text",
+                  "place" : "1, 0, 0, 1, 60, 230",
+                  "text" : "Blue is lighter"
+                }
+              ],
+              "node" : "Group"
+            }
+          ],
+          "node" : "Group"
+        }
+      ],
+      "node" : "Group"
+    },
+    {
+      "contents" : [
+        {
+          "align" : "min",
+          "baseline" : "bottom",
+          "fill" : {
+            "type" : "Color",
+            "val" : 0
+          },
+          "font" : {
+            "name" : "SVGFreeSansASCII,sans-serif",
+            "size" : 32,
+            "weight" : "normal"
+          },
+          "node" : "Text",
+          "place" : "1, 0, 0, 1, 10, 340",
+          "text" : "$Revision: 1.5 $"
+        }
+      ],
+      "node" : "Group"
+    },
+    {
+      "form" : {
+        "h" : 358,
+        "type" : "Rect",
+        "w" : 478,
+        "x" : 1,
+        "y" : 1
+      },
+      "node" : "Shape",
+      "stroke" : {
+        "cap" : "butt",
+        "dashes" : [
+
+        ],
+        "fill" : {
+          "type" : "Color",
+          "val" : 0
+        },
+        "join" : "miter",
+        "width" : 1
+      }
+    }
+  ],
+  "layout" : {
+    "scalingMode" : "meet",
+    "svgSize" : {
+      "height" : "100.0%",
+      "width" : "100.0%"
+    },
+    "viewBox" : {
+      "h" : 360,
+      "type" : "Rect",
+      "w" : 480,
+      "x" : 0,
+      "y" : 0
+    },
+    "xAligningMode" : "mid",
+    "yAligningMode" : "mid"
+  },
+  "node" : "Canvas"
+}

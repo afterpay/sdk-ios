@@ -1,0 +1,233 @@
+{
+  "contents" : [
+    {
+      "contents" : [
+        {
+          "contents" : [
+            {
+              "contents" : [
+                {
+                  "fill" : {
+                    "type" : "Color",
+                    "val" : 3381606
+                  },
+                  "form" : {
+                    "points" : [
+                      270,
+                      -225,
+                      300,
+                      -245,
+                      320,
+                      -225,
+                      340,
+                      -245,
+                      280,
+                      -280,
+                      390,
+                      -280,
+                      420,
+                      -240,
+                      280,
+                      -185
+                    ],
+                    "type" : "Polyline"
+                  },
+                  "node" : "Shape",
+                  "stroke" : {
+                    "cap" : "butt",
+                    "dashes" : [
+
+                    ],
+                    "fill" : {
+                      "type" : "Color",
+                      "val" : 30464
+                    },
+                    "join" : "miter",
+                    "width" : 8
+                  }
+                },
+                {
+                  "fill" : {
+                    "type" : "Color",
+                    "val" : 5635993
+                  },
+                  "form" : {
+                    "points" : [
+                      179,
+                      -185,
+                      218,
+                      -203,
+                      228,
+                      -245,
+                      202,
+                      -279,
+                      159,
+                      -280,
+                      131,
+                      -247,
+                      139,
+                      -205
+                    ],
+                    "type" : "Polygon"
+                  },
+                  "node" : "Shape",
+                  "stroke" : {
+                    "cap" : "butt",
+                    "dashes" : [
+
+                    ],
+                    "fill" : {
+                      "type" : "Color",
+                      "val" : 30464
+                    },
+                    "join" : "miter",
+                    "width" : 8
+                  }
+                }
+              ],
+              "node" : "Group"
+            },
+            {
+              "contents" : [
+                {
+                  "form" : {
+                    "points" : [
+                      270,
+                      -225,
+                      300,
+                      -245,
+                      320,
+                      -225,
+                      340,
+                      -245,
+                      280,
+                      -280,
+                      390,
+                      -280,
+                      420,
+                      -240,
+                      280,
+                      -185
+                    ],
+                    "type" : "Polyline"
+                  },
+                  "node" : "Shape",
+                  "stroke" : {
+                    "cap" : "butt",
+                    "dashes" : [
+
+                    ],
+                    "fill" : {
+                      "type" : "Color",
+                      "val" : 3394662
+                    },
+                    "join" : "miter",
+                    "width" : 3
+                  }
+                },
+                {
+                  "form" : {
+                    "points" : [
+                      179,
+                      -185,
+                      218,
+                      -203,
+                      228,
+                      -245,
+                      202,
+                      -279,
+                      159,
+                      -280,
+                      131,
+                      -247,
+                      139,
+                      -205
+                    ],
+                    "type" : "Polygon"
+                  },
+                  "node" : "Shape",
+                  "stroke" : {
+                    "cap" : "butt",
+                    "dashes" : [
+
+                    ],
+                    "fill" : {
+                      "type" : "Color",
+                      "val" : 3394662
+                    },
+                    "join" : "miter",
+                    "width" : 3
+                  }
+                }
+              ],
+              "node" : "Group"
+            }
+          ],
+          "node" : "Group",
+          "place" : "1, 0, 0, 1, 0, 400"
+        }
+      ],
+      "node" : "Group"
+    },
+    {
+      "contents" : [
+        {
+          "align" : "min",
+          "baseline" : "bottom",
+          "fill" : {
+            "type" : "Color",
+            "val" : 0
+          },
+          "font" : {
+            "name" : "SVGFreeSansASCII,sans-serif",
+            "size" : 32,
+            "weight" : "normal"
+          },
+          "node" : "Text",
+          "place" : "1, 0, 0, 1, 10, 340",
+          "text" : "$Revision: 1.2 $"
+        }
+      ],
+      "node" : "Group"
+    },
+    {
+      "form" : {
+        "h" : 358,
+        "type" : "Rect",
+        "w" : 478,
+        "x" : 1,
+        "y" : 1
+      },
+      "node" : "Shape",
+      "stroke" : {
+        "cap" : "butt",
+        "dashes" : [
+
+        ],
+        "fill" : {
+          "type" : "Color",
+          "val" : 0
+        },
+        "join" : "miter",
+        "width" : 1
+      }
+    }
+  ],
+  "layout" : {
+    "scalingMode" : "meet",
+    "svgSize" : {
+      "height" : "100.0%",
+      "width" : "100.0%"
+    },
+    "viewBox" : {
+      "h" : 360,
+      "type" : "Rect",
+      "w" : 480,
+      "x" : 0,
+      "y" : 0
+    },
+    "xAligningMode" : "mid",
+    "yAligningMode" : "mid"
+  },
+  "node" : "Canvas"
+}

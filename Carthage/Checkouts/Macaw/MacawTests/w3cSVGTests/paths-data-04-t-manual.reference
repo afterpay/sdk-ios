@@ -1,0 +1,491 @@
+{
+  "contents" : [
+    {
+      "contents" : [
+        {
+          "contents" : [
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "SVGFreeSansASCII,sans-serif",
+                "size" : 12,
+                "weight" : "normal"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 88, 30",
+              "text" : "M, L, L, L, Z,"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "SVGFreeSansASCII,sans-serif",
+                "size" : 12,
+                "weight" : "normal"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 98, 46",
+              "text" : "subpath"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "SVGFreeSansASCII,sans-serif",
+                "size" : 12,
+                "weight" : "normal"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 88, 61",
+              "text" : "M, L, L, L, Z"
+            },
+            {
+              "form" : {
+                "segments" : [
+                  {
+                    "data" : [
+                      62,
+                      56
+                    ],
+                    "type" : "M"
+                  },
+                  {
+                    "data" : [
+                      113.96151999999999,
+                      146
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      10.03848,
+                      146
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      62,
+                      56
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+
+                    ],
+                    "type" : "z"
+                  },
+                  {
+                    "data" : [
+                      62,
+                      71
+                    ],
+                    "type" : "M"
+                  },
+                  {
+                    "data" : [
+                      100.97114000000001,
+                      138.5
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      23.028860000000002,
+                      138.5
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      62,
+                      71
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+
+                    ],
+                    "type" : "z"
+                  }
+                ],
+                "type" : "Path"
+              },
+              "node" : "Shape",
+              "stroke" : {
+                "cap" : "butt",
+                "dashes" : [
+
+                ],
+                "fill" : {
+                  "type" : "Color",
+                  "val" : 0
+                },
+                "join" : "miter",
+                "width" : 1
+              }
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 60,
+                "y" : 54
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 111.96151999999999,
+                "y" : 144
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 8.0384799999999998,
+                "y" : 144
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 60,
+                "y" : 69
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 98.971140000000005,
+                "y" : 136.5
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 21.028860000000002,
+                "y" : 136.5
+              },
+              "node" : "Shape"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "SVGFreeSansASCII,sans-serif",
+                "size" : 12,
+                "weight" : "normal"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 42, 162",
+              "text" : "stroked"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 7864234
+              },
+              "form" : {
+                "segments" : [
+                  {
+                    "data" : [
+                      177,
+                      56
+                    ],
+                    "type" : "M"
+                  },
+                  {
+                    "data" : [
+                      228.96152000000001,
+                      146
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      125.03848000000001,
+                      146
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      177,
+                      56
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+
+                    ],
+                    "type" : "z"
+                  },
+                  {
+                    "data" : [
+                      177,
+                      71
+                    ],
+                    "type" : "M"
+                  },
+                  {
+                    "data" : [
+                      215.97113999999999,
+                      138.5
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      138.02886000000001,
+                      138.5
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+                      177,
+                      71
+                    ],
+                    "type" : "L"
+                  },
+                  {
+                    "data" : [
+
+                    ],
+                    "type" : "z"
+                  }
+                ],
+                "type" : "Path"
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 175,
+                "y" : 54
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 226.96152000000001,
+                "y" : 144
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 123.03848000000001,
+                "y" : 144
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 175,
+                "y" : 69
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 213.97113999999999,
+                "y" : 136.5
+              },
+              "node" : "Shape"
+            },
+            {
+              "fill" : {
+                "type" : "Color",
+                "val" : 49152
+              },
+              "form" : {
+                "h" : 4,
+                "type" : "Rect",
+                "w" : 4,
+                "x" : 136.02886000000001,
+                "y" : 136.5
+              },
+              "node" : "Shape"
+            },
+            {
+              "align" : "min",
+              "baseline" : "bottom",
+              "fill" : {
+                "type" : "Color",
+                "val" : 0
+              },
+              "font" : {
+                "name" : "SVGFreeSansASCII,sans-serif",
+                "size" : 12,
+                "weight" : "normal"
+              },
+              "node" : "Text",
+              "place" : "1, 0, 0, 1, 162, 162",
+              "text" : "filled"
+            }
+          ],
+          "node" : "Group",
+          "place" : "1.8, 0, 0, 1.8, 0, 0"
+        }
+      ],
+      "node" : "Group"
+    },
+    {
+      "contents" : [
+        {
+          "align" : "min",
+          "baseline" : "bottom",
+          "fill" : {
+            "type" : "Color",
+            "val" : 0
+          },
+          "font" : {
+            "name" : "SVGFreeSansASCII,sans-serif",
+            "size" : 32,
+            "weight" : "normal"
+          },
+          "node" : "Text",
+          "place" : "1, 0, 0, 1, 10, 340",
+          "text" : "$Revision: 1.7 $"
+        }
+      ],
+      "node" : "Group"
+    },
+    {
+      "form" : {
+        "h" : 358,
+        "type" : "Rect",
+        "w" : 478,
+        "x" : 1,
+        "y" : 1
+      },
+      "node" : "Shape",
+      "stroke" : {
+        "cap" : "butt",
+        "dashes" : [
+
+        ],
+        "fill" : {
+          "type" : "Color",
+          "val" : 0
+        },
+        "join" : "miter",
+        "width" : 1
+      }
+    }
+  ],
+  "layout" : {
+    "scalingMode" : "meet",
+    "svgSize" : {
+      "height" : "100.0%",
+      "width" : "100.0%"
+    },
+    "viewBox" : {
+      "h" : 360,
+      "type" : "Rect",
+      "w" : 480,
+      "x" : 0,
+      "y" : 0
+    },
+    "xAligningMode" : "mid",
+    "yAligningMode" : "mid"
+  },
+  "node" : "Canvas"
+}
