@@ -15,7 +15,7 @@ let package = Package(
     .package(path: "Carthage/Checkouts/Macaw"),
   ],
   targets: [
-    .target(name: "Afterpay", dependencies: []),
+    .target(name: "Afterpay", dependencies: ["Macaw"]),
     .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
   ]
 )
