@@ -33,10 +33,15 @@ jobs:
           ${{ runner.os }}-mint-
 
     - name: Install Dependencies
-      run: Tools/mint/mint bootstrap
+      run: |
+        Tools/mint/mint bootstrap
+        gem install cocoapods
 
     - name: SwiftLint
       run: Tools/mint/mint run swiftlint --reporter github-actions-logging
+
+    - name: Validate Pod
+      run: pod lib lint
 
     - name: Build SDK Project
       run: |
