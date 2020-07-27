@@ -12,10 +12,7 @@ let package = Package(
     .library(name: "Afterpay", targets: ["Afterpay"]),
   ],
   dependencies: [
-    .package(
-        url: "https://github.com/exyte/Macaw.git",
-        .revision("e00baaa9edd023165d798e86e288c1c38f748315")
-    )
+    .package(path: "Carthage/Checkouts/Macaw")
   ],
   targets: [
     .target(name: "Afterpay", dependencies: []),
