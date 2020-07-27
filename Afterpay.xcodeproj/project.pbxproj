@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		667AD3542497121200BF94E5 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* WebViewController.swift */; };
 		6689536C24C96CB5005090B4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6689536B24C96CB5005090B4 /* Configuration.swift */; };
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
+		66EBA2C124CE95C400242E6C /* Macaw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66EBA2C024CE95C400242E6C /* Macaw.framework */; platformFilter = ios; };
+		66EBA2C224CE95C400242E6C /* Macaw.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66EBA2C024CE95C400242E6C /* Macaw.framework */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,20 @@
 			remoteInfo = Afterpay;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		66EBA2C324CE95C400242E6C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				66EBA2C224CE95C400242E6C /* Macaw.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		662A3AEC24A999A500EFD826 /* CheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutResult.swift; sourceTree = "<group>"; };
@@ -49,6 +65,7 @@
 		66B57E56248F5C7D0020C642 /* Project-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Release.xcconfig"; sourceTree = "<group>"; };
 		66B57E57248F5C7D0020C642 /* Afterpay-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Release.xcconfig"; sourceTree = "<group>"; };
 		66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWrapper.swift; sourceTree = "<group>"; };
+		66EBA2C024CE95C400242E6C /* Macaw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Macaw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66EBA2C124CE95C400242E6C /* Macaw.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +123,7 @@
 				665FC5782488766C00A5A93E /* AfterpayTests */,
 				668F16082487653A0040345C /* Products */,
 				665FC5822488843C00A5A93E /* TestPlans */,
+				66EBA2BF24CE95C400242E6C /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -159,6 +178,14 @@
 			path = Configurations;
 			sourceTree = "<group>";
 		};
+		66EBA2BF24CE95C400242E6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				66EBA2C024CE95C400242E6C /* Macaw.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -200,6 +227,7 @@
 				668F16032487653A0040345C /* Sources */,
 				668F16042487653A0040345C /* Frameworks */,
 				668F16052487653A0040345C /* Resources */,
+				66EBA2C324CE95C400242E6C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

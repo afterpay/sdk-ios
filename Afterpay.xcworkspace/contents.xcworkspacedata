@@ -5,6 +5,9 @@
       location = "group:Afterpay.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Carthage/Checkouts/Macaw/Macaw.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Example/Example.xcodeproj">
    </FileRef>
 </Workspace>

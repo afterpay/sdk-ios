@@ -12,7 +12,7 @@ let package = Package(
     .library(name: "Afterpay", targets: ["Afterpay"]),
   ],
   dependencies: [
-    .package(path: "Carthage/Checkouts/Macaw")
+    .package(path: "Carthage/Checkouts/Macaw"),
   ],
   targets: [
     .target(name: "Afterpay", dependencies: []),
