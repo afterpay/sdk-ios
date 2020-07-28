@@ -41,7 +41,7 @@ enum NetworkError: Error {
   case unknown
 }
 
-func checkout(
+func getCheckoutURL(
   with email: String,
   for amount: String,
   completion: @escaping (Result<URL, Error>) -> Void
