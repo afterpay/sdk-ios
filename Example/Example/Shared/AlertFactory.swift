@@ -19,7 +19,7 @@ import UIKit
     alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
 
     switch checkoutUrlError {
-    case CheckoutError.malformedUrl:
+    case NetworkError.malformedUrl:
       alert.message = "Invalid host and port settings"
     default:
       alert.message = "Failed to retrieve checkout url"

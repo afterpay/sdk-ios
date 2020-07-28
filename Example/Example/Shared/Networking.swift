@@ -13,6 +13,7 @@ private let baseUrlComponents = URLComponents(
   url: URL(string: "http://localhost:3000")!,
   resolvingAgainstBaseURL: true)!
 private let checkoutsPath = "/checkouts"
+private let configurationPath = "/configuration"
 
 private struct CheckoutsRequest: Encodable {
   let email: String
@@ -23,7 +24,19 @@ private struct CheckoutsResponse: Decodable {
   let url: URL
 }
 
-enum CheckoutError: Error {
+struct ConfigurationResponse: Decodable {
+
+  let minimumAmount: Money?
+  let maximumAmount: Money
+
+  struct Money: Decodable {
+    let amount: String
+    let currency: String
+  }
+
+}
+
+enum NetworkError: Error {
   case malformedUrl
   case unknown
 }
@@ -38,7 +51,7 @@ func checkout(
   urlComponents?.path = checkoutsPath
 
   guard let url = urlComponents?.url else {
-    completion(.failure(CheckoutError.malformedUrl))
+    completion(.failure(NetworkError.malformedUrl))
     return
   }
 
@@ -52,12 +65,40 @@ func checkout(
 
   let task = session.dataTask(with: request) { data, _, error in
     guard error == nil, let data = data else {
-      return completion(.failure(error ?? CheckoutError.unknown))
+      return completion(.failure(error ?? NetworkError.unknown))
     }
 
     do {
       let response = try JSONDecoder().decode(CheckoutsResponse.self, from: data)
       completion(.success(response.url))
+    } catch {
+      completion(.failure(error))
+    }
+  }
+
+  task.resume()
+}
+
+func configuration(
+  completion: @escaping (Result<ConfigurationResponse, Error>) -> Void
+) {
+  let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
+  var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: true) }
+  urlComponents?.path = configurationPath
+
+  guard let url = urlComponents?.url else {
+    completion(.failure(NetworkError.malformedUrl))
+    return
+  }
+
+  let task = session.dataTask(with: url) { data, _, error in
+    guard error == nil, let data = data else {
+      return completion(.failure(error ?? NetworkError.unknown))
+    }
+
+    do {
+      let response = try JSONDecoder().decode(ConfigurationResponse.self, from: data)
+      completion(.success(response))
     } catch {
       completion(.failure(error))
     }
