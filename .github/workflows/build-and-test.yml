@@ -1,6 +1,8 @@
 name: Build and Test
 
 env:
+  afterpay-scheme: Afterpay
+  destination: platform=macOS,variant=Mac Catalyst
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
 
 on:
@@ -16,9 +18,7 @@ jobs:
     runs-on: macos-latest
 
     env:
-      afterpay-scheme: Afterpay
       example-scheme: Example
-      destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
       workspace: Afterpay.xcworkspace
 
     steps:
@@ -75,3 +75,20 @@ jobs:
       run: |
         export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
         pod lib lint
+
+  validate-swift-package:
+    name: Validate Swift Package
+    runs-on: macos-latest
+
+    env:
+      workspace: .swiftpm/xcode/package.xcworkspace
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate Swift Package
+      run: |
+        xcodebuild \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.afterpay-scheme }} \
+          -destination '${{ env.destination }}'
