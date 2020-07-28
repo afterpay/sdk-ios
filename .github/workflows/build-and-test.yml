@@ -58,3 +58,18 @@ jobs:
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-scheme }} \
           -destination '${{ env.destination }}'
+
+  validate-cocoapods:
+    name: Validate Pod
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: gem install cocoapods
+
+    - name: Validate Pod
+      run: |
+        export LIB_VERSION="$(git describe --tags `git rev-list --tags --max-count=1`)"
+        pod lib lint
