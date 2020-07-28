@@ -430,7 +430,7 @@ GCC_WARN_UNUSED_VARIABLE = YES
 // in earlier versions will be weak-linked; your code should check for null function
 // pointers or specific system versions before calling newer APIs.
 
-IPHONEOS_DEPLOYMENT_TARGET = 13.5
+IPHONEOS_DEPLOYMENT_TARGET = 12.0
 
 
 
