@@ -14,5 +14,6 @@ let package = Package(
   dependencies: [],
   targets: [
     .target(name: "Afterpay", dependencies: []),
+    .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
   ]
 )
