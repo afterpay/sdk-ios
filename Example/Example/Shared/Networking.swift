@@ -79,7 +79,7 @@ func getCheckoutURL(
   task.resume()
 }
 
-func configuration(
+func getConfiguration(
   completion: @escaping (Result<ConfigurationResponse, Error>) -> Void
 ) {
   let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
