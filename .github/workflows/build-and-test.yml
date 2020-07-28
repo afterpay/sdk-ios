@@ -71,5 +71,5 @@ jobs:
 
     - name: Validate Pod
       run: |
-        export LIB_VERSION="$(git describe --tags `git rev-list --tags --max-count=1`)"
+        export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
         pod lib lint
