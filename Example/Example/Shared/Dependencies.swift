@@ -9,6 +9,7 @@
 import Afterpay
 import CommonCrypto
 import Foundation
+import os.log
 import TrustKit
 
 func initializeDependencies() {
@@ -36,5 +37,25 @@ func initializeDependencies() {
   Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
     let validator = TrustKit.sharedInstance().pinningValidator
     return validator.handle(challenge, completionHandler: completionHandler)
+  }
+
+  // Configure the Afterpay SDK with the merchant configuration
+  getConfiguration { result in
+    switch result {
+    case .success(let response):
+      do {
+        let configuration = try Configuration(
+          minimumAmount: response.minimumAmount?.amount,
+          maximumAmount: response.maximumAmount.amount,
+          currencyCode: response.maximumAmount.currency)
+
+        Afterpay.setConfiguration(configuration)
+      } catch {
+        let responseDescription = String(describing: response)
+        os_log(.error, "Failed to set configuration with response: %{public}@", responseDescription)
+      }
+    case .failure:
+      break
+    }
   }
 }
