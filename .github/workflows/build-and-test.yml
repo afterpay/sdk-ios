@@ -2,7 +2,6 @@ name: Build and Test
 
 env:
   afterpay-scheme: Afterpay
-  destination: platform=macOS,variant=Mac Catalyst
   DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
 
 on:
@@ -18,6 +17,7 @@ jobs:
     runs-on: macos-latest
 
     env:
+      destination: platform=iOS Simulator,name=iPhone 11,OS=13.5
       example-scheme: Example
       workspace: Afterpay.xcworkspace
 
@@ -81,6 +81,7 @@ jobs:
     runs-on: macos-latest
 
     env:
+      destination: platform=macOS,variant=Mac Catalyst
       workspace: .swiftpm/xcode/package.xcworkspace
 
     steps:
