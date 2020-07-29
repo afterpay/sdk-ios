@@ -11,9 +11,11 @@ let package = Package(
   products: [
     .library(name: "Afterpay", targets: ["Afterpay"]),
   ],
-  dependencies: [],
+  dependencies: [
+    .package(url: "https://github.com/mchoe/SwiftSVG.git", from: "2.3.2"),
+  ],
   targets: [
-    .target(name: "Afterpay", dependencies: []),
+    .target(name: "Afterpay", dependencies: ["SwiftSVG"]),
     .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
   ]
 )
