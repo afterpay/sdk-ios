@@ -108,8 +108,6 @@ final class PurchaseLogicController {
       errorMessageToShow = nil
     case .invalidURL(let url):
       errorMessageToShow = "URL: \(url.absoluteString) is invalid for Afterpay Checkout"
-    @unknown default:
-      errorMessageToShow = "Something went wrong"
     }
 
     if let errorMessage = errorMessageToShow {
