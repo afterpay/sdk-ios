@@ -5,15 +5,6 @@
 // https://github.com/dempseyatgithub/BuildSettingExtractor
 //
 
-// Build Libraries for Distribution
-// 
-// Ensures that your libraries are built for distribution. For Swift, this enables
-// support for library evolution and generation of a module interface file.
-
-BUILD_LIBRARY_FOR_DISTRIBUTION = YES
-
-
-
 // Enable Modules (C and Objective-C)
 // 
 // Enables the use of modules for system APIs. System headers are imported as semantic

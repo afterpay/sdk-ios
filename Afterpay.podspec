@@ -13,4 +13,6 @@ Pod::Spec.new do |spec|
   spec.source_files  = "Sources/Afterpay/"
   spec.swift_version = "5.1"
   spec.framework     = "UIKit"
+
+  spec.dependency "SwiftSVG", "2.3.2"
 end
