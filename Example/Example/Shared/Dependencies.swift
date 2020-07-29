@@ -41,21 +41,25 @@ func initializeDependencies() {
 
   // Configure the Afterpay SDK with the merchant configuration
   getConfiguration { result in
-    switch result {
-    case .success(let response):
+    let configurationResult: Result<Configuration, Error> = result.flatMap { response in
       do {
         let configuration = try Configuration(
           minimumAmount: response.minimumAmount?.amount,
           maximumAmount: response.maximumAmount.amount,
           currencyCode: response.maximumAmount.currency)
-
-        Afterpay.setConfiguration(configuration)
+        return .success(configuration)
       } catch {
-        let responseDescription = String(describing: response)
-        os_log(.error, "Failed to set configuration with response: %{public}@", responseDescription)
+        return .failure(error)
       }
-    case .failure:
-      break
+    }
+
+    switch configurationResult {
+    case .success(let configuration):
+      Afterpay.setConfiguration(configuration)
+    case .failure(let error):
+      // Logs network, decoding and Afterpay configuration errors raised
+      let errorDescription = error.localizedDescription
+      os_log(.error, "Failed to set configuration with error: %{public}@", errorDescription)
     }
   }
 }
