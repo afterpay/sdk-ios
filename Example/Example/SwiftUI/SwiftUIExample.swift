@@ -54,7 +54,7 @@ private struct CheckoutView: View {
     VStack {
       Text("Welcome to the Afterpay SDK")
       Button("Checkout") {
-        checkout(with: Settings.email, for: "30.00", completion: self.urlResultHandler)
+        getCheckoutURL(with: Settings.email, for: "30.00", completion: self.urlResultHandler)
       }
     }
   }
