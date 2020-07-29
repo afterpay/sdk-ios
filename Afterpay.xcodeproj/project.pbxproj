@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */; };
 		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
 		666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */; };
+		6670F8AF24D1017B007D41DD /* SwiftSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 6670F8AE24D1017B007D41DD /* SwiftSVG */; };
 		667AD3542497121200BF94E5 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* WebViewController.swift */; };
 		6689536C24C96CB5005090B4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6689536B24C96CB5005090B4 /* Configuration.swift */; };
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
@@ -65,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6670F8AF24D1017B007D41DD /* SwiftSVG in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +208,9 @@
 			dependencies = (
 			);
 			name = Afterpay;
+			packageProductDependencies = (
+				6670F8AE24D1017B007D41DD /* SwiftSVG */,
+			);
 			productName = Afterpay;
 			productReference = 668F16072487653A0040345C /* Afterpay.framework */;
 			productType = "com.apple.product-type.framework";
@@ -238,6 +243,9 @@
 				Base,
 			);
 			mainGroup = 668F15FD2487653A0040345C;
+			packageReferences = (
+				6670F8AD24D1017B007D41DD /* XCRemoteSwiftPackageReference "SwiftSVG" */,
+			);
 			productRefGroup = 668F16082487653A0040345C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -410,6 +418,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6670F8AD24D1017B007D41DD /* XCRemoteSwiftPackageReference "SwiftSVG" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mchoe/SwiftSVG";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6670F8AE24D1017B007D41DD /* SwiftSVG */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6670F8AD24D1017B007D41DD /* XCRemoteSwiftPackageReference "SwiftSVG" */;
+			productName = SwiftSVG;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 668F15FE2487653A0040345C /* Project object */;
 }

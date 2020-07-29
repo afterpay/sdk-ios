@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "SwiftSVG",
+        "repositoryURL": "https://github.com/mchoe/SwiftSVG",
+        "state": {
+          "branch": null,
+          "revision": "c3a8866a25ace169ee8e5c037670ba14aa59606f",
+          "version": "2.3.2"
+        }
+      },
+      {
         "package": "TrustKit",
         "repositoryURL": "https://github.com/datatheorem/TrustKit",
         "state": {
