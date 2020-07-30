@@ -170,6 +170,13 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		66639B5524D2AEF800C68558 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		668F161524877F950040345C = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +204,7 @@
 				6620B5D124934FB3004162BC /* AppFlowController.swift */,
 				6656288424A32B9900BEC506 /* Example-Bridging-Header.h */,
 				668F162324877F950040345C /* SceneDelegate.swift */,
+				66639B5524D2AEF800C68558 /* Components */,
 				668F162924877F980040345C /* Preview Content */,
 				665311BE24AC1B7B0088A063 /* Purchase */,
 				666262872496F48B0094FC26 /* Resources */,
