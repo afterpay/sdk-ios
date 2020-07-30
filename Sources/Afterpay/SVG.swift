@@ -14,15 +14,12 @@ import SwiftSVG
 #endif
 import QuartzCore
 
-private struct SVG {
+struct SVG {
 
   let size: CGSize
   let data: Data
 
-  private let id = UUID()
-  static var cache: [UUID: SVGLayer] = [:]
-
-  static let lockup: SVG = SVG(
+  static let logoLockup: SVG = SVG(
     size: CGSize(width: 1869.6, height: 838.5),
     data: """
     <svg width="1869.6" height="838.5" viewBox="0 0 1869.6 838.5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,16 +29,11 @@ private struct SVG {
   )
 
   func render(completion: @escaping (SVGLayer) -> Void) {
-    if let cachedSVG = SVG.cache[id] {
-      completion(cachedSVG)
-    } else {
-      CALayer(SVGData: data) { svgLayer in
-        // Construct a bounding box that includes the SVG size including inbuilt padding not just
-        // enclosing the paths
-        svgLayer.boundingBox = CGRect(origin: .zero, size: self.size)
-        SVG.cache[self.id] = svgLayer.svgLayerCopy
-        completion(svgLayer)
-      }
+    CALayer(SVGData: data) { svgLayer in
+      // Construct a bounding box that includes the SVG size including inbuilt padding not just
+      // enclosing the paths
+      svgLayer.boundingBox = CGRect(origin: .zero, size: self.size)
+      completion(svgLayer)
     }
   }
 
