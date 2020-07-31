@@ -42,6 +42,13 @@ public final class BadgeView: UIView {
   }
 
   private func sharedInit() {
+
+    // Accessibility
+    isAccessibilityElement = true
+    accessibilityTraits = [.staticText]
+    accessibilityLabel = "after pay"
+
+    // SVG Layout
     svgView = SVGView(svg: style.svg)
     svgView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -53,6 +60,7 @@ public final class BadgeView: UIView {
       svgView.topAnchor.constraint(equalTo: topAnchor),
       svgView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
+
   }
 
 }
