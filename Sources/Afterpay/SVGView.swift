@@ -18,15 +18,13 @@ final class SVGView: UIView {
 
   var svgLayer: SVGLayer? { layer.sublayers?.first as? SVGLayer }
 
-  init(svg: SVG, autolayout: Bool = true) {
+  init(svg: SVG) {
     super.init(frame: CGRect(origin: .zero, size: svg.size))
 
     CALayer(SVGData: svg.data, completion: layer.addSublayer)
 
-    if autolayout {
-      translatesAutoresizingMaskIntoConstraints = false
-      heightAnchor.constraint(equalTo: widthAnchor, multiplier: svg.aspectRatio).isActive = true
-    }
+    translatesAutoresizingMaskIntoConstraints = false
+    heightAnchor.constraint(equalTo: widthAnchor, multiplier: svg.aspectRatio).isActive = true
   }
 
   public override func layoutSublayers(of layer: CALayer) {
