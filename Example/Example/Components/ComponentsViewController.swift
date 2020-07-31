@@ -58,7 +58,7 @@ final class ComponentsViewController: UIViewController {
     lightContentLabel.text = "Light components:"
     lightContentStack.addArrangedSubview(lightContentLabel)
 
-    let badge = BadgeView()
+    let badge = BadgeView(style: .whiteOnBlack)
     let badgeConstraints = [badge.widthAnchor.constraint(equalToConstant: 64)]
 
     let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])

@@ -11,9 +11,25 @@ import UIKit
 
 public final class BadgeView: UIView {
 
+  public enum Style {
+    case whiteOnBlack, blackOnWhite
+
+    var svg: SVG {
+      switch self {
+      case .whiteOnBlack:
+        return .badgeWhiteOnBlack
+      case .blackOnWhite:
+        return .badgeBlackOnWhite
+      }
+    }
+  }
+
+  private var style: Style = .whiteOnBlack
   private var svgView: SVGView!
 
-  public init() {
+  public init(style: Style) {
+    self.style = style
+
     super.init(frame: .zero)
 
     sharedInit()
@@ -25,9 +41,8 @@ public final class BadgeView: UIView {
     sharedInit()
   }
 
-  func sharedInit() {
-    // TODO: Select style
-    svgView = SVGView(svg: .badgeWhiteOnBlack)
+  private func sharedInit() {
+    svgView = SVGView(svg: style.svg)
     svgView.translatesAutoresizingMaskIntoConstraints = false
 
     addSubview(svgView)
