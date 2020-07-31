@@ -13,7 +13,7 @@ public final class BadgeView: UIView {
 
   private var svgView: SVGView!
 
-  init() {
+  public init() {
     super.init(frame: .zero)
 
     sharedInit()
@@ -29,6 +29,8 @@ public final class BadgeView: UIView {
     // TODO: Select style
     svgView = SVGView(svg: .badgeWhiteOnBlack)
     svgView.translatesAutoresizingMaskIntoConstraints = false
+
+    addSubview(svgView)
 
     NSLayoutConstraint.activate([
       svgView.leadingAnchor.constraint(equalTo: leadingAnchor),
