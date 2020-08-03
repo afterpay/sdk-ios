@@ -19,6 +19,22 @@ extension UIColor {
 
   static let afterpayAccent = UIColor(lightColor: .afterpayNavy, darkColor: .afterpayBlue)
 
+  static var appBackground: UIColor {
+    if #available(iOS 13.0, *) {
+      return .systemBackground
+    } else {
+      return .white
+    }
+  }
+
+  static var appLabel: UIColor {
+    if #available(iOS 13.0, *) {
+      return .label
+    } else {
+      return .black
+    }
+  }
+
   // MARK: Convenience Initializers
 
   private convenience init(red: UInt, green: UInt, blue: UInt) {

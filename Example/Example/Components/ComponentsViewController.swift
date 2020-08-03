@@ -14,11 +14,7 @@ final class ComponentsViewController: UIViewController {
 
   override func loadView() {
     let scrollView = UIScrollView()
-    if #available(iOS 13.0, *) {
-      scrollView.backgroundColor = .systemBackground
-    } else {
-      scrollView.backgroundColor = .white
-    }
+    scrollView.backgroundColor = .appBackground
 
     let layoutGuide = scrollView.readableContentGuide
 

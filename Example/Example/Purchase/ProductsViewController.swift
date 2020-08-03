@@ -31,12 +31,7 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
 
   override func loadView() {
     view = UIView()
-
-    if #available(iOS 13.0, *) {
-      view.backgroundColor = .systemBackground
-    } else {
-      view.backgroundColor = .white
-    }
+    view.backgroundColor = .appBackground
 
     tableView = UITableView()
     tableView.dataSource = self
