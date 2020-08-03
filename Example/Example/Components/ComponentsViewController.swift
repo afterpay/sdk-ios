@@ -66,6 +66,9 @@ final class ComponentsViewController: UIViewController {
     let lightBadgeStack = UIStackView(arrangedSubviews: [lightBadge, UIView()])
     lightContentStack.addArrangedSubview(lightBadgeStack)
 
+    let priceBreakdown = PriceBreakdownView()
+    lightContentStack.addArrangedSubview(priceBreakdown)
+
     // Dark Content
 
     let darkContentView = UIView()

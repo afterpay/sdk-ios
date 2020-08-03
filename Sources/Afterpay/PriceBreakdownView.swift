@@ -29,6 +29,8 @@ public final class PriceBreakdownView: UIView {
     let attributedString = NSMutableAttributedString(string: "or 4 payments of $40.00 with")
 
     label.attributedText = attributedString
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.numberOfLines = 0
 
     if #available(iOS 13.0, *) {
       label.textColor = .label
