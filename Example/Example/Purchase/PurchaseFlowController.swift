@@ -37,9 +37,8 @@ final class PurchaseFlowController: UIViewController {
   }
 
   override func loadView() {
-    let view = UIView()
-    install(ownedNavigationController, into: view)
-    self.view = view
+    self.view = UIView()
+    install(ownedNavigationController)
   }
 
   override func viewDidLoad() {

@@ -31,81 +31,75 @@ final class ComponentsViewController: UIViewController {
       contentStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
     ]
 
-    // Light Content
-
-    let lightContentView = UIView()
-    lightContentView.backgroundColor = .white
-
-    contentStack.addArrangedSubview(lightContentView)
-
-    let lightContentStack = UIStackView()
-    lightContentStack.translatesAutoresizingMaskIntoConstraints = false
-    lightContentStack.axis = .vertical
-    lightContentStack.spacing = 8
-
-    lightContentView.addSubview(lightContentStack)
-
-    let lightContentStackConstraints = [
-      lightContentStack.leadingAnchor.constraint(equalTo: lightContentView.readableContentGuide.leadingAnchor),
-      lightContentStack.trailingAnchor.constraint(equalTo: lightContentView.readableContentGuide.trailingAnchor),
-      lightContentStack.topAnchor.constraint(equalTo: lightContentView.topAnchor, constant: 8),
-      lightContentStack.bottomAnchor.constraint(equalTo: lightContentView.bottomAnchor, constant: -8),
-    ]
-
-    let lightContentLabel = UILabel()
-    lightContentLabel.text = "Light components:"
-    lightContentStack.addArrangedSubview(lightContentLabel)
-
-    let lightBadge = BadgeView(style: .whiteOnBlack)
-    let lightBadgeConstraints = [lightBadge.widthAnchor.constraint(equalToConstant: 64)]
-
-    let lightBadgeStack = UIStackView(arrangedSubviews: [lightBadge, UIView()])
-    lightContentStack.addArrangedSubview(lightBadgeStack)
-
-    let priceBreakdown = PriceBreakdownView()
-    lightContentStack.addArrangedSubview(priceBreakdown)
-
-    // Dark Content
-
-    let darkContentView = UIView()
-    darkContentView.backgroundColor = .black
-
-    contentStack.addArrangedSubview(darkContentView)
-
-    let darkContentStack = UIStackView()
-    darkContentStack.translatesAutoresizingMaskIntoConstraints = false
-    darkContentStack.axis = .vertical
-    darkContentStack.spacing = 8
-
-    darkContentView.addSubview(darkContentStack)
-
-    let darkContentStackConstraints = [
-      darkContentStack.leadingAnchor.constraint(equalTo: darkContentView.readableContentGuide.leadingAnchor),
-      darkContentStack.trailingAnchor.constraint(equalTo: darkContentView.readableContentGuide.trailingAnchor),
-      darkContentStack.topAnchor.constraint(equalTo: darkContentView.topAnchor, constant: 8),
-      darkContentStack.bottomAnchor.constraint(equalTo: darkContentView.bottomAnchor, constant: -8),
-    ]
-
-    let darkContentLabel = UILabel()
-    darkContentLabel.textColor = .white
-    darkContentLabel.text = "Dark components:"
-    darkContentStack.addArrangedSubview(darkContentLabel)
-
-    let darkBadge = BadgeView(style: .blackOnWhite)
-    let darkBadgeConstraints = [darkBadge.widthAnchor.constraint(equalToConstant: 64)]
-
-    let darkBadgeStack = UIStackView(arrangedSubviews: [darkBadge, UIView()])
-    darkContentStack.addArrangedSubview(darkBadgeStack)
-
-    NSLayoutConstraint.activate(
-      stackConstraints +
-      lightContentStackConstraints +
-      lightBadgeConstraints +
-      darkContentStackConstraints +
-      darkBadgeConstraints
+    install(
+      ContentStackViewController(stackTitle: "Light Content", userInterfaceStyle: .light),
+      embed: contentStack.addArrangedSubview
     )
 
+    install(
+      ContentStackViewController(stackTitle: "Dark Content", userInterfaceStyle: .dark),
+      embed: contentStack.addArrangedSubview
+    )
+
+    NSLayoutConstraint.activate(stackConstraints)
+
     self.view = scrollView
+  }
+
+  private final class ContentStackViewController: UIViewController {
+
+    let stackTitle: String
+
+    init(stackTitle: String, userInterfaceStyle: UIUserInterfaceStyle) {
+      self.stackTitle = stackTitle
+
+      super.init(nibName: nil, bundle: nil)
+
+      if #available(iOS 13.0, *) {
+        overrideUserInterfaceStyle = userInterfaceStyle
+      }
+    }
+
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+      let view = UIView()
+      view.backgroundColor = .appBackground
+
+      let stack = UIStackView()
+      stack.translatesAutoresizingMaskIntoConstraints = false
+      stack.axis = .vertical
+      stack.spacing = 8
+
+      let titleLabel = UILabel()
+      titleLabel.text = stackTitle
+      titleLabel.font = .preferredFont(forTextStyle: .title1)
+      stack.addArrangedSubview(titleLabel)
+
+      let badge = BadgeView(style: .whiteOnBlack)
+      badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
+
+      let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
+      stack.addArrangedSubview(badgeStack)
+
+      let priceBreakdown = PriceBreakdownView()
+      stack.addArrangedSubview(priceBreakdown)
+
+      let stackConstraints = [
+        stack.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+        stack.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+        stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
+        stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+      ]
+
+      view.addSubview(stack)
+      NSLayoutConstraint.activate(stackConstraints)
+
+      self.view = view
+    }
+
   }
 
 }

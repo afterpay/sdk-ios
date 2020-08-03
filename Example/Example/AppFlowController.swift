@@ -45,9 +45,8 @@ final class AppFlowController: UIViewController {
   }
 
   override func loadView() {
-    let containerView = UIView()
-    install(ownedTabBarController, into: containerView)
-    view = containerView
+    self.view = UIView()
+    install(ownedTabBarController)
   }
 
   // MARK: Unavailable
