@@ -1,6 +1,7 @@
 disabled_rules:
   # force casting is a common part of UIKit development discretion is left to the developer
   - force_cast
+  - function_body_length
 
 opt_in_rules:
   - indentation_width

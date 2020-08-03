@@ -25,6 +25,12 @@ final class AppFlowController: UIViewController {
     let purchase = PurchaseFlowController(logicController: purchaseLogicController)
     purchase.tabBarItem = UITabBarItem(
       title: "Purchase",
+      image: UIImage(named: "briefcase"),
+      selectedImage: nil)
+
+    let components = ComponentsViewController()
+    components.tabBarItem = UITabBarItem(
+      title: "Components",
       image: UIImage(named: "for-you"),
       selectedImage: nil)
 
@@ -35,7 +41,7 @@ final class AppFlowController: UIViewController {
       image: UIImage(named: "settings"),
       selectedImage: nil)
 
-    ownedTabBarController.setViewControllers([purchase, settings], animated: false)
+    ownedTabBarController.setViewControllers([purchase, components, settings], animated: false)
   }
 
   override func loadView() {
