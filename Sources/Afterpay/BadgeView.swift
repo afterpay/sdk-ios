@@ -71,6 +71,8 @@ public final class BadgeView: UIView {
   }
 
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+
     svgView.svg = style(for: traitCollection).svg
   }
 
