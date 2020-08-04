@@ -24,12 +24,12 @@ private struct CheckoutsResponse: Decodable {
   let url: URL
 }
 
-struct ConfigurationResponse: Decodable {
+struct ConfigurationResponse: Codable {
 
   let minimumAmount: Money?
   let maximumAmount: Money
 
-  struct Money: Decodable {
+  struct Money: Codable {
     let amount: String
     let currency: String
   }

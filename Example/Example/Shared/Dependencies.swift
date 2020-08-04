@@ -40,7 +40,7 @@ func initializeDependencies() {
   }
 
   // Configure the Afterpay SDK with the merchant configuration
-  getConfiguration { result in
+  getCachedConfiguration { result in
     let configurationResult: Result<Configuration, Error> = result.flatMap { response in
       do {
         let configuration = try Configuration(
