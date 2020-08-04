@@ -24,12 +24,12 @@ private struct CheckoutsResponse: Decodable {
   let url: URL
 }
 
-struct ConfigurationResponse: Codable {
+struct ConfigurationResponse: Decodable {
 
   let minimumAmount: Money?
   let maximumAmount: Money
 
-  struct Money: Codable {
+  struct Money: Decodable {
     let amount: String
     let currency: String
   }
@@ -80,7 +80,7 @@ func getCheckoutURL(
 }
 
 func getConfiguration(
-  completion: @escaping (Result<ConfigurationResponse, Error>) -> Void
+  completion: @escaping (Result<Data, Error>) -> Void
 ) {
   let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
   var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: true) }
@@ -92,15 +92,10 @@ func getConfiguration(
   }
 
   let task = session.dataTask(with: url) { data, _, error in
-    guard error == nil, let data = data else {
-      return completion(.failure(error ?? NetworkError.unknown))
-    }
-
-    do {
-      let response = try JSONDecoder().decode(ConfigurationResponse.self, from: data)
-      completion(.success(response))
-    } catch {
-      completion(.failure(error))
+    if let data = data, error == nil {
+      completion(.success(data))
+    } else {
+      completion(.failure(error ?? NetworkError.unknown))
     }
   }
 

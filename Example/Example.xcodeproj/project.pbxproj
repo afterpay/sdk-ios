@@ -42,7 +42,7 @@
 		66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; };
 		66F9767924999F5C001D38FA /* Afterpay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		948F664824B6E95900DC0202 /* SegmentedSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948F664724B6E95900DC0202 /* SegmentedSettingCell.swift */; };
-		9490D1D624D8ED4F001E1EFC /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9490D1D524D8ED4F001E1EFC /* Configuration.swift */; };
+		9490D1D624D8ED4F001E1EFC /* AfterpayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9490D1D524D8ED4F001E1EFC /* AfterpayRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,7 +98,7 @@
 		66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		66F9767724999F5C001D38FA /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		948F664724B6E95900DC0202 /* SegmentedSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedSettingCell.swift; sourceTree = "<group>"; };
-		9490D1D524D8ED4F001E1EFC /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		9490D1D524D8ED4F001E1EFC /* AfterpayRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,10 +118,10 @@
 		664722A524A5D98D0079B1FB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9490D1D524D8ED4F001E1EFC /* AfterpayRepository.swift */,
 				664722A624A5D9B00079B1FB /* AlertFactory.swift */,
 				6650F41D24BC0F1B00B16A57 /* Buttons.swift */,
 				6650F41B24BC03DC00B16A57 /* Colors.swift */,
-				9490D1D524D8ED4F001E1EFC /* Configuration.swift */,
 				667F833A24C819120077DC5F /* Dependencies.swift */,
 				665E6A0A24935624009E3BA1 /* Extensions.swift */,
 				663A228D249B030D0027C296 /* MessageViewController.swift */,
@@ -361,7 +361,7 @@
 				66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */,
 				66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */,
 				66D685B524BD7ABF00C7287C /* SwiftUIExample.swift in Sources */,
-				9490D1D624D8ED4F001E1EFC /* Configuration.swift in Sources */,
+				9490D1D624D8ED4F001E1EFC /* AfterpayRepository.swift in Sources */,
 				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
 				66BD11AE24ADA94800039DA6 /* CartViewController.swift in Sources */,
 				948F664824B6E95900DC0202 /* SegmentedSettingCell.swift in Sources */,

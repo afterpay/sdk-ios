@@ -40,20 +40,8 @@ func initializeDependencies() {
   }
 
   // Configure the Afterpay SDK with the merchant configuration
-  getCachedConfiguration { result in
-    let configurationResult: Result<Configuration, Error> = result.flatMap { response in
-      do {
-        let configuration = try Configuration(
-          minimumAmount: response.minimumAmount?.amount,
-          maximumAmount: response.maximumAmount.amount,
-          currencyCode: response.maximumAmount.currency)
-        return .success(configuration)
-      } catch {
-        return .failure(error)
-      }
-    }
-
-    switch configurationResult {
+  AfterpayRepository().fetchConfiguration { result in
+    switch result {
     case .success(let configuration):
       Afterpay.setConfiguration(configuration)
     case .failure(let error):
