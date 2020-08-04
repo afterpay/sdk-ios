@@ -11,6 +11,7 @@
 		662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A3AEC24A999A500EFD826 /* CheckoutResult.swift */; };
 		6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */; };
 		6640C15224D8E1A700F7F4CC /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 6640C15124D8E1A700F7F4CC /* Macaw */; };
+		6640C15724D9211800F7F4CC /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640C15624D9211800F7F4CC /* SwiftUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		66483F3B24D7A164000BE6B5 /* PriceBreakdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66483F3A24D7A164000BE6B5 /* PriceBreakdownView.swift */; };
 		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
 		66639B5424D2619200C68558 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66639B5324D2619200C68558 /* SVGView.swift */; };
@@ -37,6 +38,7 @@
 		662A3AEC24A999A500EFD826 /* CheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutResult.swift; sourceTree = "<group>"; };
 		6632E0AE248A0171007F0BD9 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
+		6640C15624D9211800F7F4CC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SwiftUI.framework; sourceTree = DEVELOPER_DIR; };
 		66483F3A24D7A164000BE6B5 /* PriceBreakdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBreakdownView.swift; sourceTree = "<group>"; };
 		665FC5772488766C00A5A93E /* AfterpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AfterpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		665FC57B2488766C00A5A93E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6640C15224D8E1A700F7F4CC /* Macaw in Frameworks */,
+				6640C15724D9211800F7F4CC /* SwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +90,14 @@
 				6632E0AE248A0171007F0BD9 /* Package.swift */,
 			);
 			name = Deployment;
+			sourceTree = "<group>";
+		};
+		6640C15524D9211700F7F4CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6640C15624D9211800F7F4CC /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		665FC5782488766C00A5A93E /* AfterpayTests */ = {
@@ -115,6 +126,7 @@
 				665FC5782488766C00A5A93E /* AfterpayTests */,
 				668F16082487653A0040345C /* Products */,
 				665FC5822488843C00A5A93E /* TestPlans */,
+				6640C15524D9211700F7F4CC /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
