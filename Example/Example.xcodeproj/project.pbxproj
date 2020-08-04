@@ -41,8 +41,9 @@
 		66F2D8BC24A06E3300F65621 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */; };
 		66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; };
 		66F9767924999F5C001D38FA /* Afterpay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66F9767724999F5C001D38FA /* Afterpay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		945B92A624DA19FA0009BD3C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945B92A524DA19FA0009BD3C /* Environment.swift */; };
 		948F664824B6E95900DC0202 /* SegmentedSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948F664724B6E95900DC0202 /* SegmentedSettingCell.swift */; };
-		9490D1D624D8ED4F001E1EFC /* AfterpayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9490D1D524D8ED4F001E1EFC /* AfterpayRepository.swift */; };
+		9490D1D624D8ED4F001E1EFC /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9490D1D524D8ED4F001E1EFC /* Repository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -97,8 +98,9 @@
 		66F2D8B924A0415700F65621 /* WindowHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHolder.swift; sourceTree = "<group>"; };
 		66F2D8BB24A06E3300F65621 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		66F9767724999F5C001D38FA /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		945B92A524DA19FA0009BD3C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		948F664724B6E95900DC0202 /* SegmentedSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedSettingCell.swift; sourceTree = "<group>"; };
-		9490D1D524D8ED4F001E1EFC /* AfterpayRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayRepository.swift; sourceTree = "<group>"; };
+		9490D1D524D8ED4F001E1EFC /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +120,6 @@
 		664722A524A5D98D0079B1FB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				9490D1D524D8ED4F001E1EFC /* AfterpayRepository.swift */,
 				664722A624A5D9B00079B1FB /* AlertFactory.swift */,
 				6650F41D24BC0F1B00B16A57 /* Buttons.swift */,
 				6650F41B24BC03DC00B16A57 /* Colors.swift */,
@@ -126,6 +127,7 @@
 				665E6A0A24935624009E3BA1 /* Extensions.swift */,
 				663A228D249B030D0027C296 /* MessageViewController.swift */,
 				666262892496F5EB0094FC26 /* Networking.swift */,
+				9490D1D524D8ED4F001E1EFC /* Repository.swift */,
 				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
 			);
 			path = Shared;
@@ -246,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				66D685B424BD7ABF00C7287C /* SwiftUIExample.swift */,
+				945B92A524DA19FA0009BD3C /* Environment.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -361,7 +364,7 @@
 				66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */,
 				66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */,
 				66D685B524BD7ABF00C7287C /* SwiftUIExample.swift in Sources */,
-				9490D1D624D8ED4F001E1EFC /* AfterpayRepository.swift in Sources */,
+				9490D1D624D8ED4F001E1EFC /* Repository.swift in Sources */,
 				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
 				66BD11AE24ADA94800039DA6 /* CartViewController.swift in Sources */,
 				948F664824B6E95900DC0202 /* SegmentedSettingCell.swift in Sources */,
@@ -370,6 +373,7 @@
 				155AD17124AB2464000013B4 /* PurchaseFlowController.swift in Sources */,
 				6662628A2496F5EB0094FC26 /* Networking.swift in Sources */,
 				665E6A0B24935624009E3BA1 /* Extensions.swift in Sources */,
+				945B92A624DA19FA0009BD3C /* Environment.swift in Sources */,
 				66BD11B424ADB7EB00039DA6 /* TitleSubtitleCell.swift in Sources */,
 				665311C324AC23D10088A063 /* ProductCell.swift in Sources */,
 				66BD11B024ADB0F300039DA6 /* CartDisplay.swift in Sources */,

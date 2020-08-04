@@ -1,5 +1,5 @@
 //
-//  AfterpayRepository.swift
+//  Repository.swift
 //  Example
 //
 //  Created by Ryan Davis on 4/8/20.
@@ -10,13 +10,34 @@ import Afterpay
 import Foundation
 import os.log
 
-struct AfterpayRepository {
+final class Repository {
+  private let networking: Networking
   private let userDefaults: UserDefaults
   private let now: () -> Date
 
-  init(userDefaults: UserDefaults = .standard, now: @escaping () -> Date = Date.init) {
+  static let shared = Repository(networking: .live, userDefaults: .standard, now: Date.init)
+
+  init(networking: Networking, userDefaults: UserDefaults, now: @escaping () -> Date) {
+    self.networking = networking
     self.userDefaults = userDefaults
     self.now = now
+  }
+
+  func checkout(
+    email: String,
+    amount: String,
+    completion: @escaping (Result<URL, Error>) -> Void
+  ) {
+    networking.checkout(email, amount) { result in
+      completion(result.flatMap { data in
+        do {
+          let response = try JSONDecoder().decode(CheckoutsResponse.self, from: data)
+          return .success(response.url)
+        } catch {
+          return .failure(error)
+        }
+      })
+    }
   }
 
   func fetchConfiguration(completion: @escaping (Result<Configuration, Error>) -> Void) {
@@ -37,12 +58,12 @@ struct AfterpayRepository {
     }
   }
 
-  private func getCachedOrRemoteConfiguration(completion: @escaping (Result<Data, Error>) -> Void) {
+  private func getCachedOrRemoteConfiguration(completion: @escaping Networking.Completion) {
     if let configuration = userDefaults.configuration, shouldUseCachedConfiguration {
       return completion(.success(configuration))
     }
 
-    getConfiguration { result in
+    networking.configuration { result in
       if case .success(let response) = result {
         self.userDefaults.configuration = response
         self.userDefaults.lastFetchDate = self.now()

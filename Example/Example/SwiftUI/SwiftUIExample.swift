@@ -37,6 +37,8 @@ struct SwiftUIExampleView: View {
 @available(iOS 13.0.0, *)
 private struct CheckoutView: View {
 
+  @Environment(\.repository) private var repository
+
   let urlResultHandler: (Result<URL, Error>) -> Void
 
   init(urlBinding: Binding<URL?>) {
@@ -54,7 +56,11 @@ private struct CheckoutView: View {
     VStack {
       Text("Welcome to the Afterpay SDK")
       Button("Checkout") {
-        getCheckoutURL(with: Settings.email, for: "30.00", completion: self.urlResultHandler)
+        self.repository.checkout(
+          email: Settings.email,
+          amount: "30.00",
+          completion: self.urlResultHandler
+        )
       }
     }
   }

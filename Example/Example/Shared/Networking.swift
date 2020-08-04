@@ -9,23 +9,17 @@
 import Foundation
 
 private let session = URLSession(configuration: .default)
-private let baseUrlComponents = URLComponents(
-  url: URL(string: "http://localhost:3000")!,
-  resolvingAgainstBaseURL: true)!
-private let checkoutsPath = "/checkouts"
-private let configurationPath = "/configuration"
 
 private struct CheckoutsRequest: Encodable {
   let email: String
   let amount: String
 }
 
-private struct CheckoutsResponse: Decodable {
+struct CheckoutsResponse: Decodable {
   let url: URL
 }
 
 struct ConfigurationResponse: Decodable {
-
   let minimumAmount: Money?
   let maximumAmount: Money
 
@@ -33,7 +27,6 @@ struct ConfigurationResponse: Decodable {
     let amount: String
     let currency: String
   }
-
 }
 
 enum NetworkError: Error {
@@ -41,63 +34,61 @@ enum NetworkError: Error {
   case unknown
 }
 
-func getCheckoutURL(
-  with email: String,
-  for amount: String,
-  completion: @escaping (Result<URL, Error>) -> Void
-) {
-  let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
-  var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: true) }
-  urlComponents?.path = checkoutsPath
+struct Networking {
+  typealias Completion = (Result<Data, Error>) -> Void
 
-  guard let url = urlComponents?.url else {
-    completion(.failure(NetworkError.malformedUrl))
-    return
-  }
-
-  var request = URLRequest(url: url)
-  request.httpMethod = "POST"
-
-  // A failed encoding operation here would represent programmer error
-  // swiftlint:disable:next force_try
-  request.httpBody = try! JSONEncoder().encode(CheckoutsRequest(email: email, amount: amount))
-  request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-  let task = session.dataTask(with: request) { data, _, error in
-    guard error == nil, let data = data else {
-      return completion(.failure(error ?? NetworkError.unknown))
-    }
-
-    do {
-      let response = try JSONDecoder().decode(CheckoutsResponse.self, from: data)
-      completion(.success(response.url))
-    } catch {
-      completion(.failure(error))
-    }
-  }
-
-  task.resume()
+  var configuration: (_ completion: @escaping Completion) -> Void
+  var checkout: (_ email: String, _ amount: String, _ completion: @escaping Completion) -> Void
 }
 
-func getConfiguration(
-  completion: @escaping (Result<Data, Error>) -> Void
-) {
+extension Networking {
+  static let live = Self(
+    configuration: { completion in
+      do {
+        session.fire(try /"configuration", completion: completion)
+      } catch {
+        completion(.failure(error))
+      }
+    },
+    checkout: { email, amount, completion in
+      do {
+        var request = URLRequest(url: try /"checkouts")
+        request.httpMethod = "POST"
+        request.httpBody = try JSONEncoder().encode(CheckoutsRequest(email: email, amount: amount))
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        session.fire(request, completion: completion)
+      } catch {
+        completion(.failure(error))
+      }
+    }
+  )
+}
+
+prefix operator /
+private prefix func / (path: String) throws -> URL {
   let baseUrl = URL(string: "http://\(Settings.host):\(Settings.port)")
-  var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: true) }
-  urlComponents?.path = configurationPath
+  var urlComponents = baseUrl.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false) }
+  urlComponents?.path = "/\(path)"
 
   guard let url = urlComponents?.url else {
-    completion(.failure(NetworkError.malformedUrl))
-    return
+    throw NetworkError.malformedUrl
   }
 
-  let task = session.dataTask(with: url) { data, _, error in
-    if let data = data, error == nil {
-      completion(.success(data))
-    } else {
-      completion(.failure(error ?? NetworkError.unknown))
-    }
+  return url
+}
+
+private extension URLSession {
+  func fire(_ url: URL, completion: @escaping Networking.Completion) {
+    fire(URLRequest(url: url), completion: completion)
   }
 
-  task.resume()
+  func fire(_ request: URLRequest, completion: @escaping Networking.Completion) {
+    dataTask(with: request) { data, _, error in
+      if let data = data, error == nil {
+        completion(.success(data))
+      } else {
+        completion(.failure(error ?? NetworkError.unknown))
+      }
+    }.resume()
+  }
 }

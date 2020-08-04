@@ -40,7 +40,7 @@ func initializeDependencies() {
   }
 
   // Configure the Afterpay SDK with the merchant configuration
-  AfterpayRepository().fetchConfiguration { result in
+  Repository.shared.fetchConfiguration { result in
     switch result {
     case .success(let configuration):
       Afterpay.setConfiguration(configuration)
