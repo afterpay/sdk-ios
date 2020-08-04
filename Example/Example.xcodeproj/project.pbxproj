@@ -12,6 +12,7 @@
 		660072B724A1B55E00E9A2BC /* TextSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660072B624A1B55E00E9A2BC /* TextSettingCell.swift */; };
 		6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620B5D124934FB3004162BC /* AppFlowController.swift */; };
 		663A228E249B030D0027C296 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A228D249B030D0027C296 /* MessageViewController.swift */; };
+		6640C15424D9208000F7F4CC /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640C15324D9208000F7F4CC /* SwiftUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		664722A724A5D9B00079B1FB /* AlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664722A624A5D9B00079B1FB /* AlertFactory.swift */; };
 		6650F41C24BC03DC00B16A57 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6650F41B24BC03DC00B16A57 /* Colors.swift */; };
 		6650F41E24BC0F1B00B16A57 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6650F41D24BC0F1B00B16A57 /* Buttons.swift */; };
@@ -64,6 +65,7 @@
 		660072B624A1B55E00E9A2BC /* TextSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSettingCell.swift; sourceTree = "<group>"; };
 		6620B5D124934FB3004162BC /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
 		663A228D249B030D0027C296 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		6640C15324D9208000F7F4CC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		664722A624A5D9B00079B1FB /* AlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFactory.swift; sourceTree = "<group>"; };
 		6650F41B24BC03DC00B16A57 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		6650F41D24BC0F1B00B16A57 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
@@ -102,8 +104,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				667F833924C815DC0077DC5F /* TrustKit in Frameworks */,
 				66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */,
+				6640C15424D9208000F7F4CC /* SwiftUI.framework in Frameworks */,
+				667F833924C815DC0077DC5F /* TrustKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +233,7 @@
 		668F163A248786740040345C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6640C15324D9208000F7F4CC /* SwiftUI.framework */,
 				66F9767724999F5C001D38FA /* Afterpay.framework */,
 			);
 			name = Frameworks;

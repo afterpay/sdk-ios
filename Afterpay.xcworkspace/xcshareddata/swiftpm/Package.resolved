@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "SwiftSVG",
-        "repositoryURL": "https://github.com/mchoe/SwiftSVG",
+        "package": "Macaw",
+        "repositoryURL": "https://github.com/exyte/Macaw",
         "state": {
           "branch": null,
-          "revision": "c3a8866a25ace169ee8e5c037670ba14aa59606f",
-          "version": "2.3.2"
+          "revision": "7cb4f5876423435e1a41628417230accc37284c6",
+          "version": "0.9.7"
+        }
+      },
+      {
+        "package": "SWXMLHash",
+        "repositoryURL": "https://github.com/drmohundro/SWXMLHash",
+        "state": {
+          "branch": null,
+          "revision": "a4931e5c3bafbedeb1601d3bb76bbe835c6d475a",
+          "version": "5.0.1"
         }
       },
       {

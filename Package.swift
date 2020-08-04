@@ -12,10 +12,10 @@ let package = Package(
     .library(name: "Afterpay", targets: ["Afterpay"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/mchoe/SwiftSVG.git", from: "2.3.2"),
+    .package(url: "https://github.com/exyte/Macaw.git", from: "0.9.7"),
   ],
   targets: [
-    .target(name: "Afterpay", dependencies: ["SwiftSVG"]),
+    .target(name: "Afterpay", dependencies: ["Macaw"]),
     .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
   ]
 )
