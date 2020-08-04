@@ -14,5 +14,5 @@ Pod::Spec.new do |spec|
   spec.swift_version = "5.1"
   spec.framework     = "UIKit"
 
-  spec.dependency "SwiftSVG", "2.3.2"
+  spec.dependency "Macaw", "0.9.7"
 end

@@ -8,27 +8,46 @@
 
 import Foundation
 #if compiler(>=5.1) && compiler(<5.3)
-@_implementationOnly import SwiftSVG
+@_implementationOnly import Macaw
 #else
-import SwiftSVG
+import Macaw
 #endif
 import UIKit
 
-final class SVGView: UIView {
+final class SVGView: Macaw.SVGView {
 
-  var svgLayer: SVGLayer? { layer.sublayers?.first as? SVGLayer }
-
-  init(svg: SVG) {
-    super.init(frame: CGRect(origin: .zero, size: svg.size))
-
-    CALayer(SVGData: svg.data, completion: layer.addSublayer)
-
-    translatesAutoresizingMaskIntoConstraints = false
-    heightAnchor.constraint(equalTo: widthAnchor, multiplier: svg.aspectRatio).isActive = true
+  var svg: SVG {
+    didSet { svgDidChange() }
   }
 
-  public override func layoutSublayers(of layer: CALayer) {
-    svgLayer?.resizeToFit(bounds)
+  init(svg: SVG) {
+    self.svg = svg
+
+    super.init(node: svg.node, frame: CGRect(origin: .zero, size: svg.size))
+
+    backgroundColor = .clear
+    translatesAutoresizingMaskIntoConstraints = false
+    setupAspectRatioConstraint()
+  }
+
+  private var aspectRatioConstraint: NSLayoutConstraint!
+
+  private func setupAspectRatioConstraint() {
+    aspectRatioConstraint = heightAnchor.constraint(
+      equalTo: widthAnchor,
+      multiplier: svg.aspectRatio
+    )
+
+    aspectRatioConstraint.isActive = true
+  }
+
+  private func svgDidChange() {
+    node = svg.node
+
+    if aspectRatioConstraint.multiplier != svg.aspectRatio {
+      aspectRatioConstraint.isActive = false
+      setupAspectRatioConstraint()
+    }
   }
 
   // MARK: - Unavailable
