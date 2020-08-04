@@ -24,11 +24,18 @@ public final class BadgeView: UIView {
     }
   }
 
-  private var style: Style = .whiteOnBlack
+  private let lightStyle: Style
+  private let darkStyle: Style
+
   private var svgView: SVGView!
 
-  public init(style: Style) {
-    self.style = style
+  public convenience init(style: Style) {
+    self.init(lightStyle: style, darkStyle: style)
+  }
+
+  public init(lightStyle: Style, darkStyle: Style) {
+    self.lightStyle = lightStyle
+    self.darkStyle = darkStyle
 
     super.init(frame: .zero)
 
@@ -36,21 +43,22 @@ public final class BadgeView: UIView {
   }
 
   required init?(coder: NSCoder) {
+    self.lightStyle = .whiteOnBlack
+    self.darkStyle = .blackOnWhite
+
     super.init(coder: coder)
 
     sharedInit()
   }
 
   private func sharedInit() {
-
     // Accessibility
     isAccessibilityElement = true
     accessibilityTraits = [.staticText]
     accessibilityLabel = "after pay"
 
     // SVG Layout
-    svgView = SVGView(svg: style.svg)
-    svgView.translatesAutoresizingMaskIntoConstraints = false
+    svgView = SVGView(svg: style(for: traitCollection).svg)
 
     addSubview(svgView)
 
@@ -60,7 +68,21 @@ public final class BadgeView: UIView {
       svgView.topAnchor.constraint(equalTo: topAnchor),
       svgView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
+  }
 
+  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    svgView.svg = style(for: traitCollection).svg
+  }
+
+  private func style(for traitCollection: UITraitCollection) -> Style {
+    switch traitCollection.userInterfaceStyle {
+    case .dark:
+      return darkStyle
+    case .light, .unspecified:
+      fallthrough
+    @unknown default:
+      return lightStyle
+    }
   }
 
 }
