@@ -11,14 +11,14 @@ import Foundation
 import os.log
 
 final class Repository {
-  private let networking: Networking
+  private let apiClient: APIClient
   private let userDefaults: UserDefaults
   private let now: () -> Date
 
-  static let shared = Repository(networking: .live, userDefaults: .standard, now: Date.init)
+  static let shared = Repository(apiClient: .live, userDefaults: .standard, now: Date.init)
 
-  init(networking: Networking, userDefaults: UserDefaults, now: @escaping () -> Date) {
-    self.networking = networking
+  init(apiClient: APIClient, userDefaults: UserDefaults, now: @escaping () -> Date) {
+    self.apiClient = apiClient
     self.userDefaults = userDefaults
     self.now = now
   }
@@ -28,7 +28,7 @@ final class Repository {
     amount: String,
     completion: @escaping (Result<URL, Error>) -> Void
   ) {
-    networking.checkout(email, amount) { result in
+    apiClient.checkout(email, amount) { result in
       completion(result.flatMap { data in
         do {
           let response = try JSONDecoder().decode(CheckoutsResponse.self, from: data)
@@ -58,12 +58,12 @@ final class Repository {
     }
   }
 
-  private func getCachedOrRemoteConfiguration(completion: @escaping Networking.Completion) {
+  private func getCachedOrRemoteConfiguration(completion: @escaping APIClient.Completion) {
     if let configuration = userDefaults.configuration, shouldUseCachedConfiguration {
       return completion(.success(configuration))
     }
 
-    networking.configuration { result in
+    apiClient.configuration { result in
       if case .success(let response) = result {
         self.userDefaults.configuration = response
         self.userDefaults.lastFetchDate = self.now()
