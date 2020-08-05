@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6615F99B24D14620005036F1 /* SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615F99A24D14620005036F1 /* SVG.swift */; };
-		661B233224DA8EE70010EBCD /* BadgeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B233124DA8EE70010EBCD /* BadgeStyle.swift */; };
+		661B233224DA8EE70010EBCD /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B233124DA8EE70010EBCD /* ColorScheme.swift */; };
 		662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A3AEC24A999A500EFD826 /* CheckoutResult.swift */; };
 		6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */; };
 		6640C15224D8E1A700F7F4CC /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 6640C15124D8E1A700F7F4CC /* Macaw */; };
@@ -36,7 +36,7 @@
 
 /* Begin PBXFileReference section */
 		6615F99A24D14620005036F1 /* SVG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVG.swift; sourceTree = "<group>"; };
-		661B233124DA8EE70010EBCD /* BadgeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeStyle.swift; sourceTree = "<group>"; };
+		661B233124DA8EE70010EBCD /* ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		662A3AEC24A999A500EFD826 /* CheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutResult.swift; sourceTree = "<group>"; };
 		6632E0AE248A0171007F0BD9 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
@@ -98,8 +98,8 @@
 		661B233024DA87EA0010EBCD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				661B233124DA8EE70010EBCD /* BadgeStyle.swift */,
 				66EE378624D39FC50029BF42 /* BadgeView.swift */,
+				661B233124DA8EE70010EBCD /* ColorScheme.swift */,
 				66483F3A24D7A164000BE6B5 /* PriceBreakdownView.swift */,
 			);
 			path = Views;
@@ -376,7 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				661B233224DA8EE70010EBCD /* BadgeStyle.swift in Sources */,
+				661B233224DA8EE70010EBCD /* ColorScheme.swift in Sources */,
 				66639B5424D2619200C68558 /* SVGView.swift in Sources */,
 				6615F99B24D14620005036F1 /* SVG.swift in Sources */,
 				66483F3B24D7A164000BE6B5 /* PriceBreakdownView.swift in Sources */,

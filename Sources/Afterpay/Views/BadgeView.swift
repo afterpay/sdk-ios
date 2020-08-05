@@ -11,18 +11,11 @@ import UIKit
 
 public final class BadgeView: UIView {
 
-  private let lightStyle: BadgeStyle
-  private let darkStyle: BadgeStyle
-
+  private let colorScheme: ColorScheme
   private var svgView: SVGView!
 
-  public convenience init(style: BadgeStyle) {
-    self.init(lightStyle: style, darkStyle: style)
-  }
-
-  public init(lightStyle: BadgeStyle, darkStyle: BadgeStyle) {
-    self.lightStyle = lightStyle
-    self.darkStyle = darkStyle
+  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+    self.colorScheme = colorScheme
 
     super.init(frame: .zero)
 
@@ -30,8 +23,7 @@ public final class BadgeView: UIView {
   }
 
   required init?(coder: NSCoder) {
-    self.lightStyle = .whiteOnBlack
-    self.darkStyle = .blackOnWhite
+    self.colorScheme = .static(.blackOnMint)
 
     super.init(coder: coder)
 
@@ -45,7 +37,7 @@ public final class BadgeView: UIView {
     accessibilityLabel = "after pay"
 
     // SVG Layout
-    svgView = SVGView(lightSVG: lightStyle.svg, darkSVG: darkStyle.svg)
+    svgView = SVGView(svgPair: colorScheme.badgeSVGPair)
 
     addSubview(svgView)
 
