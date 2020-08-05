@@ -58,7 +58,7 @@ public final class BadgeView: UIView {
     accessibilityLabel = "after pay"
 
     // SVG Layout
-    svgView = SVGView(svg: style(for: traitCollection).svg)
+    svgView = SVGView(lightSVG: lightStyle.svg, darkSVG: darkStyle.svg)
 
     addSubview(svgView)
 
@@ -68,23 +68,6 @@ public final class BadgeView: UIView {
       svgView.topAnchor.constraint(equalTo: topAnchor),
       svgView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
-  }
-
-  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
-
-    svgView.svg = style(for: traitCollection).svg
-  }
-
-  private func style(for traitCollection: UITraitCollection) -> Style {
-    switch traitCollection.userInterfaceStyle {
-    case .dark:
-      return darkStyle
-    case .light, .unspecified:
-      fallthrough
-    @unknown default:
-      return lightStyle
-    }
   }
 
 }

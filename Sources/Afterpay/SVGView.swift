@@ -16,37 +16,69 @@ import UIKit
 
 final class SVGView: Macaw.SVGView {
 
-  var svg: SVG {
-    didSet { svgDidChange() }
+  var svg: SVG { svg(for: traitCollection) }
+
+  private let lightSVG: SVG
+  private let darkSVG: SVG
+
+  convenience init(svg: SVG) {
+    self.init(lightSVG: svg, darkSVG: svg)
   }
 
-  init(svg: SVG) {
-    self.svg = svg
+  init(lightSVG: SVG, darkSVG: SVG) {
+    self.lightSVG = lightSVG
+    self.darkSVG = darkSVG
 
-    super.init(node: svg.node, frame: CGRect(origin: .zero, size: svg.size))
+    super.init(node: Group(), frame: .zero)
 
+    node = svg.node
     backgroundColor = .clear
     translatesAutoresizingMaskIntoConstraints = false
-    setupAspectRatioConstraint()
+    setupConstraints()
   }
 
   private var aspectRatioConstraint: NSLayoutConstraint!
+  private var minimumWidthConstraint: NSLayoutConstraint!
 
-  private func setupAspectRatioConstraint() {
+  private func setupConstraints() {
     aspectRatioConstraint = heightAnchor.constraint(
       equalTo: widthAnchor,
       multiplier: svg.aspectRatio
     )
 
-    aspectRatioConstraint.isActive = true
+    minimumWidthConstraint = widthAnchor.constraint(greaterThanOrEqualToConstant: svg.minimumWidth)
+
+    NSLayoutConstraint.activate([aspectRatioConstraint, minimumWidthConstraint])
+  }
+
+  private func svg(for traitCollection: UITraitCollection) -> SVG {
+    switch traitCollection.userInterfaceStyle {
+    case .dark:
+      return darkSVG
+    case .light, .unspecified:
+      fallthrough
+    @unknown default:
+      return lightSVG
+    }
   }
 
   private func svgDidChange() {
     node = svg.node
 
-    if aspectRatioConstraint.multiplier != svg.aspectRatio {
-      aspectRatioConstraint.isActive = false
-      setupAspectRatioConstraint()
+    let aspectRatio = aspectRatioConstraint.multiplier
+    let minimumWidth = minimumWidthConstraint.constant
+
+    if aspectRatio != svg.aspectRatio || minimumWidth != svg.minimumWidth {
+      NSLayoutConstraint.deactivate([aspectRatioConstraint, minimumWidthConstraint])
+      setupConstraints()
+    }
+  }
+
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+
+    if previousTraitCollection.map(svg) != svg(for: traitCollection) {
+      svgDidChange()
     }
   }
 
