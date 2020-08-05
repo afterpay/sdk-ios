@@ -11,36 +11,16 @@ import UIKit
 
 public final class BadgeView: UIView {
 
-  public enum Style {
-    case blackOnMint
-    case mintOnBlack
-    case whiteOnBlack
-    case blackOnWhite
-
-    var svg: SVG {
-      switch self {
-      case .blackOnMint:
-        return .badgeBlackOnMint
-      case .mintOnBlack:
-        return .badgeMintOnBlack
-      case .whiteOnBlack:
-        return .badgeWhiteOnBlack
-      case .blackOnWhite:
-        return .badgeBlackOnWhite
-      }
-    }
-  }
-
-  private let lightStyle: Style
-  private let darkStyle: Style
+  private let lightStyle: BadgeStyle
+  private let darkStyle: BadgeStyle
 
   private var svgView: SVGView!
 
-  public convenience init(style: Style) {
+  public convenience init(style: BadgeStyle) {
     self.init(lightStyle: style, darkStyle: style)
   }
 
-  public init(lightStyle: Style, darkStyle: Style) {
+  public init(lightStyle: BadgeStyle, darkStyle: BadgeStyle) {
     self.lightStyle = lightStyle
     self.darkStyle = darkStyle
 
