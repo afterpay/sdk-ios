@@ -12,10 +12,17 @@ import UIKit
 public final class BadgeView: UIView {
 
   public enum Style {
-    case whiteOnBlack, blackOnWhite
+    case blackOnMint
+    case mintOnBlack
+    case whiteOnBlack
+    case blackOnWhite
 
     var svg: SVG {
       switch self {
+      case .blackOnMint:
+        return .badgeBlackOnMint
+      case .mintOnBlack:
+        return .badgeMintOnBlack
       case .whiteOnBlack:
         return .badgeWhiteOnBlack
       case .blackOnWhite:

@@ -48,7 +48,7 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let svgView = SVGView(lightSVG: .badgeWhiteOnBlack, darkSVG: .badgeBlackOnWhite)
+    let svgView = SVGView(svg: .badgeBlackOnMint)
     let svg = svgView.svg
 
     let font: UIFont = .preferredFont(forTextStyle: .body)
