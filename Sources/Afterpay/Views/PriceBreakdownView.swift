@@ -12,6 +12,7 @@ import UIKit
 public final class PriceBreakdownView: UIView {
 
   private let textView = UITextView()
+  private var textColor: UIColor!
   private let colorScheme: ColorScheme
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -36,6 +37,12 @@ public final class PriceBreakdownView: UIView {
     textView.textContainerInset = .zero
     textView.textContainer.lineFragmentPadding = .zero
     textView.layoutManager.usesFontLeading = false
+
+    if #available(iOS 13.0, *) {
+      textColor = .label
+    } else {
+      textColor = .black
+    }
 
     updateAttributedText()
 
@@ -67,17 +74,9 @@ public final class PriceBreakdownView: UIView {
       badgeSVGView.layer.render(in: rendererContext.cgContext)
     }
 
-    let textColor: UIColor = {
-      if #available(iOS 13.0, *) {
-        return .label
-      } else {
-        return .black
-      }
-    }()
-
     let attributedString = NSMutableAttributedString(
       string: "or 4 payments of $40.00 with ",
-      attributes: [.font: font, .foregroundColor: textColor]
+      attributes: [.font: font, .foregroundColor: textColor as UIColor]
     )
 
     let badgeAttachment = NSTextAttachment()
