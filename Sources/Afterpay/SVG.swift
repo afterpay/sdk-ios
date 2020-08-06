@@ -15,21 +15,24 @@ import Macaw
 import UIKit
 
 // swiftlint:disable line_length
-struct SVG {
+struct SVG: Equatable {
 
   let size: CGSize
+  let minimumWidth: CGFloat
   private let svgString: String
 
   var aspectRatio: CGFloat { size.height / size.width }
   var node: Node { (try? SVGParser.parse(text: svgString)) ?? Group() }
 
-  init(size: CGSize, svgString: String) {
+  init(size: CGSize, minimumWidth: CGFloat, svgString: String) {
     self.size = size
+    self.minimumWidth = minimumWidth
     self.svgString = svgString
   }
 
   static let badgeWhiteOnBlack: SVG = SVG(
     size: CGSize(width: 1582, height: 551),
+    minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1306.3 550.5H275.2C123.2 550.5 0 427.3 0 275.3C0 123.3 123.2 0.0999756 275.2 0.0999756H1306.3C1458.3 0.0999756 1581.5 123.3 1581.5 275.3C1581.6 427.2 1458.3 550.5 1306.3 550.5Z" fill="#000000"/>
@@ -40,6 +43,7 @@ struct SVG {
 
   static let badgeBlackOnWhite: SVG = SVG(
     size: CGSize(width: 1582, height: 551),
+    minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1306.3 550.5H275.2C123.2 550.5 0 427.3 0 275.3C0 123.3 123.2 0.0999756 275.2 0.0999756H1306.3C1458.3 0.0999756 1581.5 123.3 1581.5 275.3C1581.6 427.2 1458.3 550.5 1306.3 550.5Z" fill="#FFFFFF"/>
