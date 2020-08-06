@@ -12,14 +12,19 @@ import UIKit
 public final class PriceBreakdownView: UIView {
 
   private let label = UILabel()
+  private let colorScheme: ColorScheme
 
-  public init() {
+  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+    self.colorScheme = colorScheme
+
     super.init(frame: .zero)
 
     sharedInit()
   }
 
   required init?(coder: NSCoder) {
+    self.colorScheme = .static(.blackOnMint)
+
     super.init(coder: coder)
 
     sharedInit()
@@ -48,8 +53,8 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let svgView = SVGView(lightSVG: .badgeWhiteOnBlack, darkSVG: .badgeBlackOnWhite)
-    let svg = svgView.svg
+    let badgeSVGView = SVGView(svgPair: colorScheme.badgeSVGPair)
+    let svg = badgeSVGView.svg
 
     let font: UIFont = .preferredFont(forTextStyle: .body)
     let fontHeight = font.ascender - font.descender
@@ -58,11 +63,11 @@ public final class PriceBreakdownView: UIView {
     let width = widthFittingFont > svg.minimumWidth ? widthFittingFont : svg.minimumWidth
     let size = CGSize(width: width, height: width * svg.aspectRatio)
 
-    svgView.frame = CGRect(origin: .zero, size: size)
+    badgeSVGView.frame = CGRect(origin: .zero, size: size)
 
-    let renderer = UIGraphicsImageRenderer(size: svgView.bounds.size)
+    let renderer = UIGraphicsImageRenderer(size: badgeSVGView.bounds.size)
     let image = renderer.image { rendererContext in
-      svgView.layer.render(in: rendererContext.cgContext)
+      badgeSVGView.layer.render(in: rendererContext.cgContext)
     }
 
     let attributedString = NSMutableAttributedString(

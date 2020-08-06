@@ -78,7 +78,7 @@ final class ComponentsViewController: UIViewController {
       titleLabel.font = .preferredFont(forTextStyle: .title1)
       stack.addArrangedSubview(titleLabel)
 
-      let badge = BadgeView(lightStyle: .whiteOnBlack, darkStyle: .blackOnWhite)
+      let badge = BadgeView()
       badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
       let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])

@@ -18,16 +18,10 @@ final class SVGView: Macaw.SVGView {
 
   var svg: SVG { svg(for: traitCollection) }
 
-  private let lightSVG: SVG
-  private let darkSVG: SVG
+  private let svgPair: SVGPair
 
-  convenience init(svg: SVG) {
-    self.init(lightSVG: svg, darkSVG: svg)
-  }
-
-  init(lightSVG: SVG, darkSVG: SVG) {
-    self.lightSVG = lightSVG
-    self.darkSVG = darkSVG
+  init(svgPair: SVGPair) {
+    self.svgPair = svgPair
 
     super.init(frame: .zero)
 
@@ -54,11 +48,11 @@ final class SVGView: Macaw.SVGView {
   private func svg(for traitCollection: UITraitCollection) -> SVG {
     switch traitCollection.userInterfaceStyle {
     case .dark:
-      return darkSVG
+      return svgPair.darkSVG
     case .light, .unspecified:
       fallthrough
     @unknown default:
-      return lightSVG
+      return svgPair.lightSVG
     }
   }
 
