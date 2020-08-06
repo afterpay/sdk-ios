@@ -29,7 +29,7 @@ final class SVGView: Macaw.SVGView {
     self.lightSVG = lightSVG
     self.darkSVG = darkSVG
 
-    super.init(node: Group(), frame: .zero)
+    super.init(frame: .zero)
 
     node = svg.node
     backgroundColor = .clear
