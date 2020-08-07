@@ -11,7 +11,7 @@ import UIKit
 
 public final class PriceBreakdownView: UIView {
 
-  private let textView = UITextView()
+  private let linkTextView = LinkTextView()
   private var textColor: UIColor!
   private var linkTintColor: UIColor!
   private let colorScheme: ColorScheme
@@ -41,23 +41,18 @@ public final class PriceBreakdownView: UIView {
       linkTintColor = UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
     }
 
-    textView.translatesAutoresizingMaskIntoConstraints = false
-    textView.isScrollEnabled = false
-    textView.textContainerInset = .zero
-    textView.textContainer.lineFragmentPadding = .zero
-    textView.layoutManager.usesFontLeading = false
-    textView.tintColor = linkTintColor
-    textView.backgroundColor = .clear
+    linkTextView.tintColor = linkTintColor
+    linkTextView.linkHandler = { UIApplication.shared.open($0) }
 
     updateAttributedText()
 
-    addSubview(textView)
+    addSubview(linkTextView)
 
     NSLayoutConstraint.activate([
-      textView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      textView.topAnchor.constraint(equalTo: topAnchor),
-      textView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      textView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      linkTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      linkTextView.topAnchor.constraint(equalTo: topAnchor),
+      linkTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      linkTextView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
   }
 
@@ -102,7 +97,7 @@ public final class PriceBreakdownView: UIView {
 
     attributedString.append(.init(string: "Info", attributes: linkAttributes))
 
-    textView.attributedText = attributedString
+    linkTextView.attributedText = attributedString
   }
 
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
