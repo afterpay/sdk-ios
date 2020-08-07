@@ -11,7 +11,9 @@ import UIKit
 
 public final class PriceBreakdownView: UIView {
 
-  private let label = UILabel()
+  private let linkTextView = LinkTextView()
+  private var textColor: UIColor!
+  private var linkTintColor: UIColor!
   private let colorScheme: ColorScheme
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -31,24 +33,26 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func sharedInit() {
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.numberOfLines = 0
-
     if #available(iOS 13.0, *) {
-      label.textColor = .label
+      textColor = .label
+      linkTintColor = .secondaryLabel
     } else {
-      label.textColor = .black
+      textColor = .black
+      linkTintColor = UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
     }
+
+    linkTextView.tintColor = linkTintColor
+    linkTextView.linkHandler = { UIApplication.shared.open($0) }
 
     updateAttributedText()
 
-    addSubview(label)
+    addSubview(linkTextView)
 
     NSLayoutConstraint.activate([
-      label.leadingAnchor.constraint(equalTo: leadingAnchor),
-      label.topAnchor.constraint(equalTo: topAnchor),
-      label.trailingAnchor.constraint(equalTo: trailingAnchor),
-      label.bottomAnchor.constraint(equalTo: bottomAnchor),
+      linkTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      linkTextView.topAnchor.constraint(equalTo: topAnchor),
+      linkTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      linkTextView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
   }
 
@@ -70,19 +74,30 @@ public final class PriceBreakdownView: UIView {
       badgeSVGView.layer.render(in: rendererContext.cgContext)
     }
 
+    let textAttributes: [NSAttributedString.Key: Any] = [
+      .font: font,
+      .foregroundColor: textColor as UIColor,
+    ]
+
     let attributedString = NSMutableAttributedString(
       string: "or 4 payments of $40.00 with ",
-      attributes: [NSAttributedString.Key.font: font]
+      attributes: textAttributes
     )
 
     let badgeAttachment = NSTextAttachment()
     badgeAttachment.image = image
     badgeAttachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
-    let badge = NSAttributedString(attachment: badgeAttachment)
+    attributedString.append(.init(attachment: badgeAttachment))
 
-    attributedString.append(badge)
+    attributedString.append(.init(string: " ", attributes: textAttributes))
 
-    label.attributedText = attributedString
+    var linkAttributes = textAttributes
+    linkAttributes[.link] = "https://static-us.afterpay.com/javascript/modal/us_modal.html"
+    linkAttributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
+
+    attributedString.append(.init(string: "Info", attributes: linkAttributes))
+
+    linkTextView.attributedText = attributedString
   }
 
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
