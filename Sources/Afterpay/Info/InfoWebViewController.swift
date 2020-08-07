@@ -34,6 +34,11 @@ final class InfoWebViewController: UIViewController, WKNavigationDelegate {
 
     if #available(iOS 13.0, *) {
       overrideUserInterfaceStyle = .light
+      navigationItem.rightBarButtonItem = UIBarButtonItem(
+        barButtonSystemItem: .close,
+        target: self,
+        action: #selector(dismissViewController)
+      )
     } else {
       navigationItem.rightBarButtonItem = UIBarButtonItem(
         title: "Close",
