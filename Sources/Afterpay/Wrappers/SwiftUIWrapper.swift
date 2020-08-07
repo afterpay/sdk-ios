@@ -48,11 +48,11 @@ struct SwiftUIWrapper: UIViewControllerRepresentable {
   let checkoutURL: URL
   let completion: (_ result: CheckoutResult) -> Void
 
-  func makeUIViewController(context: Context) -> WebViewController {
-    WebViewController(checkoutUrl: checkoutURL, completion: completion)
+  func makeUIViewController(context: Context) -> CheckoutWebViewController {
+    CheckoutWebViewController(checkoutUrl: checkoutURL, completion: completion)
   }
 
-  func updateUIViewController(_ uiViewController: WebViewController, context: Context) {
+  func updateUIViewController(_ uiViewController: CheckoutWebViewController, context: Context) {
     // SwiftUI inserts a UIHostingController around the SwiftUIWrapper View, we need to ensure that
     // we become the delegate of the correct presentation controller
     let topmostViewController = uiViewController.parent ?? uiViewController

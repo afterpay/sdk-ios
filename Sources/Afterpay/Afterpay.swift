@@ -26,7 +26,7 @@ public func presentCheckoutModally(
   animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
-  var viewControllerToPresent: UIViewController = WebViewController(
+  var viewControllerToPresent: UIViewController = CheckoutWebViewController(
     checkoutUrl: checkoutURL,
     completion: completion
   )

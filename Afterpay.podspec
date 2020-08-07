@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
   spec.author        = "Afterpay"
   spec.platform      = :ios, "12.0"
   spec.source        = { :git => "https://github.com/afterpay/sdk-ios.git", :tag => "#{spec.version}" }
-  spec.source_files  = "Sources/Afterpay/"
+  spec.source_files  = "Sources/Afterpay/**/*"
   spec.swift_version = "5.1"
   spec.framework     = "UIKit"
 
