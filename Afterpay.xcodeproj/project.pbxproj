@@ -22,6 +22,7 @@
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
 		66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE378624D39FC50029BF42 /* BadgeView.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
+		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWrapper.swift; sourceTree = "<group>"; };
 		66EE378624D39FC50029BF42 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
+		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
 				6689536B24C96CB5005090B4 /* Configuration.swift */,
 				946388FB24DD05D400A1227A /* Checkout */,
+				946388FC24DD075400A1227A /* Info */,
 				661B232F24DA87C50010EBCD /* SVG */,
 				661B233024DA87EA0010EBCD /* Views */,
 				663F96AA24DA906800B0643A /* Wrappers */,
@@ -218,6 +221,14 @@
 				667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */,
 			);
 			path = Checkout;
+			sourceTree = "<group>";
+		};
+		946388FC24DD075400A1227A /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				946388FD24DD077F00A1227A /* InfoWebViewController.swift */,
+			);
+			path = Info;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,6 +406,7 @@
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,
 				66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
+				946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
