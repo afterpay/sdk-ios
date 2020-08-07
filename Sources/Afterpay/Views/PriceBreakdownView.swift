@@ -9,7 +9,13 @@
 import Foundation
 import UIKit
 
+public protocol PriceBreakdownViewDelegate: AnyObject {
+  func viewControllerForPresentation() -> UIViewController
+}
+
 public final class PriceBreakdownView: UIView {
+
+  public weak var delegate: PriceBreakdownViewDelegate?
 
   private let linkTextView = LinkTextView()
   private var textColor: UIColor!
@@ -42,7 +48,16 @@ public final class PriceBreakdownView: UIView {
     }
 
     linkTextView.tintColor = linkTintColor
-    linkTextView.linkHandler = { UIApplication.shared.open($0) }
+
+    linkTextView.linkHandler = { [weak self] url in
+      if let viewController = self?.delegate?.viewControllerForPresentation() {
+        let infoWebViewController = InfoWebViewController(infoURL: url)
+        let navigationController = UINavigationController(rootViewController: infoWebViewController)
+        viewController.present(navigationController, animated: true, completion: nil)
+      } else {
+        UIApplication.shared.open(url)
+      }
+    }
 
     updateAttributedText()
 
