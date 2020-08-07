@@ -46,7 +46,7 @@ final class ComponentsViewController: UIViewController {
     self.view = scrollView
   }
 
-  private final class ContentStackViewController: UIViewController {
+  private final class ContentStackViewController: UIViewController, PriceBreakdownViewDelegate {
 
     let stackTitle: String
 
@@ -85,6 +85,7 @@ final class ComponentsViewController: UIViewController {
       stack.addArrangedSubview(badgeStack)
 
       let priceBreakdown = PriceBreakdownView()
+      priceBreakdown.delegate = self
       stack.addArrangedSubview(priceBreakdown)
 
       let stackConstraints = [
@@ -99,6 +100,8 @@ final class ComponentsViewController: UIViewController {
 
       self.view = view
     }
+
+    func viewControllerForPresentation() -> UIViewController { self }
 
   }
 
