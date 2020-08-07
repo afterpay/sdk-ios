@@ -10,13 +10,13 @@ import UIKit
 import WebKit
 
 // swiftlint:disable:next colon
-final class WebViewController:
+final class CheckoutWebViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
   WKNavigationDelegate
 { // swiftlint:disable:this opening_brace
 
-  private static let bundle = Bundle(for: WebViewController.self)
+  private static let bundle = Bundle(for: CheckoutWebViewController.self)
 
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
