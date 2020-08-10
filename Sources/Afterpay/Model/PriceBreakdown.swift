@@ -16,7 +16,7 @@ private let formatter: NumberFormatter = {
 
 struct PriceBreakdown {
 
-  enum BadgePlacement {
+  enum BadgePlacement: Equatable {
     case start
     case end
   }
