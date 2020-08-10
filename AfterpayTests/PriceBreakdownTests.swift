@@ -22,18 +22,56 @@ class PriceBreakdownTests: XCTestCase {
     XCTAssertEqual(breakdown.string, "or pay with")
   }
 
-  func testInstalments() {
-    let configuration = try? Configuration(
-      minimumAmount: "50.00",
-      maximumAmount: "200.00",
-      currencyCode: "USD")
+  private let setMinumumMaximumConfiguration = {
+    Afterpay.setConfiguration(
+      try? Configuration(minimumAmount: "50.00", maximumAmount: "200.00", currencyCode: "USD")
+    )
+  }
 
-    configuration.map(Afterpay.setConfiguration)
+  private let setMaximumConfiguration = {
+    Afterpay.setConfiguration(
+      try? Configuration(minimumAmount: nil, maximumAmount: "200.00", currencyCode: "USD")
+    )
+  }
+
+  func testInstalments() {
+    setMinumumMaximumConfiguration()
 
     let breakdown = PriceBreakdown(totalAmount: 100)
 
     XCTAssertEqual(breakdown.badgePlacement, .end)
     XCTAssertEqual(breakdown.string, "or 4 instalments of $25.00 with")
+  }
+
+  func testOutOfRangeWithMinimum() {
+    setMinumumMaximumConfiguration()
+
+    let outOfRangeBreakdowns = [
+      PriceBreakdown(totalAmount: 0),
+      PriceBreakdown(totalAmount: 25),
+      PriceBreakdown(totalAmount: 49.99),
+      PriceBreakdown(totalAmount: 200.01),
+      PriceBreakdown(totalAmount: 300),
+    ]
+
+    for breakdown in outOfRangeBreakdowns {
+      XCTAssertEqual(breakdown.badgePlacement, .start)
+      XCTAssertEqual(breakdown.string, "is available between $50.00-$200.00")
+    }
+  }
+
+  func testOutOfRangeWithNoMinimum() {
+    setMaximumConfiguration()
+
+    let outOfRangeBreakdowns = [
+      PriceBreakdown(totalAmount: 200.01),
+      PriceBreakdown(totalAmount: 300),
+    ]
+
+    for breakdown in outOfRangeBreakdowns {
+      XCTAssertEqual(breakdown.badgePlacement, .start)
+      XCTAssertEqual(breakdown.string, "is available under $200.00")
+    }
   }
 
 }
