@@ -20,6 +20,8 @@
 		667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */; };
 		6689536C24C96CB5005090B4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6689536B24C96CB5005090B4 /* Configuration.swift */; };
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
+		66DAAC8924E0CE7700127460 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8824E0CE7700127460 /* Currency.swift */; };
+		66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */; };
 		66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE378624D39FC50029BF42 /* BadgeView.swift */; };
 		66EE9BD724DCEC3E00A81C19 /* LinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
@@ -63,6 +65,8 @@
 		66B57E56248F5C7D0020C642 /* Project-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Release.xcconfig"; sourceTree = "<group>"; };
 		66B57E57248F5C7D0020C642 /* Afterpay-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Release.xcconfig"; sourceTree = "<group>"; };
 		66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWrapper.swift; sourceTree = "<group>"; };
+		66DAAC8824E0CE7700127460 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBreakdown.swift; sourceTree = "<group>"; };
 		66EE378624D39FC50029BF42 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTextView.swift; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
@@ -190,15 +194,25 @@
 			isa = PBXGroup;
 			children = (
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
-				6689536B24C96CB5005090B4 /* Configuration.swift */,
 				946388FB24DD05D400A1227A /* Checkout */,
 				946388FC24DD075400A1227A /* Info */,
+				6691776D24E0CB7C00D0A4B2 /* Model */,
 				661B232F24DA87C50010EBCD /* SVG */,
 				661B233024DA87EA0010EBCD /* Views */,
 				663F96AA24DA906800B0643A /* Wrappers */,
 			);
 			name = Sources;
 			path = Afterpay;
+			sourceTree = "<group>";
+		};
+		6691776D24E0CB7C00D0A4B2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6689536B24C96CB5005090B4 /* Configuration.swift */,
+				66DAAC8824E0CE7700127460 /* Currency.swift */,
+				66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		66B57E4E248F5C650020C642 /* Configurations */ = {
@@ -403,6 +417,7 @@
 				6615F99B24D14620005036F1 /* SVG.swift in Sources */,
 				66483F3B24D7A164000BE6B5 /* PriceBreakdownView.swift in Sources */,
 				6689536C24C96CB5005090B4 /* Configuration.swift in Sources */,
+				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
@@ -410,6 +425,7 @@
 				66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 				946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */,
+				66DAAC8924E0CE7700127460 /* Currency.swift in Sources */,
 				66EE9BD724DCEC3E00A81C19 /* LinkTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
