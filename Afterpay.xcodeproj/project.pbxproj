@@ -190,15 +190,23 @@
 			isa = PBXGroup;
 			children = (
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
-				6689536B24C96CB5005090B4 /* Configuration.swift */,
 				946388FB24DD05D400A1227A /* Checkout */,
 				946388FC24DD075400A1227A /* Info */,
+				6691776D24E0CB7C00D0A4B2 /* Model */,
 				661B232F24DA87C50010EBCD /* SVG */,
 				661B233024DA87EA0010EBCD /* Views */,
 				663F96AA24DA906800B0643A /* Wrappers */,
 			);
 			name = Sources;
 			path = Afterpay;
+			sourceTree = "<group>";
+		};
+		6691776D24E0CB7C00D0A4B2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6689536B24C96CB5005090B4 /* Configuration.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		66B57E4E248F5C650020C642 /* Configurations */ = {
