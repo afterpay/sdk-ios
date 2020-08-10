@@ -84,9 +84,15 @@ final class ComponentsViewController: UIViewController {
       let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
       stack.addArrangedSubview(badgeStack)
 
-      let priceBreakdown = PriceBreakdownView()
-      priceBreakdown.delegate = self
-      stack.addArrangedSubview(priceBreakdown)
+      let priceBreakdown1 = PriceBreakdownView()
+      priceBreakdown1.totalAmount = 100
+      priceBreakdown1.delegate = self
+      stack.addArrangedSubview(priceBreakdown1)
+
+      let priceBreakdown2 = PriceBreakdownView()
+      priceBreakdown2.totalAmount = 3000
+      priceBreakdown2.delegate = self
+      stack.addArrangedSubview(priceBreakdown2)
 
       let stackConstraints = [
         stack.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
