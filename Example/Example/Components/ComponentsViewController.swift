@@ -13,22 +13,44 @@ import UIKit
 final class ComponentsViewController: UIViewController {
 
   override func loadView() {
-    let scrollView = UIScrollView()
-    scrollView.backgroundColor = .appBackground
+    let view = UIView()
 
-    let layoutGuide = scrollView.readableContentGuide
+    let scrollView = UIScrollView()
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
+    scrollView.backgroundColor = .appBackground
+    view.addSubview(scrollView)
+
+    let scrollViewConstraints = [
+      scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+    ]
+
+    let contentView = UIView()
+    contentView.translatesAutoresizingMaskIntoConstraints = false
+    scrollView.addSubview(contentView)
+
+    let contentViewConstraints = [
+      contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+      contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+      contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+      contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
+    ]
 
     let contentStack = UIStackView()
     contentStack.translatesAutoresizingMaskIntoConstraints = false
     contentStack.axis = .vertical
+    contentView.addSubview(contentStack)
 
-    scrollView.addSubview(contentStack)
+    let layoutGuide = contentView.readableContentGuide
 
     let stackConstraints = [
-      contentStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-      contentStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+      contentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      contentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       contentStack.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
-      contentStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+      contentStack.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
     ]
 
     install(
@@ -41,9 +63,10 @@ final class ComponentsViewController: UIViewController {
       embed: contentStack.addArrangedSubview
     )
 
-    NSLayoutConstraint.activate(stackConstraints)
+    let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints
+    NSLayoutConstraint.activate(constraints)
 
-    self.view = scrollView
+    self.view = view
   }
 
   private final class ContentStackViewController: UIViewController, PriceBreakdownViewDelegate {
