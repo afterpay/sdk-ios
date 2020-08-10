@@ -17,6 +17,12 @@ public final class PriceBreakdownView: UIView {
 
   public weak var delegate: PriceBreakdownViewDelegate?
 
+  public var totalAmount: Decimal = .zero {
+    didSet {
+      updateAttributedText()
+    }
+  }
+
   private let linkTextView = LinkTextView()
   private var textColor: UIColor!
   private var linkTintColor: UIColor!
@@ -94,17 +100,26 @@ public final class PriceBreakdownView: UIView {
       .foregroundColor: textColor as UIColor,
     ]
 
-    let attributedString = NSMutableAttributedString(
-      string: "or 4 payments of $40.00 with ",
-      attributes: textAttributes
-    )
+    let attributedString = NSMutableAttributedString()
 
     let badgeAttachment = NSTextAttachment()
     badgeAttachment.image = image
     badgeAttachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
-    attributedString.append(.init(attachment: badgeAttachment))
 
-    attributedString.append(.init(string: " ", attributes: textAttributes))
+    let breakdown = PriceBreakdown(totalAmount: totalAmount)
+
+    switch breakdown.badgePlacement {
+    case .start:
+      attributedString.append(.init(attachment: badgeAttachment))
+      attributedString.append(.init(string: " ", attributes: textAttributes))
+      attributedString.append(.init(string: breakdown.string, attributes: textAttributes))
+      attributedString.append(.init(string: " ", attributes: textAttributes))
+    case .end:
+      attributedString.append(.init(string: breakdown.string, attributes: textAttributes))
+      attributedString.append(.init(string: " ", attributes: textAttributes))
+      attributedString.append(.init(attachment: badgeAttachment))
+      attributedString.append(.init(string: " ", attributes: textAttributes))
+    }
 
     var linkAttributes = textAttributes
     linkAttributes[.link] = "https://static-us.afterpay.com/javascript/modal/us_modal.html"
