@@ -86,6 +86,23 @@ final class InfoWebViewController: UIViewController, WKNavigationDelegate {
     present(alert, animated: true, completion: nil)
   }
 
+  private let externalLinkPathComponents = ["purchase-payment-agreement"]
+
+  func webView(
+    _ webView: WKWebView,
+    decidePolicyFor navigationAction: WKNavigationAction,
+    decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+  ) {
+    let url = navigationAction.request.url
+
+    if let url = url, externalLinkPathComponents.contains(url.lastPathComponent) {
+      decisionHandler(.cancel)
+      UIApplication.shared.open(url)
+    } else {
+      decisionHandler(.allow)
+    }
+  }
+
   // MARK: Unavailable
 
   @available(*, unavailable)
