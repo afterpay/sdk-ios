@@ -37,10 +37,17 @@ class PriceBreakdownTests: XCTestCase {
   func testInstalments() {
     setMinumumMaximumConfiguration()
 
-    let breakdown = PriceBreakdown(totalAmount: 100)
+    let fiftyDollarBreakdown = PriceBreakdown(totalAmount: 50)
+    XCTAssertEqual(fiftyDollarBreakdown.badgePlacement, .end)
+    XCTAssertEqual(fiftyDollarBreakdown.string, "or 4 instalments of $12.50 with")
 
-    XCTAssertEqual(breakdown.badgePlacement, .end)
-    XCTAssertEqual(breakdown.string, "or 4 instalments of $25.00 with")
+    let oneHundredDollarBreakdown = PriceBreakdown(totalAmount: 100)
+    XCTAssertEqual(oneHundredDollarBreakdown.badgePlacement, .end)
+    XCTAssertEqual(oneHundredDollarBreakdown.string, "or 4 instalments of $25.00 with")
+
+    let twoHundredDollarBreakdown = PriceBreakdown(totalAmount: 200)
+    XCTAssertEqual(twoHundredDollarBreakdown.badgePlacement, .end)
+    XCTAssertEqual(twoHundredDollarBreakdown.string, "or 4 instalments of $50.00 with")
   }
 
   func testOutOfRangeWithMinimum() {
@@ -64,6 +71,7 @@ class PriceBreakdownTests: XCTestCase {
     setMaximumConfiguration()
 
     let outOfRangeBreakdowns = [
+      PriceBreakdown(totalAmount: 0),
       PriceBreakdown(totalAmount: 200.01),
       PriceBreakdown(totalAmount: 300),
     ]
