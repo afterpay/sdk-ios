@@ -1,5 +1,5 @@
 //
-//  Instalment.swift
+//  PriceBreakdown.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 10/8/20.
