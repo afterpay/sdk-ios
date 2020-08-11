@@ -15,7 +15,7 @@ enum Language: Int, CaseIterable {
 
 enum Config: Int, CaseIterable {
   case remote
-  case au
+  case stub
 }
 
 struct Settings {
@@ -171,8 +171,8 @@ extension Config: SelectableSetting {
     switch self {
     case .remote:
       return "Remote"
-    case .au:
-      return "AU"
+    case .stub:
+      return "Stub"
     }
   }
 }
