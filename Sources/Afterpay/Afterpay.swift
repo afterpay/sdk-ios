@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+// MARK: - Checkout
+
 /// Present Afterpay Checkout modally over the specified view controller loading your
 /// generated checkout URL.
 /// - Parameters:
@@ -41,6 +43,8 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
+// MARK: - Authentication
+
 /// A handler that is passed a `challenge` a `completionHandler`. If the challenge has been
 /// handled (by calling the completionHandler) `true` should be returned, `false` otherwise.
 /// - Parameters:
@@ -64,6 +68,14 @@ public func setAuthenticationChallengeHandler(_ handler: @escaping Authenticatio
   authenticationChallengeHandler = handler
 }
 
+// MARK: - Configuration
+
+let notificationCenter = NotificationCenter()
+
+extension NSNotification.Name {
+  static let configurationUpdated = NSNotification.Name("ConfigurationUpdated")
+}
+
 private var configuration: Configuration?
 
 func getConfiguration() -> Configuration? {
@@ -74,4 +86,5 @@ func getConfiguration() -> Configuration? {
 /// - Parameter configuration: The configuration or nil to clear.
 public func setConfiguration(_ configuration: Configuration?) {
   Afterpay.configuration = configuration
+  notificationCenter.post(name: .configurationUpdated, object: configuration)
 }
