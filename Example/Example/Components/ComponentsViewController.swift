@@ -44,11 +44,11 @@ final class ComponentsViewController: UIViewController {
     contentStack.axis = .vertical
     contentView.addSubview(contentStack)
 
-    let layoutGuide = contentView.readableContentGuide
+    let layoutGuide = contentView.safeAreaLayoutGuide
 
     let stackConstraints = [
-      contentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      contentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      contentStack.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
+      contentStack.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
       contentStack.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
       contentStack.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
     ]
@@ -99,6 +99,7 @@ final class ComponentsViewController: UIViewController {
       let titleLabel = UILabel()
       titleLabel.text = stackTitle
       titleLabel.font = .preferredFont(forTextStyle: .title1)
+      titleLabel.adjustsFontForContentSizeCategory = true
       stack.addArrangedSubview(titleLabel)
 
       let badge = BadgeView()
