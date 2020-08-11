@@ -71,7 +71,7 @@ func getConfiguration() -> Configuration? {
 }
 
 /// Sets the Configuration object to use for rendering UI Components in the Afterpay SDK.
-/// - Parameter configuration: The configuration.
-public func setConfiguration(_ configuration: Configuration) {
+/// - Parameter configuration: The configuration or nil to clear.
+public func setConfiguration(_ configuration: Configuration?) {
   Afterpay.configuration = configuration
 }

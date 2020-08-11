@@ -22,6 +22,7 @@
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
 		66DAAC8924E0CE7700127460 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8824E0CE7700127460 /* Currency.swift */; };
 		66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */; };
+		66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */; };
 		66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE378624D39FC50029BF42 /* BadgeView.swift */; };
 		66EE9BD724DCEC3E00A81C19 /* LinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
@@ -67,6 +68,7 @@
 		66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWrapper.swift; sourceTree = "<group>"; };
 		66DAAC8824E0CE7700127460 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBreakdown.swift; sourceTree = "<group>"; };
+		66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBreakdownTests.swift; sourceTree = "<group>"; };
 		66EE378624D39FC50029BF42 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTextView.swift; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			children = (
 				6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */,
 				665FC57B2488766C00A5A93E /* Info.plist */,
+				66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */,
+				66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

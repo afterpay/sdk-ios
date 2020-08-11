@@ -16,7 +16,7 @@ private let formatter: NumberFormatter = {
 
 struct PriceBreakdown {
 
-  enum BadgePlacement {
+  enum BadgePlacement: Equatable {
     case start
     case end
   }
@@ -32,10 +32,12 @@ struct PriceBreakdown {
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
     let formattedInstalment = format(totalAmount / 4)
 
-    let greaterThanMinimum = totalAmount > (configuration?.minimumAmount ?? .zero)
-    let lessThanMaximum = totalAmount < (configuration?.maximumAmount ?? .zero)
+    let greaterThanZero = totalAmount > .zero
+    let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)
+    let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
+    let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    if let formattedInstalment = formattedInstalment, greaterThanMinimum && lessThanMaximum {
+    if let formattedInstalment = formattedInstalment, inRange {
       badgePlacement = .end
       string = "or 4 instalments of \(formattedInstalment) with"
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
