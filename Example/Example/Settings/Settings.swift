@@ -13,6 +13,11 @@ enum Language: Int, CaseIterable {
   case objectiveC
 }
 
+enum Config: Int, CaseIterable {
+  case remote
+  case au
+}
+
 struct Settings {
   @Setting("email", defaultValue: "email@example.com", title: "Email")
   static var email: String
@@ -28,6 +33,9 @@ struct Settings {
 
   @Setting("language", defaultValue: .swift, title: "Language")
   static var language: Language
+
+  @Setting("config", defaultValue: .remote, title: "Config")
+  static var config: Config
 }
 
 @propertyWrapper
@@ -158,6 +166,17 @@ extension Language: SelectableSetting {
   }
 }
 
+extension Config: SelectableSetting {
+  var label: String {
+    switch self {
+    case .remote:
+      return "Remote"
+    case .au:
+      return "AU"
+    }
+  }
+}
+
 enum AppSetting {
   case text(Setting<String>)
   case picker(PickerSetting)
@@ -171,6 +190,7 @@ extension AppSetting {
       .text(Settings.$port),
       .text(Settings.$currencyCode),
       .picker(PickerSetting(Settings.$language)),
+      .picker(PickerSetting(Settings.$config)),
     ]
   }
 }
