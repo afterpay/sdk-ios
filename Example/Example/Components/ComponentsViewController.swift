@@ -63,7 +63,63 @@ final class ComponentsViewController: UIViewController {
       embed: contentStack.addArrangedSubview
     )
 
-    let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints
+    let configurationView = UIView()
+    configurationView.backgroundColor = .appBackground
+    contentStack.addArrangedSubview(configurationView)
+
+    let configurationStack = UIStackView()
+    configurationStack.translatesAutoresizingMaskIntoConstraints = false
+    configurationStack.axis = .vertical
+    configurationStack.spacing = 8
+    configurationView.addSubview(configurationStack)
+
+    let contentGuide = view.readableContentGuide
+
+    let configurationStackConstraints = [
+      configurationStack.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+      configurationStack.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+      configurationStack.topAnchor.constraint(equalTo: configurationView.topAnchor, constant: 8),
+      configurationStack.bottomAnchor.constraint(equalTo: configurationView.bottomAnchor, constant: -8),
+    ]
+
+    let configurationTitle = UILabel()
+    configurationTitle.font = .preferredFont(forTextStyle: .title1)
+    configurationTitle.adjustsFontForContentSizeCategory = true
+    configurationTitle.textColor = .appLabel
+    configurationTitle.text = "Configuration"
+    configurationStack.addArrangedSubview(configurationTitle)
+
+    let minimumAmountTitle = UILabel()
+    minimumAmountTitle.text = "Minumum Amount:"
+    minimumAmountTitle.textColor = .appLabel
+    minimumAmountTitle.adjustsFontForContentSizeCategory = true
+    minimumAmountTitle.font = .preferredFont(forTextStyle: .body)
+    configurationStack.addArrangedSubview(minimumAmountTitle)
+
+    let minimumAmountTextField = UITextField()
+    minimumAmountTextField.adjustsFontForContentSizeCategory = true
+    minimumAmountTextField.textColor = .appLabel
+    minimumAmountTextField.font = .preferredFont(forTextStyle: .body)
+    minimumAmountTextField.borderStyle = .roundedRect
+    minimumAmountTextField.text = "1"
+    configurationStack.addArrangedSubview(minimumAmountTextField)
+
+    let maximumAmountTitle = UILabel()
+    maximumAmountTitle.text = "Minumum Amount:"
+    maximumAmountTitle.textColor = .appLabel
+    maximumAmountTitle.adjustsFontForContentSizeCategory = true
+    maximumAmountTitle.font = .preferredFont(forTextStyle: .body)
+    configurationStack.addArrangedSubview(maximumAmountTitle)
+
+    let maximumAmountTextField = UITextField()
+    maximumAmountTextField.adjustsFontForContentSizeCategory = true
+    maximumAmountTextField.textColor = .appLabel
+    maximumAmountTextField.font = .preferredFont(forTextStyle: .body)
+    maximumAmountTextField.borderStyle = .roundedRect
+    maximumAmountTextField.text = "1"
+    configurationStack.addArrangedSubview(maximumAmountTextField)
+
+    let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints + configurationStackConstraints
     NSLayoutConstraint.activate(constraints)
 
     self.view = view
