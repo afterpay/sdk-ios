@@ -41,7 +41,7 @@ final class Repository {
   }
 
   func fetchConfiguration(completion: @escaping (Result<Configuration, Error>) -> Void) {
-    getCachedOrRemoteConfiguration { result in
+    getConfigurationData { result in
       completion(result.flatMap { data in
         do {
           let response = try JSONDecoder().decode(ConfigurationResponse.self, from: data)
@@ -58,18 +58,22 @@ final class Repository {
     }
   }
 
-  private func getCachedOrRemoteConfiguration(completion: @escaping APIClient.Completion) {
-    if let configuration = userDefaults.configuration, shouldUseCachedConfiguration {
-      return completion(.success(configuration))
+  private func getConfigurationData(completion: @escaping APIClient.Completion) {
+
+    if Settings.config == .stub, let responseData = configurationStub.responseData {
+      completion(.success(responseData))
+    } else if let configuration = userDefaults.configuration, shouldUseCachedConfiguration {
+      completion(.success(configuration))
+    } else {
+      apiClient.configuration { result in
+        if case .success(let response) = result {
+          self.userDefaults.configuration = response
+          self.userDefaults.lastFetchDate = self.now()
+        }
+        completion(result)
+      }
     }
 
-    apiClient.configuration { result in
-      if case .success(let response) = result {
-        self.userDefaults.configuration = response
-        self.userDefaults.lastFetchDate = self.now()
-      }
-      completion(result)
-    }
   }
 
   private var shouldUseCachedConfiguration: Bool {
