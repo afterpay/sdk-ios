@@ -48,3 +48,13 @@ extension NSLayoutAnchor {
     return layoutConstraint
   }
 }
+
+extension UIToolbar {
+
+  convenience init(items: [UIBarButtonItem]) {
+    let screenWidth = UIScreen.main.bounds.size.width
+    self.init(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 35))
+    setItems(items, animated: false)
+  }
+
+}

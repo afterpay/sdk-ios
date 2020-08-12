@@ -10,7 +10,18 @@ import Afterpay
 import Foundation
 import UIKit
 
-final class ComponentsViewController: UIViewController {
+// swiftlint:disable colon opening_brace
+final class ComponentsViewController:
+  UIViewController,
+  UIPickerViewDataSource,
+  UIPickerViewDelegate,
+  UITextFieldDelegate
+{
+  // swiftlint:enable colon opening_brace
+
+  private var pickerView: UIPickerView!
+  private var minimumAmountTextField: UITextField!
+  private var maximumAmountTextField: UITextField!
 
   override func loadView() {
     let view = UIView()
@@ -86,37 +97,38 @@ final class ComponentsViewController: UIViewController {
     configurationTitle.font = .preferredFont(forTextStyle: .title1)
     configurationTitle.adjustsFontForContentSizeCategory = true
     configurationTitle.textColor = .appLabel
-    configurationTitle.text = "Configuration"
+    configurationTitle.text = "Stub Configuration"
     configurationStack.addArrangedSubview(configurationTitle)
 
-    let minimumAmountTitle = UILabel()
+    let minimumAmountTitle: UILabel = .bodyLabel
     minimumAmountTitle.text = "Minumum Amount:"
-    minimumAmountTitle.textColor = .appLabel
-    minimumAmountTitle.adjustsFontForContentSizeCategory = true
-    minimumAmountTitle.font = .preferredFont(forTextStyle: .body)
     configurationStack.addArrangedSubview(minimumAmountTitle)
 
-    let minimumAmountTextField = UITextField()
-    minimumAmountTextField.adjustsFontForContentSizeCategory = true
-    minimumAmountTextField.textColor = .appLabel
-    minimumAmountTextField.font = .preferredFont(forTextStyle: .body)
-    minimumAmountTextField.borderStyle = .roundedRect
-    minimumAmountTextField.text = "1"
+    let doneSelector = #selector(endEditing)
+    let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: doneSelector)
+    let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let toolbar = UIToolbar(items: [spacer, done])
+
+    pickerView = UIPickerView()
+    pickerView.delegate = self
+    pickerView.dataSource = self
+
+    minimumAmountTextField = .roundedTextField
+    minimumAmountTextField.text = configurationStub.minimumAmount
+    minimumAmountTextField.delegate = self
+    minimumAmountTextField.inputView = pickerView
+    minimumAmountTextField.inputAccessoryView = toolbar
     configurationStack.addArrangedSubview(minimumAmountTextField)
 
-    let maximumAmountTitle = UILabel()
-    maximumAmountTitle.text = "Minumum Amount:"
-    maximumAmountTitle.textColor = .appLabel
-    maximumAmountTitle.adjustsFontForContentSizeCategory = true
-    maximumAmountTitle.font = .preferredFont(forTextStyle: .body)
+    let maximumAmountTitle: UILabel = .bodyLabel
+    maximumAmountTitle.text = "Maximum Amount:"
     configurationStack.addArrangedSubview(maximumAmountTitle)
 
-    let maximumAmountTextField = UITextField()
-    maximumAmountTextField.adjustsFontForContentSizeCategory = true
-    maximumAmountTextField.textColor = .appLabel
-    maximumAmountTextField.font = .preferredFont(forTextStyle: .body)
-    maximumAmountTextField.borderStyle = .roundedRect
-    maximumAmountTextField.text = "1"
+    maximumAmountTextField = .roundedTextField
+    maximumAmountTextField.text = configurationStub.maximumAmount
+    maximumAmountTextField.delegate = self
+    maximumAmountTextField.inputView = pickerView
+    maximumAmountTextField.inputAccessoryView = toolbar
     configurationStack.addArrangedSubview(maximumAmountTextField)
 
     let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints + configurationStackConstraints
@@ -125,70 +137,127 @@ final class ComponentsViewController: UIViewController {
     self.view = view
   }
 
-  private final class ContentStackViewController: UIViewController, PriceBreakdownViewDelegate {
-
-    let stackTitle: String
-
-    init(stackTitle: String, userInterfaceStyle: UIUserInterfaceStyle) {
-      self.stackTitle = stackTitle
-
-      super.init(nibName: nil, bundle: nil)
-
-      if #available(iOS 13.0, *) {
-        overrideUserInterfaceStyle = userInterfaceStyle
-      }
-    }
-
-    required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-    }
-
-    override func loadView() {
-      let view = UIView()
-      view.backgroundColor = .appBackground
-
-      let stack = UIStackView()
-      stack.translatesAutoresizingMaskIntoConstraints = false
-      stack.axis = .vertical
-      stack.spacing = 8
-
-      let titleLabel = UILabel()
-      titleLabel.text = stackTitle
-      titleLabel.font = .preferredFont(forTextStyle: .title1)
-      titleLabel.adjustsFontForContentSizeCategory = true
-      stack.addArrangedSubview(titleLabel)
-
-      let badge = BadgeView()
-      badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
-
-      let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
-      stack.addArrangedSubview(badgeStack)
-
-      let priceBreakdown1 = PriceBreakdownView()
-      priceBreakdown1.totalAmount = 100
-      priceBreakdown1.delegate = self
-      stack.addArrangedSubview(priceBreakdown1)
-
-      let priceBreakdown2 = PriceBreakdownView()
-      priceBreakdown2.totalAmount = 3000
-      priceBreakdown2.delegate = self
-      stack.addArrangedSubview(priceBreakdown2)
-
-      let stackConstraints = [
-        stack.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
-        stack.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
-        stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
-        stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
-      ]
-
-      view.addSubview(stack)
-      NSLayoutConstraint.activate(stackConstraints)
-
-      self.view = view
-    }
-
-    func viewControllerForPresentation() -> UIViewController { self }
-
+  @objc private func endEditing() {
+    view.endEditing(true)
   }
+
+  // MARK: - UITextFieldDelegate
+
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    let title = { self.pickerView(self.pickerView, titleForRow: $0, forComponent: 0) }
+
+    for row in 0...numberOfPickerRows where title(row) == textField.text {
+      pickerView.selectRow(row, inComponent: 0, animated: false)
+    }
+  }
+
+  // MARK: - UIPickerViewDataSource
+
+  let numberOfPickerRows = 5000
+
+  func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
+
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    numberOfPickerRows
+  }
+
+  // MARK: - UIPickerViewDelegate
+
+  let noMinimum = "No Minimum"
+
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    let isMinimum = minimumAmountTextField.isFirstResponder
+    let isMaximum = maximumAmountTextField.isFirstResponder
+
+    let format: (Int) -> String = { "\($0).00" }
+    let formattedRow = isMaximum ? format(row + 1) : format(row)
+
+    switch row {
+    case .zero where isMinimum:
+      return noMinimum
+    default:
+      return formattedRow
+    }
+  }
+
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    let isMinimum = minimumAmountTextField.isFirstResponder
+    let textField = isMinimum ? minimumAmountTextField : maximumAmountTextField
+
+    let title = self.pickerView(pickerView, titleForRow: row, forComponent: component)
+    textField?.text = title
+
+    if isMinimum {
+      configurationStub.minimumAmount = title == noMinimum ? nil : title
+    } else if let title = title {
+      configurationStub.maximumAmount = title
+    }
+  }
+
+}
+
+private final class ContentStackViewController: UIViewController, PriceBreakdownViewDelegate {
+
+  let stackTitle: String
+
+  init(stackTitle: String, userInterfaceStyle: UIUserInterfaceStyle) {
+    self.stackTitle = stackTitle
+
+    super.init(nibName: nil, bundle: nil)
+
+    if #available(iOS 13.0, *) {
+      overrideUserInterfaceStyle = userInterfaceStyle
+    }
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func loadView() {
+    let view = UIView()
+    view.backgroundColor = .appBackground
+
+    let stack = UIStackView()
+    stack.translatesAutoresizingMaskIntoConstraints = false
+    stack.axis = .vertical
+    stack.spacing = 8
+
+    let titleLabel = UILabel()
+    titleLabel.text = stackTitle
+    titleLabel.font = .preferredFont(forTextStyle: .title1)
+    titleLabel.adjustsFontForContentSizeCategory = true
+    stack.addArrangedSubview(titleLabel)
+
+    let badge = BadgeView()
+    badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
+
+    let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
+    stack.addArrangedSubview(badgeStack)
+
+    let priceBreakdown1 = PriceBreakdownView()
+    priceBreakdown1.totalAmount = 100
+    priceBreakdown1.delegate = self
+    stack.addArrangedSubview(priceBreakdown1)
+
+    let priceBreakdown2 = PriceBreakdownView()
+    priceBreakdown2.totalAmount = 3000
+    priceBreakdown2.delegate = self
+    stack.addArrangedSubview(priceBreakdown2)
+
+    let stackConstraints = [
+      stack.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+      stack.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+      stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
+      stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+    ]
+
+    view.addSubview(stack)
+    NSLayoutConstraint.activate(stackConstraints)
+
+    self.view = view
+  }
+
+  func viewControllerForPresentation() -> UIViewController { self }
 
 }
