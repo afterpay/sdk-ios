@@ -93,7 +93,7 @@ func getConfiguration() -> Configuration? {
 public func setConfiguration(_ configuration: Configuration?) {
   Afterpay.configuration = configuration
 
-  // Currencly the locale for terms of use is strongly tied to the purchasing currency
+  // Currently the locale for terms of use is strongly tied to the purchasing currency
   // this will most likely be separated in the future
   Afterpay.locale = configuration?.currency.locale ?? Locales.unitedStates
 
