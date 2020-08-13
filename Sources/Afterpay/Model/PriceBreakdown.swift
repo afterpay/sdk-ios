@@ -27,28 +27,30 @@ struct PriceBreakdown {
   init(totalAmount: Decimal) {
     let configuration = getConfiguration()
 
+    formatter.currencySymbol = configuration?.currency.symbol
+
     let format: (Decimal) -> String? = { formatter.string(from: $0 as NSDecimalNumber) }
     let formattedMinimum = configuration?.minimumAmount.flatMap(format)
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
-    let formattedInstalment = format(totalAmount / 4)
+    let formattedPayment = format(totalAmount / 4)
 
     let greaterThanZero = totalAmount > .zero
     let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    if let formattedInstalment = formattedInstalment, inRange {
+    if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end
-      string = "or 4 instalments of \(formattedInstalment) with"
+      string = String(format: Strings.fourPaymentsFormat, formattedPayment)
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
-      string = "is available between \(formattedMinimum)-\(formattedMaximum)"
+      string = String(format: Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
     } else if let formattedMaximum = formattedMaximum {
       badgePlacement = .start
-      string = "is available under \(formattedMaximum)"
+      string = String(format: Strings.availableUpToFormat, formattedMaximum)
     } else {
       badgePlacement = .end
-      string = "or pay with"
+      string = Strings.orPayWith
     }
   }
 
