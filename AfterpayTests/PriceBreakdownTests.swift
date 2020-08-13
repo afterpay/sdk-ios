@@ -39,15 +39,15 @@ class PriceBreakdownTests: XCTestCase {
 
     let fiftyDollarBreakdown = PriceBreakdown(totalAmount: 50)
     XCTAssertEqual(fiftyDollarBreakdown.badgePlacement, .end)
-    XCTAssertEqual(fiftyDollarBreakdown.string, "or 4 instalments of $12.50 with")
+    XCTAssertEqual(fiftyDollarBreakdown.string, "or 4 interest-free payments of $12.50 with")
 
     let oneHundredDollarBreakdown = PriceBreakdown(totalAmount: 100)
     XCTAssertEqual(oneHundredDollarBreakdown.badgePlacement, .end)
-    XCTAssertEqual(oneHundredDollarBreakdown.string, "or 4 instalments of $25.00 with")
+    XCTAssertEqual(oneHundredDollarBreakdown.string, "or 4 interest-free payments of $25.00 with")
 
     let twoHundredDollarBreakdown = PriceBreakdown(totalAmount: 200)
     XCTAssertEqual(twoHundredDollarBreakdown.badgePlacement, .end)
-    XCTAssertEqual(twoHundredDollarBreakdown.string, "or 4 instalments of $50.00 with")
+    XCTAssertEqual(twoHundredDollarBreakdown.string, "or 4 interest-free payments of $50.00 with")
   }
 
   func testOutOfRangeWithMinimum() {
@@ -63,7 +63,7 @@ class PriceBreakdownTests: XCTestCase {
 
     for breakdown in outOfRangeBreakdowns {
       XCTAssertEqual(breakdown.badgePlacement, .start)
-      XCTAssertEqual(breakdown.string, "is available between $50.00-$200.00")
+      XCTAssertEqual(breakdown.string, "available for orders between $50.00 - $200.00")
     }
   }
 
@@ -78,7 +78,7 @@ class PriceBreakdownTests: XCTestCase {
 
     for breakdown in outOfRangeBreakdowns {
       XCTAssertEqual(breakdown.badgePlacement, .start)
-      XCTAssertEqual(breakdown.string, "is available under $200.00")
+      XCTAssertEqual(breakdown.string, "available for orders up to $200.00")
     }
   }
 
