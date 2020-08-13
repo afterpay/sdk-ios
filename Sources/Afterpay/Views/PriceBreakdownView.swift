@@ -25,7 +25,7 @@ public final class PriceBreakdownView: UIView {
 
   private let linkTextView = LinkTextView()
   private var textColor: UIColor!
-  private var linkTintColor: UIColor!
+  private var linkColor: UIColor!
   private let colorScheme: ColorScheme
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -47,13 +47,16 @@ public final class PriceBreakdownView: UIView {
   private func sharedInit() {
     if #available(iOS 13.0, *) {
       textColor = .label
-      linkTintColor = .secondaryLabel
+      linkColor = .secondaryLabel
     } else {
       textColor = .black
-      linkTintColor = UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
+      linkColor = UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
     }
 
-    linkTextView.tintColor = linkTintColor
+    linkTextView.linkTextAttributes = [
+      .underlineStyle: NSUnderlineStyle.single.rawValue,
+      .foregroundColor: linkColor as Any,
+    ]
 
     linkTextView.linkHandler = { [weak self] url in
       if let viewController = self?.delegate?.viewControllerForPresentation() {
@@ -104,32 +107,32 @@ public final class PriceBreakdownView: UIView {
       .foregroundColor: textColor as UIColor,
     ]
 
-    let attributedString = NSMutableAttributedString()
-
-    let badgeAttachment = NSTextAttachment()
-    badgeAttachment.image = image
-    badgeAttachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
-
-    let breakdown = PriceBreakdown(totalAmount: totalAmount)
-
-    switch breakdown.badgePlacement {
-    case .start:
-      attributedString.append(.init(attachment: badgeAttachment))
-      attributedString.append(.init(string: " ", attributes: textAttributes))
-      attributedString.append(.init(string: breakdown.string, attributes: textAttributes))
-      attributedString.append(.init(string: " ", attributes: textAttributes))
-    case .end:
-      attributedString.append(.init(string: breakdown.string, attributes: textAttributes))
-      attributedString.append(.init(string: " ", attributes: textAttributes))
-      attributedString.append(.init(attachment: badgeAttachment))
-      attributedString.append(.init(string: " ", attributes: textAttributes))
-    }
-
     var linkAttributes = textAttributes
     linkAttributes[.link] = "https://static-us.afterpay.com/javascript/modal/us_modal.html"
-    linkAttributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
 
-    attributedString.append(.init(string: "Info", attributes: linkAttributes))
+    let attributedString = NSMutableAttributedString()
+
+    let badge: NSAttributedString = {
+      let attachment = NSTextAttachment()
+      attachment.image = image
+      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
+      attachment.accessibilityLabel = "after pay"
+      return .init(attachment: attachment)
+    }()
+
+    let space = NSAttributedString(string: " ", attributes: textAttributes)
+
+    let priceBreakdown = PriceBreakdown(totalAmount: totalAmount)
+    let breakdown = NSAttributedString(string: priceBreakdown.string, attributes: textAttributes)
+
+    let badgePlacement = priceBreakdown.badgePlacement
+    var badgeAndBreakdown = [badge, space, breakdown]
+    badgeAndBreakdown = badgePlacement == .start ? badgeAndBreakdown : badgeAndBreakdown.reversed()
+
+    let link = NSAttributedString(string: "Info", attributes: linkAttributes)
+    let strings = badgeAndBreakdown + [space, link]
+
+    strings.forEach(attributedString.append)
 
     linkTextView.attributedText = attributedString
   }
