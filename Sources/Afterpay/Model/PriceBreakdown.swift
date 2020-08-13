@@ -27,6 +27,8 @@ struct PriceBreakdown {
   init(totalAmount: Decimal) {
     let configuration = getConfiguration()
 
+    formatter.currencySymbol = configuration?.currency.symbol
+
     let format: (Decimal) -> String? = { formatter.string(from: $0 as NSDecimalNumber) }
     let formattedMinimum = configuration?.minimumAmount.flatMap(format)
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
