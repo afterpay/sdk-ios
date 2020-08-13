@@ -8,11 +8,6 @@
 
 import Foundation
 
-private let posixLocale = Locale(identifier: "en_US_POSIX")
-private let australianLocale = Locale(identifier: "en_AU")
-private let newZealandLocale = Locale(identifier: "en_NZ")
-private let unitedStatesLocale = Locale(identifier: "en_US")
-private let canadianLocale = Locale(identifier: "en_CA")
 private let unknownCurrencyName = "Unknown Currency"
 
 struct Currency {
@@ -21,21 +16,32 @@ struct Currency {
 
   var symbol: String {
     switch code {
-    case australianLocale.currencyCode:
+    case Locales.australia.currencyCode:
       return "A$"
-    case newZealandLocale.currencyCode:
+    case Locales.newZealand.currencyCode:
       return "NZ$"
-    case canadianLocale.currencyCode:
+    case Locales.canada.currencyCode:
       return "CA$"
-    case unitedStatesLocale.currencyCode:
-      fallthrough // swiftlint:disable:this no_fallthrough_only
     default:
       return "$"
     }
   }
 
+  var locale: Locale {
+    switch code {
+    case Locales.australia.currencyCode:
+      return Locales.australia
+    case Locales.newZealand.currencyCode:
+      return Locales.newZealand
+    case Locales.canada.currencyCode:
+      return Locales.canada
+    default:
+      return Locales.unitedStates
+    }
+  }
+
   init?(currencyCode: String) {
-    let currencyName = posixLocale.localizedString(forCurrencyCode: currencyCode)
+    let currencyName = Locales.posix.localizedString(forCurrencyCode: currencyCode)
 
     guard currencyName != nil, currencyName != unknownCurrencyName else {
       return nil

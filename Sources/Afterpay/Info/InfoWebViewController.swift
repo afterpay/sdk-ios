@@ -86,7 +86,7 @@ final class InfoWebViewController: UIViewController, WKNavigationDelegate {
     present(alert, animated: true, completion: nil)
   }
 
-  private let externalLinkPathComponents = ["purchase-payment-agreement"]
+  private let externalLinkPathComponents = ["terms"]
 
   func webView(
     _ webView: WKWebView,
