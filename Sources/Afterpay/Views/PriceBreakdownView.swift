@@ -116,7 +116,7 @@ public final class PriceBreakdownView: UIView {
       let attachment = NSTextAttachment()
       attachment.image = image
       attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
-      attachment.accessibilityLabel = "after pay"
+      attachment.accessibilityLabel = Strings.accessibleAfterpay
       return .init(attachment: attachment)
     }()
 
@@ -129,7 +129,7 @@ public final class PriceBreakdownView: UIView {
     var badgeAndBreakdown = [badge, space, breakdown]
     badgeAndBreakdown = badgePlacement == .start ? badgeAndBreakdown : badgeAndBreakdown.reversed()
 
-    let link = NSAttributedString(string: "Info", attributes: linkAttributes)
+    let link = NSAttributedString(string: Strings.info, attributes: linkAttributes)
     let strings = badgeAndBreakdown + [space, link]
 
     strings.forEach(attributedString.append)

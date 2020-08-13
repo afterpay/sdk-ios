@@ -34,7 +34,7 @@ public final class BadgeView: UIView {
     // Accessibility
     isAccessibilityElement = true
     accessibilityTraits = [.staticText]
-    accessibilityLabel = "after pay"
+    accessibilityLabel = Strings.accessibleAfterpay
 
     // SVG Layout
     svgView = SVGView(svgPair: colorScheme.badgeSVGPair)
