@@ -102,9 +102,8 @@ public final class PriceBreakdownView: UIView {
     let svg = badgeSVGView.svg
 
     let font: UIFont = .preferredFont(forTextStyle: .body)
-    let fontHeight = font.ascender - font.descender
 
-    let widthFittingFont = fontHeight / svg.aspectRatio
+    let widthFittingFont = svg.height(for: font.ascender) / svg.aspectRatio
     let width = widthFittingFont > svg.minimumWidth ? widthFittingFont : svg.minimumWidth
     let size = CGSize(width: width, height: width * svg.aspectRatio)
 
@@ -125,7 +124,8 @@ public final class PriceBreakdownView: UIView {
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
       attachment.image = image
-      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
+      let offset = svg.baselineOffset(for: image.size.height)
+      attachment.bounds = CGRect(origin: .init(x: 0, y: -offset), size: image.size)
       attachment.accessibilityLabel = Strings.accessibleAfterpay
       return .init(attachment: attachment)
     }()

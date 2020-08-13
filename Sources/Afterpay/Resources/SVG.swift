@@ -19,19 +19,42 @@ struct SVG: Equatable {
 
   let size: CGSize
   let minimumWidth: CGFloat
+
+  private let fontHeight: CGFloat
+  private let baselineOffsetFromBottom: CGFloat
   private let svgString: String
 
   var aspectRatio: CGFloat { size.height / size.width }
   var node: Node { (try? SVGParser.parse(text: svgString)) ?? Group() }
 
-  init(size: CGSize, minimumWidth: CGFloat, svgString: String) {
+  init(
+    size: CGSize,
+    fontHeight: CGFloat? = nil,
+    baselineOffset: CGFloat? = nil,
+    minimumWidth: CGFloat,
+    svgString: String
+  ) {
     self.size = size
+    self.fontHeight = fontHeight ?? size.height
+    self.baselineOffsetFromBottom = baselineOffset ?? 0
     self.minimumWidth = minimumWidth
     self.svgString = svgString
   }
 
+  func height(for fontHeight: CGFloat) -> CGFloat {
+    let fontRatio = size.height / self.fontHeight
+    return fontRatio * fontHeight
+  }
+
+  func baselineOffset(for height: CGFloat) -> CGFloat {
+    let offsetRatio = baselineOffsetFromBottom / size.height
+    return height - (height * offsetRatio)
+  }
+
   static let badgeBlackOnMint = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,6 +80,8 @@ struct SVG: Equatable {
 
   static let badgeMintOnBlack = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,8 +105,10 @@ struct SVG: Equatable {
     """
   )
 
-  static let badgeWhiteOnBlack: SVG = SVG(
+  static let badgeWhiteOnBlack = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,8 +132,10 @@ struct SVG: Equatable {
     """
   )
 
-  static let badgeBlackOnWhite: SVG = SVG(
+  static let badgeBlackOnWhite = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
