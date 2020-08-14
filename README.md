@@ -30,6 +30,9 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Security](#security)
     - [Swift](#swift)
     - [Objective-C](#objective-c)
+  - [Badge](#badge)
+  - [Price Breakdown](#price-breakdown)
+    - [Accessibility and Dark mode](#accessibility-and-dark-mode)
 - [Getting Started](#getting-started)
   - [Presenting Web Checkout](#presenting-web-checkout)
     - [Swift (UIKit)](#swift-uikit)
@@ -111,7 +114,7 @@ And that's it, the Afterpay SDK is now ready to import and use within your appli
 
 # Features
 
-The initial release of the SDK contains the web login and pre approval process with more features to come in subsequent releases.
+The Afterpay SDK contains a checkout web flow with optional security features as well some UI components.
 
 ## Web Checkout
 
@@ -159,6 +162,65 @@ BOOL (^challengeHandler)(NSURLAuthenticationChallenge *, CompletionHandler) = ^B
 
 [APAfterpay setAuthenticationChallengeHandler:challengeHandler];
 ```
+
+## Badge
+
+The Afterpay badge is a simple UIView that can be scaled to suit the needs of your app. As per branding guidelines it has a minimum width constraint of 64 points.
+
+```swift
+let badgeView = BadgeView()
+```
+
+The badge has four styles to fit light and dark themes:  
+![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
+
+Color schemes can be set on the badge view to have a single style in both light and dark mode or to change automatically.
+
+```swift
+// Always black on mint
+badgeView.colorScheme = .static(.blackOnMint)
+
+// White on black in light mode and black on white in dark mode
+badgeView.colorScheme = .dynamic(lightPalette: .whiteOnBlack, darkPalette: .blackOnWhite)
+```
+
+## Price Breakdown
+
+The price breakdown component displays information about Afterpay instalments and handles a number of common scenarios.
+
+A configuration should be set on the Afterpay SDK in line with configuration data retrieved from the Afterpay API. This configuration can be cached and should be updated once per day.
+
+```swift
+do {
+  let configuration = try Configuration(
+    minimumAmount: response.minimumAmount?.amount,
+    maximumAmount: response.maximumAmount.amount,
+    currencyCode: response.maximumAmount.currency
+  )
+
+  Afterpay.setConfiguration(configuration)
+} catch {
+  // Something went wrong
+}
+```
+
+A total payment amount (represented as a Swift Decimal) must be programatically set on the component to display Afterpay instalment information.
+
+```swift
+let totalAmount = Decimal(string: price) ?? .zero
+
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.totalAmount = totalAmount
+```
+
+After setting the total amount the matching breakdown string for the set Afterpay configuration will be displayed.
+
+For example:  
+![Four payments available][four-payments]
+
+### Accessibility and Dark mode
+
+By default this component updates when the trait collection changes to update text and image size as well as colors to match. A components page in the Example app has been provided to demonstrate.
 
 # Getting Started
 
@@ -281,12 +343,17 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [badge-license]: http://img.shields.io/cocoapods/l/Afterpay.svg?style=flat
 [badge-platform]: http://img.shields.io/cocoapods/p/Afterpay.svg?style=flat
 [badge-spm]: https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat
+[badge-black-on-mint]: Images/badge_black_on_mint.png
+[badge-mint-on-black]: Images/badge_mint_on_black.png
+[badge-white-on-black]: Images/badge_white_on_black.png
+[badge-black-on-white]: Images/badge_black_on_white.png
 [bootstrap]: Scripts/bootstrap
 [carthage]: https://github.com/Carthage/Carthage
 [ccp]: https://cocoapods.org/pods/Afterpay
 [contributing]: CONTRIBUTING.md
 [create-xcframework]: Scripts/create-xcframework
 [example]: Example
+[four-payments]: Images/four-payments.png
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/afterpay/sdk-ios/releases/latest
 [license]: LICENSE
