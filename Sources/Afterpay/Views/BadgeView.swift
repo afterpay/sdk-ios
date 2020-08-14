@@ -11,7 +11,10 @@ import UIKit
 
 public final class BadgeView: UIView {
 
-  private let colorScheme: ColorScheme
+  public var colorScheme: ColorScheme = .static(.blackOnMint) {
+    didSet { svgView.svgPair = colorScheme.badgeSVGPair }
+  }
+
   private var svgView: SVGView!
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -23,8 +26,6 @@ public final class BadgeView: UIView {
   }
 
   required init?(coder: NSCoder) {
-    self.colorScheme = .static(.blackOnMint)
-
     super.init(coder: coder)
 
     sharedInit()
