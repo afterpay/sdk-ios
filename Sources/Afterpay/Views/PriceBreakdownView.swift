@@ -9,14 +9,27 @@
 import Foundation
 import UIKit
 
+/// Implementing this delegate protocol allows launching of the info link modally in app.
 public protocol PriceBreakdownViewDelegate: AnyObject {
+
+  /// The view controller for which the modal info web view controller should be presented on.
+  /// - Returns: The view controller for modal presentation.
   func viewControllerForPresentation() -> UIViewController
+
 }
 
+/// A view that displays informative text, the afterpay badge and an info link. The info link will
+/// launch externally by default but can launch modally in app by implementing
+/// PriceBreakdownViewDelegate. This view updates in response to Afterpay configuration changes
+/// as well as changes to the `totalAmount`.
 public final class PriceBreakdownView: UIView {
 
+  /// The price breakdown view delegate. Not setting this delegate will cause the info link to open
+  /// externally.
   public weak var delegate: PriceBreakdownViewDelegate?
 
+  /// The total amount of the product or cart being viewed as a Swift Decimal. This Decimal
+  /// conversion should be done from a lossless source. e.g. a String.
   public var totalAmount: Decimal = .zero {
     didSet {
       updateAttributedText()
