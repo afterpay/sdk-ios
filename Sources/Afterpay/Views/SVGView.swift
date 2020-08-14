@@ -18,7 +18,9 @@ final class SVGView: Macaw.SVGView {
 
   var svg: SVG { svg(for: traitCollection) }
 
-  private let svgPair: SVGPair
+  var svgPair: SVGPair {
+    didSet { svgDidChange() }
+  }
 
   init(svgPair: SVGPair) {
     self.svgPair = svgPair
