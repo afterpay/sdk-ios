@@ -28,17 +28,9 @@ public final class PriceBreakdownView: UIView {
   private var linkColor: UIColor!
   private let colorScheme: ColorScheme
 
-  private var termsLink: String {
-    switch getLocale() {
-    case Locales.australia:
-      return "https://static-us.afterpay.com/javascript/modal/au_rebrand_modal.html"
-    case Locales.newZealand:
-      return "https://static-us.afterpay.com/javascript/modal/nz_rebrand_modal.html"
-    case Locales.canada:
-      return "https://static-us.afterpay.com/javascript/modal/ca_rebrand_modal.html"
-    default:
-      return "https://static-us.afterpay.com/javascript/modal/us_rebrand_modal.html"
-    }
+  private var infoLink: String {
+    let region = (getLocale().regionCode ?? "US").lowercased()
+    return "https://static-us.afterpay.com/javascript/modal/\(region)_rebrand_modal.html"
   }
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -139,7 +131,7 @@ public final class PriceBreakdownView: UIView {
     var badgeAndBreakdown = [badge, space, breakdown]
     badgeAndBreakdown = badgePlacement == .start ? badgeAndBreakdown : badgeAndBreakdown.reversed()
 
-    let linkAttributes = textAttributes.merging([.link: termsLink]) { $1 }
+    let linkAttributes = textAttributes.merging([.link: infoLink]) { $1 }
     let link = NSAttributedString(string: Strings.info, attributes: linkAttributes)
     let strings = badgeAndBreakdown + [space, link]
 
