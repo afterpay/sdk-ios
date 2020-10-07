@@ -474,3 +474,5 @@ VERSION_INFO_PREFIX =
 // * Apple Generic: Use the current project version setting. [apple-generic]
 
 VERSIONING_SYSTEM = apple-generic
+
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES
