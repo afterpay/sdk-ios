@@ -34,13 +34,13 @@ public enum ColorScheme {
     let svg: (ColorPalette) -> SVG = { palette in
       switch palette {
       case .blackOnMint:
-        return .badgeBlackOnMint
+        return .afterpayBlackOnMint
       case .mintOnBlack:
-        return .badgeMintOnBlack
+        return .afterpayMintOnBlack
       case .whiteOnBlack:
-        return .badgeWhiteOnBlack
+        return .afterpayWhiteOnBlack
       case .blackOnWhite:
-        return .badgeBlackOnWhite
+        return .afterpayBlackOnWhite
       }
     }
 

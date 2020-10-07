@@ -30,7 +30,7 @@ struct SVG: Equatable {
     self.svgString = svgString
   }
 
-  static let badgeBlackOnMint = SVG(
+  static let afterpayBlackOnMint = SVG(
     size: CGSize(width: 1582, height: 551),
     minimumWidth: 64,
     svgString: """
@@ -74,7 +74,7 @@ struct SVG: Equatable {
     """
   )
 
-  static let badgeMintOnBlack = SVG(
+  static let afterpayMintOnBlack = SVG(
     size: CGSize(width: 1582, height: 551),
     minimumWidth: 64,
     svgString: """
@@ -118,7 +118,7 @@ struct SVG: Equatable {
     """
   )
 
-  static let badgeWhiteOnBlack: SVG = SVG(
+  static let afterpayWhiteOnBlack: SVG = SVG(
     size: CGSize(width: 1582, height: 551),
     minimumWidth: 64,
     svgString: """
@@ -162,7 +162,7 @@ struct SVG: Equatable {
     """
   )
 
-  static let badgeBlackOnWhite: SVG = SVG(
+  static let afterpayBlackOnWhite: SVG = SVG(
     size: CGSize(width: 1582, height: 551),
     minimumWidth: 64,
     svgString: """
