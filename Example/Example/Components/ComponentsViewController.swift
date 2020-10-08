@@ -19,14 +19,17 @@ final class ComponentsViewController:
 {
   // swiftlint:enable colon opening_brace
 
+  private var scrollView: UIScrollView!
   private var pickerView: UIPickerView!
   private var minimumAmountTextField: UITextField!
   private var maximumAmountTextField: UITextField!
+  private var localeTextField: UITextField!
+  private let localeDelegate = LocaleDelegate() // swiftlint:disable:this weak_delegate
 
   override func loadView() {
     let view = UIView()
 
-    let scrollView = UIScrollView()
+    scrollView = UIScrollView()
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     scrollView.backgroundColor = .appBackground
     view.addSubview(scrollView)
@@ -131,14 +134,78 @@ final class ComponentsViewController:
     maximumAmountTextField.inputAccessoryView = toolbar
     configurationStack.addArrangedSubview(maximumAmountTextField)
 
-    let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints + configurationStackConstraints
+    let localePicker = UIPickerView()
+
+    let localeTitle: UILabel = .bodyLabel
+    localeTitle.text = "Locale:"
+    configurationStack.addArrangedSubview(localeTitle)
+
+    localeTextField = .roundedTextField
+    localeTextField.text = configurationStub.currencyCode
+    localeTextField.inputView = localePicker
+    localeTextField.inputAccessoryView = toolbar
+    configurationStack.addArrangedSubview(localeTextField)
+
+    localeDelegate.configure(updating: localeTextField, with: localePicker)
+
+    let constraints = scrollViewConstraints
+      + contentViewConstraints
+      + stackConstraints
+      + configurationStackConstraints
+
     NSLayoutConstraint.activate(constraints)
 
     self.view = view
   }
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let notificationCenter = NotificationCenter.default
+    let selector = #selector(adjustForKeyboard)
+
+    notificationCenter.addObserver(
+      self,
+      selector: selector,
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+
+    notificationCenter.addObserver(
+      self,
+      selector: selector,
+      name: UIResponder.keyboardWillChangeFrameNotification,
+      object: nil
+    )
+  }
+
   @objc private func endEditing() {
     view.endEditing(true)
+  }
+
+  @objc private func adjustForKeyboard(notification: Notification) {
+    guard
+      notification.name != UIResponder.keyboardWillHideNotification,
+      let keyboardFrameInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+      let keyboardHeight = (keyboardFrameInfo as? NSValue)?.cgRectValue.height
+    else {
+      scrollView.contentInset = .zero
+      scrollView.scrollIndicatorInsets = .zero
+      return
+    }
+
+    let insets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    scrollView.contentInset =  insets
+    scrollView.scrollIndicatorInsets = insets
+
+    let activeTextFieldOrigin = [minimumAmountTextField, maximumAmountTextField, localeTextField]
+      .first { $0.isFirstResponder }
+      .map { $0.frame.origin }
+
+    if let origin = activeTextFieldOrigin, !view.frame.contains(origin) {
+      let offset = CGPoint(x: 0, y: origin.y - keyboardHeight)
+      scrollView.setContentOffset(offset, animated: true)
+    }
   }
 
   // MARK: - UITextFieldDelegate
@@ -192,6 +259,52 @@ final class ComponentsViewController:
     } else if let title = title {
       configurationStub.maximumAmount = title
     }
+  }
+
+}
+
+private final class LocaleDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+
+  private let localeIdentifiers = [
+    "en_AU",
+    "en_CA",
+    "en_GB",
+    "en_NZ",
+    "en_US",
+  ]
+
+  private var textField: UITextField?
+
+  func configure(updating textField: UITextField, with pickerView: UIPickerView) {
+    self.textField = textField
+
+    pickerView.delegate = self
+    pickerView.dataSource = self
+
+    if let row = localeIdentifiers.firstIndex(of: configurationStub.locale.identifier) {
+      pickerView.selectRow(row, inComponent: 0, animated: false)
+    }
+  }
+
+  // MARK: UIPickerViewDataSource
+
+  func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
+
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    localeIdentifiers.count
+  }
+
+  // MARK: UIPickerViewDelegate
+
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    localeIdentifiers[row]
+  }
+
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    let identifier = localeIdentifiers[row]
+
+    textField?.text = identifier
+    configurationStub.locale = Locale(identifier: identifier)
   }
 
 }
