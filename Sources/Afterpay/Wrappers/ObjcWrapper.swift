@@ -133,13 +133,15 @@ public final class ObjcWrapper: NSObject {
     minimumAmount: String,
     maximumAmount: String,
     currencyCode: String,
+    locale: Locale,
     error: UnsafeMutablePointer<NSError>
   ) {
     do {
       let configuration = try Configuration(
         minimumAmount: minimumAmount,
         maximumAmount: maximumAmount,
-        currencyCode: currencyCode)
+        currencyCode: currencyCode,
+        locale: locale)
 
       Afterpay.setConfiguration(configuration)
     } catch let configurationError {

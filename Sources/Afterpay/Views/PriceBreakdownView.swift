@@ -61,7 +61,7 @@ public final class PriceBreakdownView: UIView {
   private let linkTextView = LinkTextView()
 
   private var infoLink: String {
-    let region = (getLocale().regionCode ?? "US").lowercased()
+    let region = (getConfiguration()?.locale.regionCode ?? "US").lowercased()
     return "https://static-us.afterpay.com/javascript/modal/\(region)_rebrand_modal.html"
   }
 

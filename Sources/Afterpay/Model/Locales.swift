@@ -17,4 +17,12 @@ enum Locales {
   static let posix = Locale(identifier: "en_US_POSIX")
   static let unitedStates = Locale(identifier: "en_US")
 
+  static let validSet: Set<Locale> = [
+    australia,
+    canada,
+    greatBritain,
+    newZealand,
+    unitedStates,
+  ]
+
 }

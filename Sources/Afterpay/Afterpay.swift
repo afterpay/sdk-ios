@@ -70,12 +70,6 @@ public func setAuthenticationChallengeHandler(_ handler: @escaping Authenticatio
 
 // MARK: - Configuration
 
-private var locale = Locales.unitedStates
-
-func getLocale() -> Locale {
-  locale
-}
-
 let notificationCenter = NotificationCenter()
 
 extension NSNotification.Name {
@@ -92,10 +86,6 @@ func getConfiguration() -> Configuration? {
 /// - Parameter configuration: The configuration or nil to clear.
 public func setConfiguration(_ configuration: Configuration?) {
   Afterpay.configuration = configuration
-
-  // Currently the locale for terms of use is strongly tied to the purchasing currency
-  // this will most likely be separated in the future
-  Afterpay.locale = configuration?.currency.locale ?? Locales.unitedStates
 
   notificationCenter.post(name: .configurationUpdated, object: configuration)
 }
