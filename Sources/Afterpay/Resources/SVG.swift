@@ -207,9 +207,4 @@ struct SVG: Equatable {
   )
 
 }
-
-struct SVGPair {
-  let lightSVG: SVG
-  let darkSVG: SVG
-}
 // swiftlint:enable line_length

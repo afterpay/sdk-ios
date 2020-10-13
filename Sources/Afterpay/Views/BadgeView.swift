@@ -12,7 +12,7 @@ import UIKit
 public final class BadgeView: UIView {
 
   public var colorScheme: ColorScheme = .static(.blackOnMint) {
-    didSet { svgView.svgPair = colorScheme.badgeSVGPair }
+    didSet { svgView.svgConfiguration.colorScheme = colorScheme }
   }
 
   private var svgView: SVGView!
@@ -38,7 +38,7 @@ public final class BadgeView: UIView {
     accessibilityLabel = Strings.accessibleAfterpay
 
     // SVG Layout
-    svgView = SVGView(svgPair: colorScheme.badgeSVGPair)
+    svgView = SVGView(svgConfiguration: BadgeConfiguration())
 
     addSubview(svgView)
 

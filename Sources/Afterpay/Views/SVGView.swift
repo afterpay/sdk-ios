@@ -18,12 +18,12 @@ final class SVGView: Macaw.SVGView {
 
   var svg: SVG { svg(for: traitCollection) }
 
-  var svgPair: SVGPair {
+  var svgConfiguration: SVGConfiguration {
     didSet { svgDidChange() }
   }
 
-  init(svgPair: SVGPair) {
-    self.svgPair = svgPair
+  init(svgConfiguration: SVGConfiguration) {
+    self.svgConfiguration = svgConfiguration
 
     super.init(frame: .zero)
 
@@ -48,14 +48,8 @@ final class SVGView: Macaw.SVGView {
   }
 
   private func svg(for traitCollection: UITraitCollection) -> SVG {
-    switch traitCollection.userInterfaceStyle {
-    case .dark:
-      return svgPair.darkSVG
-    case .light, .unspecified:
-      fallthrough
-    @unknown default:
-      return svgPair.lightSVG
-    }
+    let locale = getConfiguration()?.locale ?? Locales.unitedStates
+    return svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
   }
 
   private func svgDidChange() {

@@ -43,7 +43,7 @@ struct ConfigurationStub {
       minimumAmount: minimumAmount,
       maximumAmount: maximumAmount,
       currencyCode: currencyCode,
-      locale: Locale(identifier: "en_US")
+      locale: locale
     )
   }
 

@@ -105,7 +105,7 @@ public final class PriceBreakdownView: UIView {
   }
 
   @objc private func updateAttributedText() {
-    let badgeSVGView = SVGView(svgPair: badgeColorScheme.badgeSVGPair)
+    let badgeSVGView = SVGView(svgConfiguration: BadgeConfiguration())
     let svg = badgeSVGView.svg
 
     let font: UIFont = fontProvider(traitCollection)
