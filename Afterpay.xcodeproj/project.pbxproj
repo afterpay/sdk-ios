@@ -18,6 +18,7 @@
 		665FC57C2488766C00A5A93E /* Afterpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F16072487653A0040345C /* Afterpay.framework */; };
 		66639B5424D2619200C68558 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66639B5324D2619200C68558 /* SVGView.swift */; };
 		666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */; };
+		6672982A25357D80001D1C5A /* SVGConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6672982925357D80001D1C5A /* SVGConfiguration.swift */; };
 		667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */; };
 		6689536C24C96CB5005090B4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6689536B24C96CB5005090B4 /* Configuration.swift */; };
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
@@ -55,6 +56,7 @@
 		665FC5832488847900A5A93E /* Afterpay.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.xctestplan; sourceTree = "<group>"; };
 		66639B5324D2619200C68558 /* SVGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGView.swift; sourceTree = "<group>"; };
 		666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjcWrapper.swift; sourceTree = "<group>"; };
+		6672982925357D80001D1C5A /* SVGConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGConfiguration.swift; sourceTree = "<group>"; };
 		667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutWebViewController.swift; sourceTree = "<group>"; };
 		6689536B24C96CB5005090B4 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		668F16072487653A0040345C /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,6 +238,7 @@
 			children = (
 				66E255AD24E3C14600C81F20 /* Strings.swift */,
 				6615F99A24D14620005036F1 /* SVG.swift */,
+				6672982925357D80001D1C5A /* SVGConfiguration.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				66E255AE24E3C14600C81F20 /* Strings.swift in Sources */,
 				6615F99B24D14620005036F1 /* SVG.swift in Sources */,
 				66483F3B24D7A164000BE6B5 /* PriceBreakdownView.swift in Sources */,
+				6672982A25357D80001D1C5A /* SVGConfiguration.swift in Sources */,
 				6689536C24C96CB5005090B4 /* Configuration.swift in Sources */,
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
