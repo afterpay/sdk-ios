@@ -24,7 +24,15 @@ final class ComponentsViewController:
   private var minimumAmountTextField: UITextField!
   private var maximumAmountTextField: UITextField!
   private var localeTextField: UITextField!
-  private let localeDelegate = LocaleDelegate() // swiftlint:disable:this weak_delegate
+  private var currencyTextField: UITextField!
+  private let localePickerDelegate = PickerDelegate( // swiftlint:disable:this weak_delegate
+    options: ["en_AU", "en_CA", "en_GB", "en_NZ", "en_US"],
+    getOption: { configurationStub.locale.identifier },
+    setOption: { configurationStub.locale = Locale(identifier: $0) })
+  private let currencyPickerDelegate = PickerDelegate( // swiftlint:disable:this weak_delegate
+    options: ["AUD", "CAD", "GBP", "NZD", "USD"],
+    getOption: { configurationStub.currencyCode },
+    setOption: { configurationStub.currencyCode = $0 })
 
   override func loadView() {
     let view = UIView()
@@ -141,12 +149,22 @@ final class ComponentsViewController:
     configurationStack.addArrangedSubview(localeTitle)
 
     localeTextField = .roundedTextField
-    localeTextField.text = configurationStub.currencyCode
-    localeTextField.inputView = localePicker
     localeTextField.inputAccessoryView = toolbar
     configurationStack.addArrangedSubview(localeTextField)
 
-    localeDelegate.configure(updating: localeTextField, with: localePicker)
+    localePickerDelegate.configure(updating: localeTextField, with: localePicker)
+
+    let currencyPicker = UIPickerView()
+
+    let currencyTitle: UILabel = .bodyLabel
+    currencyTitle.text = "Locale:"
+    configurationStack.addArrangedSubview(currencyTitle)
+
+    currencyTextField = .roundedTextField
+    currencyTextField.inputAccessoryView = toolbar
+    configurationStack.addArrangedSubview(currencyTextField)
+
+    currencyPickerDelegate.configure(updating: currencyTextField, with: currencyPicker)
 
     let constraints = scrollViewConstraints
       + contentViewConstraints
@@ -198,7 +216,14 @@ final class ComponentsViewController:
     scrollView.contentInset =  insets
     scrollView.scrollIndicatorInsets = insets
 
-    let activeTextFieldOrigin = [minimumAmountTextField, maximumAmountTextField, localeTextField]
+    let textFields: [UITextField] = [
+      minimumAmountTextField,
+      maximumAmountTextField,
+      localeTextField,
+      currencyTextField,
+    ]
+
+    let activeTextFieldOrigin = textFields
       .first { $0.isFirstResponder }
       .map { $0.frame.origin }
 
@@ -263,25 +288,34 @@ final class ComponentsViewController:
 
 }
 
-private final class LocaleDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+private final class PickerDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
 
-  private let localeIdentifiers = [
-    "en_AU",
-    "en_CA",
-    "en_GB",
-    "en_NZ",
-    "en_US",
-  ]
+  private let options: [String]
+  private let getOption: () -> String
+  private let setOption: (String) -> Void
 
-  private var textField: UITextField?
+  private weak var textField: UITextField?
+
+  init(
+    options: [String],
+    getOption: @escaping () -> String,
+    setOption: @escaping (String) -> Void
+  ) {
+    self.options = options
+    self.getOption = getOption
+    self.setOption = setOption
+  }
 
   func configure(updating textField: UITextField, with pickerView: UIPickerView) {
+    textField.text = getOption()
+    textField.inputView = pickerView
+
     self.textField = textField
 
     pickerView.delegate = self
     pickerView.dataSource = self
 
-    if let row = localeIdentifiers.firstIndex(of: configurationStub.locale.identifier) {
+    if let row = options.firstIndex(of: getOption()) {
       pickerView.selectRow(row, inComponent: 0, animated: false)
     }
   }
@@ -291,20 +325,20 @@ private final class LocaleDelegate: NSObject, UIPickerViewDataSource, UIPickerVi
   func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
 
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    localeIdentifiers.count
+    options.count
   }
 
   // MARK: UIPickerViewDelegate
 
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    localeIdentifiers[row]
+    options[row]
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    let identifier = localeIdentifiers[row]
+    let identifier = options[row]
 
     textField?.text = identifier
-    configurationStub.locale = Locale(identifier: identifier)
+    setOption(identifier)
   }
 
 }
