@@ -19,21 +19,38 @@ class ConfigurationTests: XCTestCase {
   let usdCode = "USD"
   let invalidCode = "XXX"
 
+  let usLocale = Locale(identifier: "en_US")
+
   func testValidConfiguration() {
     XCTAssertNoThrow(
-      try Configuration(minimumAmount: one, maximumAmount: oneThousand, currencyCode: usdCode)
+      try Configuration(
+        minimumAmount: one,
+        maximumAmount: oneThousand,
+        currencyCode: usdCode,
+        locale: usLocale
+      )
     )
   }
 
   func testValidConfigurationNoMinimum() {
     XCTAssertNoThrow(
-      try Configuration(minimumAmount: nil, maximumAmount: oneThousand, currencyCode: usdCode)
+      try Configuration(
+        minimumAmount: nil,
+        maximumAmount: oneThousand,
+        currencyCode: usdCode,
+        locale: usLocale
+      )
     )
   }
 
   func testInvalidConfigurationInvalidCurrencyCode() {
     XCTAssertThrowsError(
-      try Configuration(minimumAmount: one, maximumAmount: oneThousand, currencyCode: invalidCode)
+      try Configuration(
+        minimumAmount: one,
+        maximumAmount: oneThousand,
+        currencyCode: invalidCode,
+        locale: usLocale
+      )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidCurrencyCode(invalidCode))
     }
@@ -44,7 +61,8 @@ class ConfigurationTests: XCTestCase {
       try Configuration(
         minimumAmount: invalidAlphaAmount,
         maximumAmount: oneThousand,
-        currencyCode: usdCode
+        currencyCode: usdCode,
+        locale: usLocale
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMinimum(invalidAlphaAmount))
@@ -56,7 +74,8 @@ class ConfigurationTests: XCTestCase {
       try Configuration(
         minimumAmount: negativeAmount,
         maximumAmount: oneThousand,
-        currencyCode: usdCode
+        currencyCode: usdCode,
+        locale: usLocale
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMinimum(negativeAmount))
@@ -68,7 +87,8 @@ class ConfigurationTests: XCTestCase {
       try Configuration(
         minimumAmount: one,
         maximumAmount: invalidAlphaAmount,
-        currencyCode: usdCode
+        currencyCode: usdCode,
+        locale: usLocale
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMaximum(invalidAlphaAmount))
@@ -77,7 +97,12 @@ class ConfigurationTests: XCTestCase {
 
   func testInvalidConfigurationInvalidMaximumWithNegatives() {
     XCTAssertThrowsError(
-      try Configuration(minimumAmount: one, maximumAmount: negativeAmount, currencyCode: usdCode)
+      try Configuration(
+        minimumAmount: one,
+        maximumAmount: negativeAmount,
+        currencyCode: usdCode,
+        locale: usLocale
+      )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMaximum(negativeAmount))
     }
@@ -85,7 +110,12 @@ class ConfigurationTests: XCTestCase {
 
   func testInvalidConfigurationInvalidMinimumMaximumOrdering() {
     XCTAssertThrowsError(
-      try Configuration(minimumAmount: oneThousand, maximumAmount: one, currencyCode: usdCode)
+      try Configuration(
+        minimumAmount: oneThousand,
+        maximumAmount: one,
+        currencyCode: usdCode,
+        locale: usLocale
+      )
     ) { error in
       XCTAssertEqual(
         error as? ConfigurationError,
