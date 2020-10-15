@@ -25,8 +25,11 @@ func initializeDependencies() {
         kTSKPublicKeyHashes: ["nQ1Tu17lpJ/Hsr3545eCkig+X9ZPcxRQoe5WMSyyqJI=", backupHash],
       ],
       "portal.sandbox.afterpay.com": [
-        kTSKExpirationDate: "2021-07-05",
-        kTSKPublicKeyHashes: ["15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4=", backupHash],
+        kTSKExpirationDate: "2021-09-09",
+        kTSKPublicKeyHashes: [
+          "15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4=",
+          "TwuRz37J8epX4J1HDkoli34/3Woh7153cD3x9PFuh6I=",
+        ],
       ],
     ],
   ]
