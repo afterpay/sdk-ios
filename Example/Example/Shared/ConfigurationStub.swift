@@ -25,6 +25,10 @@ struct ConfigurationStub {
     didSet { updateConfiguration() }
   }
 
+  var locale: Locale = Locale(identifier: "en_US") {
+    didSet { updateConfiguration() }
+  }
+
   var responseData: Data? {
     let response = ConfigurationResponse(
       minimumAmount: minimumAmount.map { .init(amount: $0, currency: currencyCode) },
@@ -38,7 +42,8 @@ struct ConfigurationStub {
     try? Configuration(
       minimumAmount: minimumAmount,
       maximumAmount: maximumAmount,
-      currencyCode: currencyCode
+      currencyCode: currencyCode,
+      locale: locale
     )
   }
 

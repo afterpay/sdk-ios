@@ -15,6 +15,7 @@ public enum ConfigurationError: LocalizedError, Equatable {
   case invalidMaximum(String)
   case invalidOrdering(minimum: String, maximum: String)
   case invalidCurrencyCode(String)
+  case invalidLocale(Locale)
 
   public var failureReason: String? {
     switch self {
@@ -26,6 +27,8 @@ public enum ConfigurationError: LocalizedError, Equatable {
       return "Minmum (\(minimum)) is not strictly less than maximum (\(maximum))"
     case .invalidCurrencyCode(let currencyCode):
       return "Currency code (\(currencyCode)) is not valid"
+    case .invalidLocale(let locale):
+      return "Locale with identifier (\(locale.identifier)) is not valid"
     }
   }
 
@@ -37,12 +40,17 @@ public struct Configuration {
   let minimumAmount: Decimal?
   let maximumAmount: Decimal
   let currency: Currency
+  let locale: Locale
 
   /// Creates a new configuration by taking in a minimum and maximum amount as well as a currency
-  /// code.
+  /// code and locale.
   ///
-  /// These should be taken from the values supplied in `/v2/configuration` for example in the
-  /// response JSON:
+  /// The locale provided should match the locale for the API endpoint in use and the required terms
+  /// and conditions. For example when using https://api.afterpay.com and the Australian terms and
+  /// conditions the locale should be constructed with the identifier "en_AU".
+  ///
+  /// The remaining values should be taken from the parameters supplied in `/v2/configuration` for
+  /// example in the response JSON:
   ///
   ///     {
   ///         "minimumAmount": { "amount": "1.00", "currency": "AUD" },
@@ -51,7 +59,12 @@ public struct Configuration {
   ///
   /// The matching initializer call would be:
   ///
-  ///     Configuration(minimumAmount: "1.00", maximumAmount: "2000.00", currencyCode: "AUD")
+  ///     Configuration(
+  ///         minimumAmount: "1.00",
+  ///         maximumAmount: "2000.00",
+  ///         currencyCode: "AUD",
+  ///         locale: Locale(identifier: "en_AU")
+  ///     )
   ///
   /// - Parameters:
   ///   - minimumAmount: An optional minimum amount string representation of a decimal number,
@@ -60,8 +73,17 @@ public struct Configuration {
   ///   decimal places. However values convertible to a Swift Decimal are accepted.
   ///   - currencyCode: The currency in ISO 4217 format. Supported values include "AUD", "NZD",
   ///   "USD", and "CAD". However values recognized by Foundation are accepted.
+  ///   - locale: The locale required for display of the appropriate terms and conditions and used
+  ///   for formatting of currency. For example if the locale is set to en_AU are specified as USD.
+  ///   More examples are available in the currency tab of the js sandbox:
+  ///   https://js.sandbox.afterpay.com/index.html
   /// - Throws: A ConfigurationError describing why the configuration values were rejected.
-  public init(minimumAmount: String?, maximumAmount: String, currencyCode: String) throws {
+  public init(
+    minimumAmount: String?,
+    maximumAmount: String,
+    currencyCode: String,
+    locale: Locale
+  ) throws {
     let minimumSupplied = minimumAmount != nil
     let minimumDecimal = minimumAmount.flatMap { Decimal(string: $0) }
     let minimumIsNotNegative = minimumDecimal ?? .zero >= .zero
@@ -83,9 +105,14 @@ public struct Configuration {
       throw ConfigurationError.invalidCurrencyCode(currencyCode)
     }
 
+    guard Locales.validSet.contains(locale) else {
+      throw ConfigurationError.invalidLocale(locale)
+    }
+
     self.minimumAmount = minimumDecimal
     self.maximumAmount = maximumDecimal
     self.currency = currency
+    self.locale = locale
   }
 
 }

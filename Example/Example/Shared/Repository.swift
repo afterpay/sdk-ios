@@ -48,7 +48,8 @@ final class Repository {
           let configuration = try Configuration(
             minimumAmount: response.minimumAmount?.amount,
             maximumAmount: response.maximumAmount.amount,
-            currencyCode: response.maximumAmount.currency
+            currencyCode: response.maximumAmount.currency,
+            locale: Locale(identifier: "en_US")
           )
           return .success(configuration)
         } catch {

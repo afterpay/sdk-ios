@@ -30,22 +30,6 @@ public enum ColorScheme {
     }
   }
 
-  var badgeSVGPair: SVGPair {
-    let svg: (ColorPalette) -> SVG = { palette in
-      switch palette {
-      case .blackOnMint:
-        return .badgeBlackOnMint
-      case .mintOnBlack:
-        return .badgeMintOnBlack
-      case .whiteOnBlack:
-        return .badgeWhiteOnBlack
-      case .blackOnWhite:
-        return .badgeBlackOnWhite
-      }
-    }
-
-    return SVGPair(lightSVG: svg(lightPalette), darkSVG: svg(darkPalette))
-  }
 }
 
 public enum ColorPalette {

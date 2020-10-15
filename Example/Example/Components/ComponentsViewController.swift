@@ -19,14 +19,25 @@ final class ComponentsViewController:
 {
   // swiftlint:enable colon opening_brace
 
+  private var scrollView: UIScrollView!
   private var pickerView: UIPickerView!
   private var minimumAmountTextField: UITextField!
   private var maximumAmountTextField: UITextField!
+  private var localeTextField: UITextField!
+  private var currencyTextField: UITextField!
+  private let localePickerDelegate = PickerDelegate( // swiftlint:disable:this weak_delegate
+    options: ["en_AU", "en_CA", "en_GB", "en_NZ", "en_US"],
+    getOption: { configurationStub.locale.identifier },
+    setOption: { configurationStub.locale = Locale(identifier: $0) })
+  private let currencyPickerDelegate = PickerDelegate( // swiftlint:disable:this weak_delegate
+    options: ["AUD", "CAD", "GBP", "NZD", "USD"],
+    getOption: { configurationStub.currencyCode },
+    setOption: { configurationStub.currencyCode = $0 })
 
   override func loadView() {
     let view = UIView()
 
-    let scrollView = UIScrollView()
+    scrollView = UIScrollView()
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     scrollView.backgroundColor = .appBackground
     view.addSubview(scrollView)
@@ -131,14 +142,95 @@ final class ComponentsViewController:
     maximumAmountTextField.inputAccessoryView = toolbar
     configurationStack.addArrangedSubview(maximumAmountTextField)
 
-    let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints + configurationStackConstraints
+    let localePicker = UIPickerView()
+
+    let localeTitle: UILabel = .bodyLabel
+    localeTitle.text = "Locale:"
+    configurationStack.addArrangedSubview(localeTitle)
+
+    localeTextField = .roundedTextField
+    localeTextField.inputAccessoryView = toolbar
+    configurationStack.addArrangedSubview(localeTextField)
+
+    localePickerDelegate.configure(updating: localeTextField, with: localePicker)
+
+    let currencyPicker = UIPickerView()
+
+    let currencyTitle: UILabel = .bodyLabel
+    currencyTitle.text = "Locale:"
+    configurationStack.addArrangedSubview(currencyTitle)
+
+    currencyTextField = .roundedTextField
+    currencyTextField.inputAccessoryView = toolbar
+    configurationStack.addArrangedSubview(currencyTextField)
+
+    currencyPickerDelegate.configure(updating: currencyTextField, with: currencyPicker)
+
+    let constraints = scrollViewConstraints
+      + contentViewConstraints
+      + stackConstraints
+      + configurationStackConstraints
+
     NSLayoutConstraint.activate(constraints)
 
     self.view = view
   }
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let notificationCenter = NotificationCenter.default
+    let selector = #selector(adjustForKeyboard)
+
+    notificationCenter.addObserver(
+      self,
+      selector: selector,
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+
+    notificationCenter.addObserver(
+      self,
+      selector: selector,
+      name: UIResponder.keyboardWillChangeFrameNotification,
+      object: nil
+    )
+  }
+
   @objc private func endEditing() {
     view.endEditing(true)
+  }
+
+  @objc private func adjustForKeyboard(notification: Notification) {
+    guard
+      notification.name != UIResponder.keyboardWillHideNotification,
+      let keyboardFrameInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+      let keyboardHeight = (keyboardFrameInfo as? NSValue)?.cgRectValue.height
+    else {
+      scrollView.contentInset = .zero
+      scrollView.scrollIndicatorInsets = .zero
+      return
+    }
+
+    let insets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    scrollView.contentInset =  insets
+    scrollView.scrollIndicatorInsets = insets
+
+    let textFields: [UITextField] = [
+      minimumAmountTextField,
+      maximumAmountTextField,
+      localeTextField,
+      currencyTextField,
+    ]
+
+    let activeTextFieldOrigin = textFields
+      .first { $0.isFirstResponder }
+      .map { $0.frame.origin }
+
+    if let origin = activeTextFieldOrigin, !view.frame.contains(origin) {
+      let offset = CGPoint(x: 0, y: origin.y - keyboardHeight)
+      scrollView.setContentOffset(offset, animated: true)
+    }
   }
 
   // MARK: - UITextFieldDelegate
@@ -192,6 +284,61 @@ final class ComponentsViewController:
     } else if let title = title {
       configurationStub.maximumAmount = title
     }
+  }
+
+}
+
+private final class PickerDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+
+  private let options: [String]
+  private let getOption: () -> String
+  private let setOption: (String) -> Void
+
+  private weak var textField: UITextField?
+
+  init(
+    options: [String],
+    getOption: @escaping () -> String,
+    setOption: @escaping (String) -> Void
+  ) {
+    self.options = options
+    self.getOption = getOption
+    self.setOption = setOption
+  }
+
+  func configure(updating textField: UITextField, with pickerView: UIPickerView) {
+    textField.text = getOption()
+    textField.inputView = pickerView
+
+    self.textField = textField
+
+    pickerView.delegate = self
+    pickerView.dataSource = self
+
+    if let row = options.firstIndex(of: getOption()) {
+      pickerView.selectRow(row, inComponent: 0, animated: false)
+    }
+  }
+
+  // MARK: UIPickerViewDataSource
+
+  func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
+
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    options.count
+  }
+
+  // MARK: UIPickerViewDelegate
+
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    options[row]
+  }
+
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    let identifier = options[row]
+
+    textField?.text = identifier
+    setOption(identifier)
   }
 
 }
