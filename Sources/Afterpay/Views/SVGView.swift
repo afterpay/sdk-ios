@@ -16,10 +16,16 @@ import UIKit
 
 final class SVGView: Macaw.SVGView {
 
-  var svg: SVG { svg(for: traitCollection) }
+  var svg: SVG {
+    svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
+  }
 
   var svgConfiguration: SVGConfiguration {
     didSet { svgDidChange() }
+  }
+
+  private var locale: Locale {
+    getConfiguration()?.locale ?? Locales.unitedStates
   }
 
   init(svgConfiguration: SVGConfiguration) {
@@ -31,6 +37,10 @@ final class SVGView: Macaw.SVGView {
     backgroundColor = .clear
     translatesAutoresizingMaskIntoConstraints = false
     setupConstraints()
+
+    let selector = #selector(configurationDidChange)
+    let name: NSNotification.Name = .configurationUpdated
+    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
   }
 
   private var aspectRatioConstraint: NSLayoutConstraint!
@@ -47,11 +57,6 @@ final class SVGView: Macaw.SVGView {
     NSLayoutConstraint.activate([aspectRatioConstraint, minimumWidthConstraint])
   }
 
-  private func svg(for traitCollection: UITraitCollection) -> SVG {
-    let locale = getConfiguration()?.locale ?? Locales.unitedStates
-    return svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
-  }
-
   private func svgDidChange() {
     node = svg.node
 
@@ -64,10 +69,26 @@ final class SVGView: Macaw.SVGView {
     }
   }
 
+  @objc private func configurationDidChange(_ notification: NSNotification) {
+    let previousLocale = (notification.object as? Configuration)?.locale ?? Locales.unitedStates
+
+    let svgForLocale = { [traitCollection, svgConfiguration] locale in
+      svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
+    }
+
+    if svgForLocale(previousLocale) != svgForLocale(locale) {
+      svgDidChange()
+    }
+  }
+
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
-    if previousTraitCollection.map(svg) != svg(for: traitCollection) {
+    let svgForTraits = { [locale, svgConfiguration] traitCollection in
+      svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
+    }
+
+    if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {
       svgDidChange()
     }
   }

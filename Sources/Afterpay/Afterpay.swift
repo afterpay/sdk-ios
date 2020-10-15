@@ -73,7 +73,10 @@ public func setAuthenticationChallengeHandler(_ handler: @escaping Authenticatio
 let notificationCenter = NotificationCenter()
 
 extension NSNotification.Name {
+
+  /// Fires when the Afterpay configuration is updated with the previous configuration
   static let configurationUpdated = NSNotification.Name("ConfigurationUpdated")
+
 }
 
 private var configuration: Configuration?
@@ -85,7 +88,9 @@ func getConfiguration() -> Configuration? {
 /// Sets the Configuration object to use for rendering UI Components in the Afterpay SDK.
 /// - Parameter configuration: The configuration or nil to clear.
 public func setConfiguration(_ configuration: Configuration?) {
+  let previousConfiguration = Afterpay.configuration
+
   Afterpay.configuration = configuration
 
-  notificationCenter.post(name: .configurationUpdated, object: configuration)
+  notificationCenter.post(name: .configurationUpdated, object: previousConfiguration)
 }
