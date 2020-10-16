@@ -8,12 +8,6 @@
 
 import Foundation
 
-private let formatter: NumberFormatter = {
-  let formatter = NumberFormatter()
-  formatter.numberStyle = .currency
-  return formatter
-}()
-
 struct PriceBreakdown {
 
   enum BadgePlacement: Equatable {
@@ -26,13 +20,11 @@ struct PriceBreakdown {
 
   init(totalAmount: Decimal) {
     let configuration = getConfiguration()
+    let formatter = CurrencyFormatter(locale: configuration?.locale ?? Locales.unitedStates)
 
-    formatter.currencySymbol = configuration?.currency.symbol
-
-    let format: (Decimal) -> String? = { formatter.string(from: $0 as NSDecimalNumber) }
-    let formattedMinimum = configuration?.minimumAmount.flatMap(format)
-    let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
-    let formattedPayment = format(totalAmount / 4)
+    let formattedMinimum = configuration?.minimumAmount.flatMap(formatter.string)
+    let formattedMaximum = (configuration?.maximumAmount).flatMap(formatter.string)
+    let formattedPayment = formatter.string(from: totalAmount / 4)
 
     let greaterThanZero = totalAmount > .zero
     let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)
