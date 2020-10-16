@@ -24,9 +24,7 @@ final class SVGView: Macaw.SVGView {
     didSet { svgDidChange() }
   }
 
-  private var locale: Locale {
-    getConfiguration()?.locale ?? Locales.unitedStates
-  }
+  private var locale: Locale { getLocale() }
 
   init(svgConfiguration: SVGConfiguration) {
     self.svgConfiguration = svgConfiguration
