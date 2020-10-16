@@ -29,7 +29,7 @@ struct CurrencyFormatter {
       formatter.locale = currencyLocale
       formatter.currencyCode = currencyCode
       let formattedString = formatter.string(from: decimal as NSDecimalNumber)
-      return currencyLocale?.currencySymbol == locale.currencySymbol
+      return currencyLocale?.currencySymbol == Locales.unitedStates.currencySymbol
         ? formattedString?.appending(" \(currencyCode)")
         : formattedString
     }

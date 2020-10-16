@@ -22,6 +22,7 @@
 		6672982A25357D80001D1C5A /* SVGConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6672982925357D80001D1C5A /* SVGConfiguration.swift */; };
 		667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */; };
 		6689536C24C96CB5005090B4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6689536B24C96CB5005090B4 /* Configuration.swift */; };
+		66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C3F7FA25397A810086DD0A /* CurrencyFormatterTests.swift */; };
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
 		66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */; };
 		66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */; };
@@ -71,6 +72,7 @@
 		66B57E55248F5C7D0020C642 /* Project-Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Shared.xcconfig"; sourceTree = "<group>"; };
 		66B57E56248F5C7D0020C642 /* Project-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Release.xcconfig"; sourceTree = "<group>"; };
 		66B57E57248F5C7D0020C642 /* Afterpay-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Release.xcconfig"; sourceTree = "<group>"; };
+		66C3F7FA25397A810086DD0A /* CurrencyFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatterTests.swift; sourceTree = "<group>"; };
 		66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWrapper.swift; sourceTree = "<group>"; };
 		66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBreakdown.swift; sourceTree = "<group>"; };
 		66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBreakdownTests.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */,
+				66C3F7FA25397A810086DD0A /* CurrencyFormatterTests.swift */,
 				665FC57B2488766C00A5A93E /* Info.plist */,
 				66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */,
 			);
@@ -418,6 +421,7 @@
 			files = (
 				6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */,
 				66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */,
+				66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
