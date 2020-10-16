@@ -27,19 +27,6 @@ struct Currency {
     }
   }
 
-  var locale: Locale {
-    switch code {
-    case Locales.australia.currencyCode:
-      return Locales.australia
-    case Locales.newZealand.currencyCode:
-      return Locales.newZealand
-    case Locales.canada.currencyCode:
-      return Locales.canada
-    default:
-      return Locales.unitedStates
-    }
-  }
-
   init?(currencyCode: String) {
     let currencyName = Locales.posix.localizedString(forCurrencyCode: currencyCode)
 
