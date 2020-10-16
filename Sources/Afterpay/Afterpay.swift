@@ -85,12 +85,6 @@ func getConfiguration() -> Configuration? {
   configuration
 }
 
-/// Retrieves the locale contained within the configuration otherwise defaulting to "en_US".
-/// - Returns: The configured locale.
-func getLocale() -> Locale {
-  configuration?.locale ?? Locales.unitedStates
-}
-
 /// Sets the Configuration object to use for rendering UI Components in the Afterpay SDK.
 /// - Parameter configuration: The configuration or nil to clear.
 public func setConfiguration(_ configuration: Configuration?) {

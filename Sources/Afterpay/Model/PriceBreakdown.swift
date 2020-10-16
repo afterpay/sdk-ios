@@ -20,11 +20,13 @@ struct PriceBreakdown {
 
   init(totalAmount: Decimal) {
     let configuration = getConfiguration()
-    let formatter = CurrencyFormatter(locale: getLocale())
+    let formatter = configuration
+      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode) }
+    let format = { formatter?.string(from: $0) }
 
-    let formattedMinimum = configuration?.minimumAmount.flatMap(formatter.string)
-    let formattedMaximum = (configuration?.maximumAmount).flatMap(formatter.string)
-    let formattedPayment = formatter.string(from: totalAmount / 4)
+    let formattedMinimum = configuration?.minimumAmount.flatMap(format)
+    let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
+    let formattedPayment = format(totalAmount / 4)
 
     let greaterThanZero = totalAmount > .zero
     let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)

@@ -16,15 +16,13 @@ import UIKit
 
 final class SVGView: Macaw.SVGView {
 
-  var svg: SVG {
-    svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
-  }
+  var svg: SVG { svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection) }
 
   var svgConfiguration: SVGConfiguration {
     didSet { svgDidChange() }
   }
 
-  private var locale: Locale { getLocale() }
+  private var locale: Locale { getConfiguration()?.locale ?? Locales.unitedStates }
 
   init(svgConfiguration: SVGConfiguration) {
     self.svgConfiguration = svgConfiguration
