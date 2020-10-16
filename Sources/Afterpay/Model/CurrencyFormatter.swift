@@ -17,9 +17,18 @@ private let formatter: NumberFormatter = {
 struct CurrencyFormatter {
 
   let locale: Locale
+  let currencyCode: String
 
   func string(from decimal: Decimal) -> String? {
-    formatter.string(from: decimal as NSDecimalNumber)
+    formatter.currencyCode = currencyCode
+
+    var formattedString = formatter.string(from: decimal as NSDecimalNumber)
+
+    if locale.currencyCode != currencyCode {
+      formattedString?.append(" \(currencyCode)")
+    }
+
+    return formattedString
   }
 
 }
