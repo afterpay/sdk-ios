@@ -20,15 +20,19 @@ struct CurrencyFormatter {
   let currencyCode: String
 
   func string(from decimal: Decimal) -> String? {
-    formatter.currencyCode = currencyCode
-
-    var formattedString = formatter.string(from: decimal as NSDecimalNumber)
-
-    if locale.currencyCode != currencyCode {
-      formattedString?.append(" \(currencyCode)")
+    if locale == Locales.unitedStates || locale.currencyCode == currencyCode {
+      formatter.locale = locale
+      formatter.currencyCode = currencyCode
+      return formatter.string(from: decimal as NSDecimalNumber)
+    } else {
+      let currencyLocale = Locales.validSet.first { $0.currencyCode == currencyCode }
+      formatter.locale = currencyLocale
+      formatter.currencyCode = currencyCode
+      let formattedString = formatter.string(from: decimal as NSDecimalNumber)
+      return currencyLocale?.currencySymbol == locale.currencySymbol
+        ? formattedString?.appending(" \(currencyCode)")
+        : formattedString
     }
-
-    return formattedString
   }
 
 }
