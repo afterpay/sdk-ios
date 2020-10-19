@@ -91,7 +91,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 1.1.0
+git checkout 1.3.0
 ```
 
 #### Project / Workspace Integration
@@ -190,12 +190,15 @@ The price breakdown component displays information about Afterpay instalments an
 
 A configuration should be set on the Afterpay SDK in line with configuration data retrieved from the Afterpay API. This configuration can be cached and should be updated once per day.
 
+A locale should also be set matching the region for which you need to display terms and conditions. This also affects how currencies are localised as well as what branding is displayed, for instance usage of the `"en_GB"` locale will display Clearpay branding.
+
 ```swift
 do {
   let configuration = try Configuration(
     minimumAmount: response.minimumAmount?.amount,
     maximumAmount: response.maximumAmount.amount,
-    currencyCode: response.maximumAmount.currency
+    currencyCode: response.maximumAmount.currency,
+    locale: Locale(identifier: "en_US")
   )
 
   Afterpay.setConfiguration(configuration)
@@ -207,6 +210,7 @@ do {
 A total payment amount (represented as a Swift Decimal) must be programatically set on the component to display Afterpay instalment information.
 
 ```swift
+// A zero here will display the generic 'pay with afterpay' messaging
 let totalAmount = Decimal(string: price) ?? .zero
 
 let priceBreakdownView = PriceBreakdownView()
