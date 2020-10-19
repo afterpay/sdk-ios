@@ -190,12 +190,15 @@ The price breakdown component displays information about Afterpay instalments an
 
 A configuration should be set on the Afterpay SDK in line with configuration data retrieved from the Afterpay API. This configuration can be cached and should be updated once per day.
 
+A locale should also be set matching the region for which you need to display terms and conditions. This also affects how currencies are localised, to test this out try out the components tab of the Example App.
+
 ```swift
 do {
   let configuration = try Configuration(
     minimumAmount: response.minimumAmount?.amount,
     maximumAmount: response.maximumAmount.amount,
-    currencyCode: response.maximumAmount.currency
+    currencyCode: response.maximumAmount.currency,
+    locale: Locale(identifier: "en_US")
   )
 
   Afterpay.setConfiguration(configuration)
@@ -207,6 +210,7 @@ do {
 A total payment amount (represented as a Swift Decimal) must be programatically set on the component to display Afterpay instalment information.
 
 ```swift
+// A zero here will display the generic 'pay with afterpay' messaging
 let totalAmount = Decimal(string: price) ?? .zero
 
 let priceBreakdownView = PriceBreakdownView()
