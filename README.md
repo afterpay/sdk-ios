@@ -313,7 +313,7 @@ struct MyView: View {
 
 # Examples
 
-The [example project][example] demonstrates how to include an Afterpay payment flow web experience.
+The [example project][example] demonstrates how to include an Afterpay payment flow web experience. This project is powered by the [example server][example-server] which shows a simple example of integration with the Afterpay API.
 
 # Building
 
@@ -357,6 +357,7 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [contributing]: CONTRIBUTING.md
 [create-xcframework]: Scripts/create-xcframework
 [example]: Example
+[example-server]: https://github.com/afterpay/sdk-example-server
 [four-payments]: Images/four-payments.png
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/afterpay/sdk-ios/releases/latest
