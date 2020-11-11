@@ -5,7 +5,10 @@ set -euo pipefail
 # the default SDK for the platform not the one set by the build script
 unset SDKROOT
 
-../Tools/mint/mint run swiftlint \
+# The Mintfile is specified in the directory above
+cd ..
+
+./Tools/mint/mint run swiftlint \
   --quiet \
   --path Example \
-  --config ../../.swiftlint.yml
+  --config ../.swiftlint.yml
