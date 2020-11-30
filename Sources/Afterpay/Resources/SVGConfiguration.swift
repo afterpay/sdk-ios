@@ -58,3 +58,45 @@ struct BadgeConfiguration: SVGConfiguration {
   }
 
 }
+
+struct PaymentButtonConfiguration: SVGConfiguration {
+
+  var colorScheme: ColorScheme
+
+  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
+    let svgForPalette: (ColorPalette) -> SVG = { palette in
+      switch (palette, locale) {
+      case (.blackOnMint, Locales.greatBritain):
+        return .clearpayPayNowBlackOnMint
+      case (.mintOnBlack, Locales.greatBritain):
+        return .clearpayPayNowMintOnBlack
+      case (.whiteOnBlack, Locales.greatBritain):
+        return .clearpayPayNowWhiteOnBlack
+      case (.blackOnWhite, Locales.greatBritain):
+        return .clearpayPayNowBlackOnWhite
+      case (.blackOnMint, _):
+        return .afterpayPayNowBlackOnMint
+      case (.mintOnBlack, _):
+        return .afterpayPayNowMintOnBlack
+      case (.whiteOnBlack, _):
+        return .afterpayPayNowWhiteOnBlack
+      case (.blackOnWhite, _):
+        return .afterpayPayNowBlackOnWhite
+      }
+    }
+
+    let svg: SVG = {
+      switch traitCollection.userInterfaceStyle {
+      case .dark:
+        return svgForPalette(colorScheme.darkPalette)
+      case .light, .unspecified:
+        fallthrough
+      @unknown default:
+        return svgForPalette(colorScheme.lightPalette)
+      }
+    }()
+
+    return svg
+  }
+
+}
