@@ -12,7 +12,7 @@ import UIKit
 public final class PaymentButton: UIButton {
 
   public var colorScheme: ColorScheme = .static(.blackOnMint) {
-    didSet { renderImage() }
+    didSet { updateImage() }
   }
 
   private var configuration: SVGConfiguration {
@@ -48,14 +48,11 @@ public final class PaymentButton: UIButton {
     adjustsImageWhenDisabled = true
   }
 
-  private var previousBounds: CGRect = .zero
-
   public override func layoutSubviews() {
     super.layoutSubviews()
 
-    if bounds != previousBounds {
-      renderImage()
-      previousBounds = bounds
+    if image(for: .normal)?.size != bounds.size {
+      updateImage()
     }
   }
 
@@ -67,11 +64,11 @@ public final class PaymentButton: UIButton {
     }
 
     if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {
-      renderImage()
+      updateImage()
     }
   }
 
-  private func renderImage() {
+  private func updateImage() {
     let svgView = SVGView(svgConfiguration: configuration)
     svgView.frame = bounds
 
