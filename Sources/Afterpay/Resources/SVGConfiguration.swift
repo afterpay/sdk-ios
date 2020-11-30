@@ -25,21 +25,21 @@ struct BadgeConfiguration: SVGConfiguration {
     let svgForPalette: (ColorPalette) -> SVG = { palette in
       switch (palette, locale) {
       case (.blackOnMint, Locales.greatBritain):
-        return .clearpayBlackOnMint
+        return .clearpayBadgeBlackOnMint
       case (.mintOnBlack, Locales.greatBritain):
-        return .clearpayMintOnBlack
+        return .clearpayBadgeMintOnBlack
       case (.whiteOnBlack, Locales.greatBritain):
-        return .clearpayWhiteOnBlack
+        return .clearpayBadgeWhiteOnBlack
       case (.blackOnWhite, Locales.greatBritain):
-        return .clearpayBlackOnWhite
+        return .clearpayBadgeBlackOnWhite
       case (.blackOnMint, _):
-        return .afterpayBlackOnMint
+        return .afterpayBadgeBlackOnMint
       case (.mintOnBlack, _):
-        return .afterpayMintOnBlack
+        return .afterpayBadgeMintOnBlack
       case (.whiteOnBlack, _):
-        return .afterpayWhiteOnBlack
+        return .afterpayBadgeWhiteOnBlack
       case (.blackOnWhite, _):
-        return .afterpayBlackOnWhite
+        return .afterpayBadgeBlackOnWhite
       }
     }
 
