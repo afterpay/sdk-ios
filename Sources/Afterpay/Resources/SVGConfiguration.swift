@@ -14,6 +14,7 @@ protocol SVGConfiguration {
   var colorScheme: ColorScheme { get set }
 
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG
+  func accessibilityLabel(localizedFor locale: Locale) -> String
 
 }
 
@@ -57,6 +58,10 @@ struct BadgeConfiguration: SVGConfiguration {
     return svg
   }
 
+  func accessibilityLabel(localizedFor locale: Locale) -> String {
+    locale == Locales.greatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
+  }
+
 }
 
 struct PaymentButtonConfiguration: SVGConfiguration {
@@ -97,6 +102,14 @@ struct PaymentButtonConfiguration: SVGConfiguration {
     }()
 
     return svg
+  }
+
+  func accessibilityLabel(localizedFor locale: Locale) -> String {
+    let accessiblePaymentMethod = locale == Locales.greatBritain
+      ? Strings.accessibleClearpay
+      : Strings.accessibleAfterpay
+
+    return "\(Strings.payNowWith) \(accessiblePaymentMethod)"
   }
 
 }

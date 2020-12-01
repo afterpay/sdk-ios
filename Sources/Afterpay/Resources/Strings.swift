@@ -16,6 +16,7 @@ enum Strings {
 
   static let info = "Info"
   static let orPayWith = "or pay with"
+  static let payNowWith = "pay now with"
 
   // MARK: - String Formats
 
@@ -26,5 +27,6 @@ enum Strings {
   // MARK: - Accessible Strings
 
   static let accessibleAfterpay = "after pay"
+  static let accessibleClearpay = "clear pay"
 
 }

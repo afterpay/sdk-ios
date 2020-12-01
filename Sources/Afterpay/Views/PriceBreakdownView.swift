@@ -52,7 +52,9 @@ public final class PriceBreakdownView: UIView {
     }
   }()
 
-  public var badgeColorScheme: ColorScheme = .static(.blackOnMint)
+  public var badgeColorScheme: ColorScheme = .static(.blackOnMint) {
+    didSet { updateAttributedText() }
+  }
 
   public var fontProvider: (UITraitCollection) -> UIFont = { traitCollection in
     .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
@@ -105,7 +107,8 @@ public final class PriceBreakdownView: UIView {
   }
 
   @objc private func updateAttributedText() {
-    let badgeSVGView = SVGView(svgConfiguration: BadgeConfiguration())
+    let configuration = BadgeConfiguration(colorScheme: badgeColorScheme)
+    let badgeSVGView = SVGView(svgConfiguration: configuration)
     let svg = badgeSVGView.svg
 
     let font: UIFont = fontProvider(traitCollection)
@@ -138,7 +141,7 @@ public final class PriceBreakdownView: UIView {
       let attachment = NSTextAttachment()
       attachment.image = image
       attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
-      attachment.accessibilityLabel = Strings.accessibleAfterpay
+      attachment.accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
       return .init(attachment: attachment)
     }()
 

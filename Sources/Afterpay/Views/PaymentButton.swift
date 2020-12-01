@@ -19,8 +19,6 @@ public final class PaymentButton: UIButton {
     PaymentButtonConfiguration(colorScheme: colorScheme)
   }
 
-  private var locale: Locale { getConfiguration()?.locale ?? Locales.unitedStates }
-
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
     self.colorScheme = colorScheme
 
@@ -36,6 +34,7 @@ public final class PaymentButton: UIButton {
   }
 
   private func sharedInit() {
+    let locale = getLocale()
     let svg = configuration.svg(localizedFor: locale, withTraits: traitCollection)
 
     NSLayoutConstraint.activate([
@@ -43,6 +42,7 @@ public final class PaymentButton: UIButton {
       widthAnchor.constraint(greaterThanOrEqualToConstant: svg.minimumWidth),
     ])
 
+    accessibilityLabel = configuration.accessibilityLabel(localizedFor: locale)
     translatesAutoresizingMaskIntoConstraints = false
     adjustsImageWhenHighlighted = true
     adjustsImageWhenDisabled = true
@@ -59,8 +59,8 @@ public final class PaymentButton: UIButton {
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
-    let svgForTraits = { [locale, configuration] traitCollection in
-      configuration.svg(localizedFor: locale, withTraits: traitCollection)
+    let svgForTraits = { [configuration] traitCollection in
+      configuration.svg(localizedFor: getLocale(), withTraits: traitCollection)
     }
 
     if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {

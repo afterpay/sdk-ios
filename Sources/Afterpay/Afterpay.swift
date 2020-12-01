@@ -94,3 +94,7 @@ public func setConfiguration(_ configuration: Configuration?) {
 
   notificationCenter.post(name: .configurationUpdated, object: previousConfiguration)
 }
+
+func getLocale() -> Locale {
+  getConfiguration()?.locale ?? Locales.unitedStates
+}

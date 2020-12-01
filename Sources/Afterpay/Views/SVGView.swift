@@ -16,13 +16,11 @@ import UIKit
 
 final class SVGView: Macaw.SVGView {
 
-  var svg: SVG { svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection) }
+  var svg: SVG { svgConfiguration.svg(localizedFor: getLocale(), withTraits: traitCollection) }
 
   var svgConfiguration: SVGConfiguration {
     didSet { svgDidChange() }
   }
-
-  private var locale: Locale { getConfiguration()?.locale ?? Locales.unitedStates }
 
   init(svgConfiguration: SVGConfiguration) {
     self.svgConfiguration = svgConfiguration
@@ -72,7 +70,7 @@ final class SVGView: Macaw.SVGView {
       svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
     }
 
-    if svgForLocale(previousLocale) != svgForLocale(locale) {
+    if svgForLocale(previousLocale) != svgForLocale(getLocale()) {
       svgDidChange()
     }
   }
@@ -80,8 +78,8 @@ final class SVGView: Macaw.SVGView {
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
-    let svgForTraits = { [locale, svgConfiguration] traitCollection in
-      svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
+    let svgForTraits = { [svgConfiguration] traitCollection in
+      svgConfiguration.svg(localizedFor: getLocale(), withTraits: traitCollection)
     }
 
     if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {
