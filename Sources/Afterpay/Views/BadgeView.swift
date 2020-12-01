@@ -32,13 +32,15 @@ public final class BadgeView: UIView {
   }
 
   private func sharedInit() {
+    let configuration = BadgeConfiguration(colorScheme: colorScheme)
+
     // Accessibility
     isAccessibilityElement = true
     accessibilityTraits = [.staticText]
-    accessibilityLabel = Strings.accessibleAfterpay
+    accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
 
     // SVG Layout
-    svgView = SVGView(svgConfiguration: BadgeConfiguration())
+    svgView = SVGView(svgConfiguration: configuration)
 
     addSubview(svgView)
 

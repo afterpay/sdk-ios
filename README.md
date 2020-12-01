@@ -91,7 +91,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 1.3.0
+git checkout 1.4.0
 ```
 
 #### Project / Workspace Integration
@@ -163,18 +163,11 @@ BOOL (^challengeHandler)(NSURLAuthenticationChallenge *, CompletionHandler) = ^B
 [APAfterpay setAuthenticationChallengeHandler:challengeHandler];
 ```
 
-## Badge
+## Views
 
-The Afterpay badge is a simple UIView that can be scaled to suit the needs of your app. As per branding guidelines it has a minimum width constraint of 64 points.
+### Color Schemes
 
-```swift
-let badgeView = BadgeView()
-```
-
-The badge has four styles to fit light and dark themes:  
-![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
-
-Color schemes can be set on the badge view to have a single style in both light and dark mode or to change automatically.
+Color schemes can be set on the badge view or payment button to either have a single style in both light and dark mode or to change automatically.
 
 ```swift
 // Always black on mint
@@ -183,6 +176,27 @@ badgeView.colorScheme = .static(.blackOnMint)
 // White on black in light mode and black on white in dark mode
 badgeView.colorScheme = .dynamic(lightPalette: .whiteOnBlack, darkPalette: .blackOnWhite)
 ```
+
+### Badge
+
+The Afterpay badge is a simple `UIView` that can be scaled to suit the needs of your app. As per branding guidelines it has a minimum width constraint of 64 points.
+
+```swift
+let badgeView = BadgeView()
+```
+
+Below are examples of the badge in each of the color schemes:  
+![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
+
+### Payment Button
+
+The Afterpay Payment Button is a subclass of `UIButton` that can be scaled to suit your layout, to guarantee legibility it has a maximum width constraint of 256 points.
+
+Below are examples of the button in each of the color schemes:
+| Mint and Black | Black and White |
+| -- | -- |
+| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] | 
+| ![Mint on Black button][button-mint-on-black] | ![Black on White button][button-black-on-white] |
 
 ## Price Breakdown
 
@@ -351,6 +365,10 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [badge-mint-on-black]: Images/badge_mint_on_black.png
 [badge-white-on-black]: Images/badge_white_on_black.png
 [badge-black-on-white]: Images/badge_black_on_white.png
+[button-black-on-mint]: Images/button_black_on_mint.png
+[button-mint-on-black]: Images/button_mint_on_black.png
+[button-white-on-black]: Images/button_white_on_black.png
+[button-black-on-white]: Images/button_black_on_white.png
 [bootstrap]: Scripts/bootstrap
 [carthage]: https://github.com/Carthage/Carthage
 [ccp]: https://cocoapods.org/pods/Afterpay

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Foundation
 
 final class CartViewController: UIViewController, UITableViewDataSource {
@@ -44,9 +45,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
-    let payButton: UIButton = .primaryButton
+    let payButton: UIButton = PaymentButton()
     payButton.isEnabled = cart.payEnabled
-    payButton.setTitle("Pay with Afterpay", for: .normal)
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
     view.addSubview(tableView)
@@ -57,9 +57,9 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor),
-      payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
+      payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+      payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+      payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
     ])
   }
 
