@@ -91,7 +91,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 1.3.0
+git checkout 1.4.0
 ```
 
 #### Project / Workspace Integration
@@ -190,7 +190,7 @@ Below are examples of the badge in each of it's color schemes:
 
 ### Payment Button
 
-The Afterpay Payment Button is a subclass of `UIButton` that can be scaled to suit your layout, to guaruntee legibility it has a maximum width constraint of 256 points.
+The Afterpay Payment Button is a subclass of `UIButton` that can be scaled to suit your layout, to guarantee legibility it has a maximum width constraint of 256 points.
 
 Below are examples of the button in each of the color schemes:
 | Mint and Black | Black and White |
