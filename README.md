@@ -185,7 +185,7 @@ The Afterpay badge is a simple `UIView` that can be scaled to suit the needs of 
 let badgeView = BadgeView()
 ```
 
-Below are examples of the badge in each of it's color schemes:  
+Below are examples of the badge in each of the color schemes:  
 ![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
 
 ### Payment Button
