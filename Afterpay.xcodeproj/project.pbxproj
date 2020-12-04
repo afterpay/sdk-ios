@@ -24,6 +24,7 @@
 		6672982A25357D80001D1C5A /* SVGConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6672982925357D80001D1C5A /* SVGConfiguration.swift */; };
 		667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */; };
 		6689536C24C96CB5005090B4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6689536B24C96CB5005090B4 /* Configuration.swift */; };
+		66B54588256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B54587256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift */; };
 		66B5458C256B65B7002B3DD5 /* CheckoutHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B5458B256B65B7002B3DD5 /* CheckoutHost.swift */; };
 		66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C3F7FA25397A810086DD0A /* CurrencyFormatterTests.swift */; };
 		66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */; };
@@ -68,6 +69,7 @@
 		6689536B24C96CB5005090B4 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		668F16072487653A0040345C /* Afterpay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Afterpay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		668F160B2487653A0040345C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66B54587256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressCheckoutViewController.swift; sourceTree = "<group>"; };
 		66B5458B256B65B7002B3DD5 /* CheckoutHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutHost.swift; sourceTree = "<group>"; };
 		66B57E4F248F5C7D0020C642 /* AfterpayTests-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AfterpayTests-Release.xcconfig"; sourceTree = "<group>"; };
 		66B57E50248F5C7D0020C642 /* Afterpay-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Afterpay-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */,
 				66169311257A06B200DF6CF4 /* ExpressCheckoutMessage.swift */,
+				66B54587256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift */,
 			);
 			path = Checkout;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
+				66B54588256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,
