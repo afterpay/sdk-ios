@@ -16,14 +16,6 @@ struct ExpressCheckoutMessage: Decodable {
     case shippingAddressDidChange(Address)
   }
 
-  struct Address: Decodable {
-    var countryCode: String?
-    var postcode: String?
-    var phoneNumber: String?
-    var state: String?
-    var suburb: String?
-  }
-
   private enum CodingKeys: String, CodingKey {
     case type, meta, payload
   }
