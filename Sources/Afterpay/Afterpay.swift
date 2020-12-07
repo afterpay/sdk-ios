@@ -43,6 +43,24 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
+// MARK: - Express Checkout
+
+public protocol ExpressCheckoutHandler: AnyObject {
+  func didCommenceCheckout(callback: @escaping (URL) -> Void)
+  func shippingAddressDidChange(callback: @escaping (Any) -> Void)
+  func shippingOptionDidChange()
+}
+
+private weak var expressCheckoutHandler: ExpressCheckoutHandler?
+
+func getExpressCheckoutHandler() -> ExpressCheckoutHandler? {
+  expressCheckoutHandler
+}
+
+public func setExpressCheckoutHandler(_ handler: ExpressCheckoutHandler?) {
+  expressCheckoutHandler = handler
+}
+
 // MARK: - Authentication
 
 /// A handler that is passed a `challenge` a `completionHandler`. If the challenge has been
