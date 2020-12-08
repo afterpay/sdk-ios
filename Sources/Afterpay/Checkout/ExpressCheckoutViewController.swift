@@ -213,25 +213,24 @@ final class ExpressCheckoutViewController:
     guard
       let json = message.body as? String,
       let message = json.data(using: .utf8).flatMap(decodeMessage),
-      let handler = getExpressCheckoutHandler()
+      let handler = getExpressCheckoutHandler(),
+      let targetURL = URL(string: "/", relativeTo: url)?.absoluteURL
     else {
       return
     }
 
+    let webView: WKWebView = originWebView
+    let postMessage = { (message: ExpressCheckoutMessage) in
+      let data = try? JSONEncoder().encode(message)
+      let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
+      let javascript = "postCheckoutMessage(JSON.parse('\(json)'), '\(targetURL.absoluteString)');"
+      webView.evaluateJavaScript(javascript)
+    }
+
     switch message.event {
     case .shippingAddressDidChange(let address):
-      let webView: WKWebView = originWebView
-
-      handler.shippingAddressDidChange(address: address) { shippingOptions in
-        let responseMessage = ExpressCheckoutMessage(
-          requestId: message.requestId,
-          event: .updateShippingOptions(shippingOptions)
-        )
-
-        let data = try? JSONEncoder().encode(responseMessage)
-        let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
-        let javascript = "someSpecialName(JSON.parse('\(json)'), 'https://portal.sandbox.afterpay.com');"
-        webView.evaluateJavaScript(javascript)
+      handler.shippingAddressDidChange(address: address) { options in
+        postMessage(.init(requestId: message.requestId, event: .updateShippingOptions(options)))
       }
 
     default:
