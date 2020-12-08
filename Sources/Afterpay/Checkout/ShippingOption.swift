@@ -14,9 +14,28 @@ public struct ShippingOption: Encodable {
   var description: String
   var shippingAmount: Money
   var orderAmount: Money
+
+  public init(
+    id: String,
+    name: String,
+    description: String,
+    shippingAmount: Money,
+    orderAmount: Money
+  ) {
+    self.id = id
+    self.name = name
+    self.description = description
+    self.shippingAmount = shippingAmount
+    self.orderAmount = orderAmount
+  }
 }
 
 public struct Money: Encodable {
   var amount: String
   var currency: String
+
+  public init(amount: String, currency: String) {
+    self.amount = amount
+    self.currency = currency
+  }
 }
