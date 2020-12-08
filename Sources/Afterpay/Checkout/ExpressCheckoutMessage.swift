@@ -8,12 +8,14 @@
 
 import Foundation
 
-struct ExpressCheckoutMessage: Decodable {
-  let requestId: String
-  let event: Event?
+struct ExpressCheckoutMessage: Codable {
+
+  var requestId: String
+  var event: Event?
 
   enum Event {
     case shippingAddressDidChange(Address)
+    case updateShippingOptions([ShippingOption])
   }
 
   private enum CodingKeys: String, CodingKey {
@@ -26,6 +28,11 @@ struct ExpressCheckoutMessage: Decodable {
 
   private enum MessageType: String, Decodable {
     case onShippingAddressChange
+  }
+
+  init(requestId: String, event: Event?) {
+    self.requestId = requestId
+    self.event = event
   }
 
   init(from decoder: Decoder) throws {
@@ -44,4 +51,19 @@ struct ExpressCheckoutMessage: Decodable {
       event = nil
     }
   }
+
+  func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    var metaContainer = container.nestedContainer(keyedBy: MetaCodingKeys.self, forKey: .meta)
+
+    try metaContainer.encode(requestId, forKey: .requestId)
+
+    switch event {
+    case .updateShippingOptions(let shippingOptions):
+      try container.encode(shippingOptions, forKey: .payload)
+    default:
+      break
+    }
+  }
+
 }

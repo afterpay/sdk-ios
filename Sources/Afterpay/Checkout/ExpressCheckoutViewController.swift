@@ -212,53 +212,27 @@ final class ExpressCheckoutViewController:
 
     guard
       let json = message.body as? String,
-      let message = json.data(using: .utf8).flatMap(decodeMessage)
+      let message = json.data(using: .utf8).flatMap(decodeMessage),
+      let handler = getExpressCheckoutHandler()
     else {
       return
     }
 
     switch message.event {
     case .shippingAddressDidChange(let address):
-      let javascript = """
-      someSpecialName(
-        {
-          meta: {
-            requestId: "\(message.requestId)"
-          },
-          payload: [
-            {
-              id: "standard",
-              name: "Standard",
-              description: "3 - 5 days",
-              shippingAmount: {
-                amount: "0.00",
-                currency: "AUD"
-              },
-              orderAmount: {
-                amount: "50.00",
-                currency: "AUD"
-              }
-            },
-            {
-              id: "priority",
-              name: "Priority",
-              description: "Next business day",
-              shippingAmount: {
-                amount: "10.00",
-                currency: "AUD"
-              },
-              orderAmount: {
-                amount: "60.00",
-                currency: "AUD"
-              }
-            }
-          ]
-        },
-        "https://portal.sandbox.afterpay.com"
-      )
-      """
+      let webView: WKWebView = originWebView
 
-      originWebView.evaluateJavaScript(javascript)
+      handler.shippingAddressDidChange(address: address) { shippingOptions in
+        let responseMessage = ExpressCheckoutMessage(
+          requestId: message.requestId,
+          event: .updateShippingOptions(shippingOptions)
+        )
+
+        let data = try? JSONEncoder().encode(responseMessage)
+        let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
+        let javascript = "someSpecialName(JSON.parse('\(json)'), 'https://portal.sandbox.afterpay.com');"
+        webView.evaluateJavaScript(javascript)
+      }
 
     default:
       break
