@@ -59,7 +59,7 @@ func initializeDependencies() {
         kTSKPublicKeyHashes: [
           "15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4=",
           "TwuRz37J8epX4J1HDkoli34/3Woh7153cD3x9PFuh6I=",
-          "FEzVOUp4dF3gI0ZVPRJhFbSJVXR+uQmMH65xhs1glH4=",
+          "QZBwTzn7tvkZfQE0yflBHXNC8E/5g/Yy9dP3PJZwYss=",
         ],
       ],
     ],
