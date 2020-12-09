@@ -21,7 +21,7 @@ final class ExpressCheckoutViewController:
 
   private static let bundle = Bundle(for: ExpressCheckoutViewController.self)
 
-  private let url: URL
+  private var url: URL!
   private let completion: (_ result: CheckoutResult) -> Void
 
   private var originWebView: WKWebView!
@@ -30,18 +30,19 @@ final class ExpressCheckoutViewController:
   // MARK: Initialization
 
   init(
-    url: URL,
+    url: URL?,
     completion: @escaping (_ result: CheckoutResult
   ) -> Void) {
-    let dataStore = WKWebsiteDataStore.default()
 
-    dataStore.removeData(
-      ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache],
-      modifiedSince: Date(timeIntervalSince1970: 0),
-      completionHandler: {}
-    )
+    if let url = url {
+      var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+      let isWindowed = URLQueryItem(name: "isWindowed", value: "true")
+      let queryItems = urlComponents?.queryItems ?? []
+      urlComponents?.queryItems = queryItems + [isWindowed]
 
-    self.url = url
+      self.url = urlComponents?.url
+    }
+
     self.completion = completion
 
     super.init(nibName: nil, bundle: nil)
