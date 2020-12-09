@@ -227,10 +227,10 @@ final class ExpressCheckoutViewController:
       webView.evaluateJavaScript(javascript)
     }
 
-    switch message.event {
-    case .shippingAddressDidChange(let address):
+    switch message.payload {
+    case .address(let address):
       handler.shippingAddressDidChange(address: address) { options in
-        postMessage(.init(requestId: message.requestId, event: .updateShippingOptions(options)))
+        postMessage(.init(requestId: message.requestId, payload: .shippingOptions(options)))
       }
 
     default:

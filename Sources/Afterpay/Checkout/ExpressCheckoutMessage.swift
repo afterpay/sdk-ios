@@ -11,11 +11,11 @@ import Foundation
 struct ExpressCheckoutMessage: Codable {
 
   var requestId: String
-  var event: Event?
+  var payload: Payload?
 
-  enum Event {
-    case shippingAddressDidChange(Address)
-    case updateShippingOptions([ShippingOption])
+  enum Payload {
+    case address(Address)
+    case shippingOptions([ShippingOption])
   }
 
   private enum CodingKeys: String, CodingKey {
@@ -30,9 +30,9 @@ struct ExpressCheckoutMessage: Codable {
     case onShippingAddressChange
   }
 
-  init(requestId: String, event: Event?) {
+  init(requestId: String, payload: Payload?) {
     self.requestId = requestId
-    self.event = event
+    self.payload = payload
   }
 
   init(from decoder: Decoder) throws {
@@ -46,9 +46,9 @@ struct ExpressCheckoutMessage: Codable {
     switch type {
     case .onShippingAddressChange:
       let address = try container.decode(Address.self, forKey: .payload)
-      event = .shippingAddressDidChange(address)
+      payload = .address(address)
     default:
-      event = nil
+      payload = nil
     }
   }
 
@@ -58,8 +58,8 @@ struct ExpressCheckoutMessage: Codable {
 
     try metaContainer.encode(requestId, forKey: .requestId)
 
-    switch event {
-    case .updateShippingOptions(let shippingOptions):
+    switch payload {
+    case .shippingOptions(let shippingOptions):
       try container.encode(shippingOptions, forKey: .payload)
     default:
       break
