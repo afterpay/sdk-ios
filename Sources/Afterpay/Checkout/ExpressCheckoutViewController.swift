@@ -21,8 +21,10 @@ final class ExpressCheckoutViewController:
 
   private static let bundle = Bundle(for: ExpressCheckoutViewController.self)
 
-  private var url: URL!
+  private var checkoutURL: URL!
   private let completion: (_ result: CheckoutResult) -> Void
+
+  private let bootstrapURL: URL = URL(string: "https://afterpay.github.io/sdk-example-server/")!
 
   private var originWebView: WKWebView!
   private var checkoutWebView: WKWebView!
@@ -30,17 +32,17 @@ final class ExpressCheckoutViewController:
   // MARK: Initialization
 
   init(
-    url: URL?,
+    checkoutURL: URL?,
     completion: @escaping (_ result: CheckoutResult
   ) -> Void) {
 
-    if let url = url {
+    if let url = checkoutURL {
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
       let isWindowed = URLQueryItem(name: "isWindowed", value: "true")
       let queryItems = urlComponents?.queryItems ?? []
       urlComponents?.queryItems = queryItems + [isWindowed]
 
-      self.url = urlComponents?.url
+      self.checkoutURL = urlComponents?.url
     }
 
     self.completion = completion
@@ -88,8 +90,7 @@ final class ExpressCheckoutViewController:
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let request = URLRequest(url: URL(string: "http://localhost:8000")!)
-
+    let request = URLRequest(url: bootstrapURL)
     originWebView.load(request)
   }
 
@@ -156,11 +157,7 @@ final class ExpressCheckoutViewController:
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     if webView == originWebView {
-      originWebView.evaluateJavaScript(
-        """
-        openAfterpay('\(url.absoluteString)');
-        """
-      )
+      originWebView.evaluateJavaScript("openAfterpay('\(checkoutURL.absoluteString)');")
     }
   }
 
@@ -215,7 +212,7 @@ final class ExpressCheckoutViewController:
       let json = message.body as? String,
       let message = json.data(using: .utf8).flatMap(decodeMessage),
       let handler = getExpressCheckoutHandler(),
-      let targetURL = URL(string: "/", relativeTo: url)?.absoluteURL
+      let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteURL
     else {
       return
     }
