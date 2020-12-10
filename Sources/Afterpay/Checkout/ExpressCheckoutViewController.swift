@@ -111,28 +111,15 @@ final class ExpressCheckoutViewController:
     decidePolicyFor navigationAction: WKNavigationAction,
     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
   ) {
-    guard let url = navigationAction.request.url else {
+    guard
+      let url = navigationAction.request.url,
+      externalLinkPathComponents.contains(url.lastPathComponent)
+    else {
       return decisionHandler(.allow)
     }
 
-    let shouldOpenExternally = externalLinkPathComponents.contains(url.lastPathComponent)
-
-    switch (shouldOpenExternally, Completion(url: url)) {
-    case (true, _):
-      decisionHandler(.cancel)
-      UIApplication.shared.open(url)
-
-    case (false, .success(let token)):
-      decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.success(token: token)) }
-
-    case (false, .cancelled):
-      decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
-
-    case (false, nil):
-      decisionHandler(.allow)
-    }
+    decisionHandler(.cancel)
+    UIApplication.shared.open(url)
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
