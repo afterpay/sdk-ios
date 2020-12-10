@@ -15,6 +15,7 @@ struct ExpressCheckoutMessage: Codable {
 
   enum Payload {
     case address(Address)
+    case shippingOption(ShippingOption)
     case shippingOptions([ShippingOption])
   }
 
@@ -28,6 +29,7 @@ struct ExpressCheckoutMessage: Codable {
 
   private enum MessageType: String, Decodable {
     case onShippingAddressChange
+    case onShippingOptionChange
   }
 
   init(requestId: String, payload: Payload?) {
@@ -47,6 +49,9 @@ struct ExpressCheckoutMessage: Codable {
     case .onShippingAddressChange:
       let address = try container.decode(Address.self, forKey: .payload)
       payload = .address(address)
+    case .onShippingOptionChange:
+      let shippingOption = try container.decode(ShippingOption.self, forKey: .payload)
+      payload = .shippingOption(shippingOption)
     default:
       payload = nil
     }

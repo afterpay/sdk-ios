@@ -186,6 +186,9 @@ final class ExpressCheckoutViewController:
         postMessage(.init(requestId: message.requestId, payload: .shippingOptions(options)))
       }
 
+    case(_, .shippingOption(let shippingOption), _):
+      getExpressCheckoutHandler()?.shippingOptionDidChange(shippingOption: shippingOption)
+
     case (_, _, .success(let token)):
       dismiss(animated: true) { self.completion(.success(token: token)) }
 

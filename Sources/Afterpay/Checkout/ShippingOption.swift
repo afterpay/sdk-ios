@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ShippingOption: Encodable {
+public struct ShippingOption: Codable {
   var id: String
   var name: String
   var description: String
@@ -30,7 +30,7 @@ public struct ShippingOption: Encodable {
   }
 }
 
-public struct Money: Encodable {
+public struct Money: Codable {
   var amount: String
   var currency: String
 
