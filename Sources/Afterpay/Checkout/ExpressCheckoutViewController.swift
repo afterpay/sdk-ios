@@ -104,26 +104,6 @@ final class ExpressCheckoutViewController:
 
   // MARK: WKNavigationDelegate
 
-  private enum Completion {
-    case success(token: String)
-    case cancelled
-
-    init?(url: URL) {
-      let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
-      let statusItem = queryItems?.first { $0.name == "status" }
-      let orderTokenItem = queryItems?.first { $0.name == "orderToken" }
-
-      switch (statusItem?.value, orderTokenItem?.value) {
-      case ("SUCCESS", let token?):
-        self = .success(token: token)
-      case ("CANCELLED", _):
-        self = .cancelled
-      default:
-        return nil
-      }
-    }
-  }
-
   private let externalLinkPathComponents = ["privacy-policy", "terms-of-service"]
 
   func webView(
@@ -200,36 +180,38 @@ final class ExpressCheckoutViewController:
 
   // MARK: WKScriptMessageHandler
 
+  typealias Completion = ExpressCheckoutCompletion
+  typealias Message = ExpressCheckoutMessage
+
+  private let decoder = JSONDecoder()
+
   func userContentController(
     _ userContentController: WKUserContentController,
     didReceive message: WKScriptMessage
   ) {
-    let decodeMessage = { data in
-      try? JSONDecoder().decode(ExpressCheckoutMessage.self, from: data)
-    }
+    let jsonData = (message.body as? String)?.data(using: .utf8)
+    let message = jsonData.flatMap { try? decoder.decode(Message.self, from: $0) }
+    let completion = jsonData.flatMap { try? decoder.decode(Completion.self, from: $0) }
 
-    guard
-      let json = message.body as? String,
-      let message = json.data(using: .utf8).flatMap(decodeMessage),
-      let handler = getExpressCheckoutHandler(),
-      let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteURL
-    else {
-      return
-    }
-
-    let webView: WKWebView = originWebView
-    let postMessage = { (message: ExpressCheckoutMessage) in
+    let postMessage = { [webView = originWebView, checkoutURL] (message: ExpressCheckoutMessage) in
       let data = try? JSONEncoder().encode(message)
       let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
-      let javascript = "postCheckoutMessage(JSON.parse('\(json)'), '\(targetURL.absoluteString)');"
-      webView.evaluateJavaScript(javascript)
+      let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteString ?? "*"
+      let javascript = "postCheckoutMessage(JSON.parse('\(json)'), '\(targetURL)');"
+      webView?.evaluateJavaScript(javascript)
     }
 
-    switch message.payload {
-    case .address(let address):
-      handler.shippingAddressDidChange(address: address) { options in
+    switch (message, message?.payload, completion) {
+    case (let message?, .address(let address), _):
+      getExpressCheckoutHandler()?.shippingAddressDidChange(address: address) { options in
         postMessage(.init(requestId: message.requestId, payload: .shippingOptions(options)))
       }
+
+    case (_, _, .success(let token)):
+      dismiss(animated: true) { self.completion(.success(token: token)) }
+
+    case (_, _, .cancelled):
+      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
 
     default:
       break
