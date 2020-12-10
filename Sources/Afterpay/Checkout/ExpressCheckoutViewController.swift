@@ -26,7 +26,7 @@ final class ExpressCheckoutViewController:
 
   private let bootstrapURL: URL = URL(string: "https://afterpay.github.io/sdk-example-server/")!
 
-  private var originWebView: WKWebView!
+  private var bootstrapWebView: WKWebView!
   private var checkoutWebView: WKWebView!
 
   // MARK: Initialization
@@ -68,20 +68,20 @@ final class ExpressCheckoutViewController:
     configuration.preferences = preferences
     configuration.userContentController = userContentController
 
-    originWebView = WKWebView(frame: .zero, configuration: configuration)
-    originWebView.translatesAutoresizingMaskIntoConstraints = false
-    originWebView.navigationDelegate = self
-    originWebView.uiDelegate = self
+    bootstrapWebView = WKWebView(frame: .zero, configuration: configuration)
+    bootstrapWebView.translatesAutoresizingMaskIntoConstraints = false
+    bootstrapWebView.navigationDelegate = self
+    bootstrapWebView.uiDelegate = self
 
     let view = UIView()
 
-    view.addSubview(originWebView)
+    view.addSubview(bootstrapWebView)
 
     NSLayoutConstraint.activate([
-      originWebView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      originWebView.topAnchor.constraint(equalTo: view.topAnchor),
-      originWebView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      originWebView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      bootstrapWebView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      bootstrapWebView.topAnchor.constraint(equalTo: view.topAnchor),
+      bootstrapWebView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      bootstrapWebView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
 
     self.view = view
@@ -91,7 +91,7 @@ final class ExpressCheckoutViewController:
     super.viewDidLoad()
 
     let request = URLRequest(url: bootstrapURL)
-    originWebView.load(request)
+    bootstrapWebView.load(request)
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate
@@ -123,8 +123,8 @@ final class ExpressCheckoutViewController:
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    if webView == originWebView {
-      originWebView.evaluateJavaScript("openAfterpay('\(checkoutURL.absoluteString)');")
+    if webView == bootstrapWebView {
+      bootstrapWebView.evaluateJavaScript("openAfterpay('\(checkoutURL.absoluteString)');")
     }
   }
 
@@ -172,12 +172,12 @@ final class ExpressCheckoutViewController:
     let message = jsonData.flatMap { try? decoder.decode(Message.self, from: $0) }
     let completion = jsonData.flatMap { try? decoder.decode(Completion.self, from: $0) }
 
-    let postMessage = { [webView = originWebView, checkoutURL] (message: ExpressCheckoutMessage) in
+    let postMessage = { [bootstrapWebView, checkoutURL] (message: ExpressCheckoutMessage) in
       let data = try? JSONEncoder().encode(message)
       let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
       let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteString ?? "*"
       let javascript = "postCheckoutMessage(JSON.parse('\(json)'), '\(targetURL)');"
-      webView?.evaluateJavaScript(javascript)
+      bootstrapWebView?.evaluateJavaScript(javascript)
     }
 
     switch (message, message?.payload, completion) {
