@@ -130,14 +130,6 @@ final class ExpressCheckoutViewController:
 
   func webView(
     _ webView: WKWebView,
-    didFailProvisionalNavigation navigation: WKNavigation!,
-    withError error: Error
-  ) {
-    print(error as Any)
-  }
-
-  func webView(
-    _ webView: WKWebView,
     didReceive challenge: URLAuthenticationChallenge,
     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
   ) {
