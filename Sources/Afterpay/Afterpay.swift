@@ -58,6 +58,11 @@ func getExpressCheckoutHandler() -> ExpressCheckoutHandler? {
   expressCheckoutHandler
 }
 
+
+/// Set the express checkout handler for handling asychronous web view events mostly associated with
+/// express checkout. The handler is retained weakly and as such a strong reference should be
+/// maintained outside of the SDK.
+/// - Parameter handler: The Express Checkout Handler.
 public func setExpressCheckoutHandler(_ handler: ExpressCheckoutHandler?) {
   expressCheckoutHandler = handler
 }
