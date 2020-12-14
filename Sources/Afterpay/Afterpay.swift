@@ -18,13 +18,14 @@ import UIKit
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
 ///   - checkoutURL: The checkout URL to load generated via the /checkouts endpoint on the
-///   Afterpay backend.
+///   Afterpay backend. If not provided it will be loaded via calling `didCommenceCheckout` on the
+///   configured `ExpressCheckoutHandler` object.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after the user has completed the checkout.
 ///   - result: The result of the user's completion (a success or cancellation).
 public func presentCheckoutModally(
   over viewController: UIViewController,
-  loading checkoutURL: URL,
+  loading checkoutURL: URL? = nil,
   animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
