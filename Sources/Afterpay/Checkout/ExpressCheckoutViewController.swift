@@ -21,7 +21,7 @@ final class ExpressCheckoutViewController:
 
   private static let bundle = Bundle(for: ExpressCheckoutViewController.self)
 
-  private var checkoutURL: URL!
+  private var checkoutURL: URL?
   private let completion: (_ result: CheckoutResult) -> Void
 
   private let bootstrapURL: URL = URL(string: "https://afterpay.github.io/sdk-example-server/")!
@@ -123,8 +123,20 @@ final class ExpressCheckoutViewController:
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    if webView == bootstrapWebView {
-      bootstrapWebView.evaluateJavaScript("openAfterpay('\(checkoutURL.absoluteString)');")
+    let isBootstrap = webView == bootstrapWebView
+    let open = { (url: URL) in
+      webView.evaluateJavaScript("openAfterpay('\(url.absoluteString)');")
+    }
+
+    switch (checkoutURL, isBootstrap) {
+    case (let url?, true):
+      open(url)
+
+    case (nil, true):
+      getExpressCheckoutHandler()?.didCommenceCheckout(callback: open)
+
+    default:
+      break
     }
   }
 
@@ -162,6 +174,7 @@ final class ExpressCheckoutViewController:
   typealias Completion = ExpressCheckoutCompletion
   typealias Message = ExpressCheckoutMessage
 
+  private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()
 
   func userContentController(
@@ -172,8 +185,8 @@ final class ExpressCheckoutViewController:
     let message = jsonData.flatMap { try? decoder.decode(Message.self, from: $0) }
     let completion = jsonData.flatMap { try? decoder.decode(Completion.self, from: $0) }
 
-    let postMessage = { [bootstrapWebView, checkoutURL] (message: ExpressCheckoutMessage) in
-      let data = try? JSONEncoder().encode(message)
+    let postMessage = { [encoder, checkoutURL, bootstrapWebView] (message: Message) in
+      let data = try? encoder.encode(message)
       let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
       let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteString ?? "*"
       let javascript = "postCheckoutMessage(JSON.parse('\(json)'), '\(targetURL)');"
