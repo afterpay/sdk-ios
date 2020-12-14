@@ -11,17 +11,10 @@ import Foundation
 
 final class PurchaseLogicController {
 
-  typealias CheckoutURLProvider = (
-    _ email: String,
-    _ amount: String,
-    _ completion: @escaping (Result<URL, Error>) -> Void
-  ) -> Void
-
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayCheckout(URL)
-    case showAlertForCheckoutURLError(Error)
+    case showAfterpayCheckout(email: String, amount: String)
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String)
   }
@@ -30,7 +23,6 @@ final class PurchaseLogicController {
     didSet { commandHandler(.updateProducts(productDisplayModels)) }
   }
 
-  private let checkoutURLProvider: CheckoutURLProvider
   private let products: [Product]
   private let email: String
   private let currencyCode: String
@@ -49,12 +41,10 @@ final class PurchaseLogicController {
   }
 
   init(
-    checkoutURLProvider: @escaping CheckoutURLProvider,
     products: [Product] = .stub,
     email: String,
     currencyCode: String
   ) {
-    self.checkoutURLProvider = checkoutURLProvider
     self.products = products
     self.email = email
     self.currencyCode = currencyCode
@@ -82,14 +72,7 @@ final class PurchaseLogicController {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutURLProvider(email, amount) { [commandHandler] result in
-      switch result {
-      case .success(let url):
-        commandHandler(.showAfterpayCheckout(url))
-      case .failure(let error):
-        commandHandler(.showAlertForCheckoutURLError(error))
-      }
-    }
+    commandHandler(.showAfterpayCheckout(email: email, amount: amount))
   }
 
   func success(with token: String) {

@@ -47,7 +47,7 @@ public func presentCheckoutModally(
 // MARK: - Express Checkout
 
 public protocol ExpressCheckoutHandler: AnyObject {
-  func didCommenceCheckout(callback: @escaping (URL) -> Void)
+  func didCommenceCheckout(callback: @escaping (Result<URL, Error>) -> Void)
   func shippingAddressDidChange(address: Address, callback: @escaping ([ShippingOption]) -> Void)
   func shippingOptionDidChange(shippingOption: ShippingOption)
 }

@@ -14,6 +14,7 @@ final class PurchaseFlowController: UIViewController {
   private let logicController: PurchaseLogicController
   private let ownedNavigationController: UINavigationController
   private let productsViewController: ProductsViewController
+  private let expressCheckoutHandler = ExpressCheckoutHandler()
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
@@ -32,6 +33,8 @@ final class PurchaseFlowController: UIViewController {
     }
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
+
+    Afterpay.setExpressCheckoutHandler(expressCheckoutHandler)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -67,12 +70,9 @@ final class PurchaseFlowController: UIViewController {
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayCheckout(let url):
-      presentAfterpayCheckoutModally(loading: url, language: Settings.language)
-
-    case .showAlertForCheckoutURLError(let error):
-      let alert = AlertFactory.alert(for: error)
-      navigationController.present(alert, animated: true, completion: nil)
+    case .showAfterpayCheckout(let email, let amount):
+      expressCheckoutHandler.update(email: email, amount: amount)
+      presentAfterpayCheckoutModally(language: Settings.language)
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)
@@ -85,13 +85,13 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
-  private func presentAfterpayCheckoutModally(loading url: URL, language: Language) {
+  private func presentAfterpayCheckoutModally(language: Language) {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
     switch language {
     case .swift:
-      Afterpay.presentCheckoutModally(over: viewController, loading: url) { result in
+      Afterpay.presentCheckoutModally(over: viewController) { result in
         switch result {
         case .success(let token):
           logicController.success(with: token)
@@ -103,7 +103,7 @@ final class PurchaseFlowController: UIViewController {
     case .objectiveC:
       Objc.presentCheckoutModally(
         over: viewController,
-        loading: url,
+        loading: nil,
         successHandler: { token in logicController.success(with: token) },
         userInitiatedCancelHandler: { logicController.cancelled(with: .userInitiated) },
         networkErrorCancelHandler: { error in logicController.cancelled(with: .networkError(error)) },

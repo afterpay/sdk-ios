@@ -95,7 +95,7 @@ public final class ObjcWrapper: NSObject {
   @objc(presentCheckoutModallyOverViewController:loadingCheckoutURL:animated:completion:)
   public static func presentCheckoutModally(
     over viewController: UIViewController,
-    loading checkoutURL: URL,
+    loading checkoutURL: URL?,
     animated: Bool,
     completion: @escaping (CheckoutResult) -> Void
   ) {

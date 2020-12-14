@@ -12,36 +12,6 @@ import Foundation
 import os.log
 import TrustKit
 
-private final class ExpressCheckoutHandler: Afterpay.ExpressCheckoutHandler {
-
-  func didCommenceCheckout(callback: @escaping (URL) -> Void) {}
-
-  func shippingAddressDidChange(address: Address, callback: @escaping ([ShippingOption]) -> Void) {
-    let standard = ShippingOption(
-      id: "standard",
-      name: "Standard",
-      description: "3 - 5 days",
-      shippingAmount: Money(amount: "0.00", currency: "AUD"),
-      orderAmount: Money(amount: "50.00", currency: "AUD")
-    )
-
-    let priority = ShippingOption(
-      id: "priority",
-      name: "Priority",
-      description: "Next business day",
-      shippingAmount: Money(amount: "10.00", currency: "AUD"),
-      orderAmount: Money(amount: "60.00", currency: "AUD")
-    )
-
-    callback([standard, priority])
-  }
-
-  func shippingOptionDidChange(shippingOption: ShippingOption) {}
-
-}
-
-private let checkoutHandler = ExpressCheckoutHandler()
-
 func initializeDependencies() {
   // In a real world scenario this would be a real backup hash but for demonstration purposes
   // it is an empty hash to satisfy TrustKit's requirements
@@ -66,8 +36,6 @@ func initializeDependencies() {
   ]
 
   TrustKit.initSharedInstance(withConfiguration: configuration)
-
-  Afterpay.setExpressCheckoutHandler(checkoutHandler)
 
   // Pin Afterpay's payment portal certificates using TrustKit
   Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in

@@ -35,16 +35,7 @@ final class ExpressCheckoutViewController:
     checkoutURL: URL?,
     completion: @escaping (_ result: CheckoutResult
   ) -> Void) {
-
-    if let url = checkoutURL {
-      var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-      let isWindowed = URLQueryItem(name: "isWindowed", value: "true")
-      let queryItems = urlComponents?.queryItems ?? []
-      urlComponents?.queryItems = queryItems + [isWindowed]
-
-      self.checkoutURL = urlComponents?.url
-    }
-
+    self.checkoutURL = checkoutURL
     self.completion = completion
 
     super.init(nibName: nil, bundle: nil)
@@ -123,20 +114,38 @@ final class ExpressCheckoutViewController:
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    let isBootstrap = webView == bootstrapWebView
-    let open = { (url: URL) in
-      webView.evaluateJavaScript("openAfterpay('\(url.absoluteString)');")
+    guard webView == bootstrapWebView else {
+      return
     }
 
-    switch (checkoutURL, isBootstrap) {
-    case (let url?, true):
-      open(url)
+    let urlAppendingIsWindowed = { (url: URL) -> URL in
+      var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+      let isWindowed = URLQueryItem(name: "isWindowed", value: "true")
+      let queryItems = urlComponents?.queryItems ?? []
+      urlComponents?.queryItems = queryItems + [isWindowed]
+      return urlComponents?.url ?? url
+    }
 
-    case (nil, true):
-      getExpressCheckoutHandler()?.didCommenceCheckout(callback: open)
+    let handleCheckoutURLResult = { [weak self] (result: Result<URL, Error>) in
+      switch (result, self) {
+      case (.success(let url), let strongSelf?):
+        let updatedURL = urlAppendingIsWindowed(url)
+        strongSelf.checkoutURL = updatedURL
+        let javaScript = "openAfterpay('\(updatedURL.absoluteString)');"
+        DispatchQueue.main.async { webView.evaluateJavaScript(javaScript) }
 
-    default:
-      break
+      case (.failure, let strongSelf?):
+        break
+
+      case (.success, nil), (.failure, nil):
+        break
+      }
+    }
+
+    if let url = checkoutURL {
+      handleCheckoutURLResult(.success(url))
+    } else {
+      getExpressCheckoutHandler()?.didCommenceCheckout(callback: handleCheckoutURLResult)
     }
   }
 
