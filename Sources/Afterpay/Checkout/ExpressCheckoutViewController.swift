@@ -145,7 +145,7 @@ final class ExpressCheckoutViewController:
     if let url = checkoutURL {
       handleCheckoutURLResult(.success(url))
     } else {
-      getExpressCheckoutHandler()?.didCommenceCheckout(callback: handleCheckoutURLResult)
+      getExpressCheckoutHandler()?.didCommenceCheckout(completion: handleCheckoutURLResult)
     }
   }
 

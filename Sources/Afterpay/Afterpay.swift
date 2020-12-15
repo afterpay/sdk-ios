@@ -46,9 +46,34 @@ public func presentCheckoutModally(
 
 // MARK: - Express Checkout
 
+/// A handler of web view events typically assiciated with express checkout. Conforming to this
+/// protocol and calling `setExpressCheckoutHandler` will enable completion of express checkouts.
 public protocol ExpressCheckoutHandler: AnyObject {
-  func didCommenceCheckout(callback: @escaping (Result<URL, Error>) -> Void)
-  func shippingAddressDidChange(address: Address, callback: @escaping ([ShippingOption]) -> Void)
+
+  /// Called after checkout is launched via `presentCheckoutModally` when there is no `checkoutURL`
+  /// present. In this way creating a token / URL can be deferred until it is needed. This method
+  /// also works with non express checkouts.
+  /// - Parameters:
+  ///   - completion: A completion for which the `result` of an attempt to generate a token or form
+  ///   a URL should be passed to.
+  ///   - result: Passing a success will load the checkout URL and a failure will present a dialogue
+  ///   to the user for which they will either decide to retry or close the modal.
+  func didCommenceCheckout(completion: @escaping (_ result: Result<URL, Error>) -> Void)
+
+  /// Called when an express checkout is launched inside the checkout web view. Provided the address
+  /// shipping options should be formed and passed to `completion` for the user to choose from.
+  /// - Parameters:
+  ///   - address: The address for which the item will be shipped to.
+  ///   - completion: The closure that the formed shipping options should be passed to.
+  ///   - shippingOptions: The shipping options relevent for the provided `address`.
+  func shippingAddressDidChange(
+    address: Address,
+    completion: @escaping (_ shippingOptions: [ShippingOption]) -> Void
+  )
+
+  /// Called after the user selects one of the shipping options provided by the `completion` of
+  /// `shippingAddressDidChange`.
+  /// - Parameter shippingOption: The selected shipping option.
   func shippingOptionDidChange(shippingOption: ShippingOption)
 }
 
@@ -57,7 +82,6 @@ private weak var expressCheckoutHandler: ExpressCheckoutHandler?
 func getExpressCheckoutHandler() -> ExpressCheckoutHandler? {
   expressCheckoutHandler
 }
-
 
 /// Set the express checkout handler for handling asychronous web view events mostly associated with
 /// express checkout. The handler is retained weakly and as such a strong reference should be

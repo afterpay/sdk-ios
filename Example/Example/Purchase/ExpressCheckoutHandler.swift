@@ -19,11 +19,11 @@ final class ExpressCheckoutHandler: Afterpay.ExpressCheckoutHandler {
     self.amount = amount
   }
 
-  func didCommenceCheckout(callback: @escaping (Result<URL, Error>) -> Void) {
-    Repository.shared.checkout(email: email, amount: amount, completion: callback)
+  func didCommenceCheckout(completion: @escaping (Result<URL, Error>) -> Void) {
+    Repository.shared.checkout(email: email, amount: amount, completion: completion)
   }
 
-  func shippingAddressDidChange(address: Address, callback: @escaping ([ShippingOption]) -> Void) {
+  func shippingAddressDidChange(address: Address, completion: @escaping ([ShippingOption]) -> Void) {
     let standard = ShippingOption(
       id: "standard",
       name: "Standard",
@@ -40,7 +40,7 @@ final class ExpressCheckoutHandler: Afterpay.ExpressCheckoutHandler {
       orderAmount: Money(amount: "60.00", currency: "AUD")
     )
 
-    callback([standard, priority])
+    completion([standard, priority])
   }
 
   func shippingOptionDidChange(shippingOption: ShippingOption) {}
