@@ -11,6 +11,17 @@ import UIKit
 
 // MARK: - Checkout
 
+public typealias DidCommenceCheckoutClosure = (
+  _ completion: @escaping CheckoutURLResultCompletion
+) -> Void
+
+public typealias ShippingAddressDidChangeClosure = (
+  _ address: Address,
+  _ completion: @escaping ShippingOptionsCompletion
+) -> Void
+
+public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOption) -> Void
+
 /// Present Afterpay Checkout modally over the specified view controller loading your
 /// generated checkout URL.
 /// - Parameters:
@@ -25,12 +36,16 @@ import UIKit
 ///   - result: The result of the user's completion (a success or cancellation).
 public func presentCheckoutModally(
   over viewController: UIViewController,
-  loading checkoutURL: URL? = nil,
+  didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
+  shippingAddressDidChange: ShippingAddressDidChangeClosure? = nil,
+  shippingOptionDidChange: ShippingOptionsDidChangeClosure? = nil,
   animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
   var viewControllerToPresent: UIViewController = ExpressCheckoutViewController(
-    checkoutURL: checkoutURL,
+    didCommenceCheckout: didCommenceCheckout,
+    shippingAddressDidChange: shippingAddressDidChange,
+    shippingOptionDidChange: shippingOptionDidChange,
     completion: completion
   )
 
@@ -46,6 +61,9 @@ public func presentCheckoutModally(
 
 // MARK: - Express Checkout
 
+public typealias CheckoutURLResultCompletion = (_ result: Result<URL, Error>) -> Void
+public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
+
 /// A handler of web view events typically assiciated with express checkout. Conforming to this
 /// protocol and calling `setExpressCheckoutHandler` will enable completion of express checkouts.
 public protocol ExpressCheckoutHandler: AnyObject {
@@ -55,21 +73,17 @@ public protocol ExpressCheckoutHandler: AnyObject {
   /// also works with non express checkouts.
   /// - Parameters:
   ///   - completion: A completion for which the `result` of an attempt to generate a token or form
-  ///   a URL should be passed to.
-  ///   - result: Passing a success will load the checkout URL and a failure will present a dialogue
+  ///   a URL should be passed to. Passing a success will load the checkout URL and a failure will present a dialogue
   ///   to the user for which they will either decide to retry or close the modal.
-  func didCommenceCheckout(completion: @escaping (_ result: Result<URL, Error>) -> Void)
+  func didCommenceCheckout(completion: @escaping CheckoutURLResultCompletion)
 
   /// Called when an express checkout is launched inside the checkout web view. Provided the address
   /// shipping options should be formed and passed to `completion` for the user to choose from.
   /// - Parameters:
   ///   - address: The address for which the item will be shipped to.
-  ///   - completion: The closure that the formed shipping options should be passed to.
-  ///   - shippingOptions: The shipping options relevent for the provided `address`.
-  func shippingAddressDidChange(
-    address: Address,
-    completion: @escaping (_ shippingOptions: [ShippingOption]) -> Void
-  )
+  ///   - completion: The closure that the formed shipping options should be passed to. The shipping
+  ///   options passed should match the provided `address`.
+  func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion)
 
   /// Called after the user selects one of the shipping options provided by the `completion` of
   /// `shippingAddressDidChange`.

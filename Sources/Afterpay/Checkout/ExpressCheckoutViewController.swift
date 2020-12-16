@@ -21,10 +21,31 @@ final class ExpressCheckoutViewController:
 
   private static let bundle = Bundle(for: ExpressCheckoutViewController.self)
 
-  private var checkoutURL: URL?
+  // MARK: Callbacks
+
+  private let didCommenceCheckoutClosure: DidCommenceCheckoutClosure?
+  private let shippingAddressDidChangeClosure: ShippingAddressDidChangeClosure?
+  private let shippingOptionDidChangeClosure: ShippingOptionsDidChangeClosure?
   private let completion: (_ result: CheckoutResult) -> Void
 
+  private var didCommenceCheckout: DidCommenceCheckoutClosure? {
+    didCommenceCheckoutClosure ?? getExpressCheckoutHandler()?.didCommenceCheckout
+  }
+
+  private var shippingAddressDidChange: ShippingAddressDidChangeClosure? {
+    shippingAddressDidChangeClosure ?? getExpressCheckoutHandler()?.shippingAddressDidChange
+  }
+
+  private var shippingOptionDidChange: ShippingOptionsDidChangeClosure? {
+    shippingOptionDidChangeClosure ?? getExpressCheckoutHandler()?.shippingOptionDidChange
+  }
+
+  // MARK: URLs
+
   private let bootstrapURL: URL = URL(string: "https://afterpay.github.io/sdk-example-server/")!
+  private var checkoutURL: URL!
+
+  // MARK: Web Views
 
   private var bootstrapWebView: WKWebView!
   private var checkoutWebView: WKWebView!
@@ -32,10 +53,14 @@ final class ExpressCheckoutViewController:
   // MARK: Initialization
 
   init(
-    checkoutURL: URL?,
-    completion: @escaping (_ result: CheckoutResult
-  ) -> Void) {
-    self.checkoutURL = checkoutURL
+    didCommenceCheckout: DidCommenceCheckoutClosure?,
+    shippingAddressDidChange: ShippingAddressDidChangeClosure?,
+    shippingOptionDidChange: ShippingOptionsDidChangeClosure?,
+    completion: @escaping (_ result: CheckoutResult) -> Void
+  ) {
+    self.didCommenceCheckoutClosure = didCommenceCheckout
+    self.shippingAddressDidChangeClosure = shippingAddressDidChange
+    self.shippingOptionDidChangeClosure = shippingOptionDidChange
     self.completion = completion
 
     super.init(nibName: nil, bundle: nil)
@@ -142,11 +167,11 @@ final class ExpressCheckoutViewController:
       }
     }
 
-    if let url = checkoutURL {
-      handleCheckoutURLResult(.success(url))
-    } else {
-      getExpressCheckoutHandler()?.didCommenceCheckout(completion: handleCheckoutURLResult)
+    guard let didCommenceCheckout = self.didCommenceCheckout else {
+      return
     }
+
+    didCommenceCheckout(handleCheckoutURLResult)
   }
 
   func webView(
@@ -204,12 +229,12 @@ final class ExpressCheckoutViewController:
 
     switch (message, message?.payload, completion) {
     case (let message?, .address(let address), _):
-      getExpressCheckoutHandler()?.shippingAddressDidChange(address: address) { options in
+      shippingAddressDidChange?(address) { options in
         postMessage(.init(requestId: message.requestId, payload: .shippingOptions(options)))
       }
 
     case(_, .shippingOption(let shippingOption), _):
-      getExpressCheckoutHandler()?.shippingOptionDidChange(shippingOption: shippingOption)
+      shippingOptionDidChange?(shippingOption)
 
     case (_, _, .success(let token)):
       dismiss(animated: true) { self.completion(.success(token: token)) }

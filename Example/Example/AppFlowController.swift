@@ -21,7 +21,9 @@ final class AppFlowController: UIViewController {
       currencyCode: Settings.currencyCode
     )
 
-    let purchase = PurchaseFlowController(logicController: purchaseLogicController)
+    let purchase = PurchaseFlowController(
+      urlProvider: Repository.shared.checkout,
+      logicController: purchaseLogicController)
     purchase.tabBarItem = UITabBarItem(
       title: "Purchase",
       image: UIImage(named: "briefcase"),

@@ -11,12 +11,22 @@ import Foundation
 
 final class PurchaseFlowController: UIViewController {
 
+  typealias CheckoutURLProvider = (
+    _ email: String,
+    _ amount: String,
+    _ completion: @escaping (Result<URL, Error>) -> Void
+  ) -> Void
+
+  private let urlProvider: CheckoutURLProvider
   private let logicController: PurchaseLogicController
   private let ownedNavigationController: UINavigationController
   private let productsViewController: ProductsViewController
-  private let expressCheckoutHandler = ExpressCheckoutHandler()
 
-  init(logicController purchaseLogicController: PurchaseLogicController) {
+  init(
+    urlProvider checkoutURLProvider: @escaping CheckoutURLProvider,
+    logicController purchaseLogicController: PurchaseLogicController
+  ) {
+    urlProvider = checkoutURLProvider
     logicController = purchaseLogicController
 
     productsViewController = ProductsViewController { event in
@@ -33,8 +43,6 @@ final class PurchaseFlowController: UIViewController {
     }
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
-
-    Afterpay.setExpressCheckoutHandler(expressCheckoutHandler)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -71,8 +79,7 @@ final class PurchaseFlowController: UIViewController {
       navigationController.pushViewController(cartViewController, animated: true)
 
     case .showAfterpayCheckout(let email, let amount):
-      expressCheckoutHandler.update(email: email, amount: amount)
-      presentAfterpayCheckoutModally(language: Settings.language)
+      presentAfterpayCheckoutModally(email: email, amount: amount, language: Settings.language)
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)
@@ -85,20 +92,46 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
-  private func presentAfterpayCheckoutModally(language: Language) {
+  let shippingOptions = [
+    ShippingOption(
+      id: "standard",
+      name: "Standard",
+      description: "3 - 5 days",
+      shippingAmount: Money(amount: "0.00", currency: "AUD"),
+      orderAmount: Money(amount: "50.00", currency: "AUD")
+    ),
+    ShippingOption(
+      id: "priority",
+      name: "Priority",
+      description: "Next business day",
+      shippingAmount: Money(amount: "10.00", currency: "AUD"),
+      orderAmount: Money(amount: "60.00", currency: "AUD")
+    ),
+  ]
+
+  private func presentAfterpayCheckoutModally(email: String, amount: String, language: Language) {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
     switch language {
     case .swift:
-      Afterpay.presentCheckoutModally(over: viewController) { result in
-        switch result {
-        case .success(let token):
-          logicController.success(with: token)
-        case .cancelled(let reason):
-          logicController.cancelled(with: reason)
+      Afterpay.presentCheckoutModally(
+        over: viewController,
+        didCommenceCheckout: { [urlProvider] completion in
+          urlProvider(email, amount, completion)
+        },
+        shippingAddressDidChange: { [shippingOptions] _, completion in
+          completion(shippingOptions)
+        },
+        completion: { result in
+          switch result {
+          case .success(let token):
+            logicController.success(with: token)
+          case .cancelled(let reason):
+            logicController.cancelled(with: reason)
+          }
         }
-      }
+      )
 
     case .objectiveC:
       Objc.presentCheckoutModally(
