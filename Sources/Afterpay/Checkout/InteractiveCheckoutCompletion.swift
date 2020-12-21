@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ExpressCheckoutCompletion: Decodable {
+enum InteractiveCheckoutCompletion: Decodable {
 
   case success(token: String)
   case cancelled

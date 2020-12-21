@@ -210,8 +210,8 @@ final class InteractiveCheckoutViewController:
 
   // MARK: WKScriptMessageHandler
 
-  typealias Completion = ExpressCheckoutCompletion
-  typealias Message = ExpressCheckoutMessage
+  typealias Completion = InteractiveCheckoutCompletion
+  typealias Message = InteractiveCheckoutMessage
 
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()

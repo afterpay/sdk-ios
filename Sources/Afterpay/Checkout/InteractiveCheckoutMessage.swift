@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ExpressCheckoutMessage: Codable {
+struct InteractiveCheckoutMessage: Codable {
 
   var requestId: String
   var payload: Payload?
