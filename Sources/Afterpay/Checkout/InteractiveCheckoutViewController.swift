@@ -11,15 +11,13 @@ import UIKit
 import WebKit
 
 // swiftlint:disable:next colon
-final class ExpressCheckoutViewController:
+final class InteractiveCheckoutViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
   WKNavigationDelegate,
   WKScriptMessageHandler,
   WKUIDelegate
 { // swiftlint:disable:this opening_brace
-
-  private static let bundle = Bundle(for: ExpressCheckoutViewController.self)
 
   // MARK: Callbacks
 

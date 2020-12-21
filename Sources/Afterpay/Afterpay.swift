@@ -42,7 +42,7 @@ public func presentCheckoutModally(
   animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
-  var viewControllerToPresent: UIViewController = ExpressCheckoutViewController(
+  var viewControllerToPresent: UIViewController = InteractiveCheckoutViewController(
     didCommenceCheckout: didCommenceCheckout,
     shippingAddressDidChange: shippingAddressDidChange,
     shippingOptionDidChange: shippingOptionDidChange,
