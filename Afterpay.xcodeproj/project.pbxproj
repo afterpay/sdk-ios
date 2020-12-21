@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151A4FEA258C1F8A0046CEEE /* StaticContent.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		151A4FEA258C1F8A0046CEEE /* StaticContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticContent.swift; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		6605666224E5199500DA588E /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
@@ -268,10 +270,11 @@
 				66B5458B256B65B7002B3DD5 /* CheckoutHost.swift */,
 				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */,
+				66996F662580A5BE0061C365 /* ExpressCheckoutCompletion.swift */,
 				66169311257A06B200DF6CF4 /* ExpressCheckoutMessage.swift */,
 				66B54587256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift */,
 				661D4322257DF1CB00ACCDE1 /* ShippingOption.swift */,
-				66996F662580A5BE0061C365 /* ExpressCheckoutCompletion.swift */,
+				151A4FEA258C1F8A0046CEEE /* StaticContent.swift */,
 			);
 			path = Checkout;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				66B54588256B3FD9002B3DD5 /* ExpressCheckoutViewController.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
+				151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */,
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,
 				66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
