@@ -47,6 +47,7 @@ final class ExpressCheckoutViewController:
 
   // MARK: Web Views
 
+  private var loadingWebView: WKWebView!
   private var bootstrapWebView: WKWebView!
   private var checkoutWebView: WKWebView!
 
@@ -85,26 +86,23 @@ final class ExpressCheckoutViewController:
     configuration.userContentController = userContentController
 
     bootstrapWebView = WKWebView(frame: .zero, configuration: configuration)
-    bootstrapWebView.translatesAutoresizingMaskIntoConstraints = false
+    bootstrapWebView.isHidden = true
+    bootstrapWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     bootstrapWebView.navigationDelegate = self
     bootstrapWebView.uiDelegate = self
 
+    loadingWebView = WKWebView()
+    loadingWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
     let view = UIView()
-
-    view.addSubview(bootstrapWebView)
-
-    NSLayoutConstraint.activate([
-      bootstrapWebView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      bootstrapWebView.topAnchor.constraint(equalTo: view.topAnchor),
-      bootstrapWebView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      bootstrapWebView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-    ])
-
+    [bootstrapWebView, loadingWebView].forEach(view.addSubview)
     self.view = view
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    loadingWebView.loadHTMLString(StaticContent.loadingHTML, baseURL: nil)
 
     let request = URLRequest(url: bootstrapURL)
     bootstrapWebView.load(request)
@@ -139,6 +137,12 @@ final class ExpressCheckoutViewController:
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    if webView == checkoutWebView {
+      checkoutWebView.isHidden = false
+      loadingWebView.removeFromSuperview()
+      loadingWebView = nil
+    }
+
     guard webView == bootstrapWebView else {
       return
     }
@@ -167,11 +171,13 @@ final class ExpressCheckoutViewController:
       }
     }
 
-    guard let didCommenceCheckout = self.didCommenceCheckout else {
-      return
-    }
+    assert(
+      didCommenceCheckout != nil,
+      "For checkout to function you must set `didCommenceCheckout` via either "
+        + "`Afterpay.presentCheckoutModally` or `Afterpay.setExpressCheckoutHandler`"
+    )
 
-    didCommenceCheckout(handleCheckoutURLResult)
+    didCommenceCheckout?(handleCheckoutURLResult)
   }
 
   func webView(
@@ -195,6 +201,7 @@ final class ExpressCheckoutViewController:
     windowFeatures: WKWindowFeatures
   ) -> WKWebView? {
     checkoutWebView = WKWebView(frame: view.bounds, configuration: configuration)
+    checkoutWebView.isHidden = true
     checkoutWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     checkoutWebView.allowsLinkPreview = false
     checkoutWebView.navigationDelegate = self
