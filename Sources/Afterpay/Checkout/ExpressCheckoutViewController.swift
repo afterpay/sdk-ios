@@ -78,7 +78,7 @@ final class ExpressCheckoutViewController:
     preferences.javaScriptCanOpenWindowsAutomatically = true
 
     let userContentController = WKUserContentController()
-    userContentController.add(self, name: "nativeApp")
+    userContentController.add(self, name: "iOS")
 
     let configuration = WKWebViewConfiguration()
     configuration.preferences = preferences
