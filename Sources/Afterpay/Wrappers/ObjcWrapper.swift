@@ -101,7 +101,7 @@ public final class ObjcWrapper: NSObject {
   ) {
     Afterpay.presentCheckoutModally(
       over: viewController,
-      didCommenceCheckout: { $0(.success(checkoutURL)) },
+      loading: checkoutURL,
       animated: animated,
       completion: { result in
         switch result {

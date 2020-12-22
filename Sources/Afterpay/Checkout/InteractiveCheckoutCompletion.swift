@@ -1,5 +1,5 @@
 //
-//  ExpressCheckoutCompletion.swift
+//  InteractiveCheckoutCompletion.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 9/12/20.

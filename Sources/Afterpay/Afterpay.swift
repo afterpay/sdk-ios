@@ -43,6 +43,8 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
+// MARK: - Interactive Checkout
+
 public typealias DidCommenceCheckoutClosure = (
   _ completion: @escaping CheckoutURLResultCompletion
 ) -> Void
@@ -54,19 +56,21 @@ public typealias ShippingAddressDidChangeClosure = (
 
 public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOption) -> Void
 
-/// Present Afterpay Checkout modally over the specified view controller loading your
-/// generated checkout URL.
+/// Present Afterpay Checkout modally over the specified view controller. This method calls the
+/// passed closures to facilitate loading the checkoutURL on demand falling back to the
+/// `InteractiveCheckoutHandler` if set. Failing to handle `didCommenceCheckout` will result in an
+/// assertion failure.
 /// - Parameters:
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
 ///   - checkoutURL: The checkout URL to load generated via the /checkouts endpoint on the
 ///   Afterpay backend. If not provided it will be loaded via calling `didCommenceCheckout` on the
-///   configured `ExpressCheckoutHandler` object.
+///   configured `InteractiveCheckoutHandler` object.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after the user has completed the checkout.
 ///   - result: The result of the user's completion (a success or cancellation).
-public func presentCheckoutModally(
+public func presentInteractiveCheckoutModally(
   over viewController: UIViewController,
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
   shippingAddressDidChange: ShippingAddressDidChangeClosure? = nil,
@@ -91,22 +95,22 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
-// MARK: - Express Checkout
-
 public typealias CheckoutURLResultCompletion = (_ result: Result<URL, Error>) -> Void
 public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
 
-/// A handler of web view events typically assiciated with express checkout. Conforming to this
-/// protocol and calling `setExpressCheckoutHandler` will enable completion of express checkouts.
-public protocol ExpressCheckoutHandler: AnyObject {
+/// A handler of web view events typically associated with express checkout. Conforming to this
+/// protocol and calling `setInteractiveCheckoutHandler` will enable completion of express
+/// checkouts without the passing of closure in the `presentInteractiveCheckoutModally` function.
+public protocol InteractiveCheckoutHandler: AnyObject {
 
   /// Called after checkout is launched via `presentCheckoutModally` when there is no `checkoutURL`
   /// present. In this way creating a token / URL can be deferred until it is needed. This method
-  /// also works with non express checkouts.
+  /// also works with standard (non express) checkouts.
   /// - Parameters:
   ///   - completion: A completion for which the `result` of an attempt to generate a token or form
-  ///   a URL should be passed to. Passing a success will load the checkout URL and a failure will present a dialogue
-  ///   to the user for which they will either decide to retry or close the modal.
+  ///   a URL should be passed to. Passing a success will load the checkout URL and a failure will
+  ///   present a dialogue to the user for which they will either decide to retry or close the
+  ///   modal.
   func didCommenceCheckout(completion: @escaping CheckoutURLResultCompletion)
 
   /// Called when an express checkout is launched inside the checkout web view. Provided the address
@@ -123,18 +127,18 @@ public protocol ExpressCheckoutHandler: AnyObject {
   func shippingOptionDidChange(shippingOption: ShippingOption)
 }
 
-private weak var expressCheckoutHandler: ExpressCheckoutHandler?
+private weak var interactiveCheckoutHandler: InteractiveCheckoutHandler?
 
-func getExpressCheckoutHandler() -> ExpressCheckoutHandler? {
-  expressCheckoutHandler
+func getInteractiveCheckoutHandler() -> InteractiveCheckoutHandler? {
+  interactiveCheckoutHandler
 }
 
-/// Set the express checkout handler for handling asychronous web view events mostly associated with
-/// express checkout. The handler is retained weakly and as such a strong reference should be
+/// Set the interactive checkout handler for handling asychronous web view events mostly associated
+/// with express checkout. The handler is retained weakly and as such a strong reference should be
 /// maintained outside of the SDK.
-/// - Parameter handler: The Express Checkout Handler.
-public func setExpressCheckoutHandler(_ handler: ExpressCheckoutHandler?) {
-  expressCheckoutHandler = handler
+/// - Parameter handler: The Interactive Checkout Handler.
+public func setInteractiveCheckoutHandler(_ handler: InteractiveCheckoutHandler?) {
+  interactiveCheckoutHandler = handler
 }
 
 // MARK: - Authentication

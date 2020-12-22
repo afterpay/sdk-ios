@@ -1,5 +1,5 @@
 //
-//  ExpressCheckoutViewController.swift
+//  InteractiveCheckoutViewController.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 23/11/20.
@@ -27,15 +27,15 @@ final class InteractiveCheckoutViewController:
   private let completion: (_ result: CheckoutResult) -> Void
 
   private var didCommenceCheckout: DidCommenceCheckoutClosure? {
-    didCommenceCheckoutClosure ?? getExpressCheckoutHandler()?.didCommenceCheckout
+    didCommenceCheckoutClosure ?? getInteractiveCheckoutHandler()?.didCommenceCheckout
   }
 
   private var shippingAddressDidChange: ShippingAddressDidChangeClosure? {
-    shippingAddressDidChangeClosure ?? getExpressCheckoutHandler()?.shippingAddressDidChange
+    shippingAddressDidChangeClosure ?? getInteractiveCheckoutHandler()?.shippingAddressDidChange
   }
 
   private var shippingOptionDidChange: ShippingOptionsDidChangeClosure? {
-    shippingOptionDidChangeClosure ?? getExpressCheckoutHandler()?.shippingOptionDidChange
+    shippingOptionDidChangeClosure ?? getInteractiveCheckoutHandler()?.shippingOptionDidChange
   }
 
   // MARK: URLs
@@ -172,7 +172,7 @@ final class InteractiveCheckoutViewController:
     assert(
       didCommenceCheckout != nil,
       "For checkout to function you must set `didCommenceCheckout` via either "
-        + "`Afterpay.presentCheckoutModally` or `Afterpay.setExpressCheckoutHandler`"
+        + "`Afterpay.presentInteractiveCheckoutModally` or `Afterpay.setInteractiveCheckoutHandler`"
     )
 
     didCommenceCheckout?(handleCheckoutURLResult)
