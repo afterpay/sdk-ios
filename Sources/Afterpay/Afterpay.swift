@@ -46,9 +46,13 @@ public func presentCheckoutModally(
 
 // MARK: - Interactive Checkout
 
+public typealias CheckoutURLResultCompletion = (_ result: Result<URL, Error>) -> Void
+
 public typealias DidCommenceCheckoutClosure = (
   _ completion: @escaping CheckoutURLResultCompletion
 ) -> Void
+
+public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
 
 public typealias ShippingAddressDidChangeClosure = (
   _ address: Address,
@@ -99,9 +103,6 @@ public func presentInteractiveCheckoutModally(
 
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
-
-public typealias CheckoutURLResultCompletion = (_ result: Result<URL, Error>) -> Void
-public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
 
 /// A handler of web view events typically associated with express checkout. Conforming to this
 /// protocol and calling `setInteractiveCheckoutHandler` will enable completion of express
