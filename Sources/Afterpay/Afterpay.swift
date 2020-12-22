@@ -65,9 +65,13 @@ public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOp
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
-///   - checkoutURL: The checkout URL to load generated via the /checkouts endpoint on the
-///   Afterpay backend. If not provided it will be loaded via calling `didCommenceCheckout` on the
-///   configured `InteractiveCheckoutHandler` object.
+///   - didCommenceCheckout: The closure called to request that the checkout URL be loaded via the
+///   /checkouts endpoint on the Afterpay backend.
+///   - shippingAddressDidChange: Called when an express checkout is launched or when the address is
+///   changed. Provided the address shipping options should be formed and passed to `completion`
+///   for the user to choose from.
+///   - shippingOptionDidChange: Called after the user selects one of the shipping options provided
+///   by the `completion` of `shippingAddressDidChange`.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after the user has completed the checkout.
 ///   - result: The result of the user's completion (a success or cancellation).
