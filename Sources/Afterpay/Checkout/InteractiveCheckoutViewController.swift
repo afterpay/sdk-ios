@@ -139,11 +139,17 @@ final class InteractiveCheckoutViewController:
       checkoutWebView.isHidden = false
       loadingWebView.removeFromSuperview()
       loadingWebView = nil
+    } else if webView == bootstrapWebView {
+      commenceCheckout()
     }
+  }
 
-    guard webView == bootstrapWebView else {
-      return
-    }
+  private func commenceCheckout() {
+    assert(
+      didCommenceCheckout != nil,
+      "For checkout to function you must set `didCommenceCheckout` via either "
+        + "`Afterpay.presentInteractiveCheckoutModally` or `Afterpay.setInteractiveCheckoutHandler`"
+    )
 
     let urlAppendingIsWindowed = { (url: URL) -> URL in
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -153,29 +159,36 @@ final class InteractiveCheckoutViewController:
       return urlComponents?.url ?? url
     }
 
-    let handleCheckoutURLResult = { [weak self] (result: Result<URL, Error>) in
-      switch (result, self) {
-      case (.success(let url), let strongSelf?):
-        let updatedURL = urlAppendingIsWindowed(url)
-        strongSelf.checkoutURL = updatedURL
-        let javaScript = "openAfterpay('\(updatedURL.absoluteString)');"
-        DispatchQueue.main.async { webView.evaluateJavaScript(javaScript) }
-
-      case (.failure, let strongSelf?):
-        break
-
-      case (.success, nil), (.failure, nil):
-        break
-      }
+    let handleCheckoutURL = { [weak self] (url: URL) in
+      let updatedURL = urlAppendingIsWindowed(url)
+      self?.checkoutURL = updatedURL
+      let javaScript = "openAfterpay('\(updatedURL.absoluteString)');"
+      DispatchQueue.main.async { self?.bootstrapWebView.evaluateJavaScript(javaScript) }
     }
 
-    assert(
-      didCommenceCheckout != nil,
-      "For checkout to function you must set `didCommenceCheckout` via either "
-        + "`Afterpay.presentInteractiveCheckoutModally` or `Afterpay.setInteractiveCheckoutHandler`"
-    )
+    let dismiss = { [weak self] result in
+      self?.dismiss(animated: true) { self?.completion(result) }
+    }
 
-    didCommenceCheckout?(handleCheckoutURLResult)
+    let handleError = { [weak self] (error: Error) in
+      let alert = Alerts.failedToLoad(
+        retry: { self?.commenceCheckout() },
+        cancel: { dismiss(.cancelled(reason: .networkError(error))) }
+      )
+
+      self?.present(alert, animated: true, completion: nil)
+    }
+
+    let isValid = { (url: URL) in url.host.map(CheckoutHost.validSet.contains) ?? false }
+
+    didCommenceCheckout? { result in
+      switch result {
+      case (.success(let url)):
+        isValid(url) ? handleCheckoutURL(url) : dismiss(.cancelled(reason: .invalidURL(url)))
+      case (.failure(let error)):
+        handleError(error)
+      }
+    }
   }
 
   func webView(

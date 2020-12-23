@@ -170,21 +170,16 @@ final class CheckoutWebViewController:
     didFailProvisionalNavigation navigation: WKNavigation!,
     withError error: Error
   ) {
-    let alert = UIAlertController(
-      title: "Error",
-      message: "Failed to load Afterpay checkout",
-      preferredStyle: .alert)
-
-    let retryHandler: (UIAlertAction) -> Void = { [checkoutUrl] _ in
-      webView.load(URLRequest(url: checkoutUrl))
-    }
-
-    let cancelHandler: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled(reason: .networkError(error))) }
-    }
-
-    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: retryHandler))
-    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler))
+    let alert = Alerts.failedToLoad(
+      retry: { [checkoutUrl] in
+        webView.load(URLRequest(url: checkoutUrl))
+      },
+      cancel: {
+        self.dismiss(animated: true) {
+          self.completion(.cancelled(reason: .networkError(error)))
+        }
+      }
+    )
 
     present(alert, animated: true, completion: nil)
   }
