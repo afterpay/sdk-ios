@@ -13,6 +13,7 @@ private let session = URLSession(configuration: .default)
 private struct CheckoutsRequest: Encodable {
   let email: String
   let amount: String
+  let mode: String = "express"
 }
 
 struct CheckoutsResponse: Decodable {
