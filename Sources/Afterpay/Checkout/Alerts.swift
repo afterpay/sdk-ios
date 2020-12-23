@@ -30,4 +30,23 @@ enum Alerts {
     return alert
   }
 
+  static func areYouSureYouWantToCancel(cancel: @escaping () -> Void) -> UIAlertController {
+    let actionSheet = UIAlertController(
+      title: "Are you sure you want to cancel the payment?",
+      message: nil,
+      preferredStyle: .actionSheet
+    )
+
+    let cancelHandler: (UIAlertAction) -> Void = { _ in cancel() }
+
+    let actions = [
+      UIAlertAction(title: "Yes", style: .destructive, handler: cancelHandler),
+      UIAlertAction(title: "No", style: .cancel, handler: nil),
+    ]
+
+    actions.forEach(actionSheet.addAction)
+
+    return actionSheet
+  }
+
 }

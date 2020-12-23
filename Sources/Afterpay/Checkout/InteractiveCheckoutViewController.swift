@@ -100,6 +100,17 @@ final class InteractiveCheckoutViewController:
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    if #available(iOS 13.0, *) {
+      overrideUserInterfaceStyle = .light
+    } else {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(
+        title: "Cancel",
+        style: .plain,
+        target: self,
+        action: #selector(presentCancelConfirmation)
+      )
+    }
+
     loadingWebView.loadHTMLString(StaticContent.loadingHTML, baseURL: nil)
 
     let request = URLRequest(url: bootstrapURL)
@@ -111,7 +122,19 @@ final class InteractiveCheckoutViewController:
   func presentationControllerShouldDismiss(
     _ presentationController: UIPresentationController
   ) -> Bool {
+    presentCancelConfirmation()
+
     return false
+  }
+
+  // MARK: Actions
+
+  @objc private func presentCancelConfirmation() {
+    let actionSheet = Alerts.areYouSureYouWantToCancel {
+      self.dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+    }
+
+    present(actionSheet, animated: true, completion: nil)
   }
 
   // MARK: WKNavigationDelegate

@@ -94,22 +94,9 @@ final class CheckoutWebViewController:
   // MARK: Actions
 
   @objc private func presentCancelConfirmation() {
-    let actionSheet = UIAlertController(
-      title: "Are you sure you want to cancel the payment?",
-      message: nil,
-      preferredStyle: .actionSheet
-    )
-
-    let cancelPayment: (UIAlertAction) -> Void = { _ in
+    let actionSheet = Alerts.areYouSureYouWantToCancel {
       self.dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
     }
-
-    let actions = [
-      UIAlertAction(title: "Yes", style: .destructive, handler: cancelPayment),
-      UIAlertAction(title: "No", style: .cancel, handler: nil),
-    ]
-
-    actions.forEach(actionSheet.addAction)
 
     present(actionSheet, animated: true, completion: nil)
   }
