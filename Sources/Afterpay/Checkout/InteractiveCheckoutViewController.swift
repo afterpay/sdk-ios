@@ -186,7 +186,7 @@ final class InteractiveCheckoutViewController:
       let updatedURL = urlAppendingIsWindowed(url)
       self?.checkoutURL = updatedURL
       let javaScript = "openAfterpay('\(updatedURL.absoluteString)');"
-      DispatchQueue.main.async { self?.bootstrapWebView.evaluateJavaScript(javaScript) }
+      self?.bootstrapWebView.evaluateJavaScript(javaScript)
     }
 
     let dismiss = { [weak self] result in
@@ -205,11 +205,13 @@ final class InteractiveCheckoutViewController:
     let isValid = { (url: URL) in url.host.map(CheckoutHost.validSet.contains) ?? false }
 
     didCommenceCheckout? { result in
-      switch result {
-      case (.success(let url)):
-        isValid(url) ? handleCheckoutURL(url) : dismiss(.cancelled(reason: .invalidURL(url)))
-      case (.failure(let error)):
-        handleError(error)
+      DispatchQueue.main.async {
+        switch result {
+        case (.success(let url)):
+          isValid(url) ? handleCheckoutURL(url) : dismiss(.cancelled(reason: .invalidURL(url)))
+        case (.failure(let error)):
+          handleError(error)
+        }
       }
     }
   }
