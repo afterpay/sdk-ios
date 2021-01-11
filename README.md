@@ -51,8 +51,8 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 ## Requirements
 
 - iOS 12.0+
-- Swift 5.1+
-- XCode 11.0+
+- Swift 5.2+
+- Xcode 11.4+
 
 ## Swift Package Manager
 
@@ -91,7 +91,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 1.4.0
+git checkout 1.4.1
 ```
 
 #### Project / Workspace Integration
