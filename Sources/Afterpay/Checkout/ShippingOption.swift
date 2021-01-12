@@ -14,19 +14,22 @@ public struct ShippingOption: Codable {
   var description: String
   var shippingAmount: Money
   var orderAmount: Money
+  var taxAmount: Money?
 
   public init(
     id: String,
     name: String,
     description: String,
     shippingAmount: Money,
-    orderAmount: Money
+    orderAmount: Money,
+    taxAmount: Money? = nil
   ) {
     self.id = id
     self.name = name
     self.description = description
     self.shippingAmount = shippingAmount
     self.orderAmount = orderAmount
+    self.taxAmount = taxAmount
   }
 }
 
