@@ -266,7 +266,7 @@ final class InteractiveCheckoutViewController:
       let data = try? encoder.encode(message)
       let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
       let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteString ?? "*"
-      let javaScript = "postCheckoutMessage(JSON.parse('\(json)'), '\(targetURL)');"
+      let javaScript = "postCheckoutMessage('\(json)', '\(targetURL)');"
       DispatchQueue.main.async { bootstrapWebView?.evaluateJavaScript(javaScript) }
     }
 
