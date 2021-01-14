@@ -141,8 +141,6 @@ final class CheckoutWebViewController:
     }
   }
 
-  private let externalLinkPathComponents = ["privacy-policy", "terms-of-service"]
-
   func webView(
     _ webView: WKWebView,
     decidePolicyFor navigationAction: WKNavigationAction,
@@ -152,7 +150,7 @@ final class CheckoutWebViewController:
       return decisionHandler(.allow)
     }
 
-    let shouldOpenExternally = externalLinkPathComponents.contains(url.lastPathComponent)
+    let shouldOpenExternally = navigationAction.targetFrame == nil
 
     switch (shouldOpenExternally, Completion(url: url)) {
     case (true, _):
