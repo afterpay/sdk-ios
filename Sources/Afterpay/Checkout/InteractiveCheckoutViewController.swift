@@ -139,17 +139,12 @@ final class InteractiveCheckoutViewController:
 
   // MARK: WKNavigationDelegate
 
-  private let externalLinkPathComponents = ["privacy-policy", "terms-of-service"]
-
   func webView(
     _ webView: WKWebView,
     decidePolicyFor navigationAction: WKNavigationAction,
     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
   ) {
-    guard
-      let url = navigationAction.request.url,
-      externalLinkPathComponents.contains(url.lastPathComponent)
-    else {
+    guard let url = navigationAction.request.url, navigationAction.targetFrame == nil else {
       return decisionHandler(.allow)
     }
 
