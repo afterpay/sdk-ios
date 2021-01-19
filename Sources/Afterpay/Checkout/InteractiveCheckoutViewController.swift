@@ -235,6 +235,7 @@ final class InteractiveCheckoutViewController:
     checkoutWebView.isHidden = true
     checkoutWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     checkoutWebView.allowsLinkPreview = false
+    checkoutWebView.scrollView.bounces = false
     checkoutWebView.navigationDelegate = self
     view.addSubview(checkoutWebView)
 
