@@ -63,6 +63,7 @@ final class CheckoutWebViewController:
 
     webView.allowsLinkPreview = false
     webView.navigationDelegate = self
+    webView.scrollView.bounces = false
   }
 
   override func viewDidAppear(_ animated: Bool) {
