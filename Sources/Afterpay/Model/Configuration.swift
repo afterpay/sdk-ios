@@ -37,10 +37,10 @@ public enum ConfigurationError: LocalizedError, Equatable {
 /// A configuration that should be constructed from the results of a call to `/v2/configuration`
 public struct Configuration {
 
-  let minimumAmount: Decimal?
-  let maximumAmount: Decimal
-  let currencyCode: String
-  let locale: Locale
+  var minimumAmount: Decimal?
+  var maximumAmount: Decimal
+  var currencyCode: String
+  var locale: Locale
 
   /// Creates a new configuration by taking in a minimum and maximum amount as well as a currency
   /// code and locale.
