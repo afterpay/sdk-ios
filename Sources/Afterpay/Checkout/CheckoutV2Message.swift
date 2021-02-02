@@ -1,5 +1,5 @@
 //
-//  InteractiveCheckoutMessage.swift
+//  CheckoutV2Message.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 4/12/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct InteractiveCheckoutMessage: Codable {
+struct CheckoutV2Message: Codable {
 
   var requestId: String
   var payload: Payload?

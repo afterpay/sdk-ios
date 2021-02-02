@@ -1,5 +1,5 @@
 //
-//  InteractiveCheckoutViewController.swift
+//  CheckoutV2ViewController.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 23/11/20.
@@ -11,7 +11,7 @@ import UIKit
 import WebKit
 
 // swiftlint:disable:next colon
-final class InteractiveCheckoutViewController:
+final class CheckoutV2ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
   WKNavigationDelegate,
@@ -27,15 +27,15 @@ final class InteractiveCheckoutViewController:
   private let completion: (_ result: CheckoutResult) -> Void
 
   private var didCommenceCheckout: DidCommenceCheckoutClosure? {
-    didCommenceCheckoutClosure ?? getInteractiveCheckoutHandler()?.didCommenceCheckout
+    didCommenceCheckoutClosure ?? getCheckoutV2Handler()?.didCommenceCheckout
   }
 
   private var shippingAddressDidChange: ShippingAddressDidChangeClosure? {
-    shippingAddressDidChangeClosure ?? getInteractiveCheckoutHandler()?.shippingAddressDidChange
+    shippingAddressDidChangeClosure ?? getCheckoutV2Handler()?.shippingAddressDidChange
   }
 
   private var shippingOptionDidChange: ShippingOptionsDidChangeClosure? {
-    shippingOptionDidChangeClosure ?? getInteractiveCheckoutHandler()?.shippingOptionDidChange
+    shippingOptionDidChangeClosure ?? getCheckoutV2Handler()?.shippingOptionDidChange
   }
 
   // MARK: URLs
@@ -166,7 +166,7 @@ final class InteractiveCheckoutViewController:
     assert(
       didCommenceCheckout != nil,
       "For checkout to function you must set `didCommenceCheckout` via either "
-        + "`Afterpay.presentInteractiveCheckoutModally` or `Afterpay.setInteractiveCheckoutHandler`"
+        + "`Afterpay.presentCheckoutV2Modally` or `Afterpay.setCheckoutV2Handler`"
     )
 
     let urlAppendingIsWindowed = { (url: URL) -> URL in
@@ -244,8 +244,8 @@ final class InteractiveCheckoutViewController:
 
   // MARK: WKScriptMessageHandler
 
-  typealias Completion = InteractiveCheckoutCompletion
-  typealias Message = InteractiveCheckoutMessage
+  typealias Completion = CheckoutV2Completion
+  typealias Message = CheckoutV2Message
 
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()

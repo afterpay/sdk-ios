@@ -1,5 +1,5 @@
 //
-//  InteractiveCheckoutCompletion.swift
+//  CheckoutV2Completion.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 9/12/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum InteractiveCheckoutCompletion: Decodable {
+enum CheckoutV2Completion: Decodable {
 
   case success(token: String)
   case cancelled

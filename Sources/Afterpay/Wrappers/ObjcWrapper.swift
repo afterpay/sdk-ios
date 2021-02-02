@@ -99,9 +99,9 @@ public final class ObjcWrapper: NSObject {
     animated: Bool,
     completion: @escaping (CheckoutResult) -> Void
   ) {
-    Afterpay.presentInteractiveCheckoutModally(
+    Afterpay.presentCheckoutV2Modally(
       over: viewController,
-      didCommenceCheckout: { $0(.success(checkoutURL)) },
+      didCommenceCheckout: { $0(.success(checkoutURL) as Result<URL, Error>) },
       animated: animated,
       completion: { result in
         switch result {

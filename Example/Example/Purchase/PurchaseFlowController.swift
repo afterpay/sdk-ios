@@ -125,7 +125,7 @@ final class PurchaseFlowController: UIViewController {
 
     switch language {
     case .swift:
-      Afterpay.presentInteractiveCheckoutModally(
+      Afterpay.presentCheckoutV2Modally(
         over: viewController,
         didCommenceCheckout: { [urlProvider] completion in
           urlProvider(email, amount) { result in
