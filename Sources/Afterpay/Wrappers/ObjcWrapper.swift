@@ -128,25 +128,35 @@ public final class ObjcWrapper: NSObject {
     Afterpay.setAuthenticationChallengeHandler(handler)
   }
 
+  // swiftlint:disable function_parameter_count
+
   @objc
   public static func setConfiguration(
     minimumAmount: String,
     maximumAmount: String,
     currencyCode: String,
     locale: Locale,
+    environment: String,
     error: UnsafeMutablePointer<NSError>
   ) {
-    do {
-      let configuration = try Configuration(
+    let environment = Environment(rawValue: environment) ?? .production
+    let result = Result {
+      try Configuration(
         minimumAmount: minimumAmount,
         maximumAmount: maximumAmount,
         currencyCode: currencyCode,
-        locale: locale)
+        locale: locale,
+        environment: environment)
+    }
 
+    switch result {
+    case .success(let configuration):
       Afterpay.setConfiguration(configuration)
-    } catch let configurationError {
+    case .failure(let configurationError):
       error.initialize(to: configurationError as NSError)
     }
   }
+
+  // swiftlint:enable function_parameter_count
 
 }

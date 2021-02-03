@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151A4FEA258C1F8A0046CEEE /* StaticContent.swift */; };
+		1522246025C925E5004B9CE5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1522245F25C925E5004B9CE5 /* Environment.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		151A4FEA258C1F8A0046CEEE /* StaticContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticContent.swift; sourceTree = "<group>"; };
+		1522245F25C925E5004B9CE5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		6605666224E5199500DA588E /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
@@ -232,8 +234,10 @@
 			isa = PBXGroup;
 			children = (
 				661D431E257DC86C00ACCDE1 /* Address.swift */,
+				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				6689536B24C96CB5005090B4 /* Configuration.swift */,
 				15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */,
+				1522245F25C925E5004B9CE5 /* Environment.swift */,
 				6605666224E5199500DA588E /* Locales.swift */,
 				66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */,
 				661D4322257DF1CB00ACCDE1 /* ShippingOption.swift */,
@@ -273,7 +277,6 @@
 			isa = PBXGroup;
 			children = (
 				66B5458B256B65B7002B3DD5 /* CheckoutHost.swift */,
-				662A3AEC24A999A500EFD826 /* CheckoutResult.swift */,
 				66996F662580A5BE0061C365 /* CheckoutV2Completion.swift */,
 				66169311257A06B200DF6CF4 /* CheckoutV2Message.swift */,
 				66B54587256B3FD9002B3DD5 /* CheckoutV2ViewController.swift */,
@@ -470,6 +473,7 @@
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
+				1522246025C925E5004B9CE5 /* Environment.swift in Sources */,
 				66996F672580A5BE0061C365 /* CheckoutV2Completion.swift in Sources */,
 				66B54588256B3FD9002B3DD5 /* CheckoutV2ViewController.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,

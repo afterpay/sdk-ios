@@ -11,6 +11,9 @@ import Foundation
 import SwiftUI
 
 @available(iOS 13.0, *)
+private typealias Environment = SwiftUI.Environment
+
+@available(iOS 13.0, *)
 struct SwiftUIExampleView: View {
 
   @State private var checkoutURL: URL?
