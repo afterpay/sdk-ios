@@ -17,6 +17,7 @@ private struct CheckoutsRequest: Encodable {
 }
 
 struct CheckoutsResponse: Decodable {
+  let token: String
   let url: URL
 }
 

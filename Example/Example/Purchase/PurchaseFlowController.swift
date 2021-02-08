@@ -14,7 +14,7 @@ final class PurchaseFlowController: UIViewController {
   typealias CheckoutURLProvider = (
     _ email: String,
     _ amount: String,
-    _ completion: @escaping (Result<URL, Error>) -> Void
+    _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
   private let urlProvider: CheckoutURLProvider
@@ -129,10 +129,10 @@ final class PurchaseFlowController: UIViewController {
         over: viewController,
         didCommenceCheckout: { [urlProvider] completion in
           urlProvider(email, amount) { result in
-            completion(result.map(transformUrl))
+            completion(result.map(\.token))
           }
         },
-        shippingAddressDidChange: { [shippingOptions] _, completion in
+        shippingAddressDidChange: { [shippingOptions] address, completion in
           completion(shippingOptions)
         },
         completion: { result in
