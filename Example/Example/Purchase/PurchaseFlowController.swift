@@ -113,16 +113,6 @@ final class PurchaseFlowController: UIViewController {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    let transformUrl = { (url: URL) -> URL in
-      var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-      let queryItems = (components?.queryItems ?? []) + [
-        URLQueryItem(name: "pickup", value: "false"),
-        URLQueryItem(name: "buyNow", value: "false"),
-      ]
-      components?.queryItems = queryItems
-      return components?.url ?? url
-    }
-
     switch language {
     case .swift:
       Afterpay.presentCheckoutV2Modally(
@@ -132,7 +122,7 @@ final class PurchaseFlowController: UIViewController {
             completion(result.map(\.token))
           }
         },
-        shippingAddressDidChange: { [shippingOptions] address, completion in
+        shippingAddressDidChange: { [shippingOptions] _, completion in
           completion(shippingOptions)
         },
         completion: { result in
