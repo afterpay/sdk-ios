@@ -38,20 +38,28 @@ func initializeDependencies() {
   TrustKit.initSharedInstance(withConfiguration: configuration)
 
   // Pin Afterpay's payment portal certificates using TrustKit
-  Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
-    let validator = TrustKit.sharedInstance().pinningValidator
-    return validator.handle(challenge, completionHandler: completionHandler)
-  }
+  // Uncomment this to enable pinning
+  //
+  // Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
+  //   let validator = TrustKit.sharedInstance().pinningValidator
+  //   return validator.handle(challenge, completionHandler: completionHandler)
+  // }
+
+  let repository = Repository.shared
 
   // Configure the Afterpay SDK with the merchant configuration
-  Repository.shared.fetchConfiguration { result in
-    switch result {
-    case .success(let configuration):
-      Afterpay.setConfiguration(configuration)
-    case .failure(let error):
-      // Logs network, decoding and Afterpay configuration errors raised
-      let errorDescription = error.localizedDescription
-      os_log(.error, "Failed to set configuration with error: %{public}@", errorDescription)
-    }
+  repository.fetchConfiguration { result in
+    let configuration = result.fold(
+      successTransform: { $0 },
+      errorTransform: { error in
+        // Logs network, decoding and Afterpay configuration errors raised
+        let errorDescription = error.localizedDescription
+        os_log(.error, "Failed to fetch configuration with error: %{public}@", errorDescription)
+
+        return repository.fallbackConfiguration
+      }
+    )
+
+    Afterpay.setConfiguration(configuration)
   }
 }
