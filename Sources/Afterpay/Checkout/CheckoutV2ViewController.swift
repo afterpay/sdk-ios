@@ -19,6 +19,9 @@ final class CheckoutV2ViewController:
   WKUIDelegate
 { // swiftlint:disable:this opening_brace
 
+  // MARK: Configuration
+  private let configuration: Configuration
+
   // MARK: Callbacks
 
   private let didCommenceCheckoutClosure: DidCommenceCheckoutClosure?
@@ -40,23 +43,28 @@ final class CheckoutV2ViewController:
 
   // MARK: URLs
 
-  private let bootstrapURL: URL = URL(string: "https://afterpay.github.io/sdk-example-server/")!
-  private var checkoutURL: URL!
+  private let bootstrapURL: URL = URL(string: "http://localhost:8000/")!
 
   // MARK: Web Views
 
-  private var loadingWebView: WKWebView!
+  private var loadingWebView: WKWebView?
   private var bootstrapWebView: WKWebView!
-  private var checkoutWebView: WKWebView!
+  private var checkoutWebView: WKWebView?
+
+  // MARK: Token
+
+  private var token: Token?
 
   // MARK: Initialization
 
   init(
+    configuration: Configuration,
     didCommenceCheckout: DidCommenceCheckoutClosure?,
     shippingAddressDidChange: ShippingAddressDidChangeClosure?,
     shippingOptionDidChange: ShippingOptionsDidChangeClosure?,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
+    self.configuration = configuration
     self.didCommenceCheckoutClosure = didCommenceCheckout
     self.shippingAddressDidChangeClosure = shippingAddressDidChange
     self.shippingOptionDidChangeClosure = shippingOptionDidChange
@@ -80,6 +88,7 @@ final class CheckoutV2ViewController:
     userContentController.add(self, name: "iOS")
 
     let configuration = WKWebViewConfiguration()
+    configuration.websiteDataStore = WKWebsiteDataStore.nonPersistent()
     configuration.preferences = preferences
     configuration.userContentController = userContentController
 
@@ -89,8 +98,9 @@ final class CheckoutV2ViewController:
     bootstrapWebView.navigationDelegate = self
     bootstrapWebView.uiDelegate = self
 
-    loadingWebView = WKWebView()
+    let loadingWebView = WKWebView()
     loadingWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    self.loadingWebView = loadingWebView
 
     let view = UIView()
     [bootstrapWebView, loadingWebView].forEach(view.addSubview)
@@ -111,7 +121,11 @@ final class CheckoutV2ViewController:
       )
     }
 
-    loadingWebView.loadHTMLString(StaticContent.loadingHTML, baseURL: nil)
+    loadingWebView?.loadHTMLString(StaticContent.loadingHTML, baseURL: nil)
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
 
     let request = URLRequest(url: bootstrapURL)
     bootstrapWebView.load(request)
@@ -152,10 +166,18 @@ final class CheckoutV2ViewController:
     UIApplication.shared.open(url)
   }
 
+  func webView(
+    _ webView: WKWebView,
+    didFailProvisionalNavigation navigation: WKNavigation!,
+    withError error: Error
+  ) {
+    handleError(webView: webView, error: error)
+  }
+
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     if webView == checkoutWebView {
-      checkoutWebView.isHidden = false
-      loadingWebView.removeFromSuperview()
+      checkoutWebView?.isHidden = false
+      loadingWebView?.removeFromSuperview()
       loadingWebView = nil
     } else if webView == bootstrapWebView {
       commenceCheckout()
@@ -163,52 +185,58 @@ final class CheckoutV2ViewController:
   }
 
   private func commenceCheckout() {
-    assert(
-      didCommenceCheckout != nil,
-      "For checkout to function you must set `didCommenceCheckout` via either "
-        + "`Afterpay.presentCheckoutV2Modally` or `Afterpay.setCheckoutV2Handler`"
-    )
-
-    let urlAppendingIsWindowed = { (url: URL) -> URL in
-      var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-      let isWindowed = URLQueryItem(name: "isWindowed", value: "true")
-      let queryItems = urlComponents?.queryItems ?? []
-      urlComponents?.queryItems = queryItems + [isWindowed]
-      return urlComponents?.url ?? url
-    }
-
-    let handleCheckoutURL = { [weak self] (url: URL) in
-      let updatedURL = urlAppendingIsWindowed(url)
-      self?.checkoutURL = updatedURL
-      let javaScript = "openAfterpay('\(updatedURL.absoluteString)');"
-      self?.bootstrapWebView.evaluateJavaScript(javaScript)
-    }
-
-    let dismiss = { [weak self] result in
-      self?.dismiss(animated: true) { self?.completion(result) }
-    }
-
-    let handleError = { [weak self] (error: Error) in
-      let alert = Alerts.failedToLoad(
-        retry: { self?.commenceCheckout() },
-        cancel: { dismiss(.cancelled(reason: .networkError(error))) }
+    guard let didCommenceCheckout = didCommenceCheckout else {
+      return assertionFailure(
+        "For checkout to function you must set `didCommenceCheckout` via either "
+          + "`Afterpay.presentCheckoutV2Modally` or `Afterpay.setCheckoutV2Handler`"
       )
-
-      self?.present(alert, animated: true, completion: nil)
     }
 
-    let isValid = { (url: URL) in url.host.map(CheckoutHost.validSet.contains) ?? false }
-
-    didCommenceCheckout? { result in
+    didCommenceCheckout { [weak self] result in
       DispatchQueue.main.async {
         switch result {
-        case (.success(let url)):
-          isValid(url) ? handleCheckoutURL(url) : dismiss(.cancelled(reason: .invalidURL(url)))
+        case (.success(let token)):
+          self?.handleToken(token: token)
         case (.failure(let error)):
-          handleError(error)
+          self?.handleError(webView: nil, error: error)
         }
       }
     }
+  }
+
+  private func handleToken(token: Token) {
+    self.token = token
+    let locale = configuration.locale.identifier
+    let environment = configuration.environment.rawValue
+    let javaScript = "openCheckout('\(token)', '\(locale)', '\(environment)');"
+    bootstrapWebView.evaluateJavaScript(javaScript)
+  }
+
+  private func handleError(webView: WKWebView?, error: Error) {
+    let dismiss = {
+      self.dismiss(animated: true) {
+        self.completion(.cancelled(reason: .networkError(error)))
+      }
+    }
+
+    let reload = {
+      switch webView {
+      case self.bootstrapWebView:
+        self.bootstrapWebView.load(URLRequest(url: self.bootstrapURL))
+
+      case self.checkoutWebView where self.token != nil:
+        self.handleToken(token: self.token!)
+
+      case self.checkoutWebView, nil:
+        self.commenceCheckout()
+
+      default:
+        dismiss()
+      }
+    }
+
+    let alert = Alerts.failedToLoad(retry: reload, cancel: dismiss)
+    present(alert, animated: true, completion: nil)
   }
 
   func webView(
@@ -231,13 +259,15 @@ final class CheckoutV2ViewController:
     for navigationAction: WKNavigationAction,
     windowFeatures: WKWindowFeatures
   ) -> WKWebView? {
-    checkoutWebView = WKWebView(frame: view.bounds, configuration: configuration)
+    let checkoutWebView = WKWebView(frame: view.bounds, configuration: configuration)
     checkoutWebView.isHidden = true
     checkoutWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     checkoutWebView.allowsLinkPreview = false
     checkoutWebView.scrollView.bounces = false
     checkoutWebView.navigationDelegate = self
     view.addSubview(checkoutWebView)
+
+    self.checkoutWebView = checkoutWebView
 
     return checkoutWebView
   }
@@ -258,12 +288,14 @@ final class CheckoutV2ViewController:
     let message = jsonData.flatMap { try? decoder.decode(Message.self, from: $0) }
     let completion = jsonData.flatMap { try? decoder.decode(Completion.self, from: $0) }
 
-    let postMessage = { [encoder, checkoutURL, bootstrapWebView] (message: Message) in
-      let data = try? encoder.encode(message)
-      let json = data.flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
-      let targetURL = URL(string: "/", relativeTo: checkoutURL)?.absoluteString ?? "*"
-      let javaScript = "postCheckoutMessage('\(json)', '\(targetURL)');"
+    let evaluateJavascript = { [bootstrapWebView] (javaScript: String) in
       DispatchQueue.main.async { bootstrapWebView?.evaluateJavaScript(javaScript) }
+    }
+
+    let postMessage = { [encoder] (message: Message) in
+      Result { String(data: try encoder.encode(message), encoding: .utf8) }
+        .fold(successTransform: { $0 }, errorTransform: { _ in nil })
+        .map { evaluateJavascript("postMessageToCheckout('\($0)');") }
     }
 
     switch (message, message?.payload, completion) {

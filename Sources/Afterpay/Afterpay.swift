@@ -46,10 +46,12 @@ public func presentCheckoutModally(
 
 // MARK: - Checkout V2
 
-public typealias CheckoutURLResultCompletion = (_ result: Result<URL, Error>) -> Void
+public typealias Token = String
+
+public typealias CheckoutTokenResultCompletion = (_ result: Result<Token, Error>) -> Void
 
 public typealias DidCommenceCheckoutClosure = (
-  _ completion: @escaping CheckoutURLResultCompletion
+  _ completion: @escaping CheckoutTokenResultCompletion
 ) -> Void
 
 public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
@@ -87,7 +89,14 @@ public func presentCheckoutV2Modally(
   animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
+  guard let configuration = getConfiguration() else {
+    return assertionFailure(
+      "Configuration must be provided before using `presentCheckoutV2Modally`"
+    )
+  }
+
   var viewControllerToPresent: UIViewController = CheckoutV2ViewController(
+    configuration: configuration,
     didCommenceCheckout: didCommenceCheckout,
     shippingAddressDidChange: shippingAddressDidChange,
     shippingOptionDidChange: shippingOptionDidChange,
@@ -117,7 +126,7 @@ public protocol CheckoutV2Handler: AnyObject {
   ///   a URL should be passed to. Passing a success will load the checkout URL and a failure will
   ///   present a dialogue to the user for which they will either decide to retry or close the
   ///   modal.
-  func didCommenceCheckout(completion: @escaping CheckoutURLResultCompletion)
+  func didCommenceCheckout(completion: @escaping CheckoutTokenResultCompletion)
 
   /// Called when an express checkout is launched inside the checkout web view. Provided the address
   /// shipping options should be formed and passed to `completion` for the user to choose from.
