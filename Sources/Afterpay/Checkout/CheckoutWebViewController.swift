@@ -16,8 +16,6 @@ final class CheckoutWebViewController:
   WKNavigationDelegate
 { // swiftlint:disable:this opening_brace
 
-  private static let bundle = Bundle(for: CheckoutWebViewController.self)
-
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
 
@@ -73,10 +71,7 @@ final class CheckoutWebViewController:
     }
 
     var request = URLRequest(url: checkoutUrl)
-
-    let shortVersionString = Self.bundle.infoDictionary?["CFBundleShortVersionString"] as? String
-    let value = shortVersionString.map { version in "\(version)-ios" }
-    request.setValue(value, forHTTPHeaderField: "X-Afterpay-SDK")
+    request.setValue(Version.sdkVersion, forHTTPHeaderField: "X-Afterpay-SDK")
 
     webView.load(request)
   }

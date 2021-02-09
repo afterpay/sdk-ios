@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151A4FEA258C1F8A0046CEEE /* StaticContent.swift */; };
 		1522246025C925E5004B9CE5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1522245F25C925E5004B9CE5 /* Environment.swift */; };
+		157C65AF25D23E8F00115149 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C65AE25D23E8F00115149 /* Version.swift */; };
 		157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E88D025CBCA49007E54C4 /* Result+Fold.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		151A4FEA258C1F8A0046CEEE /* StaticContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticContent.swift; sourceTree = "<group>"; };
 		1522245F25C925E5004B9CE5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		157C65AE25D23E8F00115149 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		157E88D025CBCA49007E54C4 /* Result+Fold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Fold.swift"; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				6605666224E5199500DA588E /* Locales.swift */,
 				66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */,
 				661D4322257DF1CB00ACCDE1 /* ShippingOption.swift */,
+				157C65AE25D23E8F00115149 /* Version.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				1522246025C925E5004B9CE5 /* Environment.swift in Sources */,
 				66996F672580A5BE0061C365 /* CheckoutV2Completion.swift in Sources */,
+				157C65AF25D23E8F00115149 /* Version.swift in Sources */,
 				66B54588256B3FD9002B3DD5 /* CheckoutV2ViewController.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
