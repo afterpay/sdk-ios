@@ -19,8 +19,9 @@ final class CheckoutV2ViewController:
   WKUIDelegate
 { // swiftlint:disable:this opening_brace
 
-  // MARK: Configuration
   private let configuration: Configuration
+  private let options: CheckoutV2Options
+  private var token: Token?
 
   // MARK: Callbacks
 
@@ -51,20 +52,18 @@ final class CheckoutV2ViewController:
   private var bootstrapWebView: WKWebView!
   private var checkoutWebView: WKWebView?
 
-  // MARK: Token
-
-  private var token: Token?
-
   // MARK: Initialization
 
   init(
     configuration: Configuration,
+    options: CheckoutV2Options,
     didCommenceCheckout: DidCommenceCheckoutClosure?,
     shippingAddressDidChange: ShippingAddressDidChangeClosure?,
     shippingOptionDidChange: ShippingOptionsDidChangeClosure?,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.configuration = configuration
+    self.options = options
     self.didCommenceCheckoutClosure = didCommenceCheckout
     self.shippingAddressDidChangeClosure = shippingAddressDidChange
     self.shippingOptionDidChangeClosure = shippingOptionDidChange

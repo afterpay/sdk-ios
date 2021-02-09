@@ -109,6 +109,7 @@ public func presentCheckoutV2Modally(
 
   var viewControllerToPresent: UIViewController = CheckoutV2ViewController(
     configuration: configuration,
+    options: options,
     didCommenceCheckout: didCommenceCheckout,
     shippingAddressDidChange: shippingAddressDidChange,
     shippingOptionDidChange: shippingOptionDidChange,
