@@ -209,6 +209,7 @@ final class CheckoutV2ViewController:
     var environment: String
     var pickup: Bool
     var buyNow: Bool
+    var deferredShipping: Bool
     var version: String
 
     init(token: Token, configuration: Configuration, options: CheckoutV2Options) {
@@ -217,6 +218,7 @@ final class CheckoutV2ViewController:
       self.environment = configuration.environment.rawValue
       self.pickup = options.contains(.pickup)
       self.buyNow = options.contains(.buyNow)
+      self.deferredShipping = false
       self.version = Version.sdkVersion
     }
   }
