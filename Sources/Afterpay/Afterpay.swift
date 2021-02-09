@@ -46,6 +46,17 @@ public func presentCheckoutModally(
 
 // MARK: - Checkout V2
 
+public struct CheckoutV2Options: OptionSet {
+  public let rawValue: Int
+
+  public init(rawValue: Int) {
+    self.rawValue = rawValue
+  }
+
+  public static let buyNow = CheckoutV2Options(rawValue: 1 << 0)
+  public static let pickup = CheckoutV2Options(rawValue: 1 << 1)
+}
+
 public typealias Token = String
 
 public typealias CheckoutTokenResultCompletion = (_ result: Result<Token, Error>) -> Void
@@ -83,10 +94,11 @@ public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOp
 ///   - result: The result of the user's completion (a success or cancellation).
 public func presentCheckoutV2Modally(
   over viewController: UIViewController,
+  animated: Bool = true,
+  options: CheckoutV2Options = [],
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
   shippingAddressDidChange: ShippingAddressDidChangeClosure? = nil,
   shippingOptionDidChange: ShippingOptionsDidChangeClosure? = nil,
-  animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
