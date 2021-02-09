@@ -203,11 +203,27 @@ final class CheckoutV2ViewController:
     }
   }
 
+  private struct Checkout: Encodable {
+    var token: String
+    var locale: String
+    var environment: String
+    var pickup: Bool
+    var buyNow: Bool
+
+    init(token: Token, configuration: Configuration, options: CheckoutV2Options) {
+      self.token = token
+      self.locale = configuration.locale.identifier
+      self.environment = configuration.environment.rawValue
+      self.pickup = options.contains(.pickup)
+      self.buyNow = options.contains(.buyNow)
+    }
+  }
+
   private func handleToken(token: Token) {
-    self.token = token
-    let locale = configuration.locale.identifier
-    let environment = configuration.environment.rawValue
-    let javaScript = "openCheckout('\(token)', '\(locale)', '\(environment)');"
+    let checkout = Checkout(token: token, configuration: configuration, options: options)
+    // swiftlint:disable:next force_try
+    let json = String(data: try! encoder.encode(checkout), encoding: .utf8)!
+    let javaScript = "openCheckout('\(json)');"
     bootstrapWebView.evaluateJavaScript(javaScript)
   }
 
