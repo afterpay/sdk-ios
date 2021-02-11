@@ -46,15 +46,16 @@ public func presentCheckoutModally(
 
 // MARK: - Checkout V2
 
-public struct CheckoutV2Options: OptionSet {
-  public let rawValue: Int
+public struct CheckoutV2Options {
+  public var pickup: Bool?
+  public var buyNow: Bool?
+  public var shippingOptionRequired: Bool?
 
-  public init(rawValue: Int) {
-    self.rawValue = rawValue
+  public init(pickup: Bool? = nil, buyNow: Bool? = nil, shippingOptionRequired: Bool? = nil) {
+    self.pickup = pickup
+    self.buyNow = buyNow
+    self.shippingOptionRequired = shippingOptionRequired
   }
-
-  public static let buyNow = CheckoutV2Options(rawValue: 1 << 0)
-  public static let pickup = CheckoutV2Options(rawValue: 1 << 1)
 }
 
 public typealias Token = String
@@ -95,7 +96,7 @@ public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOp
 public func presentCheckoutV2Modally(
   over viewController: UIViewController,
   animated: Bool = true,
-  options: CheckoutV2Options = [],
+  options: CheckoutV2Options = .init(),
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
   shippingAddressDidChange: ShippingAddressDidChangeClosure? = nil,
   shippingOptionDidChange: ShippingOptionsDidChangeClosure? = nil,
