@@ -46,9 +46,21 @@ public func presentCheckoutModally(
 
 // MARK: - Checkout V2
 
+/// Optional checkout flags to set when using `presentCheckoutV2Modally` that change the experience
+/// for the end user within the checkout.
 public struct CheckoutV2Options {
+
+  /// Setting `pickup` to `true` when working with an express order will allow you to specify a
+  /// pickup address when creating an order token via the `shipping` object. This also prevents the
+  /// user from selecting a delivery address.
   public var pickup: Bool?
+
+  /// Setting `buyNow` to `true` will display a 'Buy Now' button at the end of a user's checkout
+  /// journey. This signals the intent to bypass review and immediately capture the payment.
   public var buyNow: Bool?
+
+  /// Setting `shippingOptionRequired` to `false` when working with an express order will prevent
+  /// the user from selecting shipping options within checkout.
   public var shippingOptionRequired: Bool?
 
   public init(pickup: Bool? = nil, buyNow: Bool? = nil, shippingOptionRequired: Bool? = nil) {
