@@ -126,8 +126,18 @@ final class CheckoutV2ViewController:
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
 
-    let request = URLRequest(url: bootstrapURL)
-    bootstrapWebView.load(request)
+    let webView: WKWebView = bootstrapWebView
+    let url = bootstrapURL
+    let load: () -> Void = { webView.load(URLRequest(url: url)) }
+
+    // Remove bootstrap disk caches so that the latest bootstrap is loaded
+    let dataStore = webView.configuration.websiteDataStore
+    let dataTypes: Set<String> = [WKWebsiteDataTypeDiskCache]
+    let removeBootstrapData = { (records: [WKWebsiteDataRecord]) in
+      let bootstrapRecords = records.filter { $0.displayName == url.host }
+      dataStore.removeData(ofTypes: dataTypes, for: bootstrapRecords, completionHandler: load)
+    }
+    dataStore.fetchDataRecords(ofTypes: dataTypes, completionHandler: removeBootstrapData)
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate
