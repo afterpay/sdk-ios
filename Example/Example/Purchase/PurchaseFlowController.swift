@@ -113,38 +113,25 @@ final class PurchaseFlowController: UIViewController {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    switch language {
-    case .swift:
-      Afterpay.presentCheckoutV2Modally(
-        over: viewController,
-        didCommenceCheckout: { [urlProvider] completion in
-          urlProvider(email, amount) { result in
-            completion(result.map(\.token))
-          }
-        },
-        shippingAddressDidChange: { [shippingOptions] _, completion in
-          completion(shippingOptions)
-        },
-        completion: { result in
-          switch result {
-          case .success(let token):
-            logicController.success(with: token)
-          case .cancelled(let reason):
-            logicController.cancelled(with: reason)
-          }
+    Afterpay.presentCheckoutV2Modally(
+      over: viewController,
+      didCommenceCheckout: { [urlProvider] completion in
+        urlProvider(email, amount) { result in
+          completion(result.map(\.token))
         }
-      )
-
-    case .objectiveC:
-      Objc.presentCheckoutModally(
-        over: viewController,
-        loading: nil,
-        successHandler: { token in logicController.success(with: token) },
-        userInitiatedCancelHandler: { logicController.cancelled(with: .userInitiated) },
-        networkErrorCancelHandler: { error in logicController.cancelled(with: .networkError(error)) },
-        invalidURLCancelHandler: { url in logicController.cancelled(with: .invalidURL(url)) }
-      )
-    }
+      },
+      shippingAddressDidChange: { [shippingOptions] _, completion in
+        completion(shippingOptions)
+      },
+      completion: { result in
+        switch result {
+        case .success(let token):
+          logicController.success(with: token)
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
+        }
+      }
+    )
   }
 
   // MARK: Unavailable

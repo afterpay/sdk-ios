@@ -19,7 +19,7 @@ typedef void (^ NetworkErrorCancelHandler)(NSError *);
 typedef void (^ InvalidURLCancelHandler)(NSURL *);
 
 + (void)presentCheckoutModallyOverViewController:(UIViewController *)viewController
-                              loadingCheckoutURL:(NSURL * _Nullable)url
+                              loadingCheckoutURL:(NSURL *)url
                                   successHandler:(SuccessHandler)successHandler
                       userInitiatedCancelHandler:(UserInitiatedCancelHandler)userInitiatedCancelHandler
                        networkErrorCancelHandler:(NetworkErrorCancelHandler)networkErrorCancelHandler
