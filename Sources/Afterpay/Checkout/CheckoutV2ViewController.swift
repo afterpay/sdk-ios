@@ -86,18 +86,23 @@ final class CheckoutV2ViewController:
     let userContentController = WKUserContentController()
     userContentController.add(self, name: "iOS")
 
-    let configuration = WKWebViewConfiguration()
-    configuration.websiteDataStore = WKWebsiteDataStore.nonPersistent()
-    configuration.preferences = preferences
-    configuration.userContentController = userContentController
+    let processPool = WKProcessPool()
 
-    bootstrapWebView = WKWebView(frame: .zero, configuration: configuration)
+    let bootstrapConfiguration = WKWebViewConfiguration()
+    bootstrapConfiguration.processPool = processPool
+    bootstrapConfiguration.preferences = preferences
+    bootstrapConfiguration.userContentController = userContentController
+
+    bootstrapWebView = WKWebView(frame: .zero, configuration: bootstrapConfiguration)
     bootstrapWebView.isHidden = true
     bootstrapWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     bootstrapWebView.navigationDelegate = self
     bootstrapWebView.uiDelegate = self
 
-    let loadingWebView = WKWebView()
+    let loadingConfiguration = WKWebViewConfiguration()
+    loadingConfiguration.processPool = processPool
+
+    let loadingWebView = WKWebView(frame: .zero, configuration: loadingConfiguration)
     loadingWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     self.loadingWebView = loadingWebView
 
