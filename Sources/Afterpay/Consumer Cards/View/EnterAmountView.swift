@@ -27,8 +27,6 @@ final class EnterAmountView: UIView {
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
     amountField.translatesAutoresizingMaskIntoConstraints = false
-    continueButton.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
     addSubview(amountField)
     addSubview(continueButton)

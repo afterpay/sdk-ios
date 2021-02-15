@@ -14,13 +14,10 @@ final class WelcomeView: UIView {
   init(continueAction: Selector) {
     super.init(frame: .zero)
 
-    let continueButton = PrimaryButton(title: "Continue with")
+    let continueButton = PrimaryButton(title: "Continue with Continue with Continue with")
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
     let titleLabel = TitleLabel(with: "Lorem Ipsum\nLorem Ipsum")
-
-    continueButton.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
     addSubview(continueButton)
     addSubview(titleLabel)

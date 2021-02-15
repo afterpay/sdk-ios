@@ -24,10 +24,20 @@ final class PrimaryButton: UIButton {
     let font = UIFont.systemFont(ofSize: 16, weight: .bold)
     titleLabel?.adjustsFontForContentSizeCategory = true
     titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+    titleLabel?.numberOfLines = 0
+
+    translatesAutoresizingMaskIntoConstraints = false
+    titleLabel?.translatesAutoresizingMaskIntoConstraints = false
   }
 
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+  }
+
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    DispatchQueue.main.async {
+      self.setNeedsUpdateConstraints()
+    }
   }
 }
 

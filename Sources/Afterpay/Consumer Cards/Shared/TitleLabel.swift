@@ -20,6 +20,8 @@ final class TitleLabel: UILabel {
     let textFont = UIFont.systemFont(ofSize: 32, weight: .bold)
     adjustsFontForContentSizeCategory = true
     font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: textFont)
+
+    translatesAutoresizingMaskIntoConstraints = false
   }
 
   required init?(coder: NSCoder) {
