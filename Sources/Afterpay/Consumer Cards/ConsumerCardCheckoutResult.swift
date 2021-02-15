@@ -10,10 +10,10 @@ import Foundation
 
 @frozen public enum ConsumerCardCheckoutResult {
   case success(virtualCard: VirtualCard)
-  case failed(reason: ConsumerCardError)
+  case failed(reason: ConsumerCardFailureReason)
 
   // TODO: Handle error
-  public enum ConsumerCardError {
+  public enum ConsumerCardFailureReason {
     case networkError(Error)
     case checkoutCancelled(reason: CheckoutResult.CancellationReason)
   }
