@@ -43,6 +43,7 @@
 		DD70771725D223F400401BDB /* ConsumerCardFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70771625D223F400401BDB /* ConsumerCardFlowViewController.swift */; };
 		DD70771D25D2361900401BDB /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70771C25D2361900401BDB /* WelcomeView.swift */; };
 		DD70772125D2396F00401BDB /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70772025D2396F00401BDB /* EnterAmountView.swift */; };
+		DD92264225DA0983009788D1 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92264125DA0983009788D1 /* LoadingView.swift */; };
 		DDBD9BFD25D33BFE00008642 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9BFC25D33BFE00008642 /* Money.swift */; };
 		DDBD9C0225D33C3D00008642 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9C0125D33C3D00008642 /* Consumer.swift */; };
 		DDBD9C0825D33C5D00008642 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9C0725D33C5D00008642 /* Contact.swift */; };
@@ -111,6 +112,7 @@
 		DD70771625D223F400401BDB /* ConsumerCardFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumerCardFlowViewController.swift; sourceTree = "<group>"; };
 		DD70771C25D2361900401BDB /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		DD70772025D2396F00401BDB /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
+		DD92264125DA0983009788D1 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DDBD9BFC25D33BFE00008642 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		DDBD9C0125D33C3D00008642 /* Consumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consumer.swift; sourceTree = "<group>"; };
 		DDBD9C0725D33C5D00008642 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
@@ -306,13 +308,22 @@
 		DD70771525D21EE000401BDB /* Consumer Cards */ = {
 			isa = PBXGroup;
 			children = (
-				DD70771625D223F400401BDB /* ConsumerCardFlowViewController.swift */,
-				DD70771C25D2361900401BDB /* WelcomeView.swift */,
-				DD70772025D2396F00401BDB /* EnterAmountView.swift */,
-				DD18F41D25D5E1CD00E345C9 /* ConsumerCardView.swift */,
+				DD92264525DA09B8009788D1 /* View */,
 				DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */,
+				DD70771625D223F400401BDB /* ConsumerCardFlowViewController.swift */,
 			);
 			path = "Consumer Cards";
+			sourceTree = "<group>";
+		};
+		DD92264525DA09B8009788D1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DD18F41D25D5E1CD00E345C9 /* ConsumerCardView.swift */,
+				DD70772025D2396F00401BDB /* EnterAmountView.swift */,
+				DD92264125DA0983009788D1 /* LoadingView.swift */,
+				DD70771C25D2361900401BDB /* WelcomeView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		DDBD9C0025D33C0200008642 /* Consumer Cards */ = {
@@ -512,6 +523,7 @@
 				DDBD9C0225D33C3D00008642 /* Consumer.swift in Sources */,
 				66E255AE24E3C14600C81F20 /* Strings.swift in Sources */,
 				DDBD9C0C25D33C7000008642 /* Item.swift in Sources */,
+				DD92264225DA0983009788D1 /* LoadingView.swift in Sources */,
 				6615F99B24D14620005036F1 /* SVG.swift in Sources */,
 				66483F3B24D7A164000BE6B5 /* PriceBreakdownView.swift in Sources */,
 				DD18F43F25D6515200E345C9 /* OrderDetails.swift in Sources */,

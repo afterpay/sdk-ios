@@ -56,7 +56,6 @@ public func presentWelcomePageModally(
   )
 
   let containerController = UINavigationController(rootViewController: viewControllerToPresent)
-  containerController.setNavigationBarHidden(true, animated: false)
 
   viewController.present(containerController, animated: animated, completion: nil)
 }

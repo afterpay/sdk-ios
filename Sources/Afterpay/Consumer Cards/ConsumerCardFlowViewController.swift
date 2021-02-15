@@ -11,7 +11,7 @@ import WebKit
 
 final class ConsumerCardFlowViewController: UIViewController {
 
-  enum Screen {
+  enum Screen: Equatable {
     case welcome
     case amount
     case consumerCard(cardNumber: String)
@@ -21,6 +21,15 @@ final class ConsumerCardFlowViewController: UIViewController {
   // View State
   private var currentScreen: Screen = .welcome {
     didSet {
+      if #available(iOS 13.0, *) {
+        isModalInPresentation = currentScreen == .loading
+      }
+
+      let isNavigationBarHidden = currentScreen == .loading
+      if isNavigationBarHidden != navigationController?.isNavigationBarHidden {
+        navigationController?.setNavigationBarHidden(isNavigationBarHidden, animated: true)
+      }
+
       reloadView()
     }
   }
@@ -33,7 +42,7 @@ final class ConsumerCardFlowViewController: UIViewController {
   private let welcomeView: WelcomeView
   private let enterAmountView: EnterAmountView
   private let consumerCardView: ConsumerCardView
-  private let loadingView: UIActivityIndicatorView
+  private let loadingView: LoadingView
 
   private var consumerCardToken: String
   private var token: String
@@ -51,14 +60,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
     enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction))
     consumerCardView = ConsumerCardView(cardNumber: "")
-    loadingView = UIActivityIndicatorView()
-    loadingView.hidesWhenStopped = false
-
-    if #available(iOS 13.0, *) {
-      loadingView.style = .large
-    } else {
-      loadingView.style = .whiteLarge
-    }
+    loadingView = LoadingView()
 
     self.completion = completion
 
@@ -67,6 +69,8 @@ final class ConsumerCardFlowViewController: UIViewController {
     self.authToken = ""
 
     super.init(nibName: nil, bundle: nil)
+
+    self.title = "Afterpay"
   }
 
   required init?(coder: NSCoder) {
@@ -79,6 +83,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     view.backgroundColor = .white
 
     setupSubViews()
+    setupNavigationBar()
 
     reloadView()
   }
@@ -92,11 +97,11 @@ final class ConsumerCardFlowViewController: UIViewController {
     case .amount:
       subview = enterAmountView
     case .consumerCard(let cardNumber):
-      loadingView.stopAnimating()
+      loadingView.stopLoadingSpinner()
       consumerCardView.updateCardNumber(with: cardNumber)
       subview = consumerCardView
     case .loading:
-      loadingView.startAnimating()
+      loadingView.startLoadingSpinner()
       subview = loadingView
     }
 
@@ -130,6 +135,14 @@ final class ConsumerCardFlowViewController: UIViewController {
       subview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
     ])
   }
+
+  private func setupNavigationBar() {
+    navigationController?.navigationBar.barStyle = .black
+    navigationController?.navigationBar.isTranslucent = false
+    navigationController?.navigationBar.barTintColor = .green // TODO: Update the background color according to design spec
+  }
+
+  // MARK: - Button Actions
 
   @objc private func requireAmountAction() {
     enterAmountView.amountField.text = consumerCardRequest.amount.amount
@@ -182,7 +195,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       aggregator: "deadbeef"
     )
 
-    loadingView.startAnimating()
+    loadingView.startLoadingSpinner()
 
     NetworkService.shared.request(endpoint: .consumerCardConfirm(payload)) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
       switch result {
@@ -213,7 +226,7 @@ final class ConsumerCardFlowViewController: UIViewController {
             completion: checkoutCompletion(_:)
           )
 
-          loadingView.stopAnimating()
+          loadingView.stopLoadingSpinner()
           self.navigationController?.show(viewControllerToPresent, sender: self)
         }
       case .failure(let error):
