@@ -180,7 +180,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       self.callConsumerCardConfirmAPI(checkoutToken: token)
 
     case .cancelled(let reason):
-      print("Need to handle cancelled. Error reason: \(reason)")
+      completion(.failed(reason: .checkoutCancelled(reason: reason)))
     }
   }
 
@@ -204,7 +204,7 @@ final class ConsumerCardFlowViewController: UIViewController {
           self.currentScreen = .consumerCard(cardNumber: response.paymentDetails.virtualCard.cardNumber)
         }
       case .failure(let error):
-        completion(.failed(error: .networkError(error)))
+        completion(.failed(reason: .networkError(error)))
       }
     }
 
@@ -230,7 +230,7 @@ final class ConsumerCardFlowViewController: UIViewController {
           self.navigationController?.show(viewControllerToPresent, sender: self)
         }
       case .failure(let error):
-        completion(.failed(error: .networkError(error)))
+        completion(.failed(reason: .networkError(error)))
       }
     }
   }
