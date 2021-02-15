@@ -14,19 +14,29 @@ final class WelcomeView: UIView {
   init(continueAction: Selector) {
     super.init(frame: .zero)
 
-    let continueButton = UIButton()
-    continueButton.setTitle("Continue", for: .normal)
-    continueButton.setTitleColor(.blue, for: .normal)
+    let continueButton = PrimaryButton(title: "Continue with")
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchDown)
 
+    let titleLabel = UILabel()
+    titleLabel.text = "Lorem ipsum"
+    titleLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+    titleLabel.numberOfLines = 0
+
     continueButton.translatesAutoresizingMaskIntoConstraints = false
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
     addSubview(continueButton)
+    addSubview(titleLabel)
 
     NSLayoutConstraint.activate([
-      continueButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-      continueButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-      continueButton.topAnchor.constraint(equalTo: topAnchor),
-      continueButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+      titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+      titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
+      continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      continueButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+      continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
   }
 

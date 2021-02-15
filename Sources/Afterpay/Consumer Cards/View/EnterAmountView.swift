@@ -14,40 +14,32 @@ final class EnterAmountView: UIView {
     let field = UITextField()
     field.keyboardType = .numberPad
     field.textColor = .black
+    field.font = UIFont.boldSystemFont(ofSize: 56)
     return field
-  }()
-
-  private var verticalStack: UIStackView = {
-    let stackView = UIStackView()
-    stackView.axis = .vertical
-    stackView.alignment = .center
-    stackView.distribution = .fillEqually
-    stackView.spacing = 8
-    return stackView
   }()
 
   init(continueAction: Selector) {
     super.init(frame: .zero)
 
-    let continueButton = UIButton()
-    continueButton.setTitle("Submit and Continue", for: .normal)
-    continueButton.setTitleColor(.blue, for: .normal)
-    continueButton.addTarget(inputViewController, action: continueAction, for: .touchDown)
+    let continueButton = PrimaryButton(title: "Continue")
 
-    verticalStack.addArrangedSubview(amountField)
-    verticalStack.addArrangedSubview(continueButton)
+    continueButton.addTarget(inputViewController, action: continueAction, for: .touchDown)
 
     amountField.translatesAutoresizingMaskIntoConstraints = false
     continueButton.translatesAutoresizingMaskIntoConstraints = false
-    verticalStack.translatesAutoresizingMaskIntoConstraints = false
 
-    addSubview(verticalStack)
+    addSubview(amountField)
+    addSubview(continueButton)
 
     NSLayoutConstraint.activate([
-      verticalStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-      verticalStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      verticalStack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-      verticalStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+      amountField.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+      amountField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      amountField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
+      continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      continueButton.topAnchor.constraint(equalTo: amountField.bottomAnchor, constant: 24),
+      continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
   }
 
