@@ -96,6 +96,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       subview = enterAmountView
     case .consumerCard(let cardNumber):
       loadingView.stopLoadingSpinner()
+      navigationItem.leftBarButtonItem = nil
       consumerCardView.updateCardNumber(with: cardNumber)
       subview = consumerCardView
     case .loading:
@@ -138,8 +139,27 @@ final class ConsumerCardFlowViewController: UIViewController {
     navigationController?.navigationBar.barStyle = .black
     navigationController?.navigationBar.isTranslucent = false
     navigationController?.navigationBar.barTintColor = view.backgroundColor
+    navigationController?.navigationBar.tintColor = .black
 
     navigationItem.titleView = LogoView()
+
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(dismissConsumerCardFlow))
+    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: nil)
+  }
+
+  // MARK: - Navigation Bar Button Actions
+  @objc private func dismissConsumerCardFlow() {
+    switch currentScreen {
+    case .consumerCard(let cardNumber):
+      dismiss(animated: true) { [weak self] in
+
+        // Temporarily initiate a virtual card
+        let virtualCard = VirtualCard(cardType: "VISA", cardNumber: cardNumber, cvc: "123", expiry: "02/02/23")
+        self?.completion(.success(virtualCard: virtualCard))
+      }
+    default:
+      dismiss(animated: true, completion: nil)
+    }
   }
 
   // MARK: - Button Actions
