@@ -15,7 +15,7 @@ final class WelcomeView: UIView {
     super.init(frame: .zero)
 
     let continueButton = PrimaryButton(title: "Continue with")
-    continueButton.addTarget(inputViewController, action: continueAction, for: .touchDown)
+    continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
     let titleLabel = UILabel()
     titleLabel.text = "Lorem ipsum"

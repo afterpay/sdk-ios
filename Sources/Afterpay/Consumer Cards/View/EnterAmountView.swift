@@ -23,7 +23,7 @@ final class EnterAmountView: UIView {
 
     let continueButton = PrimaryButton(title: "Continue")
 
-    continueButton.addTarget(inputViewController, action: continueAction, for: .touchDown)
+    continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
     amountField.translatesAutoresizingMaskIntoConstraints = false
     continueButton.translatesAutoresizingMaskIntoConstraints = false
