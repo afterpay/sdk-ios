@@ -69,8 +69,6 @@ final class ConsumerCardFlowViewController: UIViewController {
     self.authToken = ""
 
     super.init(nibName: nil, bundle: nil)
-
-    self.title = "Afterpay"
   }
 
   required init?(coder: NSCoder) {
@@ -139,7 +137,9 @@ final class ConsumerCardFlowViewController: UIViewController {
   private func setupNavigationBar() {
     navigationController?.navigationBar.barStyle = .black
     navigationController?.navigationBar.isTranslucent = false
-    navigationController?.navigationBar.barTintColor = .green // TODO: Update the background color according to design spec
+    navigationController?.navigationBar.barTintColor = view.backgroundColor
+
+    navigationItem.titleView = LogoView()
   }
 
   // MARK: - Button Actions

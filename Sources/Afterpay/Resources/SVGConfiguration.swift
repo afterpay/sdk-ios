@@ -18,6 +18,18 @@ protocol SVGConfiguration {
 
 }
 
+struct AfterpayLogoFullConfiguration: SVGConfiguration {
+  var colorScheme: ColorScheme
+
+  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
+    return .afterpayLogoFull
+  }
+
+  func accessibilityLabel(localizedFor locale: Locale) -> String {
+    return Strings.accessibleAfterpay
+  }
+}
+
 struct BadgeConfiguration: SVGConfiguration {
 
   var colorScheme: ColorScheme = .static(.blackOnMint)
