@@ -43,7 +43,6 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
-// swiftlint:disable:next function_parameter_count
 public func presentWelcomePageModally(
   over viewController: UIViewController,
   payload: ConsumerCardRequest,
