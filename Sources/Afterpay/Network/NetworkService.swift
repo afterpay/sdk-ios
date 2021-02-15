@@ -8,9 +8,10 @@
 
 import Foundation
 
-// TODO: Implement more network request error
-enum DecodeError: Error {
-  case unknown
+enum NetworkError: Error {
+  case invalidUrl
+  case failedToDecode
+  case failedToEncode
 }
 
 final class NetworkService {
@@ -26,7 +27,8 @@ final class NetworkService {
     urlComponent?.path = endpoint.path
 
     guard let url = urlComponent?.url else {
-      fatalError("Unable to construct URL with \(String(describing: urlComponent?.url))")
+      completion(.failure(NetworkError.invalidUrl))
+      return
     }
 
     var urlRequest = URLRequest(url: url)
@@ -34,7 +36,12 @@ final class NetworkService {
 
     if endpoint.method == .post {
       urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-      urlRequest.httpBody = getRequestBody(for: endpoint)
+
+      do {
+        urlRequest.httpBody = try getRequestBody(for: endpoint)
+      } catch {
+        completion(.failure(error))
+      }
     }
 
     session.dataTask(with: urlRequest) { data, _, error in
@@ -43,7 +50,7 @@ final class NetworkService {
           let response = try JSONDecoder().decode(T.self, from: data)
           completion(.success(response))
         } catch {
-          completion(.failure(DecodeError.unknown))
+          completion(.failure(NetworkError.failedToDecode))
         }
       } else if let error = error {
         completion(.failure(error))
@@ -53,20 +60,20 @@ final class NetworkService {
 
   // Encode
 
-  func encode<T>(_ payload: T) -> Data where T: Encodable {
+  func encode<T>(_ payload: T) throws -> Data where T: Encodable {
     do {
       return try JSONEncoder().encode(payload)
     } catch {
-      fatalError("Enable to encode")
+      throw NetworkError.failedToEncode
     }
   }
 
-  func getRequestBody(for endpoint: Endpoint) -> Data {
+  func getRequestBody(for endpoint: Endpoint) throws -> Data {
     switch endpoint {
     case .consumerCardConfirm(let payload):
-      return encode(payload)
+      return try encode(payload)
     case .consumerCards(let payload):
-      return encode(payload)
+      return try encode(payload)
     }
   }
 }

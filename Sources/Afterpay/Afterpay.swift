@@ -52,7 +52,7 @@ public func presentWelcomePageModally(
 ) {
   let viewControllerToPresent: UIViewController = ConsumerCardFlowViewController(
     with: payload,
-    checkoutCompletion: checkoutCompletion
+    completion: checkoutCompletion
   )
 
   let containerController = UINavigationController(rootViewController: viewControllerToPresent)

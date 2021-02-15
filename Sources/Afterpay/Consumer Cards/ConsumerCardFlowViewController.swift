@@ -28,7 +28,7 @@ final class ConsumerCardFlowViewController: UIViewController {
   // Payload for consumer cards API request
   private var consumerCardRequest: ConsumerCardRequest
 
-  private let checkoutCompletion: (_ result: ConsumerCardCheckoutResult) -> Void
+  private let completion: (_ result: ConsumerCardCheckoutResult) -> Void
 
   private let welcomeView: WelcomeView
   private let enterAmountView: EnterAmountView
@@ -41,7 +41,7 @@ final class ConsumerCardFlowViewController: UIViewController {
 
   init(
     with payload: ConsumerCardRequest,
-    checkoutCompletion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
+    completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
   ) {
     // Validate parameters value
 
@@ -60,7 +60,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       loadingView.style = .whiteLarge
     }
 
-    self.checkoutCompletion = checkoutCompletion
+    self.completion = completion
 
     self.consumerCardToken = ""
     self.token = ""
@@ -141,11 +141,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     consumerCardRequest.amount = Money(amount: amountValue, currency: consumerCardRequest.amount.currency)
     currentScreen = .loading
 
-    do {
-      try callConsumerCardAPI(payload: consumerCardRequest)
-    } catch {
-      fatalError("\(error.localizedDescription)")
-    }
+    callConsumerCardAPI(payload: consumerCardRequest)
   }
 
   // MARK: - Callbacks
@@ -195,7 +191,7 @@ final class ConsumerCardFlowViewController: UIViewController {
           self.currentScreen = .consumerCard(cardNumber: response.paymentDetails.virtualCard.cardNumber)
         }
       case .failure(let error):
-        fatalError(error.localizedDescription)
+        completion(.failed(error: .networkError(error)))
       }
     }
 
@@ -203,7 +199,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     self.navigationController?.presentationController?.delegate = .none
   }
 
-  private func callConsumerCardAPI(payload: ConsumerCardRequest) throws {
+  private func callConsumerCardAPI(payload: ConsumerCardRequest) {
     NetworkService.shared.request(endpoint: .consumerCards(payload)) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
       switch result {
       case .success(let response):
@@ -221,7 +217,7 @@ final class ConsumerCardFlowViewController: UIViewController {
           self.navigationController?.show(viewControllerToPresent, sender: self)
         }
       case .failure(let error):
-        fatalError(error.localizedDescription)
+        completion(.failed(error: .networkError(error)))
       }
     }
   }
