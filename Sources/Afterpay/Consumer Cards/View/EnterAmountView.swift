@@ -22,17 +22,24 @@ final class EnterAmountView: UIView {
     super.init(frame: .zero)
 
     let continueButton = PrimaryButton(title: "Continue")
+    let titleLabel = TitleLabel(with: "Lorem Ipsum")
 
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
     amountField.translatesAutoresizingMaskIntoConstraints = false
     continueButton.translatesAutoresizingMaskIntoConstraints = false
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
     addSubview(amountField)
     addSubview(continueButton)
+    addSubview(titleLabel)
 
     NSLayoutConstraint.activate([
-      amountField.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+      titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+      titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
+      amountField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
       amountField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       amountField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 

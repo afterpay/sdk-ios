@@ -19,7 +19,10 @@ final class PrimaryButton: UIButton {
 
     setTitleColor(.black, for: .normal)
     setTitle(title, for: .normal)
-    titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+
+    let font = UIFont.systemFont(ofSize: 16, weight: .bold)
+    titleLabel?.adjustsFontForContentSizeCategory = true
+    titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
   }
 
   required init?(coder: NSCoder) {

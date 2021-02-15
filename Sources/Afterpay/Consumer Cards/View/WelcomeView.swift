@@ -17,10 +17,7 @@ final class WelcomeView: UIView {
     let continueButton = PrimaryButton(title: "Continue with")
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
-    let titleLabel = UILabel()
-    titleLabel.text = "Lorem ipsum"
-    titleLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
-    titleLabel.numberOfLines = 0
+    let titleLabel = TitleLabel(with: "Lorem Ipsum\nLorem Ipsum")
 
     continueButton.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
