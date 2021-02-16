@@ -172,17 +172,7 @@ final class ConsumerCardFlowViewController: UIViewController {
 
   // MARK: - Navigation Bar Button Actions
   @objc private func dismissConsumerCardFlow() {
-    switch currentScreen {
-    case .consumerCard(let cardNumber):
-      dismiss(animated: true) { [weak self] in
-
-        // Temporarily initiate a virtual card
-        let virtualCard = VirtualCard(cardType: "VISA", cardNumber: cardNumber, cvc: "123", expiry: "02/02/23")
-        self?.completion(.success(virtualCard: virtualCard))
-      }
-    default:
-      dismiss(animated: true, completion: nil)
-    }
+    dismiss(animated: true, completion: nil)
   }
 
   // MARK: - Button Actions
@@ -244,6 +234,10 @@ final class ConsumerCardFlowViewController: UIViewController {
     NetworkService.shared.request(endpoint: .consumerCardConfirm(payload)) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
       switch result {
       case .success(let response):
+        // Temporarily initiate a virtual card
+        let virtualCard = VirtualCard(cardType: "VISA", cardNumber: response.paymentDetails.virtualCard.cardNumber, cvc: "123", expiry: "02/02/23")
+        self.completion(.success(virtualCard: virtualCard))
+
         DispatchQueue.main.async {
           self.currentScreen = .consumerCard(cardNumber: response.paymentDetails.virtualCard.cardNumber)
         }
@@ -261,6 +255,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       switch result {
       case .success(let response):
         self.consumerCardToken = response.consumerCardToken
+        
 
         DispatchQueue.main.async {
           let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
