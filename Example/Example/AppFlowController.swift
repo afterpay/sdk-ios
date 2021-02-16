@@ -17,13 +17,12 @@ final class AppFlowController: UIViewController {
     super.init(nibName: nil, bundle: nil)
 
     let purchaseLogicController = PurchaseLogicController(
+      checkoutResponseProvider: Repository.shared.checkout,
       email: Settings.email,
       currencyCode: Settings.currencyCode
     )
 
-    let purchase = PurchaseFlowController(
-      urlProvider: Repository.shared.checkout,
-      logicController: purchaseLogicController)
+    let purchase = PurchaseFlowController(logicController: purchaseLogicController)
     purchase.tabBarItem = UITabBarItem(
       title: "Purchase",
       image: UIImage(named: "briefcase"),

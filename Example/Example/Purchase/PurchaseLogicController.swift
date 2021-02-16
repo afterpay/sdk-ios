@@ -14,7 +14,9 @@ final class PurchaseLogicController {
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayCheckout(email: String, amount: String)
+    case showAfterpayCheckout
+    case provideCheckoutTokenResult(Result<Token, Error>)
+    case provideShippingOptions([ShippingOption])
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String)
   }
@@ -23,6 +25,13 @@ final class PurchaseLogicController {
     didSet { commandHandler(.updateProducts(productDisplayModels)) }
   }
 
+  typealias CheckoutResponseProvider = (
+    _ email: String,
+    _ amount: String,
+    _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
+  ) -> Void
+
+  private let checkoutResponseProvider: CheckoutResponseProvider
   private let products: [Product]
   private let email: String
   private let currencyCode: String
@@ -41,10 +50,12 @@ final class PurchaseLogicController {
   }
 
   init(
+    checkoutResponseProvider: @escaping CheckoutResponseProvider,
     products: [Product] = .stub,
     email: String,
     currencyCode: String
   ) {
+    self.checkoutResponseProvider = checkoutResponseProvider
     self.products = products
     self.email = email
     self.currencyCode = currencyCode
@@ -69,10 +80,38 @@ final class PurchaseLogicController {
   }
 
   func payWithAfterpay() {
+    commandHandler(.showAfterpayCheckout)
+  }
+
+  func loadCheckout() {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    commandHandler(.showAfterpayCheckout(email: email, amount: amount))
+    checkoutResponseProvider(email, amount) { [weak self] result in
+      let tokenResult = result.map(\.token)
+      self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
+    }
+  }
+
+  func selectAddress(address: Address) {
+    let shippingOptions = [
+      ShippingOption(
+        id: "standard",
+        name: "Standard",
+        description: "3 - 5 days",
+        shippingAmount: Money(amount: "0.00", currency: "AUD"),
+        orderAmount: Money(amount: "50.00", currency: "AUD")
+      ),
+      ShippingOption(
+        id: "priority",
+        name: "Priority",
+        description: "Next business day",
+        shippingAmount: Money(amount: "10.00", currency: "AUD"),
+        orderAmount: Money(amount: "60.00", currency: "AUD")
+      ),
+    ]
+
+    commandHandler(.provideShippingOptions(shippingOptions))
   }
 
   func success(with token: String) {

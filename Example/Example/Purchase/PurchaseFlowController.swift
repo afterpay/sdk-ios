@@ -11,22 +11,11 @@ import Foundation
 
 final class PurchaseFlowController: UIViewController {
 
-  typealias CheckoutURLProvider = (
-    _ email: String,
-    _ amount: String,
-    _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
-  ) -> Void
-
-  private let urlProvider: CheckoutURLProvider
   private let logicController: PurchaseLogicController
   private let ownedNavigationController: UINavigationController
   private let productsViewController: ProductsViewController
 
-  init(
-    urlProvider checkoutURLProvider: @escaping CheckoutURLProvider,
-    logicController purchaseLogicController: PurchaseLogicController
-  ) {
-    urlProvider = checkoutURLProvider
+  init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
 
     productsViewController = ProductsViewController { event in
@@ -60,6 +49,9 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
+  private var checkoutTokenResultCompletion: CheckoutTokenResultCompletion?
+  private var shippingOptionsCompletion: ShippingOptionsCompletion?
+
   private func execute(command: PurchaseLogicController.Command) {
     let logicController = self.logicController
     let navigationController = self.ownedNavigationController
@@ -78,8 +70,34 @@ final class PurchaseFlowController: UIViewController {
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayCheckout(let email, let amount):
-      presentAfterpayCheckoutModally(email: email, amount: amount, language: Settings.language)
+    case .showAfterpayCheckout:
+      Afterpay.presentCheckoutV2Modally(
+        over: ownedNavigationController,
+        didCommenceCheckout: { [weak self] in
+          self?.checkoutTokenResultCompletion = $0
+          logicController.loadCheckout()
+        },
+        shippingAddressDidChange: { [weak self] address, completion in
+          self?.shippingOptionsCompletion = completion
+          logicController.selectAddress(address: address)
+        },
+        completion: { result in
+          switch result {
+          case .success(let token):
+            logicController.success(with: token)
+          case .cancelled(let reason):
+            logicController.cancelled(with: reason)
+          }
+        }
+      )
+
+    case .provideCheckoutTokenResult(let tokenResult):
+      checkoutTokenResultCompletion?(tokenResult)
+      checkoutTokenResultCompletion = nil
+
+    case .provideShippingOptions(let shippingOptions):
+      shippingOptionsCompletion?(shippingOptions)
+      shippingOptionsCompletion = nil
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)
@@ -90,48 +108,6 @@ final class PurchaseFlowController: UIViewController {
       let viewControllers = [productsViewController, messageViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     }
-  }
-
-  let shippingOptions = [
-    ShippingOption(
-      id: "standard",
-      name: "Standard",
-      description: "3 - 5 days",
-      shippingAmount: Money(amount: "0.00", currency: "AUD"),
-      orderAmount: Money(amount: "50.00", currency: "AUD")
-    ),
-    ShippingOption(
-      id: "priority",
-      name: "Priority",
-      description: "Next business day",
-      shippingAmount: Money(amount: "10.00", currency: "AUD"),
-      orderAmount: Money(amount: "60.00", currency: "AUD")
-    ),
-  ]
-
-  private func presentAfterpayCheckoutModally(email: String, amount: String, language: Language) {
-    let logicController = self.logicController
-    let viewController = self.ownedNavigationController
-
-    Afterpay.presentCheckoutV2Modally(
-      over: viewController,
-      didCommenceCheckout: { [urlProvider] completion in
-        urlProvider(email, amount) { result in
-          completion(result.map(\.token))
-        }
-      },
-      shippingAddressDidChange: { [shippingOptions] _, completion in
-        completion(shippingOptions)
-      },
-      completion: { result in
-        switch result {
-        case .success(let token):
-          logicController.success(with: token)
-        case .cancelled(let reason):
-          logicController.cancelled(with: reason)
-        }
-      }
-    )
   }
 
   // MARK: Unavailable
