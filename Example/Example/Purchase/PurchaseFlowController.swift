@@ -12,8 +12,9 @@ import Foundation
 final class PurchaseFlowController: UIViewController {
 
   private let logicController: PurchaseLogicController
-  private let ownedNavigationController: UINavigationController
   private let productsViewController: ProductsViewController
+  private let ownedNavigationController: UINavigationController
+  private let checkoutHandler: CheckoutHandler
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
@@ -33,6 +34,13 @@ final class PurchaseFlowController: UIViewController {
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
 
+    checkoutHandler = CheckoutHandler(
+      didCommenceCheckout: purchaseLogicController.loadCheckout,
+      onShippingAddressDidChange: purchaseLogicController.selectAddress
+    )
+
+    Afterpay.setCheckoutV2Handler(checkoutHandler)
+
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -48,9 +56,6 @@ final class PurchaseFlowController: UIViewController {
       DispatchQueue.main.async { self.execute(command: command) }
     }
   }
-
-  private var checkoutTokenResultCompletion: CheckoutTokenResultCompletion?
-  private var shippingOptionsCompletion: ShippingOptionsCompletion?
 
   private func execute(command: PurchaseLogicController.Command) {
     let logicController = self.logicController
@@ -71,33 +76,20 @@ final class PurchaseFlowController: UIViewController {
       navigationController.pushViewController(cartViewController, animated: true)
 
     case .showAfterpayCheckout:
-      Afterpay.presentCheckoutV2Modally(
-        over: ownedNavigationController,
-        didCommenceCheckout: { [weak self] in
-          self?.checkoutTokenResultCompletion = $0
-          logicController.loadCheckout()
-        },
-        shippingAddressDidChange: { [weak self] address, completion in
-          self?.shippingOptionsCompletion = completion
-          logicController.selectAddress(address: address)
-        },
-        completion: { result in
-          switch result {
-          case .success(let token):
-            logicController.success(with: token)
-          case .cancelled(let reason):
-            logicController.cancelled(with: reason)
-          }
+      Afterpay.presentCheckoutV2Modally(over: ownedNavigationController) { result in
+        switch result {
+        case .success(let token):
+          logicController.success(with: token)
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
         }
-      )
+      }
 
     case .provideCheckoutTokenResult(let tokenResult):
-      checkoutTokenResultCompletion?(tokenResult)
-      checkoutTokenResultCompletion = nil
+      checkoutHandler.provideTokenResult(tokenResult: tokenResult)
 
     case .provideShippingOptions(let shippingOptions):
-      shippingOptionsCompletion?(shippingOptions)
-      shippingOptionsCompletion = nil
+      checkoutHandler.provideShippingOptions(shippingOptions: shippingOptions)
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)
