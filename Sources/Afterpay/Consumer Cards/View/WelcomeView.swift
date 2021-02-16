@@ -11,7 +11,7 @@ import UIKit
 
 final class WelcomeView: UIView {
 
-  var verticalStackView: UIStackView = {
+  private var verticalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +19,36 @@ final class WelcomeView: UIView {
     return stackView
   }()
 
-  let headlineLabel: (_ text: String) -> UILabel = { text in
+  private var termsAndConditionTextView: UITextView = {
+    let textView = UITextView()
+
+    let font = UIFont.systemFont(ofSize: 12, weight: .light)
+    let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
+
+    let attributedString = NSMutableAttributedString(
+      string: "Lorem ipsum dolor sit amet, pro eu mentitum mediocrem, in dicta partiendo mel, ei sea principes adolescens. terms and conditions",
+      attributes: [
+        .font: fontMetrics,
+      ]
+    )
+
+    let range = (attributedString.string as NSString).range(of: "terms and conditions")
+    attributedString.addAttribute(.link, value: "https://www.apple.com/au/iphone-se/", range: range)
+
+    textView.adjustsFontForContentSizeCategory = true
+    textView.translatesAutoresizingMaskIntoConstraints = false
+
+    textView.attributedText = attributedString
+    textView.isEditable = false
+    textView.isSelectable = true
+    textView.isScrollEnabled = false
+    textView.textContainerInset = .zero
+    textView.textContainer.lineFragmentPadding = .zero
+
+    return textView
+  }()
+
+  private let headlineLabel: (_ text: String) -> UILabel = { text in
     let label = UILabel()
     label.text = text
     label.textAlignment = .left
@@ -51,6 +80,7 @@ final class WelcomeView: UIView {
     addSubview(continueButton)
     addSubview(titleLabel)
     addSubview(verticalStackView)
+    addSubview(termsAndConditionTextView)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 32),
@@ -61,9 +91,13 @@ final class WelcomeView: UIView {
       verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
 
+      termsAndConditionTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      termsAndConditionTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      termsAndConditionTextView.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 24),
+
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      continueButton.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 24),
+      continueButton.topAnchor.constraint(equalTo: termsAndConditionTextView.bottomAnchor, constant: 24),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
   }
