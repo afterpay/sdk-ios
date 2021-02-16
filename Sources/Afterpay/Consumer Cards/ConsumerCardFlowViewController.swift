@@ -90,6 +90,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     case .welcome:
       subview = welcomeView
     case .amount:
+      enterAmountView.amountField.becomeFirstResponder()
       subview = enterAmountView
     case .consumerCard(let cardNumber):
       loadingView.stopLoadingSpinner()
@@ -106,6 +107,16 @@ final class ConsumerCardFlowViewController: UIViewController {
 
     view.bringSubviewToFront(subview)
     updateLayout(with: subview)
+    updateKeyboard()
+  }
+
+  private func updateKeyboard() {
+    switch currentScreen {
+    case .amount:
+      enterAmountView.becomeFirstResponder()
+    default:
+      enterAmountView.endEditing(true)
+    }
   }
 
   private func updateNavigationBar() {

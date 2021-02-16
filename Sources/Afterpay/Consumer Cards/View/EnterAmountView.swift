@@ -46,6 +46,9 @@ final class EnterAmountView: UIView {
       continueButton.topAnchor.constraint(equalTo: amountField.bottomAnchor, constant: 24),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
+
+    let tap = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing))
+    addGestureRecognizer(tap)
   }
 
   required init?(coder: NSCoder) {
