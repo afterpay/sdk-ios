@@ -154,7 +154,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       subview.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
       subview.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
       subview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      subview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      subview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
   }
 
