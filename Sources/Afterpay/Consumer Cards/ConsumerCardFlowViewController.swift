@@ -15,6 +15,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     case welcome
     case amount
     case consumerCard(cardNumber: String)
+    case checkout(CheckoutWebViewController)
     case loading
   }
 
@@ -25,11 +26,7 @@ final class ConsumerCardFlowViewController: UIViewController {
         isModalInPresentation = currentScreen == .loading
       }
 
-      let isNavigationBarHidden = currentScreen == .loading
-      if isNavigationBarHidden != navigationController?.isNavigationBarHidden {
-        navigationController?.setNavigationBarHidden(isNavigationBarHidden, animated: true)
-      }
-
+      updateNavigationBar()
       reloadView()
     }
   }
@@ -96,9 +93,12 @@ final class ConsumerCardFlowViewController: UIViewController {
       subview = enterAmountView
     case .consumerCard(let cardNumber):
       loadingView.stopLoadingSpinner()
-      navigationItem.leftBarButtonItem = nil
       consumerCardView.updateCardNumber(with: cardNumber)
       subview = consumerCardView
+    case .checkout(let viewControllerToPresent):
+      loadingView.stopLoadingSpinner()
+      navigationController?.show(viewControllerToPresent, sender: self)
+      return
     case .loading:
       loadingView.startLoadingSpinner()
       subview = loadingView
@@ -106,6 +106,18 @@ final class ConsumerCardFlowViewController: UIViewController {
 
     view.bringSubviewToFront(subview)
     updateLayout(with: subview)
+  }
+
+  private func updateNavigationBar() {
+    switch currentScreen {
+    case .loading, .checkout:
+      navigationController?.setNavigationBarHidden(true, animated: true)
+    case .consumerCard:
+      navigationController?.setNavigationBarHidden(false, animated: true)
+      navigationItem.leftBarButtonItem = nil
+    default:
+      navigationController?.setNavigationBarHidden(false, animated: true)
+    }
   }
 
   private func setupSubViews() {
@@ -215,6 +227,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       aggregator: "deadbeef"
     )
 
+    currentScreen = .loading
     loadingView.startLoadingSpinner()
 
     NetworkService.shared.request(endpoint: .consumerCardConfirm(payload)) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
@@ -239,15 +252,14 @@ final class ConsumerCardFlowViewController: UIViewController {
         self.consumerCardToken = response.consumerCardToken
 
         DispatchQueue.main.async {
-          let viewControllerToPresent: UIViewController = CheckoutWebViewController(
+          let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
             checkoutUrl: response.redirectCheckoutUrl,
             consumerCardFlow: true,
             cookieChangeCallback: cookiesChangedCallback(cookieStore:),
             completion: checkoutCompletion(_:)
           )
 
-          loadingView.stopLoadingSpinner()
-          self.navigationController?.show(viewControllerToPresent, sender: self)
+          currentScreen = .checkout(viewControllerToPresent)
         }
       case .failure(let error):
         completion(.failed(reason: .networkError(error)))
