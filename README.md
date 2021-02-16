@@ -26,18 +26,27 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
     - [XCFramework](#xcframework)
 - [Features](#features)
   - [Web Checkout](#web-checkout)
-    - [Note](#note)
+    - [Checkout v1](#checkout-v1)
+    - [Checkout v2](#checkout-v2)
+    - [Clearpay Checkout](#clearpay-checkout)
+    - [Clearing Cookies](#clearing-cookies)
   - [Security](#security)
     - [Swift](#swift)
     - [Objective-C](#objective-c)
-  - [Badge](#badge)
+  - [Views](#views)
+    - [Color Schemes](#color-schemes)
+    - [Badge](#badge)
+    - [Payment Button](#payment-button)
   - [Price Breakdown](#price-breakdown)
     - [Accessibility and Dark mode](#accessibility-and-dark-mode)
 - [Getting Started](#getting-started)
-  - [Presenting Web Checkout](#presenting-web-checkout)
+  - [Presenting Web Checkout v1](#presenting-web-checkout-v1)
     - [Swift (UIKit)](#swift-uikit)
     - [Objective-C (UIKit)](#objective-c-uikit)
     - [SwiftUI](#swiftui)
+  - [Configuration](#configuration)
+  - [Presenting Web Checkout v2](#presenting-web-checkout-v2)
+    - [Swift (UIKit)](#swift-uikit-1)
 - [Examples](#examples)
 - [Building](#building)
   - [Mint](#mint)
@@ -118,11 +127,33 @@ The Afterpay SDK contains a checkout web flow with optional security features as
 
 ## Web Checkout
 
-Provided the URL generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration accounts for cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired.
+Provided the URL or token generated during the checkout process we take care of pre approval process during which the user will log into Afterpay. The provided integration makes use of cookie storage such that returning customers will only have to re-authenticate with Afterpay once their existing sessions have expired. There are currently two versions of web checkout.
 
-### Note
+### Checkout v1
 
-These cookies are stored in the default web kit website data store and can be cleared if required by writing code similar to:
+```swift
+Afterpay.presentCheckoutModally(over:loading:animated:completion:)
+```
+
+Checkout version 1 requires you to manage the loading of a checkout URL yourself and provide it to the SDK. This version of checkout only supports `standard` mode and completes on receiving a redirect.
+
+### Checkout v2
+
+```swift
+Afterpay.presentCheckoutV2Modally(over:animated:options:didCommenceCheckout:shippingAddressDidChange:shippingOptionDidChange:completion:)
+```
+
+Checkout version 2 allows you to load the checkout token on demand via `didCommenceCheckout` while presenting a loading view. It also supports `express` checkout features and callbacks which can either be handled in line or via a checkout handler object.
+
+The configuration object *must* be set before calling checkout v2.
+
+### Clearpay Checkout
+
+Checkout supports Clearpay for v1 this means supplying a correctly formed URL for the Clearpay environment with a token created for a Clearpay checkout. For v2 this means loading a Clearpay token on demand as well as ensuring to set the locale as `en_GB` in Afterpay configuration.
+
+### Clearing Cookies
+
+Cookies are stored in the default web kit website data store and can be cleared if required by writing code similar to:
 
 ```swift
 let dataStore = WKWebsiteDataStore.default()
@@ -244,7 +275,7 @@ By default this component updates when the trait collection changes to update te
 
 We provide options for integrating the SDK in Swift and Objective-C.
 
-## Presenting Web Checkout
+## Presenting Web Checkout v1
 
 The Web Login is a `UIViewController` that can be presented modally over the view controller of your choosing.
 
@@ -325,6 +356,118 @@ struct MyView: View {
 }
 ```
 
+## Configuration
+
+For version 2 of Checkout a configuration is required to determine the endpoint and environment. Your configuration should be formed from the configuration API as well as the localization settings of your store. The `locale` determines the endpoint checkout v2 will use, for locales with a `US` region the US checkout URL will be used for instance. For environment we recommend using `.sandbox` in debug and `.production` for release builds.
+
+For example:
+```swift
+let configuration = try Configuration(
+  minimumAmount: response.minimumAmount?.amount,
+  maximumAmount: response.maximumAmount.amount,
+  currencyCode: response.maximumAmount.currency,
+  locale: Locale(identifier: "en_US"),
+  environment: .sandbox
+)
+
+Afterpay.setConfiguration(configuration)
+```
+
+You may also choose to send the desired locale and/or environment data back from your own API. This configuration should be cached by your application and an attempt to update it should be made once a day (or a frequency you determine acceptable based on your requirements). It is also recommended to include an initial version matching the live configuration in case the first time load fails.
+
+## Presenting Web Checkout v2
+
+The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers have not been provided at this time for v2. Please raise an issue if you would like to see them implemented.
+
+> **NOTE:** Configuration must always be set before calling checkout v2 otherwise you will incur an assertionFailure.
+
+### Swift (UIKit)
+
+A standard checkout implemented with v2 loads the token on demand.
+
+```swift
+Afterpay.presentCheckoutV2Modally(
+  over: viewController,
+  didCommenceCheckout: { completion in
+    // Load the token passing the result to completion
+  },
+  completion: { result in
+    switch result {
+    case .success(let token):
+      // Handle successful Afterpay checkout
+    case .cancelled(let reason):
+      // Handle checkout cancellation
+    }
+  }
+)
+```
+
+An express checkout can make use of callbacks and options to provide a richer checkout experience. For more information on express checkout please check the [api reference][express-checkout]
+
+```swift
+Afterpay.presentCheckoutV2Modally(
+  over: viewController,
+  options: CheckoutV2Options(buyNow: true),
+  didCommenceCheckout: { completion in
+    // Load the token passing the result to completion
+  },
+  shippingAddressDidChange: { address, completion in
+    // Use the address to form shipping options and pass to completion
+  },
+  shippingOptionDidChange: { shippingOption in
+    // Optionally update your application model with the selected shipping option
+  },
+  completion: { result in
+    switch result {
+    case .success(let token):
+      // Handle successful Afterpay checkout
+    case .cancelled(let reason):
+      // Handle checkout cancellation
+    }
+  }
+)
+```
+
+If you wish to handle these callbacks separately to presentation you can do so by implementing a handler object.
+
+```swift
+final class CheckoutHandler: CheckoutV2Handler {
+  func didCommenceCheckout(completion: @escaping CheckoutTokenResultCompletion) {
+    // Load the token passing the result to completion
+  }
+
+  func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion) {
+    // Use the address to form shipping options and pass to completion
+  }
+
+  func shippingOptionDidChange(shippingOption: ShippingOption) {
+    // Optionally update your application model with the selected shipping option
+  }
+}
+
+final class MyViewController: UIViewController {
+  // You must maintain a reference to your handler as it is stored as a weak reference within the SDK
+  private let handler = CheckoutHandler()
+  // ...
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    Afterpay.setCheckoutV2Handler(configuration)
+  }
+  // ...
+  @objc func didTapPayWithAfterpay() {
+    Afterpay.presentCheckoutV2Modally(over: viewController) { result in
+      switch result {
+      case .success(let token):
+        // Handle successful Afterpay checkout
+      case .cancelled(let reason):
+        // Handle checkout cancellation
+      }
+    }
+  }
+}
+```
+
 # Examples
 
 The [example project][example] demonstrates how to include an Afterpay payment flow web experience. This project is powered by the [example server][example-server] which shows a simple example of integration with the Afterpay API.
@@ -376,6 +519,7 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [create-xcframework]: Scripts/create-xcframework
 [example]: Example
 [example-server]: https://github.com/afterpay/sdk-example-server
+[express-checkout]: https://developers.afterpay.com/afterpay-online/reference#what-is-express-checkout
 [four-payments]: Images/four-payments.png
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/afterpay/sdk-ios/releases/latest
