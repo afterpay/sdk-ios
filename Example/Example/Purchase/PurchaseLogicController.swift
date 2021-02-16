@@ -33,8 +33,8 @@ final class PurchaseLogicController {
 
   private let checkoutResponseProvider: CheckoutResponseProvider
   private let products: [Product]
-  private let email: String
-  private let currencyCode: String
+  private var email: String { Settings.email }
+  private var currencyCode: String { Settings.currencyCode }
 
   private var quantities: [UUID: UInt] = [:]
 
@@ -51,14 +51,10 @@ final class PurchaseLogicController {
 
   init(
     checkoutResponseProvider: @escaping CheckoutResponseProvider,
-    products: [Product] = .stub,
-    email: String,
-    currencyCode: String
+    products: [Product] = .stub
   ) {
     self.checkoutResponseProvider = checkoutResponseProvider
     self.products = products
-    self.email = email
-    self.currencyCode = currencyCode
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
