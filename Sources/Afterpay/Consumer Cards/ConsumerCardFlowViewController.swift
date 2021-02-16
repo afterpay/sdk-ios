@@ -14,7 +14,7 @@ final class ConsumerCardFlowViewController: UIViewController {
   enum Screen: Equatable {
     case welcome
     case amount
-    case consumerCard(cardNumber: String)
+    case consumerCard(virtualCard: VirtualCard, vccExpiry: String)
     case checkout(CheckoutWebViewController)
     case loading
   }
@@ -56,7 +56,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     // initiate views
     welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
     enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction))
-    consumerCardView = ConsumerCardView(cardNumber: "")
+    consumerCardView = ConsumerCardView(virtualCard: VirtualCard.empty(), expiry: "")
     loadingView = LoadingView()
 
     self.completion = completion
@@ -92,9 +92,9 @@ final class ConsumerCardFlowViewController: UIViewController {
     case .amount:
       enterAmountView.amountField.becomeFirstResponder()
       subview = enterAmountView
-    case .consumerCard(let cardNumber):
+    case .consumerCard(let virtualCard, _):
       loadingView.stopLoadingSpinner()
-      consumerCardView.updateCardNumber(with: cardNumber)
+      consumerCardView.updateCardNumber(with: virtualCard.cardNumber)
       subview = consumerCardView
     case .checkout(let viewControllerToPresent):
       loadingView.stopLoadingSpinner()
@@ -234,12 +234,12 @@ final class ConsumerCardFlowViewController: UIViewController {
     NetworkService.shared.request(endpoint: .consumerCardConfirm(payload)) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
       switch result {
       case .success(let response):
+        let virtualCard = response.paymentDetails.virtualCard
         // Temporarily initiate a virtual card
-        let virtualCard = VirtualCard(cardType: "VISA", cardNumber: response.paymentDetails.virtualCard.cardNumber, cvc: "123", expiry: "02/02/23")
         self.completion(.success(virtualCard: virtualCard))
 
         DispatchQueue.main.async {
-          self.currentScreen = .consumerCard(cardNumber: response.paymentDetails.virtualCard.cardNumber)
+          self.currentScreen = .consumerCard(virtualCard: virtualCard, vccExpiry: response.vccExpiry)
         }
       case .failure(let error):
         completion(.failed(reason: .networkError(error)))

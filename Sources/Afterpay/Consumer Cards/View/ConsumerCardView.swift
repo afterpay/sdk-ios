@@ -12,12 +12,12 @@ import UIKit
 final class ConsumerCardView: UIView {
   private let cardNumberLabel: UILabel
 
-  init(cardNumber: String) {
+  init(virtualCard: VirtualCard, expiry: String) {
     self.cardNumberLabel = UILabel()
 
     super.init(frame: .zero)
 
-    self.cardNumberLabel.text = cardNumber
+    self.cardNumberLabel.text = virtualCard.cardNumber
 
     cardNumberLabel.translatesAutoresizingMaskIntoConstraints = false
     addSubview(cardNumberLabel)
