@@ -44,7 +44,7 @@ final class CheckoutV2ViewController:
 
   // MARK: URLs
 
-  private let bootstrapURL: URL = URL(string: "https://afterpay.github.io/sdk-example-server/")!
+  private var bootstrapURL: URL { configuration.environment.bootstrapURL }
 
   // MARK: Web Views
 

@@ -11,4 +11,13 @@ import Foundation
 @frozen public enum Environment: String {
   case sandbox
   case production
+
+  var bootstrapURL: URL {
+    switch self {
+    case .sandbox:
+      return URL(string: "https://static.sandbox.afterpay.com/mobile-sdk/bootstrap/index.html")!
+    case .production:
+      return URL(string: "https://static.afterpay.com/mobile-sdk/bootstrap/index.html")!
+    }
+  }
 }
