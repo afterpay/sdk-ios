@@ -20,12 +20,12 @@ final class EnterAmountView: UIView {
   }()
 
   var currencyLabel: UILabel = {
-    let currencyLabel = UILabel()
-    currencyLabel.text = "$"
-    currencyLabel.translatesAutoresizingMaskIntoConstraints = false
-    currencyLabel.adjustsFontForContentSizeCategory = true
+    let label = UILabel()
+    label.text = "$"
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.adjustsFontForContentSizeCategory = true
 
-    return currencyLabel
+    return label
   }()
 
   var amountField: UITextField = {
@@ -40,6 +40,20 @@ final class EnterAmountView: UIView {
     field.translatesAutoresizingMaskIntoConstraints = false
 
     return field
+  }()
+
+  var noteLabel: UILabel = {
+    let label = UILabel()
+    label.text = "Lorem ipsum dolor sit amet exerci his no."
+
+    let font = UIFont.boldSystemFont(ofSize: 12)
+    label.font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: font)
+
+    label.numberOfLines = 0
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.adjustsFontForContentSizeCategory = true
+
+    return label
   }()
 
   init(continueAction: Selector) {
@@ -60,6 +74,7 @@ final class EnterAmountView: UIView {
     addSubview(titleLabel)
     addSubview(subtitleLabel)
     addSubview(horizontalStackView)
+    addSubview(noteLabel)
     addSubview(continueButton)
 
     NSLayoutConstraint.activate([
@@ -75,9 +90,13 @@ final class EnterAmountView: UIView {
       horizontalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       horizontalStackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
 
+      noteLabel.topAnchor.constraint(equalTo: horizontalStackView.bottomAnchor, constant: 8),
+      noteLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      noteLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      continueButton.topAnchor.constraint(equalTo: horizontalStackView.bottomAnchor, constant: 24),
+      continueButton.topAnchor.constraint(equalTo: noteLabel.bottomAnchor, constant: 24),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
 
