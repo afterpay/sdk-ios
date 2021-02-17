@@ -132,17 +132,17 @@ final class CheckoutV2ViewController:
     super.viewDidAppear(animated)
 
     let webView: WKWebView = bootstrapWebView
-    let url = bootstrapURL
-    let load: () -> Void = { webView.load(URLRequest(url: url)) }
+    let load: () -> Void = { [bootstrapURL] in webView.load(URLRequest(url: bootstrapURL)) }
 
     // Remove bootstrap disk caches so that the latest bootstrap is loaded
     let dataStore = webView.configuration.websiteDataStore
     let dataTypes: Set<String> = [WKWebsiteDataTypeDiskCache]
-    let removeBootstrapData = { (records: [WKWebsiteDataRecord]) in
-      let bootstrapRecords = records.filter { $0.displayName == url.host }
+    let displayName = configuration.environment.bootstrapCacheDisplayName
+
+    dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
+      let bootstrapRecords = records.filter { record in record.displayName == displayName }
       dataStore.removeData(ofTypes: dataTypes, for: bootstrapRecords, completionHandler: load)
     }
-    dataStore.fetchDataRecords(ofTypes: dataTypes, completionHandler: removeBootstrapData)
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate
