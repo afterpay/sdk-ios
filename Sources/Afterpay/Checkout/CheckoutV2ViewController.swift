@@ -74,6 +74,7 @@ final class CheckoutV2ViewController:
     presentationController?.delegate = self
 
     if #available(iOS 13.0, *) {
+      isModalInPresentation = true
       overrideUserInterfaceStyle = .light
     }
   }
@@ -147,12 +148,10 @@ final class CheckoutV2ViewController:
 
   // MARK: UIAdaptivePresentationControllerDelegate
 
-  func presentationControllerShouldDismiss(
+  func presentationControllerDidAttemptToDismiss(
     _ presentationController: UIPresentationController
-  ) -> Bool {
+  ) {
     presentCancelConfirmation()
-
-    return false
   }
 
   // MARK: Actions

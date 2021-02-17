@@ -41,6 +41,7 @@ final class CheckoutWebViewController:
     super.viewDidLoad()
 
     if #available(iOS 13.0, *) {
+      isModalInPresentation = true
       overrideUserInterfaceStyle = .light
     } else {
       navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -78,12 +79,10 @@ final class CheckoutWebViewController:
 
   // MARK: UIAdaptivePresentationControllerDelegate
 
-  func presentationControllerShouldDismiss(
+  func presentationControllerDidAttemptToDismiss(
     _ presentationController: UIPresentationController
-  ) -> Bool {
+  ) {
     presentCancelConfirmation()
-
-    return false
   }
 
   // MARK: Actions
