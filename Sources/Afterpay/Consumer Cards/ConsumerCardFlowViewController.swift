@@ -56,7 +56,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     // initiate views
     welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
     enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction))
-    consumerCardView = ConsumerCardView(virtualCard: VirtualCard.empty(), expiry: "")
+    consumerCardView = ConsumerCardView(virtualCard: VirtualCard.empty(), expiry: "", continueAction: #selector(finaliseOrderAction))
     loadingView = LoadingView()
 
     self.completion = completion
@@ -188,6 +188,10 @@ final class ConsumerCardFlowViewController: UIViewController {
     currentScreen = .loading
 
     callConsumerCardAPI(payload: consumerCardRequest)
+  }
+
+  @objc private func finaliseOrderAction() {
+    dismiss(animated: true, completion: nil)
   }
 
   // MARK: - Callbacks

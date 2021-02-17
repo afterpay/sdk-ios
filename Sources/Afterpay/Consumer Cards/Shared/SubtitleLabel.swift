@@ -10,13 +10,13 @@ import Foundation
 import UIKit
 
 final class SubtitleLabel: UILabel {
-  init(with title: String) {
+  init(with title: String, fontSize: CGFloat = 14) {
     super.init(frame: .zero)
 
     text = title
     numberOfLines = 0
 
-    let textFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+    let textFont = UIFont.systemFont(ofSize: fontSize, weight: .regular)
     adjustsFontForContentSizeCategory = true
     font = UIFontMetrics(forTextStyle: .title3).scaledFont(for: textFont)
 

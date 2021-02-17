@@ -11,13 +11,13 @@ import UIKit
 
 final class TitleLabel: UILabel {
 
-  init(with title: String) {
+  init(with title: String, fontSize: CGFloat = 32) {
     super.init(frame: .zero)
 
     text = title
     numberOfLines = 0
 
-    let textFont = UIFont.systemFont(ofSize: 32, weight: .bold)
+    let textFont = UIFont.systemFont(ofSize: fontSize, weight: .bold)
     adjustsFontForContentSizeCategory = true
     font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: textFont)
 
