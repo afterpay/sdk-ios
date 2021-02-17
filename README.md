@@ -379,7 +379,10 @@ You may also choose to send the desired locale and/or environment data back from
 
 The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers have not been provided at this time for v2. Please raise an issue if you would like to see them implemented.
 
-> **NOTE:** Configuration must always be set before calling checkout v2 otherwise you will incur an assertionFailure.
+> **NOTE:** 
+> Two requirements must be met in order to use checkout v2 successfully:
+> - Configuration must always be set before presentation otherwise you will incur an assertionFailure.
+> - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
 
 ### Swift (UIKit)
 
