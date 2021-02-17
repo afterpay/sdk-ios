@@ -10,28 +10,31 @@ import Foundation
 import UIKit
 
 final class ConsumerCardView: UIView {
-  private let cardNumberLabel: UILabel
+
+  private let virtualCardDisplayView = VirtualCardDisplayView(lastFourDigits: "", expiryDate: "")
+
+  private let lastFourDigits: (_ cardNumber: String) -> String = { cardNumber in
+    return String(cardNumber.suffix(4))
+  }
 
   init(virtualCard: VirtualCard, expiry: String, continueAction: Selector) {
-    self.cardNumberLabel = UILabel()
-
     super.init(frame: .zero)
 
     let titleLabel = TitleLabel(with: "$123", fontSize: 56)
     let subtitleLabel = SubtitleLabel(with: "Lorem ipsum dolor", fontSize: 16)
     let continueButton = PrimaryButton(title: "Continue to finalise your order")
 
-    self.cardNumberLabel.text = virtualCard.cardNumber
+    virtualCardDisplayView.translatesAutoresizingMaskIntoConstraints = false
 
     // Add target for continue button
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
-    cardNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+    updateCardDetails(with: virtualCard, expiry: expiry)
 
     addSubview(titleLabel)
     addSubview(subtitleLabel)
     addSubview(continueButton)
-    addSubview(cardNumberLabel)
+    addSubview(virtualCardDisplayView)
 
     // Adjust constraint
     NSLayoutConstraint.activate([
@@ -43,17 +46,14 @@ final class ConsumerCardView: UIView {
       subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 
-      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-      subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-      subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-
-      cardNumberLabel.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 32),
-      cardNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-      cardNumberLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+      virtualCardDisplayView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 32),
+      virtualCardDisplayView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      virtualCardDisplayView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      virtualCardDisplayView.heightAnchor.constraint(equalToConstant: 216),
 
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      continueButton.topAnchor.constraint(equalTo: cardNumberLabel.bottomAnchor, constant: 24),
+      continueButton.topAnchor.constraint(equalTo: virtualCardDisplayView.bottomAnchor, constant: 24),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
   }
@@ -62,7 +62,7 @@ final class ConsumerCardView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func updateCardNumber(with cardNumber: String) {
-    cardNumberLabel.text = "Card number: \(cardNumber)"
+  func updateCardDetails(with virtualCard: VirtualCard, expiry: String) {
+    virtualCardDisplayView.updateCardDetails(lastFourDigits: lastFourDigits(virtualCard.cardNumber), expiryDate: virtualCard.expiry)
   }
 }

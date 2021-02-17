@@ -22,7 +22,31 @@ struct AfterpayLogoFullConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
 
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
-    return .afterpayLogoFull
+    let svgForPalette: (ColorPalette) -> SVG = { palette in
+      switch palette {
+      case.blackOnMint:
+        return .afterpayLogoFullBlack
+      case .mintOnBlack:
+        return .afterpayLogoFullMint
+      case .whiteOnBlack:
+        return .afterpayLogoFullMint
+      case .blackOnWhite:
+        return .afterpayLogoFullBlack
+      }
+    }
+
+    let svg: SVG = {
+      switch traitCollection.userInterfaceStyle {
+      case .dark:
+        return svgForPalette(colorScheme.darkPalette)
+      case .light, .unspecified:
+        fallthrough
+      @unknown default:
+        return svgForPalette(colorScheme.lightPalette)
+      }
+    }()
+
+    return svg
   }
 
   func accessibilityLabel(localizedFor locale: Locale) -> String {

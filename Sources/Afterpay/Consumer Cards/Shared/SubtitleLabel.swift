@@ -17,9 +17,9 @@ final class SubtitleLabel: UILabel {
     numberOfLines = 0
 
     let textFont = UIFont.systemFont(ofSize: fontSize, weight: .regular)
-    adjustsFontForContentSizeCategory = true
     font = UIFontMetrics(forTextStyle: .title3).scaledFont(for: textFont)
 
+    adjustsFontForContentSizeCategory = true
     translatesAutoresizingMaskIntoConstraints = false
   }
 

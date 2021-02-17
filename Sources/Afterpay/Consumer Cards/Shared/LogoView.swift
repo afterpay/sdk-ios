@@ -12,12 +12,10 @@ import UIKit
 final class LogoView: UIView {
 
   private var svgView: SVGView!
-  private var colorScheme: ColorScheme = .dynamic(lightPalette: .blackOnWhite, darkPalette: .whiteOnBlack)
-
-  public init() {
+  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
     super.init(frame: .zero)
 
-    sharedInit()
+    sharedInit(colorScheme: colorScheme)
   }
 
   required init?(coder: NSCoder) {
@@ -26,7 +24,7 @@ final class LogoView: UIView {
     sharedInit()
   }
 
-  private func sharedInit() {
+  private func sharedInit(colorScheme: ColorScheme = .static(.blackOnMint)) {
     let configuration = AfterpayLogoFullConfiguration(colorScheme: colorScheme)
 
     isAccessibilityElement = true

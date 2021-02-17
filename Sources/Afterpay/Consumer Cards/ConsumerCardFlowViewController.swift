@@ -92,9 +92,9 @@ final class ConsumerCardFlowViewController: UIViewController {
     case .amount:
       enterAmountView.amountField.becomeFirstResponder()
       subview = enterAmountView
-    case .consumerCard(let virtualCard, _):
+    case .consumerCard(let virtualCard, let expiry):
       loadingView.stopLoadingSpinner()
-      consumerCardView.updateCardNumber(with: virtualCard.cardNumber)
+      consumerCardView.updateCardDetails(with: virtualCard, expiry: expiry)
       subview = consumerCardView
     case .checkout(let viewControllerToPresent):
       loadingView.stopLoadingSpinner()
@@ -259,8 +259,6 @@ final class ConsumerCardFlowViewController: UIViewController {
       switch result {
       case .success(let response):
         self.consumerCardToken = response.consumerCardToken
-        
-
         DispatchQueue.main.async {
           let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
             checkoutUrl: response.redirectCheckoutUrl,
