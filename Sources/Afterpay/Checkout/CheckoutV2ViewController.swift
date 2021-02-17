@@ -218,29 +218,8 @@ final class CheckoutV2ViewController:
     }
   }
 
-  private struct Checkout: Encodable {
-    var token: String
-    var locale: String
-    var environment: String
-    var version: String
-
-    var pickup: Bool?
-    var buyNow: Bool?
-    var shippingOptionRequired: Bool?
-
-    init(token: Token, configuration: Configuration, options: CheckoutV2Options) {
-      self.token = token
-      self.locale = configuration.locale.identifier
-      self.environment = configuration.environment.rawValue
-      self.version = Version.sdkVersion
-      self.pickup = options.pickup
-      self.buyNow = options.buyNow
-      self.shippingOptionRequired = options.shippingOptionRequired
-    }
-  }
-
   private func handleToken(token: Token) {
-    let checkout = Checkout(token: token, configuration: configuration, options: options)
+    let checkout = CheckoutV2(token: token, configuration: configuration, options: options)
     // swiftlint:disable:next force_try
     let json = String(data: try! encoder.encode(checkout), encoding: .utf8)!
     let javaScript = "openCheckout('\(json)');"
