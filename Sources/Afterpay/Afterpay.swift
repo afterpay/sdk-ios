@@ -22,7 +22,6 @@ import UIKit
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after the user has completed the checkout.
 ///   - result: The result of the user's completion (a success or cancellation).
-@available(*, deprecated, renamed: "presentCheckoutV2Modally")
 public func presentCheckoutModally(
   over viewController: UIViewController,
   loading checkoutURL: URL,
