@@ -81,7 +81,7 @@ public typealias DidCommenceCheckoutClosure = (
 public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
 
 public typealias ShippingAddressDidChangeClosure = (
-  _ address: Address,
+  _ address: ShippingAddress,
   _ completion: @escaping ShippingOptionsCompletion
 ) -> Void
 
@@ -160,7 +160,7 @@ public protocol CheckoutV2Handler: AnyObject {
   ///   - address: The address for which the item will be shipped to.
   ///   - completion: The closure that the formed shipping options should be passed to. The shipping
   ///   options passed should match the provided `address`.
-  func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion)
+  func shippingAddressDidChange(address: ShippingAddress, completion: @escaping ShippingOptionsCompletion)
 
   /// Called after the user selects one of the shipping options provided by the `completion` of
   /// `shippingAddressDidChange`.

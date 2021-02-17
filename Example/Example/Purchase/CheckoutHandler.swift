@@ -12,14 +12,14 @@ import Foundation
 final class CheckoutHandler: CheckoutV2Handler {
 
   private let didCommenceCheckoutClosure: () -> Void
-  private let onShippingAddressDidChangeClosure: (Address) -> Void
+  private let onShippingAddressDidChangeClosure: (ShippingAddress) -> Void
 
   private var checkoutTokenResultCompletion: CheckoutTokenResultCompletion?
   private var shippingOptionsCompletion: ShippingOptionsCompletion?
 
   init(
     didCommenceCheckout: @escaping () -> Void,
-    onShippingAddressDidChange: @escaping (Address) -> Void
+    onShippingAddressDidChange: @escaping (ShippingAddress) -> Void
   ) {
     didCommenceCheckoutClosure = didCommenceCheckout
     onShippingAddressDidChangeClosure = onShippingAddressDidChange
@@ -35,7 +35,7 @@ final class CheckoutHandler: CheckoutV2Handler {
     checkoutTokenResultCompletion = nil
   }
 
-  func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion) {
+  func shippingAddressDidChange(address: ShippingAddress, completion: @escaping ShippingOptionsCompletion) {
     shippingOptionsCompletion = completion
     onShippingAddressDidChangeClosure(address)
   }

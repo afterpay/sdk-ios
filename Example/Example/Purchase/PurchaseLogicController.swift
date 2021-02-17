@@ -89,7 +89,7 @@ final class PurchaseLogicController {
     }
   }
 
-  func selectAddress(address: Address) {
+  func selectAddress(address: ShippingAddress) {
     let shippingOptions = [
       ShippingOption(
         id: "standard",

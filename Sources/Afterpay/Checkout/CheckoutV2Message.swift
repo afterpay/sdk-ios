@@ -14,7 +14,7 @@ struct CheckoutV2Message: Codable {
   var payload: Payload?
 
   enum Payload {
-    case address(Address)
+    case address(ShippingAddress)
     case shippingOption(ShippingOption)
     case shippingOptions([ShippingOption])
   }
@@ -47,7 +47,7 @@ struct CheckoutV2Message: Codable {
 
     switch type {
     case .onShippingAddressChange:
-      let address = try container.decode(Address.self, forKey: .payload)
+      let address = try container.decode(ShippingAddress.self, forKey: .payload)
       payload = .address(address)
     case .onShippingOptionChange:
       let shippingOption = try container.decode(ShippingOption.self, forKey: .payload)

@@ -1,5 +1,5 @@
 //
-//  Address.swift
+//  ShippingAddress.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 7/12/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Address: Decodable {
+public struct ShippingAddress: Decodable {
   var countryCode: String?
   var postcode: String?
   var phoneNumber: String?
