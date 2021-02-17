@@ -19,24 +19,24 @@ final class PurchaseFlowController: UIViewController {
   init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
 
-    productsViewController = ProductsViewController { event in
+    productsViewController = ProductsViewController { [logicController] event in
       switch event {
       case .productEvent(.didTapPlus(let productId)):
-        purchaseLogicController.incrementQuantityOfProduct(with: productId)
+        logicController.incrementQuantityOfProduct(with: productId)
 
       case .productEvent(.didTapMinus(let productId)):
-        purchaseLogicController.decrementQuantityOfProduct(with: productId)
+        logicController.decrementQuantityOfProduct(with: productId)
 
       case .viewCart:
-        purchaseLogicController.viewCart()
+        logicController.viewCart()
       }
     }
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
 
     checkoutHandler = CheckoutHandler(
-      didCommenceCheckout: purchaseLogicController.loadCheckout,
-      onShippingAddressDidChange: purchaseLogicController.selectAddress
+      didCommenceCheckout: logicController.loadCheckout,
+      onShippingAddressDidChange: logicController.selectAddress
     )
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
