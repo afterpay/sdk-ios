@@ -26,14 +26,15 @@ final class ConsumerCardView: UIView {
     return label
   }()
 
+  private var titleLabel: TitleLabel = TitleLabel(with: "", fontSize: 56)
+
   private let lastFourDigits: (_ cardNumber: String) -> String = { cardNumber in
     return String(cardNumber.suffix(4))
   }
 
-  init(virtualCard: VirtualCard, expiry: String, continueAction: Selector) {
+  init(continueAction: Selector) {
     super.init(frame: .zero)
 
-    let titleLabel = TitleLabel(with: "$123", fontSize: 56)
     let subtitleLabel = SubtitleLabel(with: "Lorem ipsum dolor", fontSize: 16)
     let continueButton = PrimaryButton(title: "Continue to finalise your order")
 
@@ -42,7 +43,6 @@ final class ConsumerCardView: UIView {
     // Add target for continue button
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
-    updateCardDetails(with: virtualCard, expiry: expiry)
 
     addSubview(titleLabel)
     addSubview(subtitleLabel)
@@ -82,9 +82,10 @@ final class ConsumerCardView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func updateCardDetails(with virtualCard: VirtualCard, expiry: String) {
+  func updateCardDetails(with amount: Money, virtualCard: VirtualCard, expiry: String) {
     virtualCardDisplayView.updateCardDetails(lastFourDigits: lastFourDigits(virtualCard.cardNumber), expiryDate: virtualCard.expiry)
     virtualCardExpiryLabel.text = "This card is valid until \(expiry.convertToLocalTime())"
+    titleLabel.text = "$\(amount.amount)"
   }
 }
 

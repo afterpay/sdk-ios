@@ -8,12 +8,16 @@
 
 import Foundation
 
-public struct Money: Codable {
+public struct Money: Codable, Equatable {
   let amount: String
   let currency: String
 
   public static func mock() -> Self {
     return Money(amount: "35.00", currency: "USD")
+  }
+
+  public static func == (lhs: Self, rhs: Self) -> Bool {
+    return lhs.amount == rhs.amount && lhs.currency == lhs.currency
   }
 }
 

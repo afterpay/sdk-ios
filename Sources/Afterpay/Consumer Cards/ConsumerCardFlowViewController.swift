@@ -14,7 +14,7 @@ final class ConsumerCardFlowViewController: UIViewController {
   enum Screen: Equatable {
     case welcome
     case amount
-    case consumerCard(virtualCard: VirtualCard, vccExpiry: String)
+    case consumerCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
     case checkout(CheckoutWebViewController)
     case loading
   }
@@ -56,7 +56,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     // initiate views
     welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
     enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction))
-    consumerCardView = ConsumerCardView(virtualCard: VirtualCard.empty(), expiry: "", continueAction: #selector(finaliseOrderAction))
+    consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction))
     loadingView = LoadingView()
 
     self.completion = completion
@@ -92,9 +92,9 @@ final class ConsumerCardFlowViewController: UIViewController {
     case .amount:
       enterAmountView.amountField.becomeFirstResponder()
       subview = enterAmountView
-    case .consumerCard(let virtualCard, let expiry):
+    case .consumerCard(let amount, let virtualCard, let expiry):
       loadingView.stopLoadingSpinner()
-      consumerCardView.updateCardDetails(with: virtualCard, expiry: expiry)
+      consumerCardView.updateCardDetails(with: amount, virtualCard: virtualCard, expiry: expiry)
       subview = consumerCardView
     case .checkout(let viewControllerToPresent):
       loadingView.stopLoadingSpinner()
@@ -243,7 +243,7 @@ final class ConsumerCardFlowViewController: UIViewController {
         self.completion(.success(virtualCard: virtualCard))
 
         DispatchQueue.main.async {
-          self.currentScreen = .consumerCard(virtualCard: virtualCard, vccExpiry: response.vccExpiry)
+          self.currentScreen = .consumerCard(amount: consumerCardRequest.amount, virtualCard: virtualCard, vccExpiry: response.vccExpiry)
         }
       case .failure(let error):
         completion(.failed(reason: .networkError(error)))
