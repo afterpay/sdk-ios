@@ -12,6 +12,19 @@ import UIKit
 final class ConsumerCardView: UIView {
 
   private let virtualCardDisplayView = VirtualCardDisplayView(lastFourDigits: "", expiryDate: "")
+  private let virtualCardExpiryLabel: UILabel = {
+    let label = UILabel()
+    label.numberOfLines = 0
+    label.textAlignment = .center
+
+    let textFont = UIFont.systemFont(ofSize: 14, weight: .thin)
+    label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
+    label.textColor = .black
+
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.adjustsFontForContentSizeCategory = true
+    return label
+  }()
 
   private let lastFourDigits: (_ cardNumber: String) -> String = { cardNumber in
     return String(cardNumber.suffix(4))
@@ -35,6 +48,7 @@ final class ConsumerCardView: UIView {
     addSubview(subtitleLabel)
     addSubview(continueButton)
     addSubview(virtualCardDisplayView)
+    addSubview(virtualCardExpiryLabel)
 
     // Adjust constraint
     NSLayoutConstraint.activate([
@@ -51,9 +65,15 @@ final class ConsumerCardView: UIView {
       virtualCardDisplayView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       virtualCardDisplayView.heightAnchor.constraint(equalToConstant: 216),
 
+      virtualCardExpiryLabel.topAnchor.constraint(equalTo: virtualCardDisplayView.bottomAnchor, constant: 24),
+      virtualCardExpiryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+      virtualCardExpiryLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16),
+      virtualCardExpiryLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      continueButton.topAnchor.constraint(equalTo: virtualCardDisplayView.bottomAnchor, constant: 24),
+      continueButton.topAnchor.constraint(greaterThanOrEqualTo: virtualCardExpiryLabel.bottomAnchor, constant: 24),
+      continueButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -64),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])
   }
@@ -64,5 +84,23 @@ final class ConsumerCardView: UIView {
 
   func updateCardDetails(with virtualCard: VirtualCard, expiry: String) {
     virtualCardDisplayView.updateCardDetails(lastFourDigits: lastFourDigits(virtualCard.cardNumber), expiryDate: virtualCard.expiry)
+    virtualCardExpiryLabel.text = "This card is valid until \(expiry.convertToLocalTime())"
+  }
+}
+
+extension String {
+  func convertToLocalTime() -> Self {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+
+    guard let date = dateFormatter.date(from: self) else {
+      return self
+    }
+
+    dateFormatter.timeZone = TimeZone.current
+    dateFormatter.dateFormat = "MMM d, yyyy h:mm a"
+
+    return dateFormatter.string(from: date)
   }
 }
