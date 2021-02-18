@@ -90,6 +90,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     case .welcome:
       subview = welcomeView
     case .amount:
+      loadingView.stopLoadingSpinner()
       enterAmountView.amountField.becomeFirstResponder()
       subview = enterAmountView
     case .consumerCard(let amount, let virtualCard, let expiry):
@@ -245,7 +246,11 @@ final class ConsumerCardFlowViewController: UIViewController {
           self.currentScreen = .consumerCard(amount: consumerCardRequest.amount, virtualCard: virtualCard, vccExpiry: response.vccExpiry)
         }
       case .failure(let error):
-        completion(.failed(reason: .networkError(error)))
+        DispatchQueue.main.async {
+          dismiss(animated: true) {
+            completion(.failed(reason: .networkError(error)))
+          }
+        }
       }
     }
 
@@ -269,7 +274,11 @@ final class ConsumerCardFlowViewController: UIViewController {
           currentScreen = .checkout(viewControllerToPresent)
         }
       case .failure(let error):
-        completion(.failed(reason: .networkError(error)))
+        DispatchQueue.main.async {
+          dismiss(animated: true) {
+            completion(.failed(reason: .networkError(error)))
+          }
+        }
       }
     }
   }

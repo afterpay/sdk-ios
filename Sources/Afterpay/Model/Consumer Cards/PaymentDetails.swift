@@ -13,10 +13,10 @@ struct PaymentDetails: Decodable {
 }
 
 public struct VirtualCard: Decodable, Equatable {
-  let cardType: String
-  let cardNumber: String
-  let cvc: String
-  let expiry: String
+  public let cardType: String
+  public let cardNumber: String
+  public let cvc: String
+  public let expiry: String
 
   public static func == (lhs: Self, rhs: Self) -> Bool {
     return lhs.cardNumber == rhs.cardNumber

@@ -20,7 +20,7 @@ final class PurchaseLogicController {
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayWelcome
+    case showAfterpayWelcomeToVirtualCard
     case showAfterpayCheckout(URL)
     case showAlertForCheckoutURLError(Error)
     case showAlertForErrorMessage(String)
@@ -90,6 +90,28 @@ final class PurchaseLogicController {
       case .failure(let error):
         commandHandler(.showAlertForCheckoutURLError(error))
       }
+    }
+  }
+
+  func payWithVirtualCard() {
+    commandHandler(.showAfterpayWelcomeToVirtualCard)
+  }
+
+  func virtualCardSuccess(with cardNumber: String) {
+    quantities = [:]
+    commandHandler(.updateProducts(productDisplayModels))
+    commandHandler(.showSuccessWithMessage("Here is your virtual card number: \(cardNumber)"))
+  }
+
+  func virtualCardFailed(with reason: ConsumerCardCheckoutResult.ConsumerCardFailureReason) {
+
+    switch reason {
+    case .networkError(let error):
+      let errorMessage = error.localizedDescription
+
+      commandHandler(.showAlertForErrorMessage(errorMessage))
+    case .checkoutCancelled(let checkoutCancelledreason):
+      cancelled(with: checkoutCancelledreason)
     }
   }
 

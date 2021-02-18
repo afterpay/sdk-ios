@@ -58,17 +58,17 @@ final class PurchaseFlowController: UIViewController {
       productsViewController.update(products: products)
 
     case .showCart(let cart):
-      let cartViewController = CartViewController(cart: cart) { [weak self] event in
+      let cartViewController = CartViewController(cart: cart) { event in
         switch event {
         case .didTapPay:
 //          logicController.payWithAfterpay()
-          self?.execute(command: .showAfterpayWelcome)
+          logicController.payWithVirtualCard()
         }
       }
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayWelcome:
+    case .showAfterpayWelcomeToVirtualCard:
           presentAfterpayWelcomeModally()
     return
 
@@ -97,9 +97,9 @@ final class PurchaseFlowController: UIViewController {
     Afterpay.presentWelcomePageModally(over: viewController, payload: logicController.createConsumerCardRequest()) { result in
         switch result {
         case .success(let virtualCard):
-          print(virtualCard)
-        default:
-          return
+          logicController.virtualCardSuccess(with: virtualCard.cardNumber)
+        case .failed(let reason):
+          logicController.virtualCardFailed(with: reason)
       }
     }
   }
