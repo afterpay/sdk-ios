@@ -13,7 +13,9 @@ public struct Merchant: Encodable {
   let redirectCancelUrl: URL
   let name: String?
 
-  static func mock() -> Merchant {
-    return Merchant(redirectConfirmUrl: URL(string: "https://www.apple.com/")!, redirectCancelUrl: URL(string: "https://www.apple.com/")!, name: "Apple")
+  public init(redirectConfirmUrl: URL, redirectCancelUrl: URL, name: String?) {
+    self.redirectConfirmUrl = redirectConfirmUrl
+    self.redirectCancelUrl = redirectCancelUrl
+    self.name = name
   }
 }

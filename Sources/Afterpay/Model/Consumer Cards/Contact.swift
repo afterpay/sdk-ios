@@ -17,7 +17,13 @@ public struct Contact: Codable {
   var countryCode: String
   var phoneNumber: String?
 
-  public static func mock() -> Self {
-    return Contact(name: "Joe Consumer", line1: "1004 Point Lobos Ave", area1: "San Francisco", region: "CA", postcode: "94121", countryCode: "US", phoneNumber: "2120000000")
+  public init(name: String, line1: String, area1: String? = nil, region: String? = nil, postcode: String? = nil, countryCode: String, phoneNumber: String? = nil) {
+    self.name = name
+    self.line1 = line1
+    self.area1 = area1
+    self.region = region
+    self.postcode = postcode
+    self.countryCode = countryCode
+    self.phoneNumber = phoneNumber
   }
 }

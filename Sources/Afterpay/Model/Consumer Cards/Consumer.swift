@@ -14,7 +14,10 @@ public struct Consumer: Codable {
   let surname: String?
   let email: String
 
-  static func mock() -> Consumer {
-    return Consumer(phoneNumber: "917-653-8956", givenNames: "John", surname: "Doe", email: "vigad35147@hrandod.com")
+  public init(phoneNumber: String?, givenNames: String?, surname: String?, email: String) {
+    self.phoneNumber = phoneNumber
+    self.givenNames = givenNames
+    self.surname = surname
+    self.email = email
   }
 }

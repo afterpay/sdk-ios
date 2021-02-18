@@ -87,7 +87,6 @@ final class PurchaseFlowController: UIViewController {
       let messageViewController = MessageViewController(message: message)
       let viewControllers = [productsViewController, messageViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
-      // Set virtual card here?
     }
   }
 
@@ -95,7 +94,7 @@ final class PurchaseFlowController: UIViewController {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    Afterpay.presentWelcomePageModally(over: viewController, payload: ConsumerCardRequest.mock()) { result in
+    Afterpay.presentWelcomePageModally(over: viewController, payload: logicController.createConsumerCardRequest()) { result in
         switch result {
         case .success(let virtualCard):
           print(virtualCard)

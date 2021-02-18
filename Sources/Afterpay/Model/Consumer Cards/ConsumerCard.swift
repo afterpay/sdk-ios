@@ -13,7 +13,7 @@ public struct ConsumerCardRequest: Encodable {
   var amount: Money
   let consumer: Consumer
   let billing: Contact?
-  let shipping: Contact
+  let shipping: Contact?
   let items: [Item]?
   let discounts: [Discount]?
   let merchant: Merchant
@@ -21,20 +21,19 @@ public struct ConsumerCardRequest: Encodable {
   let taxAmount: Money?
   let shippingAmount: Money?
 
-  public static func mock() -> ConsumerCardRequest {
-    return ConsumerCardRequest(
-      aggregator: "deadbeef",
-      amount: Money.mock(),
-      consumer: Consumer.mock(),
-      billing: Contact.mock(),
-      shipping: Contact.mock(),
-      items: [Item.mock()],
-      discounts: nil,
-      merchant: Merchant.mock(),
-      merchantReference: nil,
-      taxAmount: nil,
-      shippingAmount: nil
-    )
+  // swiftlint:disable:next colon line_length
+  public init(aggregator: String, amount: Money, consumer: Consumer, billing: Contact?, shipping: Contact?, items: [Item]?, discounts: [Discount]?, merchant: Merchant, merchantReference: String?, taxAmount: Money?, shippingAmount: Money?) {
+    self.aggregator = aggregator
+    self.amount = amount
+    self.consumer = consumer
+    self.billing = billing
+    self.shipping = shipping
+    self.items = items
+    self.discounts = discounts
+    self.merchant = merchant
+    self.merchantReference = merchantReference
+    self.taxAmount = taxAmount
+    self.shippingAmount = shippingAmount
   }
 }
 

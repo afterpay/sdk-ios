@@ -27,4 +27,11 @@ struct CurrencyFormatter {
     formatter.numberStyle = localCurrencyCode == currencyCode ? .currency : .currencyISOCode
     return formatter.string(from: decimal as NSDecimalNumber)!
   }
+
+  func decimalString(from decimal: Decimal) -> String {
+    let formatter = Self.formatter
+    formatter.currencyCode = currencyCode
+    formatter.numberStyle = .decimal
+    return formatter.string(from: decimal as NSDecimalNumber)!
+  }
 }

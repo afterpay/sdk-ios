@@ -239,7 +239,6 @@ final class ConsumerCardFlowViewController: UIViewController {
       switch result {
       case .success(let response):
         let virtualCard = response.paymentDetails.virtualCard
-        // Temporarily initiate a virtual card
         self.completion(.success(virtualCard: virtualCard))
 
         DispatchQueue.main.async {

@@ -9,15 +9,21 @@
 import Foundation
 
 public struct Item: Codable {
-  let name: String?
-  let sku: String
-  let quantity: Int?
-  let pageUrl: URL
-  let imageUrl: URL?
-  let price: Money
-  let categories: [[String]]?
+  public let name: String
+  public let sku: String?
+  public let quantity: UInt
+  public let pageUrl: URL
+  public let imageUrl: URL?
+  public let price: Money
+  public let categories: [[String]]?
 
-  static func mock() -> Item {
-    return Item(name: "Apple", sku: "Apple123", quantity: 1, pageUrl: URL(string: "https://www.apple.com/")!, imageUrl: nil, price: Money.mock(), categories: nil)
+  public init(name: String, sku: String?, quantity: UInt, pageUrl: URL, imageUrl: URL?, price: Money, categories: [[String]]?) {
+    self.name = name
+    self.sku = sku
+    self.quantity = quantity
+    self.pageUrl = pageUrl
+    self.imageUrl = imageUrl
+    self.price = price
+    self.categories = categories
   }
 }

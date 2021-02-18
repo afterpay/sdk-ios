@@ -13,4 +13,11 @@ struct Courier: Decodable {
   let name: String?
   let tracking: String?
   let priority: String?
+
+  public init(shippedAt: String?, name: String?, tracking: String?, priority: String?) {
+    self.shippedAt = shippedAt
+    self.name = name
+    self.tracking = tracking
+    self.priority = priority
+  }
 }

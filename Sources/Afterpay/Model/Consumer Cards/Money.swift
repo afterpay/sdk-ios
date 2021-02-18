@@ -12,8 +12,9 @@ public struct Money: Codable, Equatable {
   let amount: String
   let currency: String
 
-  public static func mock() -> Self {
-    return Money(amount: "35.00", currency: "USD")
+  public init(amount: String, currency: String) {
+    self.amount = amount
+    self.currency = currency
   }
 
   public static func == (lhs: Self, rhs: Self) -> Bool {
@@ -24,4 +25,9 @@ public struct Money: Codable, Equatable {
 public struct Discount: Codable {
   let displayName: String
   let amount: Money
+
+  public init(displayName: String, amount: Money) {
+    self.displayName = displayName
+    self.amount = amount
+  }
 }

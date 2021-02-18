@@ -34,7 +34,6 @@ final class PurchaseLogicController {
   private let checkoutURLProvider: CheckoutURLProvider
   private let products: [Product]
   private let email: String
-  private let payload: ConsumerCardRequest
   private let currencyCode: String
 
   private var quantities: [UUID: UInt] = [:]
@@ -54,14 +53,12 @@ final class PurchaseLogicController {
     checkoutURLProvider: @escaping CheckoutURLProvider,
     products: [Product] = .stub,
     email: String,
-    payload: ConsumerCardRequest,
     currencyCode: String
   ) {
     self.checkoutURLProvider = checkoutURLProvider
     self.products = products
     self.email = email
     self.currencyCode = currencyCode
-    self.payload = payload
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
@@ -119,4 +116,32 @@ final class PurchaseLogicController {
     }
   }
 
+  func createConsumerCardRequest() -> ConsumerCardRequest {
+    let currencyFormatter = CurrencyFormatter(currencyCode: currencyCode)
+
+    let totalAmount = currencyFormatter.decimalString(from: total)
+    let items = Item.createItems(with: quantities, products: products, currencyCode: currencyCode)
+    let merchant = Merchant(
+      redirectConfirmUrl: URL(string: "https://www.apple.com/")!,
+      redirectCancelUrl: URL(string: "https://www.apple.com/")!,
+      name: "Aftersnack"
+    )
+    let consumer = Consumer(phoneNumber: "917-653-8956", givenNames: "John", surname: "Doe", email: "vigad35147@hrandod.com")
+
+    let consumerCardRequest = ConsumerCardRequest(
+      aggregator: "deadbeef",
+      amount: Money(amount: totalAmount, currency: currencyCode),
+      consumer: consumer,
+      billing: nil,
+      shipping: nil,
+      items: items,
+      discounts: nil,
+      merchant: merchant,
+      merchantReference: nil,
+      taxAmount: nil,
+      shippingAmount: nil
+    )
+
+    return consumerCardRequest
+  }
 }
