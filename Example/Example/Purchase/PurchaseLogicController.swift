@@ -146,7 +146,7 @@ final class PurchaseLogicController {
     let merchant = Merchant(
       redirectConfirmUrl: URL(string: "https://www.apple.com/")!,
       redirectCancelUrl: URL(string: "https://www.apple.com/")!,
-      name: "Aftersnack"
+      name: "Aftersnack via Rakuten"
     )
     let consumer = Consumer(phoneNumber: "917-653-8956", givenNames: "John", surname: "Doe", email: "vigad35147@hrandod.com")
 

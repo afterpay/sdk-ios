@@ -11,9 +11,9 @@ import Foundation
 public struct Merchant: Encodable {
   let redirectConfirmUrl: URL
   let redirectCancelUrl: URL
-  let name: String?
+  let name: String
 
-  public init(redirectConfirmUrl: URL, redirectCancelUrl: URL, name: String?) {
+  public init(redirectConfirmUrl: URL, redirectCancelUrl: URL, name: String) {
     self.redirectConfirmUrl = redirectConfirmUrl
     self.redirectCancelUrl = redirectCancelUrl
     self.name = name
