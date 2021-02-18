@@ -26,14 +26,14 @@ final class WelcomeView: UIView {
     let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
 
     let attributedString = NSMutableAttributedString(
-      string: "By continuing you agree for Rakuten to share your data to complete your purchase.terms and conditions",
+      string: "By continuing you agree for Rakuten to share your data to complete your purchase. See terms and conditions",
       attributes: [
         .font: fontMetrics,
       ]
     )
 
     let range = (attributedString.string as NSString).range(of: "terms and conditions")
-    attributedString.addAttribute(.link, value: "https://www.apple.com/au/iphone-se/", range: range)
+    attributedString.addAttribute(.link, value: "https://www.afterpay.com/installment-agreement", range: range)
 
     textView.adjustsFontForContentSizeCategory = true
     textView.translatesAutoresizingMaskIntoConstraints = false
