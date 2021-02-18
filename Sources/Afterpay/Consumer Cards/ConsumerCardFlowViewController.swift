@@ -56,7 +56,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     // initiate views
     welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
     enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction), merchantName: payload.merchant.name)
-    consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction))
+    consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction), merchantName: payload.merchant.name)
     loadingView = LoadingView()
 
     self.completion = completion
