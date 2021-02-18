@@ -28,7 +28,7 @@ struct Settings {
   @Setting("port", defaultValue: "3000", title: "Port")
   static var port: String
 
-  @Setting("currencyCode", defaultValue: "AUD", title: "Currency Code")
+  @Setting("currencyCode", defaultValue: "USD", title: "Currency Code")
   static var currencyCode: String
 
   @Setting("language", defaultValue: .swift, title: "Language")
