@@ -35,14 +35,13 @@ final class ConsumerCardView: UIView {
   init(continueAction: Selector) {
     super.init(frame: .zero)
 
-    let subtitleLabel = SubtitleLabel(with: "Lorem ipsum dolor", fontSize: 16)
+    let subtitleLabel = SubtitleLabel(with: "Ready to use", fontSize: 16)
     let continueButton = PrimaryButton(title: "Continue to finalise your order")
 
     virtualCardDisplayView.translatesAutoresizingMaskIntoConstraints = false
 
     // Add target for continue button
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
-
 
     addSubview(titleLabel)
     addSubview(subtitleLabel)

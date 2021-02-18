@@ -18,10 +18,6 @@ public struct VirtualCard: Decodable, Equatable {
   let cvc: String
   let expiry: String
 
-  static func empty() -> Self {
-    return VirtualCard(cardType: "", cardNumber: "", cvc: "", expiry: "")
-  }
-
   public static func == (lhs: Self, rhs: Self) -> Bool {
     return lhs.cardNumber == rhs.cardNumber
   }

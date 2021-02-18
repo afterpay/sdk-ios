@@ -44,7 +44,7 @@ final class EnterAmountView: UIView {
 
   var noteLabel: UILabel = {
     let label = UILabel()
-    label.text = "Lorem ipsum dolor sit amet exerci his no."
+    label.text = "Include shipping and tax in this amount"
 
     let font = UIFont.boldSystemFont(ofSize: 12)
     label.font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: font)
@@ -60,8 +60,8 @@ final class EnterAmountView: UIView {
     super.init(frame: .zero)
 
     let continueButton = PrimaryButton(title: "Continue")
-    let titleLabel = TitleLabel(with: "Lorem Ipsum")
-    let subtitleLabel = SubtitleLabel(with: "Lorem ipsum dolor sit amet, exerci ornatus definitionem his no, ipsum paulo clita per ad.")
+    let titleLabel = TitleLabel(with: "Let's get started")
+    let subtitleLabel = SubtitleLabel(with: "How much you want to spend?\nYou'll only be charged for what you end up using")
 
     currencyLabel.font = amountField.font
     currencyLabel.textColor = amountField.textColor

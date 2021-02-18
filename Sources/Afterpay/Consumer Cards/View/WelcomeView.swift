@@ -15,7 +15,7 @@ final class WelcomeView: UIView {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.translatesAutoresizingMaskIntoConstraints = false
-    stackView.spacing = 8
+    stackView.spacing = 16
     return stackView
   }()
 
@@ -26,7 +26,7 @@ final class WelcomeView: UIView {
     let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
 
     let attributedString = NSMutableAttributedString(
-      string: "Lorem ipsum dolor sit amet, pro eu mentitum mediocrem, in dicta partiendo mel, ei sea principes adolescens. terms and conditions",
+      string: "By continuing you agree for Rakuten to share your data to complete your purchase.terms and conditions",
       attributes: [
         .font: fontMetrics,
       ]
@@ -64,14 +64,14 @@ final class WelcomeView: UIView {
   init(continueAction: Selector) {
     super.init(frame: .zero)
 
-    let continueButton = PrimaryButton(title: "Continue with")
+    let continueButton = PrimaryButton(title: "Continue with Afterpay")
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
-    let titleLabel = TitleLabel(with: "Lorem Ipsum\nLorem Ipsum")
+    let titleLabel = TitleLabel(with: "Pay in 4 parts. No fees.\nAlways interest-free.", fontSize: 24)
 
-    let firstHeadline = headlineLabel("first headline")
-    let secondHeadline = headlineLabel("second headline")
-    let thirdHeadline = headlineLabel("third headline")
+    let firstHeadline = headlineLabel("4 easy payments, due every two weeks")
+    let secondHeadline = headlineLabel("Won't effect your credit score")
+    let thirdHeadline = headlineLabel("Afterpay Rewards for on-time payments")
 
     verticalStackView.addArrangedSubview(firstHeadline)
     verticalStackView.addArrangedSubview(secondHeadline)
@@ -89,7 +89,7 @@ final class WelcomeView: UIView {
 
       verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
+      verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
 
       termsAndConditionTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       termsAndConditionTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
