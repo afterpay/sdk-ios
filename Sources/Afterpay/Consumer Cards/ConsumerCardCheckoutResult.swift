@@ -13,6 +13,7 @@ import Foundation
   case failed(reason: ConsumerCardFailureReason)
 
   public enum ConsumerCardFailureReason {
+    case apiError(APIErrorDetails)
     case networkError(Error)
     case checkoutCancelled(reason: CheckoutResult.CancellationReason)
   }

@@ -10,7 +10,7 @@ import Foundation
 
 enum NetworkError: Error {
   case invalidUrl
-  case failedToDecode
+  case failedToDecode(Data)
   case failedToEncode
 }
 
@@ -50,7 +50,12 @@ final class NetworkService {
           let response = try JSONDecoder().decode(T.self, from: data)
           completion(.success(response))
         } catch {
-          completion(.failure(NetworkError.failedToDecode))
+          do {
+            let response = try JSONDecoder().decode(APIErrorDetails.self, from: data)
+            completion(.failure(APIError.error(details: response)))
+          } catch {
+            completion(.failure(NetworkError.failedToDecode(data)))
+          }
         }
       } else if let error = error {
         completion(.failure(error))

@@ -112,6 +112,8 @@ final class PurchaseLogicController {
       commandHandler(.showAlertForErrorMessage(errorMessage))
     case .checkoutCancelled(let checkoutCancelledreason):
       cancelled(with: checkoutCancelledreason)
+    case .apiError(let errorDetails):
+      commandHandler(.showAlertForErrorMessage(errorDetails.message))
     }
   }
 

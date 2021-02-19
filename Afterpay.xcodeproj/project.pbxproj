@@ -30,6 +30,7 @@
 		66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE378624D39FC50029BF42 /* BadgeView.swift */; };
 		66EE9BD724DCEC3E00A81C19 /* LinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
+		76F7ACA925DF5781006F4DF4 /* APIErrorDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 		DBBB8D074F1DE5A57C429316 /* ConsumerCardCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */; };
 		DD0BCABA25DCD7370019BBD6 /* VirtualCardDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0BCAB925DCD7370019BBD6 /* VirtualCardDisplayView.swift */; };
@@ -106,6 +107,7 @@
 		66EE378624D39FC50029BF42 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTextView.swift; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
+		76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorDetails.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 		DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsumerCardCheckoutResult.swift; sourceTree = "<group>"; };
 		DD0BCAB925DCD7370019BBD6 /* VirtualCardDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualCardDisplayView.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 			children = (
 				DDBD9C1E25D3B4F500008642 /* NetworkService.swift */,
 				DD0C331925D4E88C00B7496D /* EndPoint.swift */,
+				76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				DD18F43725D6510200E345C9 /* PaymentDetails.swift in Sources */,
 				DD6A967425DB287C00482F66 /* TitleLabel.swift in Sources */,
 				15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */,
+				76F7ACA925DF5781006F4DF4 /* APIErrorDetails.swift in Sources */,
 				DD0C331A25D4E88C00B7496D /* EndPoint.swift in Sources */,
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,

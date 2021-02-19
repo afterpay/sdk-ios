@@ -248,7 +248,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       case .failure(let error):
         DispatchQueue.main.async {
           dismiss(animated: true) {
-            completion(.failed(reason: .networkError(error)))
+            handleAPICallError(error: error)
           }
         }
       }
@@ -276,10 +276,18 @@ final class ConsumerCardFlowViewController: UIViewController {
       case .failure(let error):
         DispatchQueue.main.async {
           dismiss(animated: true) {
-            completion(.failed(reason: .networkError(error)))
+            handleAPICallError(error: error)
           }
         }
       }
+    }
+  }
+  
+  private func handleAPICallError(error: Error) {
+    if let apiError = error as? APIError, case .error(let details) = apiError {
+      completion(.failed(reason: .apiError(details)))
+    } else {
+      completion(.failed(reason: .networkError(error)))
     }
   }
 }
