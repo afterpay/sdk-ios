@@ -53,17 +53,17 @@ public func presentCheckoutModally(
 ///   or it's closest parent that is able to handle the presentation.
 ///   - payload: The `ConsumerCardRequest` object that contains the information required to request for a virtual card.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
-///   - completion: The block executed after the user has completed the checkout.
+///   - completion: The block executed after virtual card request has been completed.
 ///   - result: The result of the user's completion (a success or failure).
 public func presentVirtualCardRequestPageModally(
   over viewController: UIViewController,
   payload: ConsumerCardRequest,
   animated: Bool = true,
-  checkoutCompletion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
+  completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
 ) {
   let viewControllerToPresent: UIViewController = ConsumerCardFlowViewController(
     with: payload,
-    completion: checkoutCompletion
+    completion: completion
   )
 
   let containerController = UINavigationController(rootViewController: viewControllerToPresent)
