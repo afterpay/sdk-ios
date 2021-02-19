@@ -43,7 +43,19 @@ public func presentCheckoutModally(
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
-public func presentWelcomePageModally(
+// MARK: - Consumer Card
+
+/// Present Afterpay Consumer Virtual Card modally over the specified view controller loading your
+/// generated checkout URL.
+/// - Parameters:
+///   - viewController: The viewController on which `UIViewController.present` will be called.
+///   The Afterpay Checkout View Controller will be presented modally over this view controller
+///   or it's closest parent that is able to handle the presentation.
+///   - payload: The `ConsumerCardRequest` object that contains the information required to request for a virtual card.
+///   - animated: Pass true to animate the presentation; otherwise, pass false.
+///   - completion: The block executed after the user has completed the checkout.
+///   - result: The result of the user's completion (a success or failure).
+public func presentVirtualCardRequestPageModally(
   over viewController: UIViewController,
   payload: ConsumerCardRequest,
   animated: Bool = true,

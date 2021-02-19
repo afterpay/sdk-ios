@@ -69,7 +69,7 @@ final class PurchaseFlowController: UIViewController {
       navigationController.pushViewController(cartViewController, animated: true)
 
     case .showAfterpayWelcomeToVirtualCard:
-          presentAfterpayWelcomeModally()
+          presentAfterpayConsumerCardRequestModally()
     return
 
     case .showAfterpayCheckout(let url):
@@ -90,11 +90,11 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
-  private func presentAfterpayWelcomeModally() {
+  private func presentAfterpayConsumerCardRequestModally() {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    Afterpay.presentWelcomePageModally(over: viewController, payload: logicController.createConsumerCardRequest()) { result in
+    Afterpay.presentConsumerCardRequestPageModally(over: viewController, payload: logicController.createConsumerCardRequest()) { result in
         switch result {
         case .success(let virtualCard):
           logicController.virtualCardSuccess(with: virtualCard.cardNumber)
