@@ -57,12 +57,12 @@ public func presentCheckoutModally(
 ///   - result: The result of the user's completion (a success or failure).
 public func presentVirtualCardRequestPageModally(
   over viewController: UIViewController,
-  payload: ConsumerCardRequest,
+  consumerCardRequest: ConsumerCardRequest,
   animated: Bool = true,
   completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
 ) {
   let viewControllerToPresent: UIViewController = ConsumerCardFlowViewController(
-    with: payload,
+    with: consumerCardRequest,
     completion: completion
   )
 

@@ -40,31 +40,23 @@ final class ConsumerCardFlowViewController: UIViewController {
   private let enterAmountView: EnterAmountView
   private let consumerCardView: ConsumerCardView
   private let loadingView: LoadingView
-
   private var consumerCardToken: String
-  private var token: String
-  private var authToken: String
 
   init(
-    with payload: ConsumerCardRequest,
+    with consumerCardRequest: ConsumerCardRequest,
     completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
   ) {
     // Validate parameters value
-
-    self.consumerCardRequest = payload
-
+    self.consumerCardRequest = consumerCardRequest
     // initiate views
     welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
-    enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction), merchantName: payload.merchant.name)
-    consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction), merchantName: payload.merchant.name)
+    enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction), merchantName: consumerCardRequest.merchant.name)
+    consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction), merchantName: consumerCardRequest.merchant.name)
     loadingView = LoadingView()
 
     self.completion = completion
 
     self.consumerCardToken = ""
-    self.token = ""
-    self.authToken = ""
-
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -196,22 +188,6 @@ final class ConsumerCardFlowViewController: UIViewController {
   }
 
   // MARK: - Callbacks
-  private func cookiesChangedCallback(cookieStore: WKHTTPCookieStore) {
-    cookieStore.getAllCookies { [weak self] cookies in
-      let authCookie = cookies.first {
-        let portalApiDomain = "portalapi.us-sandbox.afterpay.com"
-        let authCookieName = "pl_status"
-        return ($0.name == authCookieName && $0.domain == portalApiDomain)
-      }
-      guard let cookie = authCookie else {
-        return
-      }
-      if !cookie.value.isEmpty {
-        self?.authToken = cookie.value
-      }
-    }
-  }
-
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
@@ -229,7 +205,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       consumerCardToken: self.consumerCardToken,
       token: checkoutToken,
       requestId: "",
-      aggregator: "deadbeef"
+      aggregator: self.consumerCardRequest.aggregator
     )
 
     currentScreen = .loading
