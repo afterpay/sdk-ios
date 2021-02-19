@@ -9,17 +9,17 @@
 import Foundation
 
 public struct ConsumerCardRequest: Encodable {
-  let aggregator: String
-  var amount: Money
-  let consumer: Consumer
-  let billing: Contact?
-  let shipping: Contact?
-  let items: [Item]?
-  let discounts: [Discount]?
-  let merchant: Merchant
-  let merchantReference: String?
-  let taxAmount: Money?
-  let shippingAmount: Money?
+  public let aggregator: String
+  public var amount: Money
+  public let consumer: Consumer
+  public let billing: Contact?
+  public let shipping: Contact?
+  public let items: [Item]?
+  public let discounts: [Discount]?
+  public let merchant: Merchant
+  public let merchantReference: String?
+  public let taxAmount: Money?
+  public let shippingAmount: Money?
 
   // swiftlint:disable:next colon line_length
   public init(aggregator: String, amount: Money, consumer: Consumer, billing: Contact?, shipping: Contact?, items: [Item]?, discounts: [Discount]?, merchant: Merchant, merchantReference: String?, taxAmount: Money?, shippingAmount: Money?) {
