@@ -38,6 +38,10 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
     - [Swift (UIKit)](#swift-uikit)
     - [Objective-C (UIKit)](#objective-c-uikit)
     - [SwiftUI](#swiftui)
+  - [Requesting a virtual card](#requesting-a-virtual-card)
+    - [Required parameter](#required-parameter)
+    - [Swift (UIKit)](#swift-uikit)
+    - [Request a virtual card example](#request-a-virtual-card-example)
 - [Examples](#examples)
 - [Building](#building)
   - [Mint](#mint)
@@ -322,6 +326,63 @@ struct MyView: View {
       }
   }
 
+}
+```
+
+## Requesting a virtual card
+
+The user interface to request a virtual card is a UIViewController that can be presented modally over the view controller of your choosing.
+
+### Required parameter
+To create a virtual card, the API requires `ConsumerCardRequest` object to be created and passed as parameter. This object contains necessary information to create Afterpay virtual card.
+
+**ConsumerCardRequest**
+```swift
+public struct ConsumerCardRequest: Encodable {
+  let aggregator: String
+  var amount: Money
+  let consumer: Consumer
+  let billing: Contact?
+  let shipping: Contact?
+  let items: [Item]?
+  let discounts: [Discount]?
+  let merchant: Merchant
+  let merchantReference: String?
+  let taxAmount: Money?
+  let shippingAmount: Money?
+}
+```
+
+### Virtual Card
+When virtual card has been successfully requested and created, it will be returned as `VirtualCard` object.
+
+```Swift
+public struct VirtualCard: Decodable, Equatable {
+  let cardType: String
+  let cardNumber: String
+  let cvc: String
+  let expiry: String
+```
+
+### Request a virtual card example
+
+```swift
+import Afterpay
+import UIKit
+
+final class CheckoutViewController: UIViewController {
+  let consumerCardRequest = ConsumerCardRequest(....) // Create ConsumerCardRequest object
+  // ...
+  @objc func didTapPayWithAfterpayVirtualCard() {
+    Afterpay.presentVirtualCardRequestPageModally(over: viewController, payload: consumerCardRequest) { result in
+        switch result {
+        case .success(let virtualCard):
+          // Handle success with `VirtualCard` object
+        case .failed(let reason):
+          // Handle failure with `ConsumerCardFailureReason`
+      }
+    }
+  }
 }
 ```
 
