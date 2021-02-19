@@ -13,8 +13,7 @@ import WebKit
 final class CheckoutWebViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
-  WKNavigationDelegate,
-  WKHTTPCookieStoreObserver
+  WKNavigationDelegate
 { // swiftlint:disable:this opening_brace
 
   private static let bundle = Bundle(for: CheckoutWebViewController.self)
@@ -32,19 +31,15 @@ final class CheckoutWebViewController:
 
   private let consumerCardFlow: Bool
 
-  private let cookieChangeCallback: (_ cookieStore: WKHTTPCookieStore) -> Void
-
   // MARK: Initialization
 
   init(
     checkoutUrl: URL,
     consumerCardFlow: Bool = false,
-    cookieChangeCallback: @escaping (_ cookieStore: WKHTTPCookieStore) -> Void = { _ in return },
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.checkoutUrl = checkoutUrl
     self.completion = completion
-    self.cookieChangeCallback = cookieChangeCallback
     self.consumerCardFlow = consumerCardFlow
 
     super.init(nibName: nil, bundle: nil)
@@ -52,8 +47,6 @@ final class CheckoutWebViewController:
 
   override func loadView() {
     let configuration = WKWebViewConfiguration()
-    configuration.websiteDataStore.httpCookieStore.add(self)
-
     view = WKWebView(frame: .zero, configuration: configuration)
   }
 
@@ -226,12 +219,6 @@ final class CheckoutWebViewController:
     if handled == false {
       completionHandler(.performDefaultHandling, nil)
     }
-  }
-
-  // MARK: WKHTTPCookieStoreObserver
-
-  func cookiesDidChange(in cookieStore: WKHTTPCookieStore) {
-    cookieChangeCallback(cookieStore)
   }
 
   // MARK: Unavailable

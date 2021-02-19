@@ -229,7 +229,6 @@ final class ConsumerCardFlowViewController: UIViewController {
       consumerCardToken: self.consumerCardToken,
       token: checkoutToken,
       requestId: "",
-      xAuthToken: authToken,
       aggregator: "deadbeef"
     )
 
@@ -267,7 +266,6 @@ final class ConsumerCardFlowViewController: UIViewController {
           let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
             checkoutUrl: response.redirectCheckoutUrl,
             consumerCardFlow: true,
-            cookieChangeCallback: cookiesChangedCallback(cookieStore:),
             completion: checkoutCompletion(_:)
           )
 

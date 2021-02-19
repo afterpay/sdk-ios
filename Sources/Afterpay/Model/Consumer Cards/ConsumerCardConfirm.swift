@@ -12,7 +12,6 @@ struct ConsumerCardConfirmRequest: Encodable {
   let consumerCardToken: String
   let token: String
   let requestId: String
-  let xAuthToken: String
   let aggregator: String
 }
 
