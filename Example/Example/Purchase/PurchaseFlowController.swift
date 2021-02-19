@@ -94,7 +94,7 @@ final class PurchaseFlowController: UIViewController {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    Afterpay.presentConsumerCardRequestPageModally(over: viewController, payload: logicController.createConsumerCardRequest()) { result in
+    Afterpay.presentVirtualCardRequestPageModally(over: viewController, payload: logicController.createConsumerCardRequest()) { result in
         switch result {
         case .success(let virtualCard):
           logicController.virtualCardSuccess(with: virtualCard.cardNumber)
