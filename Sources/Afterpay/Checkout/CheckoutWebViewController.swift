@@ -29,18 +29,18 @@ final class CheckoutWebViewController:
 
   private var webView: WKWebView { view as! WKWebView }
 
-  private let consumerCardFlow: Bool
+  private let keepModalOpenOnComplete: Bool
 
   // MARK: Initialization
 
   init(
     checkoutUrl: URL,
-    consumerCardFlow: Bool = false,
+    keepModelOpenOnComplete: Bool = false,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.checkoutUrl = checkoutUrl
     self.completion = completion
-    self.consumerCardFlow = consumerCardFlow
+    self.keepModalOpenOnComplete = keepModelOpenOnComplete
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -166,7 +166,7 @@ final class CheckoutWebViewController:
 
     case (false, .success(let token)):
       decisionHandler(.cancel)
-      if consumerCardFlow {
+      if keepModalOpenOnComplete {
         self.completion(.success(token: token))
       } else {
         dismiss(animated: true) { self.completion(.success(token: token)) }

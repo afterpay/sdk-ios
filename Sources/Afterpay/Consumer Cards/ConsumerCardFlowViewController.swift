@@ -241,7 +241,7 @@ final class ConsumerCardFlowViewController: UIViewController {
         DispatchQueue.main.async {
           let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
             checkoutUrl: response.redirectCheckoutUrl,
-            consumerCardFlow: true,
+            keepModelOpenOnComplete: true,
             completion: checkoutCompletion(_:)
           )
 
