@@ -145,11 +145,7 @@ final class PurchaseLogicController {
 
     let totalAmount = currencyFormatter.decimalString(from: total)
     let items = Item.createItems(with: quantities, products: products, currencyCode: currencyCode)
-    let merchant = Merchant(
-      redirectConfirmUrl: URL(string: "https://www.apple.com/")!,
-      redirectCancelUrl: URL(string: "https://www.apple.com/")!,
-      name: "Aftersnack via Rakuten"
-    )
+    let merchant = Merchant(name: "Aftersnack via Rakuten")
     let consumer = Consumer(phoneNumber: "917-653-8956", givenNames: "John", surname: "Doe", email: "vigad35147@hrandod.com")
 
     let consumerCardRequest = ConsumerCardRequest(

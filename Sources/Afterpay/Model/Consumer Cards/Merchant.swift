@@ -13,9 +13,9 @@ public struct Merchant: Encodable {
   let redirectCancelUrl: URL
   let name: String
 
-  public init(redirectConfirmUrl: URL, redirectCancelUrl: URL, name: String) {
-    self.redirectConfirmUrl = redirectConfirmUrl
-    self.redirectCancelUrl = redirectCancelUrl
+  public init(name: String) {
+    redirectConfirmUrl = URL(string: "afterpay://consumer_cards/confirm")!
+    redirectCancelUrl = URL(string: "afterpay://consumer_cards/cancel")!
     self.name = name
   }
 }
