@@ -41,10 +41,12 @@ final class ConsumerCardFlowViewController: UIViewController {
   private let consumerCardView: ConsumerCardView
   private let loadingView: LoadingView
   private var consumerCardToken: String
+  private let mode: Mode
 
   init(
     with consumerCardRequest: ConsumerCardRequest,
-    completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
+    completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void,
+    mode: Mode
   ) {
     // Validate parameters value
     self.consumerCardRequest = consumerCardRequest
@@ -57,6 +59,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     self.completion = completion
 
     self.consumerCardToken = ""
+    self.mode = mode
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -211,7 +214,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     currentScreen = .loading
     loadingView.startLoadingSpinner()
 
-    NetworkService.shared.request(endpoint: .consumerCardConfirm(payload)) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
+    NetworkService.shared.request(endpoint: .consumerCardConfirm(payload), mode: mode) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
       switch result {
       case .success(let response):
         let virtualCard = response.paymentDetails.virtualCard
@@ -234,7 +237,7 @@ final class ConsumerCardFlowViewController: UIViewController {
   }
 
   private func callConsumerCardAPI(payload: ConsumerCardRequest) {
-    NetworkService.shared.request(endpoint: .consumerCards(payload)) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
+    NetworkService.shared.request(endpoint: .consumerCards(payload), mode: mode) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
       switch result {
       case .success(let response):
         self.consumerCardToken = response.consumerCardToken

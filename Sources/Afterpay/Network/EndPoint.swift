@@ -19,8 +19,13 @@ enum Endpoint {
 }
 
 extension Endpoint {
-  var baseURL: String {
-    return "https://api-plus.us-sandbox.afterpay.com"
+  func baseURL(mode: Mode = .sandbox) -> String {
+    switch mode {
+    case .sandbox:
+      return "https://api-plus.us-sandbox.afterpay.com"
+    case .production:
+      return "https://api-plus.us.afterpay.com"
+    }
   }
 
   var path: String {

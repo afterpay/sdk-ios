@@ -20,10 +20,10 @@ final class NetworkService {
 
   public static let shared = NetworkService()
 
-  func request<T: Decodable>(endpoint: Endpoint, completion: @escaping (Result<T, Error>) -> Void) {
+  func request<T: Decodable>(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<T, Error>) -> Void) {
 
     // Construct the URL
-    var urlComponent = URLComponents(string: endpoint.baseURL)
+    var urlComponent = URLComponents(string: endpoint.baseURL())
     urlComponent?.path = endpoint.path
 
     guard let url = urlComponent?.url else {

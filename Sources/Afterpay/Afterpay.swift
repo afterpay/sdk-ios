@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+public enum Mode {
+  case sandbox
+  case production
+}
 // MARK: - Checkout
 
 /// Present Afterpay Checkout modally over the specified view controller loading your
@@ -54,16 +58,19 @@ public func presentCheckoutModally(
 ///   - payload: The `ConsumerCardRequest` object that contains the information required to request for a virtual card.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after virtual card request has been completed.
+///   - mode: switching between Afterpay environments: either sandbox for testing or production.
 ///   - result: The result of the user's completion (a success or failure).
 public func presentVirtualCardRequestPageModally(
   over viewController: UIViewController,
   consumerCardRequest: ConsumerCardRequest,
+  mode: Mode,
   animated: Bool = true,
   completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
 ) {
   let viewControllerToPresent: UIViewController = ConsumerCardFlowViewController(
     with: consumerCardRequest,
-    completion: completion
+    completion: completion,
+    mode: mode
   )
 
   let containerController = UINavigationController(rootViewController: viewControllerToPresent)
