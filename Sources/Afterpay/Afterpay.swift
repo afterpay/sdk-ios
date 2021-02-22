@@ -64,13 +64,15 @@ public func presentVirtualCardRequestPageModally(
   over viewController: UIViewController,
   consumerCardRequest: ConsumerCardRequest,
   mode: Mode,
+  aggregatorName: String,
   animated: Bool = true,
   completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
 ) {
   let viewControllerToPresent: UIViewController = ConsumerCardFlowViewController(
     with: consumerCardRequest,
     completion: completion,
-    mode: mode
+    mode: mode,
+    aggregatorName: aggregatorName
   )
 
   let containerController = UINavigationController(rootViewController: viewControllerToPresent)

@@ -46,12 +46,13 @@ final class ConsumerCardFlowViewController: UIViewController {
   init(
     with consumerCardRequest: ConsumerCardRequest,
     completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void,
-    mode: Mode
+    mode: Mode,
+    aggregatorName: String
   ) {
     // Validate parameters value
     self.consumerCardRequest = consumerCardRequest
     // initiate views
-    welcomeView = WelcomeView(continueAction: #selector(requireAmountAction))
+    welcomeView = WelcomeView(continueAction: #selector(requireAmountAction), aggregatorName: aggregatorName)
     enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction), merchantName: consumerCardRequest.merchant.name)
     consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction), merchantName: consumerCardRequest.merchant.name)
     loadingView = LoadingView()

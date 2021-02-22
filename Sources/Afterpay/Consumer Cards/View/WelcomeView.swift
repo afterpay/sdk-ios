@@ -19,14 +19,14 @@ final class WelcomeView: UIView {
     return stackView
   }()
 
-  private var termsAndConditionTextView: UITextView = {
+  private func getTermsAndConditionTextView(aggregatorName: String) -> UITextView {
     let textView = UITextView()
 
     let font = UIFont.systemFont(ofSize: 12, weight: .light)
     let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
 
     let attributedString = NSMutableAttributedString(
-      string: "By continuing you agree for Rakuten to share your data to complete your purchase. See terms and conditions",
+      string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions",
       attributes: [
         .font: fontMetrics,
       ]
@@ -46,7 +46,7 @@ final class WelcomeView: UIView {
     textView.textContainer.lineFragmentPadding = .zero
 
     return textView
-  }()
+  }
 
   private let headlineLabel: (_ text: String) -> UILabel = { text in
     let label = UILabel()
@@ -61,7 +61,7 @@ final class WelcomeView: UIView {
     return label
   }
 
-  init(continueAction: Selector) {
+  init(continueAction: Selector, aggregatorName: String) {
     super.init(frame: .zero)
 
     let continueButton = PrimaryButton(title: "Continue with Afterpay")
@@ -80,6 +80,7 @@ final class WelcomeView: UIView {
     addSubview(continueButton)
     addSubview(titleLabel)
     addSubview(verticalStackView)
+    let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
     addSubview(termsAndConditionTextView)
 
     NSLayoutConstraint.activate([
