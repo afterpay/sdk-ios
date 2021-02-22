@@ -47,19 +47,18 @@ func initializeDependencies() {
 
   let repository = Repository.shared
 
-  // Configure the Afterpay SDK with the merchant configuration
+  // Prime the app with the last cached configuration
+  Afterpay.setConfiguration(repository.cachedConfiguration)
+
+  // Configure the Afterpay SDK with the latest merchant configuration
   repository.fetchConfiguration { result in
-    let configuration = result.fold(
-      successTransform: { $0 },
-      errorTransform: { error in
-        // Logs network, decoding and Afterpay configuration errors raised
-        let errorDescription = error.localizedDescription
-        os_log(.error, "Failed to fetch configuration with error: %{public}@", errorDescription)
-
-        return repository.fallbackConfiguration
-      }
-    )
-
-    Afterpay.setConfiguration(configuration)
+    switch result {
+    case .success(let configuration):
+      Afterpay.setConfiguration(configuration)
+    case .failure(let error):
+      // Logs network, decoding and Afterpay configuration errors raised
+      let errorDescription = error.localizedDescription
+      os_log(.error, "Failed to fetch configuration with error: %{public}@", errorDescription)
+    }
   }
 }

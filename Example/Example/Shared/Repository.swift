@@ -17,7 +17,7 @@ final class Repository {
 
   static let shared = Repository(apiClient: .live, userDefaults: .standard, now: Date.init)
 
-  var fallbackConfiguration: Configuration {
+  var cachedConfiguration: Configuration {
     let response = userDefaults.configuration.flatMap {
       try? JSONDecoder().decode(ConfigurationResponse.self, from: $0)
     }
