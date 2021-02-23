@@ -9,6 +9,7 @@
 import Foundation
 
 public struct ShippingOption: Codable {
+
   var id: String
   var name: String
   var description: String
@@ -31,9 +32,11 @@ public struct ShippingOption: Codable {
     self.orderAmount = orderAmount
     self.taxAmount = taxAmount
   }
+
 }
 
 public struct Money: Codable {
+
   var amount: String
   var currency: String
 
@@ -41,4 +44,5 @@ public struct Money: Codable {
     self.amount = amount
     self.currency = currency
   }
+
 }
