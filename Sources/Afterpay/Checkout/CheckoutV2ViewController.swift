@@ -313,8 +313,13 @@ final class CheckoutV2ViewController:
 
     switch (message, message?.payload, completion) {
     case (let message?, .address(let address), _):
-      shippingAddressDidChange?(address) { options in
-        postMessage(.init(requestId: message.requestId, payload: .shippingOptions(options)))
+      shippingAddressDidChange?(address) { shippingOptions in
+        let requestId = message.requestId
+        let responseMessage = shippingOptions.fold(
+          successTransform: { Message(requestId: requestId, payload: .shippingOptions($0)) },
+          errorTransform: { Message(requestId: requestId, error: $0.rawValue) }
+        )
+        postMessage(responseMessage)
       }
 
     case(_, .shippingOption(let shippingOption), _):

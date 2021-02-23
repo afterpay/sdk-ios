@@ -12,6 +12,7 @@ struct CheckoutV2Message: Codable {
 
   var requestId: String
   var payload: Payload?
+  var error: String?
 
   enum Payload {
     case address(ShippingAddress)
@@ -20,7 +21,7 @@ struct CheckoutV2Message: Codable {
   }
 
   private enum CodingKeys: String, CodingKey {
-    case type, meta, payload
+    case type, meta, payload, error
   }
 
   private enum MetaCodingKeys: String, CodingKey {
@@ -32,9 +33,10 @@ struct CheckoutV2Message: Codable {
     case onShippingOptionChange
   }
 
-  init(requestId: String, payload: Payload?) {
+  init(requestId: String, payload: Payload? = nil, error: String? = nil) {
     self.requestId = requestId
     self.payload = payload
+    self.error = error
   }
 
   init(from decoder: Decoder) throws {
@@ -68,6 +70,10 @@ struct CheckoutV2Message: Codable {
       try container.encode(shippingOptions, forKey: .payload)
     default:
       break
+    }
+
+    if let error = error {
+      try container.encode(error, forKey: .error)
     }
   }
 

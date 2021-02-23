@@ -41,7 +41,7 @@ final class CheckoutHandler: CheckoutV2Handler {
   }
 
   func provideShippingOptions(shippingOptions: [ShippingOption]) {
-    shippingOptionsCompletion?(shippingOptions)
+    shippingOptionsCompletion?(.success(shippingOptions))
     shippingOptionsCompletion = nil
   }
 

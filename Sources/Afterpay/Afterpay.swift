@@ -69,6 +69,13 @@ public struct CheckoutV2Options {
   }
 }
 
+public enum CheckoutV2Error: String, Error {
+  case shippingAddressUnrecognized = "SHIPPING_ADDRESS_UNRECOGNIZED"
+  case shippingAddressUnsupported = "SHIPPING_ADDRESS_UNSUPPORTED"
+  case serviceUnavailable = "SERVICE_UNAVAILABLE"
+  case badResponse = "BAD_RESPONSE"
+}
+
 public typealias Token = String
 
 public typealias CheckoutTokenResultCompletion = (_ result: Result<Token, Error>) -> Void
@@ -77,7 +84,9 @@ public typealias DidCommenceCheckoutClosure = (
   _ completion: @escaping CheckoutTokenResultCompletion
 ) -> Void
 
-public typealias ShippingOptionsCompletion = (_ shippingOptions: [ShippingOption]) -> Void
+public typealias ShippingOptionsCompletion = (
+  _ shippingOptionsResult: Result<[ShippingOption], CheckoutV2Error>
+) -> Void
 
 public typealias ShippingAddressDidChangeClosure = (
   _ address: ShippingAddress,
