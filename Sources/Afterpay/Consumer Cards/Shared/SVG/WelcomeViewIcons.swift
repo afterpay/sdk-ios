@@ -11,7 +11,7 @@ import UIKit
 
 struct OpeningTimeIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
-  
+
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .openingTimeIcon
   }
@@ -27,7 +27,7 @@ struct ThumbsUpIconSVGConfiguration: SVGConfiguration {
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .thumbsUpIcon
   }
-  
+
   func accessibilityLabel(localizedFor locale: Locale) -> String {
     return "Thumbs up Icon"
   }
@@ -35,11 +35,11 @@ struct ThumbsUpIconSVGConfiguration: SVGConfiguration {
 
 struct DiamondIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
-  
+
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .diamondIcon
   }
-  
+
   func accessibilityLabel(localizedFor locale: Locale) -> String {
     return "Diamond Icon"
   }

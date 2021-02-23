@@ -53,20 +53,7 @@ final class WelcomeView: UIView {
 
     return textView
   }
-
-  private let headlineLabel: (_ text: String) -> UILabel = { text in
-    let label = UILabel()
-    label.text = text
-    label.textAlignment = .left
-
-    let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-    label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-
-    label.adjustsFontForContentSizeCategory = true
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }
-
+  
   init(continueAction: Selector, aggregatorName: String) {
     super.init(frame: .zero)
 
@@ -112,7 +99,7 @@ final class WelcomeView: UIView {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
-  
+
   // MARK: - Create subviews
 
   private func createHeadlineView(icon: Icon, text: String) -> UIStackView {
@@ -142,11 +129,11 @@ final class WelcomeView: UIView {
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }
-  
+
   private func createIconView(icon: Icon) -> UIView {
     let iconView = UIView(frame: .zero)
     let svgConfiguration: SVGConfiguration
-    
+
     switch icon {
     case .openingTime:
       svgConfiguration = OpeningTimeIconSVGConfiguration(colorScheme: .static(.blackOnMint))
@@ -155,7 +142,7 @@ final class WelcomeView: UIView {
     case .diamond:
       svgConfiguration = DiamondIconSVGConfiguration(colorScheme: .static(.blackOnMint))
     }
-    
+
     let iconSVGView = SVGView(svgConfiguration: svgConfiguration)
 
     iconView.layer.cornerRadius = 12
@@ -169,10 +156,10 @@ final class WelcomeView: UIView {
       iconSVGView.centerYAnchor.constraint(equalTo: iconView.centerYAnchor),
       iconSVGView.centerXAnchor.constraint(equalTo: iconView.centerXAnchor),
     ])
-    
+
     iconSVGView.translatesAutoresizingMaskIntoConstraints = false
     iconView.translatesAutoresizingMaskIntoConstraints = false
-    
+
     return iconView
   }
 }

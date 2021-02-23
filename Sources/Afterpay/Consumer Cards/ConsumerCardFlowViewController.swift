@@ -71,7 +71,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     self.consumerCardToken = ""
     self.mode = mode
     super.init(nibName: nil, bundle: nil)
-    
+
     if #available(iOS 13.0, *) {
       overrideUserInterfaceStyle = .light
     }
@@ -177,7 +177,9 @@ final class ConsumerCardFlowViewController: UIViewController {
     navigationItem.titleView = LogoView()
 
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(dismissConsumerCardFlow))
-    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: nil)
+
+    // Set left navigation bar to be hidden until information page is built
+//    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: nil)
   }
 
   // MARK: - Navigation Bar Button Actions
@@ -273,7 +275,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       }
     }
   }
-  
+
   private func handleAPICallError(error: Error) {
     if let apiError = error as? APIError, case .error(let details) = apiError {
       completion(.failed(reason: .apiError(details)))
