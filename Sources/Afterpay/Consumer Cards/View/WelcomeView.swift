@@ -11,6 +11,12 @@ import UIKit
 
 final class WelcomeView: UIView {
 
+  enum Icon {
+    case openingTime
+    case thumbsUp
+    case diamond
+  }
+
   private var verticalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
@@ -69,9 +75,9 @@ final class WelcomeView: UIView {
 
     let titleLabel = TitleLabel(with: "Pay in 4 parts. No fees.\nAlways interest-free.", fontSize: 24)
 
-    let firstHeadline = headlineLabel("4 easy payments, due every two weeks")
-    let secondHeadline = headlineLabel("Won't effect your credit score")
-    let thirdHeadline = headlineLabel("Afterpay Rewards for on-time payments")
+    let firstHeadline = createHeadlineView(icon: .openingTime, text: "4 easy payments, due every two weeks")
+    let secondHeadline = createHeadlineView(icon: .thumbsUp, text: "Won't effect your credit score")
+    let thirdHeadline = createHeadlineView(icon: .diamond, text: "Afterpay Rewards for on-time payments")
 
     verticalStackView.addArrangedSubview(firstHeadline)
     verticalStackView.addArrangedSubview(secondHeadline)
@@ -105,5 +111,68 @@ final class WelcomeView: UIView {
 
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+  }
+  
+  // MARK: - Create subviews
+
+  private func createHeadlineView(icon: Icon, text: String) -> UIStackView {
+    let stackView = UIStackView()
+    let headlineLabel = createHeadlineLabel(with: text)
+    let iconView = createIconView(icon: icon)
+
+    stackView.axis = .horizontal
+    stackView.spacing = 16
+
+    stackView.addArrangedSubview(iconView)
+    stackView.addArrangedSubview(headlineLabel)
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    return stackView
+  }
+
+  private func createHeadlineLabel(with text: String) -> UILabel {
+    let label = UILabel()
+    label.text = text
+    label.textAlignment = .left
+
+    let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+    label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
+
+    label.adjustsFontForContentSizeCategory = true
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
+  }
+  
+  private func createIconView(icon: Icon) -> UIView {
+    let iconView = UIView(frame: .zero)
+    let svgConfiguration: SVGConfiguration
+    
+    switch icon {
+    case .openingTime:
+      svgConfiguration = OpeningTimeIconSVGConfiguration(colorScheme: .static(.blackOnMint))
+    case .thumbsUp:
+      svgConfiguration = ThumbsUpIconSVGConfiguration(colorScheme: .static(.blackOnMint))
+    case .diamond:
+      svgConfiguration = DiamondIconSVGConfiguration(colorScheme: .static(.blackOnMint))
+    }
+    
+    let iconSVGView = SVGView(svgConfiguration: svgConfiguration)
+
+    iconView.layer.cornerRadius = 12
+    iconView.backgroundColor = .black
+    iconView.addSubview(iconSVGView)
+
+    NSLayoutConstraint.activate([
+      iconView.widthAnchor.constraint(equalToConstant: 32),
+      iconView.heightAnchor.constraint(equalToConstant: 32),
+
+      iconSVGView.centerYAnchor.constraint(equalTo: iconView.centerYAnchor),
+      iconSVGView.centerXAnchor.constraint(equalTo: iconView.centerXAnchor),
+    ])
+    
+    iconSVGView.translatesAutoresizingMaskIntoConstraints = false
+    iconView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return iconView
   }
 }

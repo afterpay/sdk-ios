@@ -52,9 +52,18 @@ final class ConsumerCardFlowViewController: UIViewController {
     // Validate parameters value
     self.consumerCardRequest = consumerCardRequest
     // initiate views
-    welcomeView = WelcomeView(continueAction: #selector(requireAmountAction), aggregatorName: aggregatorName)
-    enterAmountView = EnterAmountView(continueAction: #selector(triggerCheckoutFlowAction), merchantName: consumerCardRequest.merchant.name)
-    consumerCardView = ConsumerCardView(continueAction: #selector(finaliseOrderAction), merchantName: consumerCardRequest.merchant.name)
+    welcomeView = WelcomeView(
+      continueAction: #selector(requireAmountAction),
+      aggregatorName: aggregatorName
+    )
+    enterAmountView = EnterAmountView(
+      continueAction: #selector(triggerCheckoutFlowAction),
+      merchantName: consumerCardRequest.merchant.name
+    )
+    consumerCardView = ConsumerCardView(
+      continueAction: #selector(finaliseOrderAction),
+      merchantName: consumerCardRequest.merchant.name
+    )
     loadingView = LoadingView()
 
     self.completion = completion
@@ -65,7 +74,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     
     if #available(iOS 13.0, *) {
       overrideUserInterfaceStyle = .light
-    } 
+    }
   }
 
   required init?(coder: NSCoder) {

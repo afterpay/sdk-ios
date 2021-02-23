@@ -30,6 +30,7 @@
 		66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE378624D39FC50029BF42 /* BadgeView.swift */; };
 		66EE9BD724DCEC3E00A81C19 /* LinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */; };
 		66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9767B2499A11A001D38FA /* Afterpay.swift */; };
+		7664ECFD25E4BA4800D8A1EB /* WelcomeViewIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664ECFC25E4BA4800D8A1EB /* WelcomeViewIcons.swift */; };
 		76F7ACA925DF5781006F4DF4 /* APIErrorDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 		DBBB8D074F1DE5A57C429316 /* ConsumerCardCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */; };
@@ -107,6 +108,7 @@
 		66EE378624D39FC50029BF42 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTextView.swift; sourceTree = "<group>"; };
 		66F9767B2499A11A001D38FA /* Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Afterpay.swift; sourceTree = "<group>"; };
+		7664ECFC25E4BA4800D8A1EB /* WelcomeViewIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewIcons.swift; sourceTree = "<group>"; };
 		76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorDetails.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 		DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsumerCardCheckoutResult.swift; sourceTree = "<group>"; };
@@ -302,6 +304,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		7664ECFB25E4BA1800D8A1EB /* SVG */ = {
+			isa = PBXGroup;
+			children = (
+				7664ECFC25E4BA4800D8A1EB /* WelcomeViewIcons.swift */,
+			);
+			path = SVG;
+			sourceTree = "<group>";
+		};
 		946388FB24DD05D400A1227A /* Checkout */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +343,7 @@
 		DD8E78DC25DA431B00DCB50D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7664ECFB25E4BA1800D8A1EB /* SVG */,
 				DD8E78DD25DA432A00DCB50D /* Colors.swift */,
 				DD8E78E125DA439000DCB50D /* PrimaryButton.swift */,
 				DDABB88025DA192400F2976F /* LogoView.swift */,
@@ -583,6 +594,7 @@
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 				DD70771D25D2361900401BDB /* WelcomeView.swift in Sources */,
 				DDBD9C1025D33CB000008642 /* Merchant.swift in Sources */,
+				7664ECFD25E4BA4800D8A1EB /* WelcomeViewIcons.swift in Sources */,
 				DD70770A25D2171C00401BDB /* ConsumerCard.swift in Sources */,
 				946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */,
 				DD8E78DE25DA432A00DCB50D /* Colors.swift in Sources */,
