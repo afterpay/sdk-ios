@@ -14,8 +14,8 @@ final class ConsumerCardView: UIView {
   private let virtualCardDisplayView = VirtualCardDisplayView(lastFourDigits: "", expiryDate: "")
   private let virtualCardExpiryLabel: UILabel = {
     let label = UILabel()
-    label.numberOfLines = 0
-    label.textAlignment = .center
+    label.numberOfLines = 1
+    label.textAlignment = .left
 
     let textFont = UIFont.systemFont(ofSize: 14, weight: .thin)
     label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
@@ -31,6 +31,26 @@ final class ConsumerCardView: UIView {
   private let lastFourDigits: (_ cardNumber: String) -> String = { cardNumber in
     return String(cardNumber.suffix(4))
   }
+  
+  private var virtualCardExpiryView: UIStackView = {
+    let stackView = UIStackView()
+    let iconView = SVGView(svgConfiguration: ClockIconSVGConfiguration(colorScheme: .static(.blackOnWhite)))
+
+    stackView.axis = .horizontal
+    stackView.spacing = 8
+
+    stackView.addArrangedSubview(iconView)
+
+    iconView.translatesAutoresizingMaskIntoConstraints = false
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+ 
+    NSLayoutConstraint.activate([
+      iconView.heightAnchor.constraint(equalToConstant: 16),
+      iconView.widthAnchor.constraint(equalToConstant: 16),
+    ])
+  
+    return stackView
+  }()
 
   init(continueAction: Selector, merchantName: String) {
     super.init(frame: .zero)
@@ -42,12 +62,14 @@ final class ConsumerCardView: UIView {
 
     // Add target for continue button
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
+    
+    virtualCardExpiryView.addArrangedSubview(virtualCardExpiryLabel)
 
     addSubview(titleLabel)
     addSubview(subtitleLabel)
     addSubview(continueButton)
     addSubview(virtualCardDisplayView)
-    addSubview(virtualCardExpiryLabel)
+    addSubview(virtualCardExpiryView)
 
     // Adjust constraint
     NSLayoutConstraint.activate([
@@ -64,14 +86,14 @@ final class ConsumerCardView: UIView {
       virtualCardDisplayView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       virtualCardDisplayView.heightAnchor.constraint(equalToConstant: 216),
 
-      virtualCardExpiryLabel.topAnchor.constraint(equalTo: virtualCardDisplayView.bottomAnchor, constant: 24),
-      virtualCardExpiryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-      virtualCardExpiryLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16),
-      virtualCardExpiryLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+      virtualCardExpiryView.topAnchor.constraint(equalTo: virtualCardDisplayView.bottomAnchor, constant: 24),
+      virtualCardExpiryView.centerXAnchor.constraint(equalTo: centerXAnchor),
+      virtualCardExpiryView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16),
+      virtualCardExpiryView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
 
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      continueButton.topAnchor.constraint(greaterThanOrEqualTo: virtualCardExpiryLabel.bottomAnchor, constant: 24),
+      continueButton.topAnchor.constraint(greaterThanOrEqualTo: virtualCardExpiryView.bottomAnchor, constant: 24),
       continueButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -64),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
     ])

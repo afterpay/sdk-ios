@@ -44,3 +44,15 @@ struct DiamondIconSVGConfiguration: SVGConfiguration {
     return "Diamond Icon"
   }
 }
+
+struct ClockIconSVGConfiguration: SVGConfiguration {
+  var colorScheme: ColorScheme
+
+  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
+    return .clockIcon
+  }
+  
+  func accessibilityLabel(localizedFor locale: Locale) -> String {
+    return "Clock Icon"
+  }
+}

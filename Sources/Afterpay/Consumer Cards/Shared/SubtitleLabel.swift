@@ -15,28 +15,26 @@ final class SubtitleLabel: UILabel {
 
     let regularTextFont = UIFont.systemFont(ofSize: fontSize, weight: .regular)
     let boldTextFont = UIFont.systemFont(ofSize: fontSize, weight: .bold)
-    
-    
+ 
     let prefix = NSMutableAttributedString(
       string: title,
       attributes: [
-        .font: UIFontMetrics(forTextStyle: .title3).scaledFont(for: regularTextFont)
+        .font: UIFontMetrics(forTextStyle: .title3).scaledFont(for: regularTextFont),
       ]
     )
-    
-    
+ 
     if let merchantName = merchantName {
       let suffix = NSMutableAttributedString(
         string: merchantName,
         attributes: [
-          .font: UIFontMetrics(forTextStyle: .title3).scaledFont(for: boldTextFont)
+          .font: UIFontMetrics(forTextStyle: .title3).scaledFont(for: boldTextFont),
         ]
       )
       
       prefix.append(suffix)
 
     }
-    
+
     attributedText = prefix
     numberOfLines = 0
 

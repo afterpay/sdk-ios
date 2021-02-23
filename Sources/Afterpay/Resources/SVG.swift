@@ -67,6 +67,16 @@ struct SVG: Equatable {
     </svg>
     """
   )
+  
+  static let clockIcon = SVG(
+    size: CGSize(width: 16, height: 16),
+    minimumWidth: 16,
+    svgString: """
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 0C3.58867 0 0 3.58867 0 8C0 12.4113 3.58867 16 8 16C12.4113 16 16 12.4113 16 8C16 3.58867 12.4113 0 8 0ZM12.6667 8.66667H7.33333V3.33333H8.66667V7.33333H12.6667V8.66667Z" fill="black"/>
+    </svg>
+    """
+  )
 
   // MARK: - Afterpay logos
 
