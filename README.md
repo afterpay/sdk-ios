@@ -405,7 +405,7 @@ Afterpay.presentCheckoutV2Modally(
 )
 ```
 
-An express checkout can make use of callbacks and options to provide a richer checkout experience. For more information on express checkout please check the [api reference][express-checkout]
+An express checkout can make use of callbacks and options to provide a richer checkout experience. For more information on express checkout please check the [API reference][express-checkout]
 
 ```swift
 Afterpay.presentCheckoutV2Modally(
