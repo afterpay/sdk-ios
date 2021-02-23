@@ -9,9 +9,11 @@
 import Foundation
 
 public struct ShippingAddress: Decodable {
+
   var countryCode: String?
   var postcode: String?
   var phoneNumber: String?
   var state: String?
   var suburb: String?
+
 }
