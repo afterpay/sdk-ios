@@ -60,14 +60,14 @@ struct SVG: Equatable {
     <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M21.3997 7.94122L21.7214 7.52761L21.4437 7.08327L18.1745 1.8525L17.9541 1.5H17.5385H5.76923H5.35355L5.13323 1.8525L1.864 7.08327L1.58629 7.52761L1.90799 7.94122L11.0618 19.7105L11.6538 20.4716L12.2459 19.7105L21.3997 7.94122Z" fill="white" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/>
     <path d="M2.5 7.48077H20.8077" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
-    <path d="M11.6539 19.25L14.9232 7.48077L11.6539 2.25" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
-    <path d="M11.654 2.25L8.38477 7.48077L11.654 19.25" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M11.6539 19.25L14.9232 7.48077L11.6539 2.25" fill="white" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M11.654 2.25L8.38477 7.48077L11.654 19.25" fill="white" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
     <path d="M5.76917 2.25L8.38455 7.48077" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
     <path d="M17.5385 2.25L14.9231 7.48077" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
     </svg>
     """
   )
-  
+
   static let clockIcon = SVG(
     size: CGSize(width: 16, height: 16),
     minimumWidth: 16,
