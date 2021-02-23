@@ -153,7 +153,7 @@ Checkout supports Clearpay for v1 this means supplying a correctly formed URL fo
 
 ### Clearing Cookies
 
-Cookies are stored in the default web kit website data store and can be cleared if required by writing code similar to:
+Cookies are stored in the default WebKit website data store and can be cleared if required by writing code similar to:
 
 ```swift
 let dataStore = WKWebsiteDataStore.default()
