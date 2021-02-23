@@ -61,7 +61,12 @@ final class EnterAmountView: UIView {
 
     let continueButton = PrimaryButton(title: "Continue")
     let titleLabel = TitleLabel(with: "Let's get started")
-    let subtitleLabel = SubtitleLabel(with: "How much you want to spend?\nYou'll only be charged for what you end up using at \(merchantName).")
+    let firstSubtitleLabel = SubtitleLabel(
+      title: "How much do you want to spend at",
+      merchantName: " \(merchantName)?"
+    )
+    
+    let secondSubtitleLabel = SubtitleLabel(title: "You'll only be charged for what you end up spending")
 
     currencyLabel.font = amountField.font
     currencyLabel.textColor = amountField.textColor
@@ -72,7 +77,8 @@ final class EnterAmountView: UIView {
     horizontalStackView.addArrangedSubview(amountField)
 
     addSubview(titleLabel)
-    addSubview(subtitleLabel)
+    addSubview(firstSubtitleLabel)
+    addSubview(secondSubtitleLabel)
     addSubview(horizontalStackView)
     addSubview(noteLabel)
     addSubview(continueButton)
@@ -82,11 +88,15 @@ final class EnterAmountView: UIView {
       titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 
-      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-      subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-      subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      firstSubtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+      firstSubtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      firstSubtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      
+      secondSubtitleLabel.topAnchor.constraint(equalTo: firstSubtitleLabel.bottomAnchor, constant: 4),
+      secondSubtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      secondSubtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 
-      horizontalStackView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 32),
+      horizontalStackView.topAnchor.constraint(equalTo: secondSubtitleLabel.bottomAnchor, constant: 32),
       horizontalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       horizontalStackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
 
