@@ -455,7 +455,7 @@ final class MyViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    Afterpay.setCheckoutV2Handler(configuration)
+    Afterpay.setCheckoutV2Handler(handler)
   }
   // ...
   @objc func didTapPayWithAfterpay() {
