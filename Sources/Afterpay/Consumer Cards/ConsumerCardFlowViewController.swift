@@ -62,6 +62,10 @@ final class ConsumerCardFlowViewController: UIViewController {
     self.consumerCardToken = ""
     self.mode = mode
     super.init(nibName: nil, bundle: nil)
+    
+    if #available(iOS 13.0, *) {
+      overrideUserInterfaceStyle = .light
+    } 
   }
 
   required init?(coder: NSCoder) {
