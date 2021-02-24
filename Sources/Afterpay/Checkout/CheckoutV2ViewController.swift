@@ -324,6 +324,7 @@ final class CheckoutV2ViewController:
           postMessage(responseMessage)
         }
       case .errorMessage(let errorMessage):
+        // Error messages raised in the webview are loged when in Debug for ease of debugging
         os_log("%@", log: .checkout, type: .debug, errorMessage)
       case .shippingOption(let shippingOption):
         shippingOptionDidChange?(shippingOption)
