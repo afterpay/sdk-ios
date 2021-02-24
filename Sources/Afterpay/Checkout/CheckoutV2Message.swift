@@ -12,10 +12,10 @@ struct CheckoutV2Message: Codable {
 
   var requestId: String
   var payload: Payload?
-  var error: String?
 
   enum Payload {
     case address(ShippingAddress)
+    case errorMessage(String)
     case shippingOption(ShippingOption)
     case shippingOptions([ShippingOption])
   }
@@ -29,14 +29,19 @@ struct CheckoutV2Message: Codable {
   }
 
   private enum MessageType: String, Decodable {
+    case onMessage
     case onShippingAddressChange
     case onShippingOptionChange
   }
 
-  init(requestId: String, payload: Payload? = nil, error: String? = nil) {
+  private struct OnMessage: Decodable {
+    var severity: String
+    var message: String
+  }
+
+  init(requestId: String, payload: Payload?) {
     self.requestId = requestId
     self.payload = payload
-    self.error = error
   }
 
   init(from decoder: Decoder) throws {
@@ -54,6 +59,9 @@ struct CheckoutV2Message: Codable {
     case .onShippingOptionChange:
       let shippingOption = try container.decode(ShippingOption.self, forKey: .payload)
       payload = .shippingOption(shippingOption)
+    case .onMessage:
+      let onMessage = try container.decode(OnMessage.self, forKey: .payload)
+      payload = .errorMessage("\(onMessage.severity.capitalized): \(onMessage.message)")
     default:
       payload = nil
     }
@@ -68,12 +76,12 @@ struct CheckoutV2Message: Codable {
     switch payload {
     case .shippingOptions(let shippingOptions):
       try container.encode(shippingOptions, forKey: .payload)
+    case .errorMessage(let errorMessage):
+      // This is asymmentric with decode, errors are encoded as their own key/value pair when sent
+      // not as the payload
+      try container.encode(errorMessage, forKey: .error)
     default:
       break
-    }
-
-    if let error = error {
-      try container.encode(error, forKey: .error)
     }
   }
 

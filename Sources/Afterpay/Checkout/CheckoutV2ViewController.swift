@@ -311,28 +311,31 @@ final class CheckoutV2ViewController:
         .map { evaluateJavascript("postMessageToCheckout('\($0)');") }
     }
 
-    switch (message, message?.payload, completion) {
-    case (let message?, .address(let address), _):
-      shippingAddressDidChange?(address) { shippingOptions in
-        let requestId = message.requestId
-        let responseMessage = shippingOptions.fold(
-          successTransform: { Message(requestId: requestId, payload: .shippingOptions($0)) },
-          errorTransform: { Message(requestId: requestId, error: $0.rawValue) }
-        )
-        postMessage(responseMessage)
+    if let message = message, let payload = message.payload {
+      switch payload {
+      case .address(let address):
+        shippingAddressDidChange?(address) { shippingOptions in
+          let requestId = message.requestId
+          let responseMessage = shippingOptions.fold(
+            successTransform: { Message(requestId: requestId, payload: .shippingOptions($0)) },
+            errorTransform: { Message(requestId: requestId, payload: .errorMessage($0.rawValue)) }
+          )
+          postMessage(responseMessage)
+        }
+      case .errorMessage(let errorMessage):
+        break
+      case .shippingOption(let shippingOption):
+        shippingOptionDidChange?(shippingOption)
+      case .shippingOptions:
+        break
       }
-
-    case(_, .shippingOption(let shippingOption), _):
-      shippingOptionDidChange?(shippingOption)
-
-    case (_, _, .success(let token)):
-      dismiss(animated: true) { self.completion(.success(token: token)) }
-
-    case (_, _, .cancelled):
-      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
-
-    default:
-      break
+    } else if let completion = completion {
+      switch completion {
+      case .success(let token):
+        dismiss(animated: true) { self.completion(.success(token: token)) }
+      case .cancelled:
+        dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+      }
     }
   }
 
