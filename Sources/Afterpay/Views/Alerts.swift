@@ -24,8 +24,12 @@ enum Alerts {
     let retryHandler: (UIAlertAction) -> Void = { _ in retry() }
     let cancelHandler: (UIAlertAction) -> Void = { _ in cancel() }
 
-    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: retryHandler))
-    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler))
+    let actions = [
+      UIAlertAction(title: "Retry", style: .default, handler: retryHandler),
+      UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler),
+    ]
+
+    actions.forEach(alert.addAction)
 
     return alert
   }
