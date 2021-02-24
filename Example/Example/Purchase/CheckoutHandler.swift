@@ -35,13 +35,18 @@ final class CheckoutHandler: CheckoutV2Handler {
     checkoutTokenResultCompletion = nil
   }
 
-  func shippingAddressDidChange(address: ShippingAddress, completion: @escaping ShippingOptionsCompletion) {
+  func shippingAddressDidChange(
+    address: ShippingAddress,
+    completion: @escaping ShippingOptionsCompletion
+  ) {
     shippingOptionsCompletion = completion
     onShippingAddressDidChangeClosure(address)
   }
 
-  func provideShippingOptions(shippingOptions: [ShippingOption]) {
-    shippingOptionsCompletion?(.success(shippingOptions))
+  func provideShippingOptionsResult(
+    result shippingOptionsResult: Result<[ShippingOption], ShippingOptionsError>
+  ) {
+    shippingOptionsCompletion?(shippingOptionsResult)
     shippingOptionsCompletion = nil
   }
 

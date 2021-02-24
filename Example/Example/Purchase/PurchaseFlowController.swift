@@ -88,8 +88,8 @@ final class PurchaseFlowController: UIViewController {
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
 
-    case .provideShippingOptions(let shippingOptions):
-      checkoutHandler.provideShippingOptions(shippingOptions: shippingOptions)
+    case .provideShippingOptionsResult(let shippingOptionsResult):
+      checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)
