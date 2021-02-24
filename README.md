@@ -46,6 +46,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
     - [SwiftUI](#swiftui)
   - [Configuration](#configuration)
   - [Presenting Web Checkout v2](#presenting-web-checkout-v2)
+    - [Debugging](#debugging)
     - [Swift (UIKit)](#swift-uikit-1)
 - [Examples](#examples)
 - [Building](#building)
@@ -384,6 +385,10 @@ The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers 
 > - Configuration must always be set before presentation otherwise you will incur an assertionFailure.
 > - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
 
+### Debugging
+
+Known checkout related errors that are handled within the web implementation of checkout are logged using `os_log` using the `debug` log type for use when debugging.
+
 ### Swift (UIKit)
 
 A standard checkout implemented with v2 loads the token on demand.
@@ -415,7 +420,7 @@ Afterpay.presentCheckoutV2Modally(
     // Load the token passing the result to completion
   },
   shippingAddressDidChange: { address, completion in
-    // Use the address to form shipping options and pass to completion
+    // Use the address to form a shipping options result and pass to completion
   },
   shippingOptionDidChange: { shippingOption in
     // Optionally update your application model with the selected shipping option
@@ -440,7 +445,7 @@ final class CheckoutHandler: CheckoutV2Handler {
   }
 
   func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion) {
-    // Use the address to form shipping options and pass to completion
+    // Use the address to form a shipping options result and pass to completion
   }
 
   func shippingOptionDidChange(shippingOption: ShippingOption) {
