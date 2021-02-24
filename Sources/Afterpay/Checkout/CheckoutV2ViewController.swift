@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import UIKit
 import WebKit
 
@@ -323,7 +324,7 @@ final class CheckoutV2ViewController:
           postMessage(responseMessage)
         }
       case .errorMessage(let errorMessage):
-        break
+        os_log("%@", log: .checkout, type: .debug, errorMessage)
       case .shippingOption(let shippingOption):
         shippingOptionDidChange?(shippingOption)
       case .shippingOptions:

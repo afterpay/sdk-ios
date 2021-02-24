@@ -12,6 +12,7 @@
 		1535ACB925DCBD0500727818 /* CheckoutV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1535ACB825DCBD0500727818 /* CheckoutV2.swift */; };
 		157C65AF25D23E8F00115149 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C65AE25D23E8F00115149 /* Version.swift */; };
 		157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E88D025CBCA49007E54C4 /* Result+Fold.swift */; };
+		15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
@@ -62,6 +63,7 @@
 		1535ACB825DCBD0500727818 /* CheckoutV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV2.swift; sourceTree = "<group>"; };
 		157C65AE25D23E8F00115149 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		157E88D025CBCA49007E54C4 /* Result+Fold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Fold.swift"; sourceTree = "<group>"; };
+		15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Afterpay.swift"; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		15FAC56625DCCEDF00DE7792 /* Afterpay.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.podspec; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 		157E88CF25CBCA22007E54C4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */,
 				157E88D025CBCA49007E54C4 /* Result+Fold.swift */,
 			);
 			path = Helpers;
@@ -498,6 +501,7 @@
 				1535ACB925DCBD0500727818 /* CheckoutV2.swift in Sources */,
 				66B54588256B3FD9002B3DD5 /* CheckoutV2ViewController.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
+				15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
 				151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */,
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,
