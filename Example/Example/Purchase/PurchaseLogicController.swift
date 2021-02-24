@@ -15,8 +15,8 @@ final class PurchaseLogicController {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
     case showAfterpayCheckout
-    case provideCheckoutTokenResult(Result<Token, Error>)
-    case provideShippingOptionsResult(Result<[ShippingOption], ShippingOptionsError>)
+    case provideCheckoutTokenResult(TokenResult)
+    case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String)
   }
@@ -107,7 +107,8 @@ final class PurchaseLogicController {
       ),
     ]
 
-    commandHandler(.provideShippingOptionsResult(.success(shippingOptions)))
+    let result: ShippingOptionsResult = .success(shippingOptions)
+    commandHandler(.provideShippingOptionsResult(result))
   }
 
   func success(with token: String) {

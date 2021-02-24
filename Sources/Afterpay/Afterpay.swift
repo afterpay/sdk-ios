@@ -88,14 +88,18 @@ public enum ShippingOptionsError: String, Error {
 
 public typealias Token = String
 
-public typealias CheckoutTokenResultCompletion = (_ result: Result<Token, Error>) -> Void
+public typealias TokenResult = Result<Token, Error>
+
+public typealias TokenResultCompletion = (_ result: TokenResult) -> Void
 
 public typealias DidCommenceCheckoutClosure = (
-  _ completion: @escaping CheckoutTokenResultCompletion
+  _ completion: @escaping TokenResultCompletion
 ) -> Void
 
+public typealias ShippingOptionsResult = Result<[ShippingOption], ShippingOptionsError>
+
 public typealias ShippingOptionsCompletion = (
-  _ shippingOptionsResult: Result<[ShippingOption], ShippingOptionsError>
+  _ shippingOptionsResult: ShippingOptionsResult
 ) -> Void
 
 public typealias ShippingAddressDidChangeClosure = (
@@ -171,7 +175,7 @@ public protocol CheckoutV2Handler: AnyObject {
   ///   a URL should be passed to. Passing a success will load the checkout URL and a failure will
   ///   present a dialogue to the user for which they will either decide to retry or close the
   ///   modal.
-  func didCommenceCheckout(completion: @escaping CheckoutTokenResultCompletion)
+  func didCommenceCheckout(completion: @escaping TokenResultCompletion)
 
   /// Called when an express checkout is launched inside the checkout web view. Provided the address
   /// shipping options should be formed and passed to `completion` for the user to choose from.

@@ -14,7 +14,7 @@ final class CheckoutHandler: CheckoutV2Handler {
   private let didCommenceCheckoutClosure: () -> Void
   private let onShippingAddressDidChangeClosure: (ShippingAddress) -> Void
 
-  private var checkoutTokenResultCompletion: CheckoutTokenResultCompletion?
+  private var checkoutTokenResultCompletion: TokenResultCompletion?
   private var shippingOptionsCompletion: ShippingOptionsCompletion?
 
   init(
@@ -25,12 +25,12 @@ final class CheckoutHandler: CheckoutV2Handler {
     onShippingAddressDidChangeClosure = onShippingAddressDidChange
   }
 
-  func didCommenceCheckout(completion: @escaping CheckoutTokenResultCompletion) {
+  func didCommenceCheckout(completion: @escaping TokenResultCompletion) {
     checkoutTokenResultCompletion = completion
     didCommenceCheckoutClosure()
   }
 
-  func provideTokenResult(tokenResult: Result<Token, Error>) {
+  func provideTokenResult(tokenResult: TokenResult) {
     checkoutTokenResultCompletion?(tokenResult)
     checkoutTokenResultCompletion = nil
   }
@@ -43,9 +43,7 @@ final class CheckoutHandler: CheckoutV2Handler {
     onShippingAddressDidChangeClosure(address)
   }
 
-  func provideShippingOptionsResult(
-    result shippingOptionsResult: Result<[ShippingOption], ShippingOptionsError>
-  ) {
+  func provideShippingOptionsResult(result shippingOptionsResult: ShippingOptionsResult) {
     shippingOptionsCompletion?(shippingOptionsResult)
     shippingOptionsCompletion = nil
   }
