@@ -24,7 +24,7 @@ final class WelcomeView: UIView {
     stackView.spacing = 16
     return stackView
   }()
-  
+
   init(continueAction: Selector, aggregatorName: String) {
     super.init(frame: .zero)
 
@@ -36,9 +36,9 @@ final class WelcomeView: UIView {
     let firstHeadline = createHeadlineView(icon: .openingTime, text: "4 easy payments, due every two weeks")
     let secondHeadline = createHeadlineView(icon: .thumbsUp, text: "Won't effect your credit score")
     let thirdHeadline = createHeadlineView(icon: .diamond, text: "Afterpay Rewards for on-time payments")
-    
+  
     let divider = DividerView()
-    
+
     let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
 
     verticalStackView.addArrangedSubview(firstHeadline)
@@ -59,7 +59,7 @@ final class WelcomeView: UIView {
       verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
-   
+
       divider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       divider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       divider.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 24),
@@ -141,7 +141,7 @@ final class WelcomeView: UIView {
 
     return iconView
   }
-  
+
   private func getTermsAndConditionTextView(aggregatorName: String) -> UITextView {
     let textView = UITextView()
 
