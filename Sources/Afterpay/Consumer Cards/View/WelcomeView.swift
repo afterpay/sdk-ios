@@ -24,35 +24,6 @@ final class WelcomeView: UIView {
     stackView.spacing = 16
     return stackView
   }()
-
-  private func getTermsAndConditionTextView(aggregatorName: String) -> UITextView {
-    let textView = UITextView()
-
-    let font = UIFont.systemFont(ofSize: 12, weight: .light)
-    let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
-
-    let attributedString = NSMutableAttributedString(
-      string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions",
-      attributes: [
-        .font: fontMetrics,
-      ]
-    )
-
-    let range = (attributedString.string as NSString).range(of: "terms and conditions")
-    attributedString.addAttribute(.link, value: "https://www.afterpay.com/installment-agreement", range: range)
-
-    textView.adjustsFontForContentSizeCategory = true
-    textView.translatesAutoresizingMaskIntoConstraints = false
-
-    textView.attributedText = attributedString
-    textView.isEditable = false
-    textView.isSelectable = true
-    textView.isScrollEnabled = false
-    textView.textContainerInset = .zero
-    textView.textContainer.lineFragmentPadding = .zero
-
-    return textView
-  }
   
   init(continueAction: Selector, aggregatorName: String) {
     super.init(frame: .zero)
@@ -65,6 +36,10 @@ final class WelcomeView: UIView {
     let firstHeadline = createHeadlineView(icon: .openingTime, text: "4 easy payments, due every two weeks")
     let secondHeadline = createHeadlineView(icon: .thumbsUp, text: "Won't effect your credit score")
     let thirdHeadline = createHeadlineView(icon: .diamond, text: "Afterpay Rewards for on-time payments")
+    
+    let divider = DividerView()
+    
+    let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
 
     verticalStackView.addArrangedSubview(firstHeadline)
     verticalStackView.addArrangedSubview(secondHeadline)
@@ -73,7 +48,7 @@ final class WelcomeView: UIView {
     addSubview(continueButton)
     addSubview(titleLabel)
     addSubview(verticalStackView)
-    let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
+    addSubview(divider)
     addSubview(termsAndConditionTextView)
 
     NSLayoutConstraint.activate([
@@ -84,10 +59,14 @@ final class WelcomeView: UIView {
       verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
+   
+      divider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      divider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      divider.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 24),
 
       termsAndConditionTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       termsAndConditionTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      termsAndConditionTextView.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 24),
+      termsAndConditionTextView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 24),
 
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -161,5 +140,34 @@ final class WelcomeView: UIView {
     iconView.translatesAutoresizingMaskIntoConstraints = false
 
     return iconView
+  }
+  
+  private func getTermsAndConditionTextView(aggregatorName: String) -> UITextView {
+    let textView = UITextView()
+
+    let font = UIFont.systemFont(ofSize: 12, weight: .light)
+    let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
+
+    let attributedString = NSMutableAttributedString(
+      string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions",
+      attributes: [
+        .font: fontMetrics,
+      ]
+    )
+
+    let range = (attributedString.string as NSString).range(of: "terms and conditions")
+    attributedString.addAttribute(.link, value: "https://www.afterpay.com/installment-agreement", range: range)
+
+    textView.adjustsFontForContentSizeCategory = true
+    textView.translatesAutoresizingMaskIntoConstraints = false
+
+    textView.attributedText = attributedString
+    textView.isEditable = false
+    textView.isSelectable = true
+    textView.isScrollEnabled = false
+    textView.textContainerInset = .zero
+    textView.textContainer.lineFragmentPadding = .zero
+
+    return textView
   }
 }
