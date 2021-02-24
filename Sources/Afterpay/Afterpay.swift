@@ -69,11 +69,21 @@ public struct CheckoutV2Options {
   }
 }
 
-public enum CheckoutV2Error: String, Error {
+/// An `Error` describing error scenarios when attempting to form shipping options
+public enum ShippingOptionsError: String, Error {
+
+  /// For use when an address does not meet your validation criteria
   case shippingAddressUnrecognized = "SHIPPING_ADDRESS_UNRECOGNIZED"
+
+  /// For use when an address is recognized but not supported
   case shippingAddressUnsupported = "SHIPPING_ADDRESS_UNSUPPORTED"
+
+  /// For use when your backend service is temporarily unavailable
   case serviceUnavailable = "SERVICE_UNAVAILABLE"
+
+  /// For use when some unexpected error or response occurs
   case badResponse = "BAD_RESPONSE"
+
 }
 
 public typealias Token = String
@@ -85,7 +95,7 @@ public typealias DidCommenceCheckoutClosure = (
 ) -> Void
 
 public typealias ShippingOptionsCompletion = (
-  _ shippingOptionsResult: Result<[ShippingOption], CheckoutV2Error>
+  _ shippingOptionsResult: Result<[ShippingOption], ShippingOptionsError>
 ) -> Void
 
 public typealias ShippingAddressDidChangeClosure = (
@@ -107,7 +117,8 @@ public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOp
 ///   /checkouts endpoint on the Afterpay backend.
 ///   - shippingAddressDidChange: Called when an express checkout is launched or when the address is
 ///   changed. Provided the address shipping options should be formed and passed to `completion`
-///   for the user to choose from.
+///   for the user to choose from. Alternatively one of the provided `ShippingOptionsError` cases
+///   can be used to describe a particular error scenario that will be display to the user.
 ///   - shippingOptionDidChange: Called after the user selects one of the shipping options provided
 ///   by the `completion` of `shippingAddressDidChange`.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
@@ -167,7 +178,9 @@ public protocol CheckoutV2Handler: AnyObject {
   /// - Parameters:
   ///   - address: The address for which the item will be shipped to.
   ///   - completion: The closure that the formed shipping options should be passed to. The shipping
-  ///   options passed should match the provided `address`.
+  ///   options passed should match the provided `address`. Alternatively one of the provided
+  ///   `ShippingOptionsError` cases can be used to describe a particular error scenario that
+  ///   will be display to the user.
   func shippingAddressDidChange(address: ShippingAddress, completion: @escaping ShippingOptionsCompletion)
 
   /// Called after the user selects one of the shipping options provided by the `completion` of
