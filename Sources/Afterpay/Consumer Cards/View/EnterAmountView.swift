@@ -126,7 +126,7 @@ final class EnterAmountView: UIView {
 
       divider.topAnchor.constraint(equalTo: noteLabel.bottomAnchor, constant: 16),
       divider.leadingAnchor.constraint(equalTo: enterAmountContainerView.leadingAnchor, constant: 16),
-      divider.trailingAnchor.constraint(lessThanOrEqualTo: enterAmountContainerView.trailingAnchor, constant: -16),
+      divider.trailingAnchor.constraint(equalTo: enterAmountContainerView.trailingAnchor, constant: -16),
 
       continueButton.leadingAnchor.constraint(equalTo: enterAmountContainerView.leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: enterAmountContainerView.trailingAnchor, constant: -16),

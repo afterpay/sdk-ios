@@ -14,11 +14,22 @@ final class TitleLabel: UILabel {
   init(with title: String, fontSize: CGFloat = 32) {
     super.init(frame: .zero)
 
-    text = title
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineHeightMultiple = 1.07
     numberOfLines = 0
+    lineBreakMode = .byWordWrapping
 
     let textFont = UIFont.afterPayFont(weight: .bold, size: fontSize)
     adjustsFontForContentSizeCategory = true
+
+    attributedText = NSMutableAttributedString(
+      string: title,
+      attributes: [
+        .font: UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: textFont),
+        .paragraphStyle: paragraphStyle,
+      ]
+    )
+
     font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: textFont)
 
     translatesAutoresizingMaskIntoConstraints = false

@@ -21,7 +21,7 @@ final class WelcomeView: UIView {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.translatesAutoresizingMaskIntoConstraints = false
-    stackView.spacing = 16
+    stackView.spacing = 12
     return stackView
   }()
 
@@ -31,7 +31,7 @@ final class WelcomeView: UIView {
     let continueButton = PrimaryButton(title: "Continue with Afterpay")
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
-    let titleLabel = TitleLabel(with: "Pay in 4 parts. No fees.\nAlways interest-free.", fontSize: 24)
+    let titleLabel = TitleLabel(with: "Pay in 4 parts. No fees.\nAlways interest-free.", fontSize: 32)
 
     let firstHeadline = createHeadlineView(icon: .openingTime, text: "4 easy payments, due every two weeks")
     let secondHeadline = createHeadlineView(icon: .thumbsUp, text: "Won't effect your credit score")
@@ -58,7 +58,7 @@ final class WelcomeView: UIView {
 
       verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
+      verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
 
       divider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       divider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -100,6 +100,8 @@ final class WelcomeView: UIView {
     let label = UILabel()
     label.text = text
     label.textAlignment = .left
+
+    label.numberOfLines = 0
 
     let font = UIFont.afterPayFont(weight: .bold, size: 14)
     label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
@@ -147,11 +149,14 @@ final class WelcomeView: UIView {
 
     let font = UIFont.afterPayFont(weight: .regular, size: 12)
     let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineHeightMultiple = 1.34
 
     let attributedString = NSMutableAttributedString(
-      string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions",
+      string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions.",
       attributes: [
         .font: fontMetrics,
+        .paragraphStyle: paragraphStyle,
       ]
     )
 
