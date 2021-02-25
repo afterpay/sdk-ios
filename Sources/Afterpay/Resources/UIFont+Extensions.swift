@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import os.log
 import UIKit
 
 extension UIFont {
