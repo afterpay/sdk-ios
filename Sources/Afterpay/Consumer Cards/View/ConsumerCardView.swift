@@ -56,7 +56,7 @@ final class ConsumerCardView: UIView {
     super.init(frame: .zero)
 
     let subtitleLabel = SubtitleLabel(title: "Ready to use at ", merchantName: merchantName, fontSize: 16)
-    let continueButton = PrimaryButton(title: "Continue to finalise your order")
+    let continueButton = PrimaryButton(title: "Continue to finalize your order")
 
     virtualCardDisplayView.translatesAutoresizingMaskIntoConstraints = false
 
