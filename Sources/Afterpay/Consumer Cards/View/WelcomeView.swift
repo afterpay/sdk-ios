@@ -151,6 +151,7 @@ final class WelcomeView: UIView {
     let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineHeightMultiple = 1.34
+    textView.textContainer.lineBreakMode = .byWordWrapping
 
     let attributedString = NSMutableAttributedString(
       string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions.",
