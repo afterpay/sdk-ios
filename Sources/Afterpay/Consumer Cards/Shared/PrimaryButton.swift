@@ -11,7 +11,7 @@ import UIKit
 
 final class PrimaryButton: UIButton {
 
-  init(title: String, withLogo: Bool = false) {
+  init(title: String) {
     super.init(frame: .zero)
 
     setBackgroundColor(UIColor.primaryColor, for: .normal)
