@@ -24,7 +24,7 @@ extension UIFont {
     let fontName = "\(afterPayFontTypeface)\(weight.rawValue)"
 
     if UIFont.fontNames(forFamilyName: afterPayFontTypeface).contains(fontName) == false {
-      registerFont(fileName: fontName, bundleIdentifier: "com.afterpay.Afterpay")
+      registerFont(fileName: fontName)
     }
 
     guard let font = UIFont(name: fontName, size: size) else {
@@ -47,12 +47,9 @@ extension UIFont {
   }
 
   // MARK: - Register Font
-  static func registerFont(fileName: String, bundleIdentifier: String) {
+  static func registerFont(fileName: String) {
 
-    guard let bundle = Bundle(identifier: bundleIdentifier) else {
-      print("Unable to create bundle with identifer: \(bundleIdentifier)")
-      return
-    }
+    let bundle = AfterpayBundleLocator.resourceBundle
 
     guard let resourcePathString = bundle.path(forResource: fileName, ofType: ".otf") else {
       print("Path for resource not found: \(fileName).otf")
