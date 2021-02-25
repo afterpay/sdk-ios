@@ -37,7 +37,9 @@ final class DividerView: UIView {
   }
 
   override func layoutSubviews() {
-    if layer.sublayers?.contains(dashedLineLayer) ?? true {
+    // Add dashed line layer if it has not been added previously
+    // Avoid adding the dashed line again, if it has been added 
+    if (layer.sublayers?.contains(dashedLineLayer) ?? false) == false {
       addDashedLinePath()
       layer.addSublayer(dashedLineLayer)
     }
