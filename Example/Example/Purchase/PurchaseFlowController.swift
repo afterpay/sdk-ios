@@ -60,20 +60,23 @@ final class PurchaseFlowController: UIViewController {
     case .showCart(let cart):
       let cartViewController = CartViewController(cart: cart) { event in
         switch event {
-        case .didTapPay:
-//          logicController.payWithAfterpay()
-          logicController.payWithVirtualCard()
+        case .didTapPay(let requestCard):
+          if requestCard {
+            logicController.payWithVirtualCard()
+          } else {
+            logicController.payWithAfterpay()
+          }
         }
       }
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayWelcomeToVirtualCard:
-          presentAfterpayConsumerCardRequestModally()
+    case .showAfterpayVirtualCardOnboarding:
+      presentAfterpayConsumerCardRequestModally()
     return
 
     case .showAfterpayCheckout(let url):
-          presentAfterpayCheckoutModally(loading: url, language: Settings.language)
+      presentAfterpayCheckoutModally(loading: url, language: Settings.language)
 
     case .showAlertForCheckoutURLError(let error):
       let alert = AlertFactory.alert(for: error)

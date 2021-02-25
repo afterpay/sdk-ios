@@ -20,7 +20,7 @@ final class PurchaseLogicController {
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayWelcomeToVirtualCard
+    case showAfterpayVirtualCardOnboarding
     case showAfterpayCheckout(URL)
     case showAlertForCheckoutURLError(Error)
     case showAlertForErrorMessage(String)
@@ -94,7 +94,7 @@ final class PurchaseLogicController {
   }
 
   func payWithVirtualCard() {
-    commandHandler(.showAfterpayWelcomeToVirtualCard)
+    commandHandler(.showAfterpayVirtualCardOnboarding)
   }
 
   func virtualCardSuccess(with cardNumber: String) {
