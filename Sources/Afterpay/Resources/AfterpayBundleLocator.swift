@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AfterpayBundleLocator: NSObject {
+final class AfterpayBundleLocator: NSObject {
 
   // Currently only locates bundle for SPM and manual integration
   static var resourceBundle: Bundle = {
