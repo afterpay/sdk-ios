@@ -21,7 +21,7 @@ final class PrimaryButton: UIButton {
     setTitleColor(.black, for: .normal)
     setTitle(title, for: .normal)
 
-    let font = UIFont.systemFont(ofSize: 16, weight: .bold)
+    let font = UIFont.afterPayFont(weight: .bold, size: 16)
     titleLabel?.adjustsFontForContentSizeCategory = true
     titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
     titleLabel?.numberOfLines = 0

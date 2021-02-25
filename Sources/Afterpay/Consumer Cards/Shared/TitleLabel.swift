@@ -17,7 +17,7 @@ final class TitleLabel: UILabel {
     text = title
     numberOfLines = 0
 
-    let textFont = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+    let textFont = UIFont.afterPayFont(weight: .bold, size: fontSize)
     adjustsFontForContentSizeCategory = true
     font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: textFont)
 

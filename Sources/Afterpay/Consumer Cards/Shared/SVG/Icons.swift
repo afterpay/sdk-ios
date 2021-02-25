@@ -23,7 +23,7 @@ struct OpeningTimeIconSVGConfiguration: SVGConfiguration {
 
 struct ThumbsUpIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
-  
+
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .thumbsUpIcon
   }

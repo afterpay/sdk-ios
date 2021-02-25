@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -15,7 +15,7 @@ let package = Package(
     .package(url: "https://github.com/exyte/Macaw.git", from: "0.9.7"),
   ],
   targets: [
-    .target(name: "Afterpay", dependencies: ["Macaw"]),
+    .target(name: "Afterpay", dependencies: ["Macaw"], resources: [.process("Resources/Fonts")]),
     .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
   ]
 )

@@ -36,11 +36,11 @@ final class WelcomeView: UIView {
     let firstHeadline = createHeadlineView(icon: .openingTime, text: "4 easy payments, due every two weeks")
     let secondHeadline = createHeadlineView(icon: .thumbsUp, text: "Won't effect your credit score")
     let thirdHeadline = createHeadlineView(icon: .diamond, text: "Afterpay Rewards for on-time payments")
-  
+
     let divider = DividerView()
 
     let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
-
+  
     verticalStackView.addArrangedSubview(firstHeadline)
     verticalStackView.addArrangedSubview(secondHeadline)
     verticalStackView.addArrangedSubview(thirdHeadline)
@@ -101,7 +101,7 @@ final class WelcomeView: UIView {
     label.text = text
     label.textAlignment = .left
 
-    let font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+    let font = UIFont.afterPayFont(weight: .bold, size: 14)
     label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
 
     label.adjustsFontForContentSizeCategory = true
@@ -145,7 +145,7 @@ final class WelcomeView: UIView {
   private func getTermsAndConditionTextView(aggregatorName: String) -> UITextView {
     let textView = UITextView()
 
-    let font = UIFont.systemFont(ofSize: 12, weight: .light)
+    let font = UIFont.afterPayFont(weight: .regular, size: 12)
     let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
 
     let attributedString = NSMutableAttributedString(

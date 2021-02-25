@@ -17,7 +17,7 @@ final class ConsumerCardView: UIView {
     label.numberOfLines = 1
     label.textAlignment = .left
 
-    let textFont = UIFont.systemFont(ofSize: 14, weight: .thin)
+    let textFont = UIFont.afterPayFont(weight: .regular, size: 14)
     label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
     label.textColor = .black
 

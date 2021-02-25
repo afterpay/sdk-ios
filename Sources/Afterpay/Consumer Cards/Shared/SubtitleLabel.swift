@@ -13,8 +13,8 @@ final class SubtitleLabel: UILabel {
   init(title: String, merchantName: String? = nil, fontSize: CGFloat = 14) {
     super.init(frame: .zero)
 
-    let regularTextFont = UIFont.systemFont(ofSize: fontSize, weight: .regular)
-    let boldTextFont = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+    let regularTextFont = UIFont.afterPayFont(weight: .regular, size: fontSize)
+    let boldTextFont = UIFont.afterPayFont(weight: .bold, size: fontSize)
  
     let prefix = NSMutableAttributedString(
       string: title,
@@ -22,7 +22,7 @@ final class SubtitleLabel: UILabel {
         .font: UIFontMetrics(forTextStyle: .title3).scaledFont(for: regularTextFont),
       ]
     )
- 
+
     if let merchantName = merchantName {
       let suffix = NSMutableAttributedString(
         string: merchantName,

@@ -44,7 +44,7 @@ final class EnterAmountView: UIView {
     field.keyboardType = .decimalPad
     field.textColor = .black
 
-    let font = UIFont.boldSystemFont(ofSize: 56)
+    let font = UIFont.afterPayFont(weight: .bold, size: 56)
     field.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
 
     field.adjustsFontForContentSizeCategory = true
@@ -57,7 +57,7 @@ final class EnterAmountView: UIView {
     let label = UILabel()
     label.text = "Include shipping and tax in this amount."
 
-    let font = UIFont.boldSystemFont(ofSize: 12)
+    let font = UIFont.afterPayFont(weight: .bold, size: 14)
     label.font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: font)
 
     label.numberOfLines = 0
