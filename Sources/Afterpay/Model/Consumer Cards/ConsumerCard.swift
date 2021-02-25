@@ -21,8 +21,19 @@ public struct ConsumerCardRequest: Encodable {
   public let taxAmount: Money?
   public let shippingAmount: Money?
 
-  // swiftlint:disable:next colon line_length
-  public init(aggregator: String, amount: Money, consumer: Consumer, billing: Contact?, shipping: Contact?, items: [Item]?, discounts: [Discount]?, merchant: Merchant, merchantReference: String?, taxAmount: Money?, shippingAmount: Money?) {
+  public init(
+    aggregator: String,
+    amount: Money,
+    consumer: Consumer,
+    billing: Contact?,
+    shipping: Contact?,
+    items: [Item]?,
+    discounts: [Discount]?,
+    merchant: Merchant,
+    merchantReference: String?,
+    taxAmount: Money?,
+    shippingAmount: Money?
+  ) {
     self.aggregator = aggregator
     self.amount = amount
     self.consumer = consumer

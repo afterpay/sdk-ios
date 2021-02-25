@@ -31,7 +31,7 @@ final class ConsumerCardView: UIView {
   private let lastFourDigits: (_ cardNumber: String) -> String = { cardNumber in
     return String(cardNumber.suffix(4))
   }
-  
+
   private var virtualCardExpiryView: UIStackView = {
     let stackView = UIStackView()
     let iconView = SVGView(svgConfiguration: ClockIconSVGConfiguration(colorScheme: .static(.blackOnWhite)))
@@ -43,12 +43,12 @@ final class ConsumerCardView: UIView {
 
     iconView.translatesAutoresizingMaskIntoConstraints = false
     stackView.translatesAutoresizingMaskIntoConstraints = false
- 
+
     NSLayoutConstraint.activate([
       iconView.heightAnchor.constraint(equalToConstant: 16),
       iconView.widthAnchor.constraint(equalToConstant: 16),
     ])
-  
+
     return stackView
   }()
 
@@ -62,7 +62,7 @@ final class ConsumerCardView: UIView {
 
     // Add target for continue button
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
-    
+
     virtualCardExpiryView.addArrangedSubview(virtualCardExpiryLabel)
 
     addSubview(titleLabel)
@@ -104,7 +104,10 @@ final class ConsumerCardView: UIView {
   }
 
   func updateCardDetails(with amount: Money, virtualCard: VirtualCard, expiry: String) {
-    virtualCardDisplayView.updateCardDetails(lastFourDigits: lastFourDigits(virtualCard.cardNumber), expiryDate: virtualCard.expiry)
+    virtualCardDisplayView.updateCardDetails(
+      lastFourDigits: lastFourDigits(virtualCard.cardNumber),
+      expiryDate: virtualCard.expiry
+    )
     virtualCardExpiryLabel.text = "This card is valid until \(expiry.convertToLocalTime())"
     titleLabel.text = "$\(amount.amount)"
   }

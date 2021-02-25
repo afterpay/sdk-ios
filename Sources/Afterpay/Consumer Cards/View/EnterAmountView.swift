@@ -115,7 +115,10 @@ final class EnterAmountView: UIView {
 
       horizontalStackView.topAnchor.constraint(equalTo: enterAmountContainerView.topAnchor, constant: 32),
       horizontalStackView.leadingAnchor.constraint(equalTo: enterAmountContainerView.leadingAnchor, constant: 16),
-      horizontalStackView.trailingAnchor.constraint(lessThanOrEqualTo: enterAmountContainerView.trailingAnchor, constant: -16),
+      horizontalStackView.trailingAnchor.constraint(
+        lessThanOrEqualTo: enterAmountContainerView.trailingAnchor,
+        constant: -16
+      ),
 
       noteLabel.topAnchor.constraint(equalTo: horizontalStackView.bottomAnchor, constant: 8),
       noteLabel.leadingAnchor.constraint(equalTo: enterAmountContainerView.leadingAnchor, constant: 16),

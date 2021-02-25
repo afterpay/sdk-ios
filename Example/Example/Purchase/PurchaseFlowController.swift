@@ -100,11 +100,11 @@ final class PurchaseFlowController: UIViewController {
       mode: .sandbox,
       aggregatorName: "Shopper"
     ) { result in
-        switch result {
-        case .success(let virtualCard):
-          logicController.virtualCardSuccess(with: virtualCard.cardNumber)
-        case .failed(let reason):
-          logicController.virtualCardFailed(with: reason)
+      switch result {
+      case .success(let virtualCard):
+        logicController.virtualCardSuccess(with: virtualCard.cardNumber)
+      case .failed(let reason):
+        logicController.virtualCardFailed(with: reason)
       }
     }
   }

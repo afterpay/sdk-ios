@@ -29,7 +29,7 @@ extension UIFont {
 
     guard let font = UIFont(name: fontName, size: size) else {
       let fontWeight: UIFont.Weight
-      
+
       switch weight {
       case .bold:
         fontWeight = .bold

@@ -17,7 +17,15 @@ public struct Contact: Codable {
   var countryCode: String
   var phoneNumber: String?
 
-  public init(name: String, line1: String, area1: String? = nil, region: String? = nil, postcode: String? = nil, countryCode: String, phoneNumber: String? = nil) {
+  public init(
+    name: String,
+    line1: String,
+    area1: String? = nil,
+    region: String? = nil,
+    postcode: String? = nil,
+    countryCode: String,
+    phoneNumber: String? = nil
+  ) {
     self.name = name
     self.line1 = line1
     self.area1 = area1

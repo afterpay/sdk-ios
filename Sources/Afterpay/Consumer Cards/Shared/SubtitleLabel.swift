@@ -15,7 +15,7 @@ final class SubtitleLabel: UILabel {
 
     let regularTextFont = UIFont.afterPayFont(weight: .regular, size: fontSize)
     let boldTextFont = UIFont.afterPayFont(weight: .bold, size: fontSize)
- 
+
     let prefix = NSMutableAttributedString(
       string: title,
       attributes: [
@@ -30,7 +30,7 @@ final class SubtitleLabel: UILabel {
           .font: UIFontMetrics(forTextStyle: .title3).scaledFont(for: boldTextFont),
         ]
       )
-      
+
       prefix.append(suffix)
 
     }

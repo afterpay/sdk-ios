@@ -17,7 +17,15 @@ public struct Item: Codable {
   public let price: Money
   public let categories: [[String]]?
 
-  public init(name: String, sku: String?, quantity: UInt, pageUrl: URL, imageUrl: URL?, price: Money, categories: [[String]]?) {
+  public init(
+    name: String,
+    sku: String?,
+    quantity: UInt,
+    pageUrl: URL,
+    imageUrl: URL?,
+    price: Money,
+    categories: [[String]]?
+  ) {
     self.name = name
     self.sku = sku
     self.quantity = quantity

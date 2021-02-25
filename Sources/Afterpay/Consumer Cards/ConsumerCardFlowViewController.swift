@@ -176,7 +176,11 @@ final class ConsumerCardFlowViewController: UIViewController {
 
     navigationItem.titleView = LogoView()
 
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(dismissConsumerCardFlow))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .stop,
+      target: self,
+      action: #selector(dismissConsumerCardFlow)
+    )
 
     // Set left navigation bar to be hidden until information page is built
 //    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: nil)
@@ -230,14 +234,21 @@ final class ConsumerCardFlowViewController: UIViewController {
     currentScreen = .loading
     loadingView.startLoadingSpinner()
 
-    NetworkService.shared.request(endpoint: .consumerCardConfirm(payload), mode: mode) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
+    NetworkService.shared.request(
+      endpoint: .consumerCardConfirm(payload),
+      mode: mode
+    ) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
       switch result {
       case .success(let response):
         let virtualCard = response.paymentDetails.virtualCard
         self.completion(.success(virtualCard: virtualCard))
 
         DispatchQueue.main.async {
-          self.currentScreen = .consumerCard(amount: consumerCardRequest.amount, virtualCard: virtualCard, vccExpiry: response.vccExpiry)
+          self.currentScreen = .consumerCard(
+            amount: consumerCardRequest.amount,
+            virtualCard: virtualCard,
+            vccExpiry: response.vccExpiry
+          )
         }
       case .failure(let error):
         DispatchQueue.main.async {
@@ -253,7 +264,10 @@ final class ConsumerCardFlowViewController: UIViewController {
   }
 
   private func callConsumerCardAPI(payload: ConsumerCardRequest) {
-    NetworkService.shared.request(endpoint: .consumerCards(payload), mode: mode) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
+    NetworkService.shared.request(
+      endpoint: .consumerCards(payload),
+      mode: mode
+    ) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
       switch result {
       case .success(let response):
         self.consumerCardToken = response.consumerCardToken

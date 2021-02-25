@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 final class DividerView: UIView {
-  
+
   private let dashedLineLayer: CAShapeLayer = {
     let shapeLayer = CAShapeLayer()
     let lineDashPattern: [NSNumber] = [1, 2]
@@ -18,7 +18,7 @@ final class DividerView: UIView {
     shapeLayer.strokeColor = UIColor.black.cgColor
     shapeLayer.lineWidth = 1
     shapeLayer.lineDashPattern = lineDashPattern
- 
+
     return shapeLayer
   }()
 

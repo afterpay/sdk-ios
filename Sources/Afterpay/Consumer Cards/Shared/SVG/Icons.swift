@@ -15,7 +15,7 @@ struct OpeningTimeIconSVGConfiguration: SVGConfiguration {
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .openingTimeIcon
   }
-  
+
   func accessibilityLabel(localizedFor locale: Locale) -> String {
     return "Calendar Icon"
   }
@@ -51,7 +51,7 @@ struct ClockIconSVGConfiguration: SVGConfiguration {
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .clockIcon
   }
-  
+
   func accessibilityLabel(localizedFor locale: Locale) -> String {
     return "Clock Icon"
   }

@@ -40,7 +40,7 @@ final class WelcomeView: UIView {
     let divider = DividerView()
 
     let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
-  
+
     verticalStackView.addArrangedSubview(firstHeadline)
     verticalStackView.addArrangedSubview(secondHeadline)
     verticalStackView.addArrangedSubview(thirdHeadline)
