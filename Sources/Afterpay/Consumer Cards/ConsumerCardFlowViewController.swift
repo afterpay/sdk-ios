@@ -34,6 +34,8 @@ final class ConsumerCardFlowViewController: UIViewController {
   // Payload for consumer cards API request
   private var consumerCardRequest: ConsumerCardRequest
 
+  private var virtualCard: VirtualCard?
+
   private let completion: (_ result: ConsumerCardCheckoutResult) -> Void
 
   private let welcomeView: WelcomeView
@@ -49,8 +51,9 @@ final class ConsumerCardFlowViewController: UIViewController {
     mode: Mode,
     aggregatorName: String
   ) {
-    // Validate parameters value
+    // TODO: Validate parameters value
     self.consumerCardRequest = consumerCardRequest
+
     // initiate views
     welcomeView = WelcomeView(
       continueAction: #selector(requireAmountAction),
@@ -207,7 +210,10 @@ final class ConsumerCardFlowViewController: UIViewController {
   }
 
   @objc private func finaliseOrderAction() {
-    dismiss(animated: true, completion: nil)
+    dismiss(animated: true) { [weak self] in
+      guard let virtualCard = self?.virtualCard else { return }
+      self?.completion(.success(virtualCard: virtualCard))
+    }
   }
 
   // MARK: - Callbacks
@@ -241,7 +247,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       switch result {
       case .success(let response):
         let virtualCard = response.paymentDetails.virtualCard
-        self.completion(.success(virtualCard: virtualCard))
+        self.virtualCard = virtualCard
 
         DispatchQueue.main.async {
           self.currentScreen = .consumerCard(
