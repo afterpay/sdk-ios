@@ -28,7 +28,7 @@ final class WelcomeView: UIView {
   init(continueAction: Selector, aggregatorName: String) {
     super.init(frame: .zero)
 
-    let continueButton = PrimaryButton(title: "Continue with Afterpay")
+    let continueButton = PrimaryButtonWithLogo()
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
 
     let titleLabel = TitleLabel(with: "Pay in 4 parts. No fees.\nAlways interest-free.", fontSize: 32)

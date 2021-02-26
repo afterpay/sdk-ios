@@ -18,6 +18,33 @@ protocol SVGConfiguration {
 
 }
 
+struct AfterpayContinueButtonConfiguration: SVGConfiguration {
+  var colorScheme: ColorScheme
+
+  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
+    let svgForPalette: (ColorPalette) -> SVG = { _ in
+      return .afterpayContinueWithBlackOnMint
+    }
+
+    let svg: SVG = {
+      switch traitCollection.userInterfaceStyle {
+      case .dark:
+        return svgForPalette(colorScheme.darkPalette)
+      case .light, .unspecified:
+        fallthrough
+      @unknown default:
+        return svgForPalette(colorScheme.lightPalette)
+      }
+    }()
+
+    return svg
+  }
+
+  func accessibilityLabel(localizedFor locale: Locale) -> String {
+    return "Continue with Afterpay"
+  }
+}
+
 struct AfterpayLogoFullConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
 

@@ -38,6 +38,7 @@
 		7664EDCD25E7224700D8A1EB /* ItalianPlateNo2Expanded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7664EDC925E7224700D8A1EB /* ItalianPlateNo2Expanded-Medium.otf */; };
 		7664EDCE25E7224700D8A1EB /* ItalianPlateNo2Expanded-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7664EDCA25E7224700D8A1EB /* ItalianPlateNo2Expanded-Regular.otf */; };
 		7664EDD725E745A800D8A1EB /* AfterpayBundleLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664EDD625E745A800D8A1EB /* AfterpayBundleLocator.swift */; };
+		7664EDDD25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */; };
 		76F7ACA925DF5781006F4DF4 /* APIErrorDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 		DBBB8D074F1DE5A57C429316 /* ConsumerCardCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */; };
@@ -123,6 +124,7 @@
 		7664EDC925E7224700D8A1EB /* ItalianPlateNo2Expanded-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ItalianPlateNo2Expanded-Medium.otf"; sourceTree = "<group>"; };
 		7664EDCA25E7224700D8A1EB /* ItalianPlateNo2Expanded-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ItalianPlateNo2Expanded-Regular.otf"; sourceTree = "<group>"; };
 		7664EDD625E745A800D8A1EB /* AfterpayBundleLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayBundleLocator.swift; sourceTree = "<group>"; };
+		7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonWithLogo.swift; sourceTree = "<group>"; };
 		76F7ACA825DF5781006F4DF4 /* APIErrorDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorDetails.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 		DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsumerCardCheckoutResult.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				7664ECFB25E4BA1800D8A1EB /* SVG */,
 				DD8E78DD25DA432A00DCB50D /* Colors.swift */,
 				DD8E78E125DA439000DCB50D /* PrimaryButton.swift */,
+				7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */,
 				DDABB88025DA192400F2976F /* LogoView.swift */,
 				DD6A967325DB287C00482F66 /* TitleLabel.swift */,
 				DD6A967725DB80ED00482F66 /* SubtitleLabel.swift */,
@@ -595,6 +598,7 @@
 				DDBD9C0825D33C5D00008642 /* Contact.swift in Sources */,
 				66639B5424D2619200C68558 /* SVGView.swift in Sources */,
 				DDBD9C0225D33C3D00008642 /* Consumer.swift in Sources */,
+				7664EDDD25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift in Sources */,
 				66E255AE24E3C14600C81F20 /* Strings.swift in Sources */,
 				DDBD9C0C25D33C7000008642 /* Item.swift in Sources */,
 				DD92264225DA0983009788D1 /* LoadingView.swift in Sources */,
