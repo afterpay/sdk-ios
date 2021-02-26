@@ -37,10 +37,11 @@ public enum ConfigurationError: LocalizedError, Equatable {
 /// A configuration that should be constructed from the results of a call to `/v2/configuration`
 public struct Configuration {
 
-  let minimumAmount: Decimal?
-  let maximumAmount: Decimal
-  let currencyCode: String
-  let locale: Locale
+  var minimumAmount: Decimal?
+  var maximumAmount: Decimal
+  var currencyCode: String
+  var locale: Locale
+  var environment: Environment
 
   /// Creates a new configuration by taking in a minimum and maximum amount as well as a currency
   /// code and locale.
@@ -82,7 +83,8 @@ public struct Configuration {
     minimumAmount: String?,
     maximumAmount: String,
     currencyCode: String,
-    locale: Locale
+    locale: Locale,
+    environment: Environment
   ) throws {
     let minimumSupplied = minimumAmount != nil
     let minimumDecimal = minimumAmount.flatMap { Decimal(string: $0) }
@@ -113,6 +115,7 @@ public struct Configuration {
     self.maximumAmount = maximumDecimal
     self.currencyCode = currencyCode
     self.locale = locale
+    self.environment = environment
   }
 
 }

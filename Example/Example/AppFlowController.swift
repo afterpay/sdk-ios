@@ -17,9 +17,7 @@ final class AppFlowController: UIViewController {
     super.init(nibName: nil, bundle: nil)
 
     let purchaseLogicController = PurchaseLogicController(
-      checkoutURLProvider: Repository.shared.checkout(email:amount:completion:),
-      email: Settings.email,
-      currencyCode: Settings.currencyCode
+      checkoutResponseProvider: Repository.shared.checkout
     )
 
     let purchase = PurchaseFlowController(logicController: purchaseLogicController)

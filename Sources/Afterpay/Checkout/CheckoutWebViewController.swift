@@ -16,16 +16,8 @@ final class CheckoutWebViewController:
   WKNavigationDelegate
 { // swiftlint:disable:this opening_brace
 
-  private static let bundle = Bundle(for: CheckoutWebViewController.self)
-
   private let checkoutUrl: URL
   private let completion: (_ result: CheckoutResult) -> Void
-  private let validHosts: Set<String> = [
-    "portal.afterpay.com",
-    "portal.sandbox.afterpay.com",
-    "portal.clearpay.co.uk",
-    "portal.sandbox.clearpay.co.uk",
-  ]
 
   private var webView: WKWebView { view as! WKWebView }
 
@@ -49,6 +41,7 @@ final class CheckoutWebViewController:
     super.viewDidLoad()
 
     if #available(iOS 13.0, *) {
+      isModalInPresentation = true
       overrideUserInterfaceStyle = .light
     } else {
       navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -71,7 +64,7 @@ final class CheckoutWebViewController:
 
     guard
       let host = URLComponents(url: checkoutUrl, resolvingAgainstBaseURL: false)?.host,
-      validHosts.contains(host)
+      CheckoutHost.validSet.contains(host)
     else {
       return dismiss(animated: true) { [completion, checkoutUrl] in
         completion(.cancelled(reason: .invalidURL(checkoutUrl)))
@@ -79,43 +72,25 @@ final class CheckoutWebViewController:
     }
 
     var request = URLRequest(url: checkoutUrl)
-
-    let shortVersionString = Self.bundle.infoDictionary?["CFBundleShortVersionString"] as? String
-    let value = shortVersionString.map { version in "\(version)-ios" }
-    request.setValue(value, forHTTPHeaderField: "X-Afterpay-SDK")
+    request.setValue(Version.sdkVersion, forHTTPHeaderField: "X-Afterpay-SDK")
 
     webView.load(request)
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate
 
-  func presentationControllerShouldDismiss(
+  func presentationControllerDidAttemptToDismiss(
     _ presentationController: UIPresentationController
-  ) -> Bool {
+  ) {
     presentCancelConfirmation()
-
-    return false
   }
 
   // MARK: Actions
 
   @objc private func presentCancelConfirmation() {
-    let actionSheet = UIAlertController(
-      title: "Are you sure you want to cancel the payment?",
-      message: nil,
-      preferredStyle: .actionSheet
-    )
-
-    let cancelPayment: (UIAlertAction) -> Void = { _ in
+    let actionSheet = Alerts.areYouSureYouWantToCancel {
       self.dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
     }
-
-    let actions = [
-      UIAlertAction(title: "Yes", style: .destructive, handler: cancelPayment),
-      UIAlertAction(title: "No", style: .cancel, handler: nil),
-    ]
-
-    actions.forEach(actionSheet.addAction)
 
     present(actionSheet, animated: true, completion: nil)
   }
@@ -176,21 +151,16 @@ final class CheckoutWebViewController:
     didFailProvisionalNavigation navigation: WKNavigation!,
     withError error: Error
   ) {
-    let alert = UIAlertController(
-      title: "Error",
-      message: "Failed to load Afterpay checkout",
-      preferredStyle: .alert)
-
-    let retryHandler: (UIAlertAction) -> Void = { [checkoutUrl] _ in
-      webView.load(URLRequest(url: checkoutUrl))
-    }
-
-    let cancelHandler: (UIAlertAction) -> Void = { _ in
-      self.dismiss(animated: true) { self.completion(.cancelled(reason: .networkError(error))) }
-    }
-
-    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: retryHandler))
-    alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler))
+    let alert = Alerts.failedToLoad(
+      retry: { [checkoutUrl] in
+        webView.load(URLRequest(url: checkoutUrl))
+      },
+      cancel: {
+        self.dismiss(animated: true) {
+          self.completion(.cancelled(reason: .networkError(error)))
+        }
+      }
+    )
 
     present(alert, animated: true, completion: nil)
   }

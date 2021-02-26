@@ -28,7 +28,8 @@ class PriceBreakdownTests: XCTestCase {
         minimumAmount: "50.00",
         maximumAmount: "200.00",
         currencyCode: "USD",
-        locale: Locale(identifier: "en_US")
+        locale: Locale(identifier: "en_US"),
+        environment: .sandbox
       )
     )
   }
@@ -39,7 +40,8 @@ class PriceBreakdownTests: XCTestCase {
         minimumAmount: nil,
         maximumAmount: "200.00",
         currencyCode: "USD",
-        locale: Locale(identifier: "en_US")
+        locale: Locale(identifier: "en_US"),
+        environment: .sandbox
       )
     )
   }

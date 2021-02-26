@@ -12,26 +12,34 @@ import Foundation
 final class PurchaseFlowController: UIViewController {
 
   private let logicController: PurchaseLogicController
-  private let ownedNavigationController: UINavigationController
   private let productsViewController: ProductsViewController
+  private let ownedNavigationController: UINavigationController
+  private let checkoutHandler: CheckoutHandler
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
 
-    productsViewController = ProductsViewController { event in
+    productsViewController = ProductsViewController { [logicController] event in
       switch event {
       case .productEvent(.didTapPlus(let productId)):
-        purchaseLogicController.incrementQuantityOfProduct(with: productId)
+        logicController.incrementQuantityOfProduct(with: productId)
 
       case .productEvent(.didTapMinus(let productId)):
-        purchaseLogicController.decrementQuantityOfProduct(with: productId)
+        logicController.decrementQuantityOfProduct(with: productId)
 
       case .viewCart:
-        purchaseLogicController.viewCart()
+        logicController.viewCart()
       }
     }
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
+
+    checkoutHandler = CheckoutHandler(
+      didCommenceCheckout: logicController.loadCheckout,
+      onShippingAddressDidChange: logicController.selectAddress
+    )
+
+    Afterpay.setCheckoutV2Handler(checkoutHandler)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -67,12 +75,21 @@ final class PurchaseFlowController: UIViewController {
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayCheckout(let url):
-      presentAfterpayCheckoutModally(loading: url, language: Settings.language)
+    case .showAfterpayCheckout:
+      Afterpay.presentCheckoutV2Modally(over: ownedNavigationController) { result in
+        switch result {
+        case .success(let token):
+          logicController.success(with: token)
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
+        }
+      }
 
-    case .showAlertForCheckoutURLError(let error):
-      let alert = AlertFactory.alert(for: error)
-      navigationController.present(alert, animated: true, completion: nil)
+    case .provideCheckoutTokenResult(let tokenResult):
+      checkoutHandler.provideTokenResult(tokenResult: tokenResult)
+
+    case .provideShippingOptionsResult(let shippingOptionsResult):
+      checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)
@@ -82,33 +99,6 @@ final class PurchaseFlowController: UIViewController {
       let messageViewController = MessageViewController(message: message)
       let viewControllers = [productsViewController, messageViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
-    }
-  }
-
-  private func presentAfterpayCheckoutModally(loading url: URL, language: Language) {
-    let logicController = self.logicController
-    let viewController = self.ownedNavigationController
-
-    switch language {
-    case .swift:
-      Afterpay.presentCheckoutModally(over: viewController, loading: url) { result in
-        switch result {
-        case .success(let token):
-          logicController.success(with: token)
-        case .cancelled(let reason):
-          logicController.cancelled(with: reason)
-        }
-      }
-
-    case .objectiveC:
-      Objc.presentCheckoutModally(
-        over: viewController,
-        loading: url,
-        successHandler: { token in logicController.success(with: token) },
-        userInitiatedCancelHandler: { logicController.cancelled(with: .userInitiated) },
-        networkErrorCancelHandler: { error in logicController.cancelled(with: .networkError(error)) },
-        invalidURLCancelHandler: { url in logicController.cancelled(with: .invalidURL(url)) }
-      )
     }
   }
 

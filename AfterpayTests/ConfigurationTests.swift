@@ -27,7 +27,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: one,
         maximumAmount: oneThousand,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     )
   }
@@ -38,7 +39,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: nil,
         maximumAmount: oneThousand,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     )
   }
@@ -49,7 +51,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: one,
         maximumAmount: oneThousand,
         currencyCode: invalidCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidCurrencyCode(invalidCode))
@@ -62,7 +65,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: invalidAlphaAmount,
         maximumAmount: oneThousand,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMinimum(invalidAlphaAmount))
@@ -75,7 +79,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: negativeAmount,
         maximumAmount: oneThousand,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMinimum(negativeAmount))
@@ -88,7 +93,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: one,
         maximumAmount: invalidAlphaAmount,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMaximum(invalidAlphaAmount))
@@ -101,7 +107,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: one,
         maximumAmount: negativeAmount,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     ) { error in
       XCTAssertEqual(error as? ConfigurationError, .invalidMaximum(negativeAmount))
@@ -114,7 +121,8 @@ class ConfigurationTests: XCTestCase {
         minimumAmount: oneThousand,
         maximumAmount: one,
         currencyCode: usdCode,
-        locale: usLocale
+        locale: usLocale,
+        environment: .sandbox
       )
     ) { error in
       XCTAssertEqual(
