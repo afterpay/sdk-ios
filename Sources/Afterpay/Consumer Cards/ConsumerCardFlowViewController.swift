@@ -51,33 +51,26 @@ final class ConsumerCardFlowViewController: UIViewController {
     mode: Mode,
     aggregatorName: String
   ) {
-    // TODO: Validate parameters value
     self.consumerCardRequest = consumerCardRequest
+    self.completion = completion
+    self.consumerCardToken = ""
+    self.mode = mode
 
-    // initiate views
-    welcomeView = WelcomeView(
+    self.welcomeView = WelcomeView(
       continueAction: #selector(requireAmountAction),
       aggregatorName: aggregatorName
     )
-    enterAmountView = EnterAmountView(
+    self.enterAmountView = EnterAmountView(
       continueAction: #selector(triggerCheckoutFlowAction),
       merchantName: consumerCardRequest.merchant.name
     )
-    consumerCardView = ConsumerCardView(
+    self.consumerCardView = ConsumerCardView(
       continueAction: #selector(finaliseOrderAction),
       merchantName: consumerCardRequest.merchant.name
     )
-    loadingView = LoadingView()
+    self.loadingView = LoadingView()
 
-    self.completion = completion
-
-    self.consumerCardToken = ""
-    self.mode = mode
     super.init(nibName: nil, bundle: nil)
-
-    if #available(iOS 13.0, *) {
-      overrideUserInterfaceStyle = .light
-    }
   }
 
   required init?(coder: NSCoder) {
@@ -86,6 +79,10 @@ final class ConsumerCardFlowViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    if #available(iOS 13.0, *) {
+      overrideUserInterfaceStyle = .light
+    }
 
     view.backgroundColor = .white
 
@@ -217,6 +214,7 @@ final class ConsumerCardFlowViewController: UIViewController {
   }
 
   // MARK: - Callbacks
+
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
