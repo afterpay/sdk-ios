@@ -73,10 +73,10 @@ final class EnterAmountView: UIView {
     let continueButton = PrimaryButton(title: "Continue")
     let titleLabel = TitleLabel(with: "Let's get started")
     let firstSubtitleLabel = SubtitleLabel(
-      title: "How much do you want to spend at",
+      title: "What is your purchase amount at",
       merchantName: " \(merchantName)?"
     )
-    let secondSubtitleLabel = SubtitleLabel(title: "You'll only be charged for what you end up spending")
+    let secondSubtitleLabel = SubtitleLabel(title: "You will only be charged for the amount of your order.")
     let divider = DividerView()
 
     currencyLabel.font = amountField.font
