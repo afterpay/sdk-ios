@@ -314,6 +314,7 @@
 			children = (
 				7664EDC025E71C6200D8A1EB /* Fonts */,
 				6602EF0E25358A8000A0468C /* ColorScheme.swift */,
+				7664ECFC25E4BA4800D8A1EB /* Icons.swift */,
 				66E255AD24E3C14600C81F20 /* Strings.swift */,
 				6615F99A24D14620005036F1 /* SVG.swift */,
 				6672982925357D80001D1C5A /* SVGConfiguration.swift */,
@@ -321,14 +322,6 @@
 				7664EDD625E745A800D8A1EB /* AfterpayBundleLocator.swift */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		7664ECFB25E4BA1800D8A1EB /* SVG */ = {
-			isa = PBXGroup;
-			children = (
-				7664ECFC25E4BA4800D8A1EB /* Icons.swift */,
-			);
-			path = SVG;
 			sourceTree = "<group>";
 		};
 		7664EDC025E71C6200D8A1EB /* Fonts */ = {
@@ -373,7 +366,6 @@
 		DD8E78DC25DA431B00DCB50D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				7664ECFB25E4BA1800D8A1EB /* SVG */,
 				DD8E78DD25DA432A00DCB50D /* Colors.swift */,
 				DD8E78E125DA439000DCB50D /* PrimaryButton.swift */,
 				7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */,

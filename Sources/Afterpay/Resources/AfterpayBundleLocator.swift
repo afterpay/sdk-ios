@@ -10,22 +10,40 @@ import Foundation
 
 final class AfterpayBundleLocator: NSObject {
 
-  // Currently only locates bundle for SPM and manual integration
   static var resourceBundle: Bundle = {
     var packageBundle: Bundle?
 
+    // Bundle for SPM
     #if SWIFT_PACKAGE
     packageBundle = Bundle.module
     #endif
 
+    // Bundle for Cocoapods with static linking
+    // TODO: Configure .resource_bundles in the podspec
+    if packageBundle == nil {
+      packageBundle = Bundle(path: "Afterpay.bundle")
+    }
+
+    // Bundle for Cocoapods with dynamic linking
+    // This will locate a bundle under Afterpay.framework/Afterpay.bundle
+    // TODO: Configure .resource_bundles in the podspec
+    if packageBundle == nil {
+      if let path = Bundle(for: AfterpayBundleLocator.self).path(
+        forResource: "Afterpay", ofType: "bundle") {
+        packageBundle = Bundle(path: path)
+      }
+    }
+
+    // Look for package in Afterpay.Framework for Carthage or manual dynamic installation
+    if packageBundle == nil {
+      packageBundle = Bundle(for: AfterpayBundleLocator.self)
+    }
+
+    // Return the bundle or else return Bundle.main if package is dragged and drop to the project
     if let packageBundle = packageBundle {
       return packageBundle
     } else {
-      guard let bundle = Bundle(identifier: "com.afterpay.Afterpay") else {
-        return Bundle.main
-      }
-
-      return bundle
+      return Bundle.main
     }
   }()
 }
