@@ -25,12 +25,9 @@ extension Item {
 
       let item = Item(
         name: product.name,
-        sku: nil,
         quantity: quantity,
         pageUrl: URL(string: "https://www.apple.com")!,
-        imageUrl: nil,
-        price: Money(amount: price, currency: currencyCode),
-        categories: nil
+        price: Money(amount: price, currency: currencyCode)
       )
 
       items.append(item)

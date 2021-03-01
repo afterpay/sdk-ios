@@ -19,12 +19,12 @@ public struct Item: Codable {
 
   public init(
     name: String,
-    sku: String?,
+    sku: String? = nil,
     quantity: UInt,
     pageUrl: URL,
-    imageUrl: URL?,
+    imageUrl: URL? = nil,
     price: Money,
-    categories: [[String]]?
+    categories: [[String]]? = nil
   ) {
     self.name = name
     self.sku = sku
