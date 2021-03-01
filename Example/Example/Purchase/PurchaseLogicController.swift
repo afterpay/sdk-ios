@@ -143,7 +143,7 @@ final class PurchaseLogicController {
   func createConsumerCardRequest() -> ConsumerCardRequest {
     let currencyFormatter = CurrencyFormatter(currencyCode: currencyCode)
 
-    let totalAmount = currencyFormatter.decimalString(from: total)
+    let totalAmount = currencyFormatter.displayString(from: total, showCurrencyCode: false)
     let items = Item.createItems(with: quantities, products: products, currencyCode: currencyCode)
     let merchant = Merchant(name: "Aftersnack via Shopper")
     let consumer = Consumer(
