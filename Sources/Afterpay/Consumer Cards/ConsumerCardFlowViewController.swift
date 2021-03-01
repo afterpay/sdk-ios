@@ -65,7 +65,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       merchantName: consumerCardRequest.merchant.name
     )
     self.consumerCardView = ConsumerCardView(
-      continueAction: #selector(finaliseOrderAction),
+      continueAction: #selector(finalizeOrderAction),
       merchantName: consumerCardRequest.merchant.name
     )
     self.loadingView = LoadingView()
@@ -188,7 +188,12 @@ final class ConsumerCardFlowViewController: UIViewController {
 
   // MARK: - Navigation Bar Button Actions
   @objc private func dismissConsumerCardFlow() {
-    dismiss(animated: true, completion: nil)
+    switch currentScreen {
+    case .consumerCard(_, _, _):
+      finalizeOrderAction()
+    default:
+      dismiss(animated: true, completion: nil)
+    }
   }
 
   // MARK: - Button Actions
@@ -206,7 +211,7 @@ final class ConsumerCardFlowViewController: UIViewController {
     callConsumerCardAPI(payload: consumerCardRequest)
   }
 
-  @objc private func finaliseOrderAction() {
+  @objc private func finalizeOrderAction() {
     dismiss(animated: true) { [weak self] in
       guard let virtualCard = self?.virtualCard else { return }
       self?.completion(.success(virtualCard: virtualCard))
