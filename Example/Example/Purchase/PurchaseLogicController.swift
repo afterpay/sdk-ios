@@ -157,14 +157,8 @@ final class PurchaseLogicController {
       aggregator: "deadbeef",
       amount: Money(amount: totalAmount, currency: currencyCode),
       consumer: consumer,
-      billing: nil,
-      shipping: nil,
       items: items,
-      discounts: nil,
-      merchant: merchant,
-      merchantReference: nil,
-      taxAmount: nil,
-      shippingAmount: nil
+      merchant: merchant
     )
 
     return consumerCardRequest

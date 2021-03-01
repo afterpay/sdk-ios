@@ -25,14 +25,14 @@ public struct ConsumerCardRequest: Encodable {
     aggregator: String,
     amount: Money,
     consumer: Consumer,
-    billing: Contact?,
-    shipping: Contact?,
-    items: [Item]?,
-    discounts: [Discount]?,
+    billing: Contact? = nil,
+    shipping: Contact? = nil,
+    items: [Item]? = nil,
+    discounts: [Discount]? = nil,
     merchant: Merchant,
-    merchantReference: String?,
-    taxAmount: Money?,
-    shippingAmount: Money?
+    merchantReference: String? = nil,
+    taxAmount: Money? = nil,
+    shippingAmount: Money? = nil
   ) {
     self.aggregator = aggregator
     self.amount = amount
