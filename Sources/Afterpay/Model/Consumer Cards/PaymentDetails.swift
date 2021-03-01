@@ -19,6 +19,9 @@ public struct VirtualCard: Decodable, Equatable {
   public let expiry: String
 
   public static func == (lhs: Self, rhs: Self) -> Bool {
-    return lhs.cardNumber == rhs.cardNumber
+    return lhs.cardNumber == rhs.cardNumber &&
+      lhs.cardType == rhs.cardType &&
+      lhs.cvc == rhs.cvc &&
+      lhs.expiry == rhs.expiry
   }
 }
