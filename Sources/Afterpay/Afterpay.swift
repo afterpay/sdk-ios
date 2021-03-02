@@ -232,16 +232,31 @@ public func presentVirtualCardRequestPageModally(
   animated: Bool = true,
   completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
 ) {
-  let viewControllerToPresent: UIViewController = ConsumerCardFlowViewController(
-    with: consumerCardRequest,
-    completion: completion,
-    mode: mode,
-    aggregatorName: aggregatorName
-  )
+  let viewControllerToPresent: UIViewController
 
-  let containerController = UINavigationController(rootViewController: viewControllerToPresent)
+  if getLocale() == Locales.unitedStates {
+    let consumerCardViewController: UIViewController = ConsumerCardFlowViewController(
+      with: consumerCardRequest,
+      completion: completion,
+      mode: mode,
+      aggregatorName: aggregatorName
+    )
 
-  viewController.present(containerController, animated: animated, completion: nil)
+    viewControllerToPresent = UINavigationController(rootViewController: consumerCardViewController)
+  } else {
+    let alertController = UIAlertController(
+      title: "Unable to request virtual card",
+      message: "This feature is available in US region only",
+      preferredStyle: .alert
+    )
+    
+    let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+
+    alertController.addAction(alertAction)
+    viewControllerToPresent = alertController
+  }
+
+  viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
 
 // MARK: - Authentication
