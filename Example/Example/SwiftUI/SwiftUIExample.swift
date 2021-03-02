@@ -11,6 +11,9 @@ import Foundation
 import SwiftUI
 
 @available(iOS 13.0, *)
+private typealias Environment = SwiftUI.Environment
+
+@available(iOS 13.0, *)
 struct SwiftUIExampleView: View {
 
   @State private var checkoutURL: URL?
@@ -39,13 +42,13 @@ private struct CheckoutView: View {
 
   @Environment(\.repository) private var repository
 
-  let urlResultHandler: (Result<URL, Error>) -> Void
+  let checkoutResultHandler: (Result<CheckoutsResponse, Error>) -> Void
 
   init(urlBinding: Binding<URL?>) {
-    urlResultHandler = { result in
+    checkoutResultHandler = { result in
       switch result {
-      case .success(let url):
-        DispatchQueue.main.async { urlBinding.wrappedValue = url }
+      case .success(let response):
+        DispatchQueue.main.async { urlBinding.wrappedValue = response.url }
       case .failure:
         break
       }
@@ -59,7 +62,7 @@ private struct CheckoutView: View {
         self.repository.checkout(
           email: Settings.email,
           amount: "30.00",
-          completion: self.urlResultHandler
+          completion: self.checkoutResultHandler
         )
       }
     }
