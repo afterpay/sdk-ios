@@ -66,6 +66,12 @@ final class SVGView: Macaw.SVGView {
   @objc private func configurationDidChange(_ notification: NSNotification) {
     let previousLocale = (notification.object as? Configuration)?.locale ?? Locales.unitedStates
 
+    DispatchQueue.main.async {
+      self.updateSvgLocale(previousLocale: previousLocale)
+    }
+  }
+
+  private func updateSvgLocale(previousLocale: Locale) {
     let svgForLocale = { [traitCollection, svgConfiguration] locale in
       svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
     }

@@ -101,12 +101,18 @@ public final class PriceBreakdownView: UIView {
       linkTextView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
 
-    let selector = #selector(updateAttributedText)
+    let selector = #selector(configurationDidChange)
     let name: NSNotification.Name = .configurationUpdated
     notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
   }
 
-  @objc private func updateAttributedText() {
+  @objc private func configurationDidChange() {
+    DispatchQueue.main.async {
+      self.updateAttributedText()
+    }
+  }
+
+  private func updateAttributedText() {
     let configuration = BadgeConfiguration(colorScheme: badgeColorScheme)
     let badgeSVGView = SVGView(svgConfiguration: configuration)
     let svg = badgeSVGView.svg
