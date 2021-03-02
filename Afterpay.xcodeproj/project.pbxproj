@@ -330,6 +330,7 @@
 				15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */,
 				1522245F25C925E5004B9CE5 /* Environment.swift */,
 				6605666224E5199500DA588E /* Locales.swift */,
+				DDBD9BFC25D33BFE00008642 /* Money.swift */,
 				66DAAC8A24E0CF0100127460 /* PriceBreakdown.swift */,
 				661D4322257DF1CB00ACCDE1 /* ShippingOption.swift */,
 				157C65AE25D23E8F00115149 /* Version.swift */,
@@ -448,7 +449,6 @@
 				DD18F43A25D6512500E345C9 /* Courrier.swift */,
 				DDBD9C0B25D33C7000008642 /* Item.swift */,
 				DDBD9C0F25D33CB000008642 /* Merchant.swift */,
-				DDBD9BFC25D33BFE00008642 /* Money.swift */,
 				DD18F43E25D6515200E345C9 /* OrderDetails.swift */,
 				DD18F43625D6510200E345C9 /* PaymentDetails.swift */,
 			);
