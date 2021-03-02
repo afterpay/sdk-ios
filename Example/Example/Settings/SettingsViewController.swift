@@ -14,6 +14,7 @@ final class SettingsViewController: UITableViewController {
   private let textCellIdentifier = String(describing: TextSettingCell.self)
   private let segmentedCellIdentifier = String(describing: SegmentedSettingCell.self)
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
+  private let controlCellIdentifier = String(describing: ControlCell.self)
   private let settings: [AppSetting]
 
   init(settings: [AppSetting]) {
@@ -30,13 +31,14 @@ final class SettingsViewController: UITableViewController {
     tableView.register(TextSettingCell.self, forCellReuseIdentifier: textCellIdentifier)
     tableView.register(SegmentedSettingCell.self, forCellReuseIdentifier: segmentedCellIdentifier)
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
+    tableView.register(ControlCell.self, forCellReuseIdentifier: controlCellIdentifier)
     tableView.allowsSelection = false
   }
 
   // MARK: UITableViewDataSource
 
   enum Section: Int, CaseIterable {
-    case message, settings
+    case message, settings, controls
 
     static func from(section: Int) -> Section {
       Section(rawValue: section)!
@@ -54,6 +56,9 @@ final class SettingsViewController: UITableViewController {
 
     case .settings:
       return settings.count
+
+    case .controls:
+      return 1
     }
   }
 
@@ -85,6 +90,16 @@ final class SettingsViewController: UITableViewController {
         settingCell.configure(with: setting)
         cell = settingCell
       }
+
+    case .controls:
+      let controlCell = tableView.dequeueReusableCell(withIdentifier: controlCellIdentifier, for: indexPath) as! ControlCell
+      controlCell.configure(
+        with: {
+          Repository.shared.fetchConfiguration(forceRefresh: true)
+        },
+        title: "Refresh config"
+      )
+      cell = controlCell
     }
 
     return cell
