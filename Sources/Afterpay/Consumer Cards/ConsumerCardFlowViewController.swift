@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-final class ConsumerCardFlowViewController: UIViewController {
+final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
   enum Screen: Equatable {
     case welcome
@@ -27,6 +27,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       }
 
       updateNavigationBar()
+      updatePresentationControllerDelegate()
       reloadView()
     }
   }
@@ -65,7 +66,7 @@ final class ConsumerCardFlowViewController: UIViewController {
       merchantName: consumerCardRequest.merchant.name
     )
     self.consumerCardView = ConsumerCardView(
-      continueAction: #selector(finalizeOrderAction),
+      continueAction: #selector(dismissConsumerCardFlow),
       merchantName: consumerCardRequest.merchant.name
     )
     self.loadingView = LoadingView()
@@ -85,6 +86,8 @@ final class ConsumerCardFlowViewController: UIViewController {
     }
 
     view.backgroundColor = .white
+
+    navigationController?.presentationController?.delegate = self
 
     setupSubViews()
     setupNavigationBar()
@@ -119,6 +122,8 @@ final class ConsumerCardFlowViewController: UIViewController {
     updateLayout(with: subview)
     updateKeyboard()
   }
+
+  // MARK: - Screen triggered updates
 
   private func updateKeyboard() {
     switch currentScreen {
@@ -186,13 +191,32 @@ final class ConsumerCardFlowViewController: UIViewController {
 //    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: nil)
   }
 
+  private func updatePresentationControllerDelegate() {
+    switch currentScreen {
+    case .checkout(let viewControllerToPresent):
+      navigationController?.presentationController?.delegate = viewControllerToPresent
+    default:
+      navigationController?.presentationController?.delegate = self
+    }
+  }
+
+  private func dismissModalCompletion() {
+    guard let virtualCard = virtualCard, case .consumerCard = currentScreen else {
+      return
+    }
+    completion(.success(virtualCard: virtualCard))
+  }
+
+  // MARK: - UIAdaptivePresentationControllerDelegate
+
+  func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+    dismissModalCompletion()
+  }
+
   // MARK: - Navigation Bar Button Actions
   @objc private func dismissConsumerCardFlow() {
-    switch currentScreen {
-    case .consumerCard(_, _, _):
-      finalizeOrderAction()
-    default:
-      dismiss(animated: true, completion: nil)
+    dismiss(animated: true) { [weak self] in
+      self?.dismissModalCompletion()
     }
   }
 
@@ -211,19 +235,13 @@ final class ConsumerCardFlowViewController: UIViewController {
     callConsumerCardAPI(payload: consumerCardRequest)
   }
 
-  @objc private func finalizeOrderAction() {
-    dismiss(animated: true) { [weak self] in
-      guard let virtualCard = self?.virtualCard else { return }
-      self?.completion(.success(virtualCard: virtualCard))
-    }
-  }
-
   // MARK: - Callbacks
 
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
       self.callConsumerCardConfirmAPI(checkoutToken: token)
+      self.navigationController?.popToRootViewController(animated: true)
 
     case .cancelled(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
@@ -267,9 +285,6 @@ final class ConsumerCardFlowViewController: UIViewController {
         }
       }
     }
-
-    self.navigationController?.popToRootViewController(animated: true)
-    self.navigationController?.presentationController?.delegate = .none
   }
 
   private func callConsumerCardAPI(payload: ConsumerCardRequest) {
