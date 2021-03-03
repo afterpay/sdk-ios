@@ -14,15 +14,18 @@ enum NetworkError: Error {
   case failedToEncode
 }
 
-final class NetworkService {
+final class APIPlusNetworkService {
 
-  private let session = URLSession(configuration: .default)
+  private let session: URLSession
 
-  public static let shared = NetworkService()
+  public static let shared = APIPlusNetworkService()
+
+  init(with session: URLSession = URLSession(configuration: .default)) {
+    self.session = session
+  }
 
   func request<T: Decodable>(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<T, Error>) -> Void) {
 
-    // Construct the URL
     var urlComponent = URLComponents(string: endpoint.baseURL())
     urlComponent?.path = endpoint.path
 
@@ -51,8 +54,8 @@ final class NetworkService {
           completion(.success(response))
         } catch {
           do {
-            let response = try JSONDecoder().decode(APIErrorDetails.self, from: data)
-            completion(.failure(APIError.error(details: response)))
+            let response = try JSONDecoder().decode(APIPlusErrorDetails.self, from: data)
+            completion(.failure(APIPlusError.error(details: response)))
           } catch {
             completion(.failure(NetworkError.failedToDecode(data)))
           }

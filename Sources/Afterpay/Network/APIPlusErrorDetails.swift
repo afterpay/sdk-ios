@@ -8,11 +8,11 @@
 
 import Foundation
 
-public enum APIError: Error {
-  case error(details: APIErrorDetails)
+public enum APIPlusError: Error {
+  case error(details: APIPlusErrorDetails)
 }
 
-public struct APIErrorDetails: Decodable {
+public struct APIPlusErrorDetails: Decodable {
   public let errorCode: String
   public let errorId: String
   public let message: String

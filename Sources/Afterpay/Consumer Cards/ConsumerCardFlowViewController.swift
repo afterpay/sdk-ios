@@ -261,7 +261,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
     currentScreen = .loading
     loadingView.startLoadingSpinner()
 
-    NetworkService.shared.request(
+    APIPlusNetworkService.shared.request(
       endpoint: .consumerCardConfirm(payload),
       mode: mode
     ) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
@@ -288,7 +288,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
   }
 
   private func callConsumerCardAPI(payload: ConsumerCardRequest) {
-    NetworkService.shared.request(
+    APIPlusNetworkService.shared.request(
       endpoint: .consumerCards(payload),
       mode: mode
     ) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
@@ -315,7 +315,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
   }
 
   private func handleAPICallError(error: Error) {
-    if let apiError = error as? APIError, case .error(let details) = apiError {
+    if let apiError = error as? APIPlusError, case .error(let details) = apiError {
       completion(.failed(reason: .apiError(details)))
     } else {
       completion(.failed(reason: .networkError(error)))
