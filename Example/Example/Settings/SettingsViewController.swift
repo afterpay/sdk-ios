@@ -92,11 +92,12 @@ final class SettingsViewController: UITableViewController {
       }
 
     case .controls:
-      let controlCell = tableView.dequeueReusableCell(withIdentifier: controlCellIdentifier, for: indexPath) as! ControlCell
+      let controlCell = tableView.dequeueReusableCell(
+        withIdentifier: controlCellIdentifier,
+        for: indexPath
+      ) as! ControlCell
       controlCell.configure(
-        with: {
-          Repository.shared.fetchConfiguration(forceRefresh: true)
-        },
+        with: { Repository.shared.fetchConfiguration(forceRefresh: true) },
         title: "Refresh config"
       )
       cell = controlCell
