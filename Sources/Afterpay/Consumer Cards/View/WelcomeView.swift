@@ -35,7 +35,7 @@ final class WelcomeView: UIView {
 
     let firstHeadline = createHeadlineView(icon: .openingTime, text: "4 easy payments, due every two weeks")
     let secondHeadline = createHeadlineView(icon: .thumbsUp, text: "Won't effect your credit score")
-    let thirdHeadline = createHeadlineView(icon: .diamond, text: "Afterpay Pulse for on-time payments")
+    let thirdHeadline = createHeadlineView(icon: .diamond, text: "Afterpay Rewards for on-time payments")
 
     let divider = DividerView()
 
