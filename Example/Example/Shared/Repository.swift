@@ -15,7 +15,6 @@ final class Repository {
   private let userDefaults: UserDefaults
   private let now: () -> Date
 
-  private let locale = Locale(identifier: "en_US")
   private let environment = Environment.sandbox
 
   static let shared = Repository(apiClient: .live, userDefaults: .standard, now: Date.init)
@@ -26,7 +25,7 @@ final class Repository {
       minimumAmount: nil,
       maximumAmount: "1000.00",
       currencyCode: "USD",
-      locale: locale,
+      locale: Locale(identifier: "en_US"),
       environment: environment
     )
   }
