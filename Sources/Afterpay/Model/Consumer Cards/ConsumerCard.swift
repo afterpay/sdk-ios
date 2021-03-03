@@ -48,7 +48,7 @@ public struct ConsumerCardRequest: Encodable {
   }
 }
 
-public struct ConsumerCardResponse: Decodable {
+public struct ConsumerCardResponse: Decodable, Equatable {
   let consumerCardToken: String
   let token: String
   let expires: String

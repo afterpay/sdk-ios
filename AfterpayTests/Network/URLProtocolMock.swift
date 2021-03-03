@@ -1,17 +1,23 @@
 //
-//  APIPlusNetworkServiceTests.swift
+//  URLProtocolMock.swift
 //  AfterpayTests
 //
 //  Created by Nabila Herzegovina on 3/3/21.
 //  Copyright © 2021 Afterpay. All rights reserved.
 //
 
-@testable import Afterpay
-import XCTest
+import Foundation
 
 final class URLProtocolMock: URLProtocol {
-  // Test data
   static var testURLs = [URL?: Data]()
+
+  override class func canInit(with request: URLRequest) -> Bool {
+    return true
+  }
+
+  override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+    return request
+  }
 
   override func startLoading() {
     if let url = request.url, let data = URLProtocolMock.testURLs[url] {
@@ -20,6 +26,6 @@ final class URLProtocolMock: URLProtocol {
 
     client?.urlProtocolDidFinishLoading(self)
   }
+
+  override func stopLoading() { }
 }
-
-
