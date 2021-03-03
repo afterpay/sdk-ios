@@ -31,10 +31,13 @@ final class PurchaseLogicController {
     _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
+  typealias ConfigurationProvider = () -> Configuration
+
   private let checkoutResponseProvider: CheckoutResponseProvider
+  private let configurationProvider: ConfigurationProvider
   private let products: [Product]
   private var email: String { Settings.email }
-  private var currencyCode: String { Settings.currencyCode }
+  private var currencyCode: String { configurationProvider().currencyCode }
 
   private var quantities: [UUID: UInt] = [:]
 
@@ -51,9 +54,11 @@ final class PurchaseLogicController {
 
   init(
     checkoutResponseProvider: @escaping CheckoutResponseProvider,
+    configurationProvider: @escaping ConfigurationProvider,
     products: [Product] = .stub
   ) {
     self.checkoutResponseProvider = checkoutResponseProvider
+    self.configurationProvider = configurationProvider
     self.products = products
   }
 

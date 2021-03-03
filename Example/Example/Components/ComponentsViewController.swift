@@ -10,14 +10,7 @@ import Afterpay
 import Foundation
 import UIKit
 
-// swiftlint:disable colon opening_brace
-final class ComponentsViewController:
-  UIViewController,
-  UIPickerViewDataSource,
-  UIPickerViewDelegate,
-  UITextFieldDelegate
-{
-  // swiftlint:enable colon opening_brace
+final class ComponentsViewController: UIViewController {
 
   private var scrollView: UIScrollView!
   private var pickerView: UIPickerView!
@@ -25,14 +18,6 @@ final class ComponentsViewController:
   private var maximumAmountTextField: UITextField!
   private var localeTextField: UITextField!
   private var currencyTextField: UITextField!
-  private let localePickerDelegate = PickerDelegate( // swiftlint:disable:this weak_delegate
-    options: ["en_AU", "en_CA", "en_GB", "en_NZ", "en_US"],
-    getOption: { configurationStub.locale.identifier },
-    setOption: { configurationStub.locale = Locale(identifier: $0) })
-  private let currencyPickerDelegate = PickerDelegate( // swiftlint:disable:this weak_delegate
-    options: ["AUD", "CAD", "GBP", "NZD", "USD"],
-    getOption: { configurationStub.currencyCode },
-    setOption: { configurationStub.currencyCode = $0 })
 
   override func loadView() {
     let view = UIView()
@@ -85,91 +70,9 @@ final class ComponentsViewController:
       embed: contentStack.addArrangedSubview
     )
 
-    let configurationView = UIView()
-    configurationView.backgroundColor = .appBackground
-    contentStack.addArrangedSubview(configurationView)
-
-    let configurationStack = UIStackView()
-    configurationStack.translatesAutoresizingMaskIntoConstraints = false
-    configurationStack.axis = .vertical
-    configurationStack.spacing = 8
-    configurationView.addSubview(configurationStack)
-
-    let contentGuide = view.readableContentGuide
-
-    let configurationStackConstraints = [
-      configurationStack.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
-      configurationStack.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-      configurationStack.topAnchor.constraint(equalTo: configurationView.topAnchor, constant: 8),
-      configurationStack.bottomAnchor.constraint(equalTo: configurationView.bottomAnchor, constant: -8),
-    ]
-
-    let configurationTitle = UILabel()
-    configurationTitle.font = .preferredFont(forTextStyle: .title1)
-    configurationTitle.adjustsFontForContentSizeCategory = true
-    configurationTitle.textColor = .appLabel
-    configurationTitle.text = "Stub Configuration"
-    configurationStack.addArrangedSubview(configurationTitle)
-
-    let minimumAmountTitle: UILabel = .bodyLabel
-    minimumAmountTitle.text = "Minumum Amount:"
-    configurationStack.addArrangedSubview(minimumAmountTitle)
-
-    let doneSelector = #selector(endEditing)
-    let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: doneSelector)
-    let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let toolbar = UIToolbar(items: [spacer, done])
-
-    pickerView = UIPickerView()
-    pickerView.delegate = self
-    pickerView.dataSource = self
-
-    minimumAmountTextField = .roundedTextField
-    minimumAmountTextField.text = configurationStub.minimumAmount
-    minimumAmountTextField.delegate = self
-    minimumAmountTextField.inputView = pickerView
-    minimumAmountTextField.inputAccessoryView = toolbar
-    configurationStack.addArrangedSubview(minimumAmountTextField)
-
-    let maximumAmountTitle: UILabel = .bodyLabel
-    maximumAmountTitle.text = "Maximum Amount:"
-    configurationStack.addArrangedSubview(maximumAmountTitle)
-
-    maximumAmountTextField = .roundedTextField
-    maximumAmountTextField.text = configurationStub.maximumAmount
-    maximumAmountTextField.delegate = self
-    maximumAmountTextField.inputView = pickerView
-    maximumAmountTextField.inputAccessoryView = toolbar
-    configurationStack.addArrangedSubview(maximumAmountTextField)
-
-    let localePicker = UIPickerView()
-
-    let localeTitle: UILabel = .bodyLabel
-    localeTitle.text = "Locale:"
-    configurationStack.addArrangedSubview(localeTitle)
-
-    localeTextField = .roundedTextField
-    localeTextField.inputAccessoryView = toolbar
-    configurationStack.addArrangedSubview(localeTextField)
-
-    localePickerDelegate.configure(updating: localeTextField, with: localePicker)
-
-    let currencyPicker = UIPickerView()
-
-    let currencyTitle: UILabel = .bodyLabel
-    currencyTitle.text = "Locale:"
-    configurationStack.addArrangedSubview(currencyTitle)
-
-    currencyTextField = .roundedTextField
-    currencyTextField.inputAccessoryView = toolbar
-    configurationStack.addArrangedSubview(currencyTextField)
-
-    currencyPickerDelegate.configure(updating: currencyTextField, with: currencyPicker)
-
     let constraints = scrollViewConstraints
       + contentViewConstraints
       + stackConstraints
-      + configurationStackConstraints
 
     NSLayoutConstraint.activate(constraints)
 
@@ -231,114 +134,6 @@ final class ComponentsViewController:
       let offset = CGPoint(x: 0, y: origin.y - keyboardHeight)
       scrollView.setContentOffset(offset, animated: true)
     }
-  }
-
-  // MARK: - UITextFieldDelegate
-
-  func textFieldDidBeginEditing(_ textField: UITextField) {
-    let title = { self.pickerView(self.pickerView, titleForRow: $0, forComponent: 0) }
-
-    for row in 0...numberOfPickerRows where title(row) == textField.text {
-      pickerView.selectRow(row, inComponent: 0, animated: false)
-    }
-  }
-
-  // MARK: - UIPickerViewDataSource
-
-  let numberOfPickerRows = 5000
-
-  func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
-
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    numberOfPickerRows
-  }
-
-  // MARK: - UIPickerViewDelegate
-
-  let noMinimum = "No Minimum"
-
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    let isMinimum = minimumAmountTextField.isFirstResponder
-    let isMaximum = maximumAmountTextField.isFirstResponder
-
-    let format: (Int) -> String = { "\($0).00" }
-    let formattedRow = isMaximum ? format(row + 1) : format(row)
-
-    switch row {
-    case .zero where isMinimum:
-      return noMinimum
-    default:
-      return formattedRow
-    }
-  }
-
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    let isMinimum = minimumAmountTextField.isFirstResponder
-    let textField = isMinimum ? minimumAmountTextField : maximumAmountTextField
-
-    let title = self.pickerView(pickerView, titleForRow: row, forComponent: component)
-    textField?.text = title
-
-    if isMinimum {
-      configurationStub.minimumAmount = title == noMinimum ? nil : title
-    } else if let title = title {
-      configurationStub.maximumAmount = title
-    }
-  }
-
-}
-
-private final class PickerDelegate: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
-
-  private let options: [String]
-  private let getOption: () -> String
-  private let setOption: (String) -> Void
-
-  private weak var textField: UITextField?
-
-  init(
-    options: [String],
-    getOption: @escaping () -> String,
-    setOption: @escaping (String) -> Void
-  ) {
-    self.options = options
-    self.getOption = getOption
-    self.setOption = setOption
-  }
-
-  func configure(updating textField: UITextField, with pickerView: UIPickerView) {
-    textField.text = getOption()
-    textField.inputView = pickerView
-
-    self.textField = textField
-
-    pickerView.delegate = self
-    pickerView.dataSource = self
-
-    if let row = options.firstIndex(of: getOption()) {
-      pickerView.selectRow(row, inComponent: 0, animated: false)
-    }
-  }
-
-  // MARK: UIPickerViewDataSource
-
-  func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
-
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    options.count
-  }
-
-  // MARK: UIPickerViewDelegate
-
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    options[row]
-  }
-
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    let identifier = options[row]
-
-    textField?.text = identifier
-    setOption(identifier)
   }
 
 }

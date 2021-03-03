@@ -24,6 +24,7 @@ struct CheckoutsResponse: Decodable {
 struct ConfigurationResponse: Codable {
   let minimumAmount: Money?
   let maximumAmount: Money
+  let locale: String
 
   struct Money: Codable {
     let amount: String
