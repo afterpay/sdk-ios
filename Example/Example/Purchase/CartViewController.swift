@@ -72,10 +72,10 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: UITableViewDataSource
 
   private enum Section: Int, CaseIterable {
-    case message, products, total
+    case message, products, total, options
 
     static func from(section: Int) -> Section {
-      Section(rawValue: section)!
+      Section.allCases[section]
     }
   }
 
@@ -90,6 +90,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case .products:
       return cart.products.count
     case .total:
+      return 1
+    case .options:
       return 1
     }
   }
@@ -117,6 +119,9 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         for: indexPath) as! TitleSubtitleCell
       titleSubtitleCell.configure(title: "Total", subtitle: cart.displayTotal)
       cell = titleSubtitleCell
+
+    case .options:
+      cell = UITableViewCell()
     }
 
     return cell
