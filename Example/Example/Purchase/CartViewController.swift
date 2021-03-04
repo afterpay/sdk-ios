@@ -21,7 +21,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   enum Event {
     case didTapPay
-    case optionsChanged(buyNow: Bool)
+    case optionsChanged(CheckoutOptionsCell.Event)
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
@@ -128,7 +128,10 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         withIdentifier: checkoutOptionsCellIdentifier,
         for: indexPath) as! CheckoutOptionsCell
 
-      optionsCell.configure(eventHandler: { self.eventHandler(.optionsChanged(buyNow: $0)) })
+      optionsCell.configure(
+        initialOptions: cart.initialCheckoutOptions,
+        eventHandler: { self.eventHandler(.optionsChanged($0)) }
+      )
 
       cell = optionsCell
     }

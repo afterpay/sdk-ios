@@ -57,6 +57,7 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
+  // swiftlint:disable:next cyclomatic_complexity
   private func execute(command: PurchaseLogicController.Command) {
     let logicController = self.logicController
     let navigationController = self.ownedNavigationController
@@ -70,8 +71,12 @@ final class PurchaseFlowController: UIViewController {
         switch event {
         case .didTapPay:
           logicController.payWithAfterpay()
-        case .optionsChanged(let buyNow):
-          logicController.buyNow = buyNow
+        case .optionsChanged(.buyNow):
+          logicController.toggleOption(\.buyNow)
+        case .optionsChanged(.pickup):
+          logicController.toggleOption(\.pickup)
+        case .optionsChanged(.shippingOptionRequired):
+          logicController.toggleOption(\.shippingOptionRequired)
         }
       }
 
