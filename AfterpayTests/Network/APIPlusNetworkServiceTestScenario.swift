@@ -13,7 +13,6 @@ enum APIPlusNetworkServiceTestScenario {
   case success
   case apiError
   case decodeError
-  case invalidURL
 }
 
 extension ConsumerCardResponse {
@@ -43,7 +42,7 @@ extension ConsumerCardResponse {
       }
       """
 
-    case .decodeError, .invalidURL :
+    case .decodeError :
       jsonString =
       """
       {
