@@ -70,6 +70,8 @@ final class PurchaseFlowController: UIViewController {
         switch event {
         case .didTapPay:
           logicController.payWithAfterpay()
+        case .optionsChanged(let buyNow):
+          logicController.buyNow = buyNow
         }
       }
 

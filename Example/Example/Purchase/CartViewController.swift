@@ -20,6 +20,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   enum Event {
     case didTapPay
+    case optionsChanged(buyNow: Bool)
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
