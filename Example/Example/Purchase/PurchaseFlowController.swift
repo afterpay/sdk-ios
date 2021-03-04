@@ -75,8 +75,8 @@ final class PurchaseFlowController: UIViewController {
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayCheckout:
-      Afterpay.presentCheckoutV2Modally(over: ownedNavigationController) { result in
+    case .showAfterpayCheckout(let options):
+      Afterpay.presentCheckoutV2Modally(over: ownedNavigationController, options: options) { result in
         switch result {
         case .success(let token):
           logicController.success(with: token)

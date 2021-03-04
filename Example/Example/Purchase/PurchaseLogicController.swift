@@ -14,7 +14,7 @@ final class PurchaseLogicController {
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayCheckout
+    case showAfterpayCheckout(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
@@ -40,6 +40,9 @@ final class PurchaseLogicController {
   private var currencyCode: String { configurationProvider().currencyCode }
 
   private var quantities: [UUID: UInt] = [:]
+
+  //TODO: more complex type later holding more options
+  var buyNow = false
 
   private var productDisplayModels: [ProductDisplay] {
     ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
@@ -81,7 +84,7 @@ final class PurchaseLogicController {
   }
 
   func payWithAfterpay() {
-    commandHandler(.showAfterpayCheckout)
+    commandHandler(.showAfterpayCheckout(CheckoutV2Options(buyNow: buyNow)))
   }
 
   func loadCheckout() {
