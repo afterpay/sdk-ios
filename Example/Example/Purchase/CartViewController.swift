@@ -15,6 +15,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let cart: CartDisplay
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let productCellIdentifier = String(describing: ProductCell.self)
+  private let checkoutOptionsCellIdentifier = String(describing: CheckoutOptionsCell.self)
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
@@ -44,6 +45,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
+    tableView.register(CheckoutOptionsCell.self, forCellReuseIdentifier: checkoutOptionsCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
     let payButton: UIButton = PaymentButton()
@@ -122,7 +124,13 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       cell = titleSubtitleCell
 
     case .options:
-      cell = UITableViewCell()
+      let optionsCell = tableView.dequeueReusableCell(
+        withIdentifier: checkoutOptionsCellIdentifier,
+        for: indexPath) as! CheckoutOptionsCell
+
+      optionsCell.configure(eventHandler: { self.eventHandler(.optionsChanged(buyNow: $0)) })
+
+      cell = optionsCell
     }
 
     return cell
