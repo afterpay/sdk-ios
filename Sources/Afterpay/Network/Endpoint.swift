@@ -1,5 +1,5 @@
 //
-//  EndPoint.swift
+//  Endpoint.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 11/2/21.

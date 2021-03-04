@@ -60,7 +60,7 @@
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 		DBBB8D074F1DE5A57C429316 /* ConsumerCardCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */; };
 		DD0BCABA25DCD7370019BBD6 /* VirtualCardDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0BCAB925DCD7370019BBD6 /* VirtualCardDisplayView.swift */; };
-		DD0C331A25D4E88C00B7496D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C331925D4E88C00B7496D /* EndPoint.swift */; };
+		DD0C331A25D4E88C00B7496D /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C331925D4E88C00B7496D /* Endpoint.swift */; };
 		DD0C331E25D4EAD500B7496D /* ConsumerCardConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C331D25D4EAD500B7496D /* ConsumerCardConfirm.swift */; };
 		DD18F41E25D5E1CD00E345C9 /* ConsumerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18F41D25D5E1CD00E345C9 /* ConsumerCardView.swift */; };
 		DD18F42D25D61A1400E345C9 /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 6640C15124D8E1A700F7F4CC /* Macaw */; };
@@ -164,7 +164,7 @@
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 		DBBB85C0A5E2C784A538CD60 /* ConsumerCardCheckoutResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsumerCardCheckoutResult.swift; sourceTree = "<group>"; };
 		DD0BCAB925DCD7370019BBD6 /* VirtualCardDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualCardDisplayView.swift; sourceTree = "<group>"; };
-		DD0C331925D4E88C00B7496D /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		DD0C331925D4E88C00B7496D /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		DD0C331D25D4EAD500B7496D /* ConsumerCardConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumerCardConfirm.swift; sourceTree = "<group>"; };
 		DD18F41D25D5E1CD00E345C9 /* ConsumerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumerCardView.swift; sourceTree = "<group>"; };
 		DD18F43625D6510200E345C9 /* PaymentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetails.swift; sourceTree = "<group>"; };
@@ -479,7 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				DDBD9C1E25D3B4F500008642 /* APIPlusNetworkService.swift */,
-				DD0C331925D4E88C00B7496D /* EndPoint.swift */,
+				DD0C331925D4E88C00B7496D /* Endpoint.swift */,
 				76F7ACA825DF5781006F4DF4 /* APIPlusErrorDetails.swift */,
 			);
 			path = Network;
@@ -688,7 +688,7 @@
 				7664EDBB25E7190D00D8A1EB /* UIFont+Extensions.swift in Sources */,
 				15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */,
 				76F7ACA925DF5781006F4DF4 /* APIPlusErrorDetails.swift in Sources */,
-				DD0C331A25D4E88C00B7496D /* EndPoint.swift in Sources */,
+				DD0C331A25D4E88C00B7496D /* Endpoint.swift in Sources */,
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
 				DD8E78E225DA439000DCB50D /* PrimaryButton.swift in Sources */,
