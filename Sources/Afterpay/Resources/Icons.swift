@@ -9,6 +9,18 @@
 import Foundation
 import UIKit
 
+struct InfoIconSVGConfiguration: SVGConfiguration {
+  var colorScheme: ColorScheme
+
+  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
+    return .infoIcon
+  }
+
+  func accessibilityLabel(localizedFor locale: Locale) -> String {
+    return "Info Icon"
+  }
+}
+
 struct OpeningTimeIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
 
