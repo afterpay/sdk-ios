@@ -43,6 +43,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
   private let enterAmountView: EnterAmountView
   private let consumerCardView: ConsumerCardView
   private let loadingView: LoadingView
+  private let infoBarButtonItem: UIBarButtonItem
   private var consumerCardToken: String
   private let mode: Mode
 
@@ -71,6 +72,18 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
     )
     self.loadingView = LoadingView()
 
+
+    // Setup left bar button item
+    let infoIcon = SVGView(svgConfiguration: InfoIconSVGConfiguration())
+    infoIcon.frame = CGRect(x: 0, y: 0, width: 21, height: 21)
+
+    let renderer = UIGraphicsImageRenderer(size: infoIcon.bounds.size)
+    let infoIconImage = renderer.image { rendererContext in
+      infoIcon.layer.render(in: rendererContext.cgContext)
+    }
+
+    self.infoBarButtonItem = UIBarButtonItem(image: infoIconImage, style: .plain, target: nil, action: nil)
+
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -91,7 +104,6 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
 
     setupSubViews()
     setupNavigationBar()
-
     reloadView()
   }
 
@@ -142,6 +154,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       navigationController?.setNavigationBarHidden(false, animated: true)
       navigationItem.leftBarButtonItem = nil
     default:
+      navigationItem.leftBarButtonItem = infoBarButtonItem
       navigationController?.setNavigationBarHidden(false, animated: true)
     }
   }
@@ -187,8 +200,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       action: #selector(dismissConsumerCardFlow)
     )
 
-    // Set left navigation bar to be hidden until information page is built
-//    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: nil)
+    updateNavigationBar()
   }
 
   private func updatePresentationControllerDelegate() {

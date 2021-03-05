@@ -12,6 +12,10 @@ import UIKit
 struct InfoIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
 
+  init(colorScheme: ColorScheme = .static(.blackOnWhite)) {
+    self.colorScheme = colorScheme
+  }
+
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .infoIcon
   }
@@ -23,6 +27,10 @@ struct InfoIconSVGConfiguration: SVGConfiguration {
 
 struct OpeningTimeIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
+
+  init(colorScheme: ColorScheme = .static(.blackOnWhite)) {
+    self.colorScheme = colorScheme
+  }
 
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .openingTimeIcon
@@ -36,6 +44,10 @@ struct OpeningTimeIconSVGConfiguration: SVGConfiguration {
 struct ThumbsUpIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
 
+  init(colorScheme: ColorScheme = .static(.blackOnWhite)) {
+    self.colorScheme = colorScheme
+  }
+
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .thumbsUpIcon
   }
@@ -48,6 +60,10 @@ struct ThumbsUpIconSVGConfiguration: SVGConfiguration {
 struct DiamondIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
 
+  init(colorScheme: ColorScheme = .static(.blackOnWhite)) {
+    self.colorScheme = colorScheme
+  }
+
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .diamondIcon
   }
@@ -59,6 +75,10 @@ struct DiamondIconSVGConfiguration: SVGConfiguration {
 
 struct ClockIconSVGConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme
+
+  init(colorScheme: ColorScheme = .static(.blackOnWhite)) {
+    self.colorScheme = colorScheme
+  }
 
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
     return .clockIcon

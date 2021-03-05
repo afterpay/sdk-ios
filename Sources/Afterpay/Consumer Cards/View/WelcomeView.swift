@@ -117,11 +117,11 @@ final class WelcomeView: UIView {
 
     switch icon {
     case .openingTime:
-      svgConfiguration = OpeningTimeIconSVGConfiguration(colorScheme: .static(.blackOnMint))
+      svgConfiguration = OpeningTimeIconSVGConfiguration()
     case .thumbsUp:
-      svgConfiguration = ThumbsUpIconSVGConfiguration(colorScheme: .static(.blackOnMint))
+      svgConfiguration = ThumbsUpIconSVGConfiguration()
     case .diamond:
-      svgConfiguration = DiamondIconSVGConfiguration(colorScheme: .static(.blackOnMint))
+      svgConfiguration = DiamondIconSVGConfiguration()
     }
 
     let iconSVGView = SVGView(svgConfiguration: svgConfiguration)
