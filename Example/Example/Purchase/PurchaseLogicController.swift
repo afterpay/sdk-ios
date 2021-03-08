@@ -14,7 +14,7 @@ final class PurchaseLogicController {
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayCheckout
+    case showAfterpayCheckout(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
@@ -40,6 +40,12 @@ final class PurchaseLogicController {
   private var currencyCode: String { configurationProvider().currencyCode }
 
   private var quantities: [UUID: UInt] = [:]
+
+  private var checkoutOptions = CheckoutV2Options(
+    pickup: false,
+    buyNow: false,
+    shippingOptionRequired: true
+  )
 
   private var productDisplayModels: [ProductDisplay] {
     ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
@@ -74,14 +80,24 @@ final class PurchaseLogicController {
     commandHandler(.updateProducts(productDisplayModels))
   }
 
+  func toggleOption(_ option: WritableKeyPath<CheckoutV2Options, Bool?>) {
+    let currentValue = checkoutOptions[keyPath: option] ?? false
+    checkoutOptions[keyPath: option] = !currentValue
+  }
+
   func viewCart() {
     let productsInCart = productDisplayModels.filter { (quantities[$0.id] ?? 0) > 0 }
-    let cart = CartDisplay(products: productsInCart, total: total, currencyCode: currencyCode)
+    let cart = CartDisplay(
+      products: productsInCart, total: total, currencyCode: currencyCode,
+      initialCheckoutOptions: checkoutOptions
+    )
     commandHandler(.showCart(cart))
   }
 
   func payWithAfterpay() {
-    commandHandler(.showAfterpayCheckout)
+    commandHandler(
+      .showAfterpayCheckout(checkoutOptions)
+    )
   }
 
   func loadCheckout() {

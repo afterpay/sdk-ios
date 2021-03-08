@@ -15,11 +15,13 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let cart: CartDisplay
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let productCellIdentifier = String(describing: ProductCell.self)
+  private let checkoutOptionsCellIdentifier = String(describing: CheckoutOptionsCell.self)
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
   enum Event {
     case didTapPay
+    case optionsChanged(CheckoutOptionsCell.Event)
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
@@ -43,6 +45,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
+    tableView.register(CheckoutOptionsCell.self, forCellReuseIdentifier: checkoutOptionsCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
     let payButton: UIButton = PaymentButton()
@@ -72,10 +75,10 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: UITableViewDataSource
 
   private enum Section: Int, CaseIterable {
-    case message, products, total
+    case message, products, total, options
 
     static func from(section: Int) -> Section {
-      Section(rawValue: section)!
+      Section.allCases[section]
     }
   }
 
@@ -90,6 +93,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case .products:
       return cart.products.count
     case .total:
+      return 1
+    case .options:
       return 1
     }
   }
@@ -117,6 +122,18 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         for: indexPath) as! TitleSubtitleCell
       titleSubtitleCell.configure(title: "Total", subtitle: cart.displayTotal)
       cell = titleSubtitleCell
+
+    case .options:
+      let optionsCell = tableView.dequeueReusableCell(
+        withIdentifier: checkoutOptionsCellIdentifier,
+        for: indexPath) as! CheckoutOptionsCell
+
+      optionsCell.configure(
+        initialOptions: cart.initialCheckoutOptions,
+        eventHandler: { self.eventHandler(.optionsChanged($0)) }
+      )
+
+      cell = optionsCell
     }
 
     return cell
