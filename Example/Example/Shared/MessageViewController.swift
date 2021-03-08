@@ -11,7 +11,7 @@ import UIKit
 
 final class MessageViewController: UIViewController {
 
-  private var label: UILabel { view as! UILabel }
+  private var messageLabel = UILabel()
 
   private let message: String
 
@@ -22,19 +22,28 @@ final class MessageViewController: UIViewController {
   }
 
   override func loadView() {
-    view = UILabel()
-  }
+    view = UIView()
+    view.backgroundColor = .appBackground
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    messageLabel.text = message
+    messageLabel.font = .preferredFont(forTextStyle: .body)
+    messageLabel.adjustsFontForContentSizeCategory = true
+    messageLabel.numberOfLines = 0
+    messageLabel.textAlignment = .natural
+    messageLabel.textColor = .appLabel
+    messageLabel.translatesAutoresizingMaskIntoConstraints = false
 
-    label.text = message
-    label.font = .preferredFont(forTextStyle: .body)
-    label.adjustsFontForContentSizeCategory = true
-    label.numberOfLines = 0
-    label.textAlignment = .center
-    label.backgroundColor = .appBackground
-    label.textColor = .appLabel
+    view.addSubview(messageLabel)
+
+    let layoutGuide = view.safeAreaLayoutGuide
+
+    let labelConstraints = [
+      messageLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      messageLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 16),
+      messageLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+    ]
+
+    NSLayoutConstraint.activate(labelConstraints)
   }
 
   // MARK: Unavailable
