@@ -71,7 +71,7 @@ final class PurchaseFlowController: UIViewController {
         switch event {
         case .didTapPay(let requestCard):
           if requestCard {
-            logicController.payWithVirtualCard()
+            logicController.payWithConsumerCard()
           } else {
             logicController.payWithAfterpay()
           }
@@ -95,8 +95,8 @@ final class PurchaseFlowController: UIViewController {
           logicController.cancelled(with: reason)
         }
       }
-    
-    case .showAfterpayVirtualCardOnboarding:
+  
+    case .showAfterpayConsumerCardFlow:
       presentAfterpayConsumerCardRequestModally()
 
     case .provideCheckoutTokenResult(let tokenResult):
@@ -120,7 +120,7 @@ final class PurchaseFlowController: UIViewController {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    Afterpay.presentVirtualCardRequestPageModally(
+    Afterpay.presentConsumerCardRequestPageModally(
       over: viewController,
       consumerCardRequest: logicController.createConsumerCardRequest(),
       mode: .sandbox,
@@ -128,9 +128,9 @@ final class PurchaseFlowController: UIViewController {
     ) { result in
       switch result {
       case .success(let virtualCard):
-        logicController.virtualCardSuccess(with: virtualCard.cardNumber)
+        logicController.consumerCardSuccess(with: virtualCard.cardNumber)
       case .failed(let reason):
-        logicController.virtualCardFailed(with: reason)
+        logicController.consumerCardFailed(with: reason)
       }
     }
   }

@@ -15,7 +15,7 @@ final class PurchaseLogicController {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
     case showAfterpayCheckout(CheckoutV2Options)
-    case showAfterpayVirtualCardOnboarding
+    case showAfterpayConsumerCardFlow
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
@@ -133,17 +133,17 @@ final class PurchaseLogicController {
     commandHandler(.provideShippingOptionsResult(result))
   }
 
-  func payWithVirtualCard() {
-    commandHandler(.showAfterpayVirtualCardOnboarding)
+  func payWithConsumerCard() {
+    commandHandler(.showAfterpayConsumerCardFlow)
   }
 
-  func virtualCardSuccess(with cardNumber: String) {
+  func consumerCardSuccess(with cardNumber: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
     commandHandler(.showSuccessWithMessage("Here is your virtual card number: \(cardNumber)"))
   }
 
-  func virtualCardFailed(with reason: ConsumerCardCheckoutResult.ConsumerCardFailureReason) {
+  func consumerCardFailed(with reason: ConsumerCardCheckoutResult.ConsumerCardFailureReason) {
 
     switch reason {
     case .networkError(let error):

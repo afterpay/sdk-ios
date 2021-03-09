@@ -213,18 +213,18 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 
 // MARK: - Consumer Card
 
-/// Present Afterpay Consumer Virtual Card modally over the specified view controller loading your
+/// Present Afterpay Consumer Card modally over the specified view controller loading your
 /// generated checkout URL.
 /// - Parameters:
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
-///   - payload: The `ConsumerCardRequest` object that contains the information required to request for a virtual card.
+///   - payload: The `ConsumerCardRequest` object that contains the information required to request for a consumer card.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
-///   - completion: The block executed after virtual card request has been completed.
+///   - completion: The block executed after consumer card request has been completed.
 ///   - mode: switching between Afterpay environments: either sandbox for testing or production.
 ///   - result: The result of the user's completion (a success or failure).
-public func presentVirtualCardRequestPageModally(
+public func presentConsumerCardRequestPageModally(
   over viewController: UIViewController,
   consumerCardRequest: ConsumerCardRequest,
   mode: Mode,
@@ -245,7 +245,7 @@ public func presentVirtualCardRequestPageModally(
     viewControllerToPresent = UINavigationController(rootViewController: consumerCardViewController)
   } else {
     let alertController = UIAlertController(
-      title: "Unable to request virtual card",
+      title: "Unable to request consumer card",
       message: "This feature is available in US region only",
       preferredStyle: .alert
     )

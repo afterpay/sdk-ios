@@ -1,5 +1,5 @@
 //
-//  VirtualCardDisplayView.swift
+//  ConsumerCardDisplayView.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 17/2/21.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class VirtualCardDisplayView: UIView {
+final class ConsumerCardDisplayView: UIView {
 
   private let topRightLabel: UILabel = {
     let label = UILabel()
@@ -19,7 +19,7 @@ final class VirtualCardDisplayView: UIView {
 
     let textFont = UIFont.systemFont(ofSize: 12, weight: .regular)
     label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
-    label.textColor = UIColor.virtualCardDescriptionTextColor
+    label.textColor = UIColor.consumerCardDescriptionTextColor
 
     label.translatesAutoresizingMaskIntoConstraints = false
     label.adjustsFontForContentSizeCategory = true
@@ -33,7 +33,7 @@ final class VirtualCardDisplayView: UIView {
 
     let textFont = UIFont.systemFont(ofSize: 16, weight: .regular)
     label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
-    label.textColor = UIColor.virtualCardDescriptionTextColor
+    label.textColor = UIColor.consumerCardDescriptionTextColor
 
     label.translatesAutoresizingMaskIntoConstraints = false
     label.adjustsFontForContentSizeCategory = true
@@ -63,7 +63,7 @@ final class VirtualCardDisplayView: UIView {
 
     let textFont = UIFont.systemFont(ofSize: 16, weight: .regular)
     label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
-    label.textColor = UIColor.virtualCardTextColor
+    label.textColor = UIColor.consumerCardTextColor
 
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
@@ -76,7 +76,7 @@ final class VirtualCardDisplayView: UIView {
 
     let textFont = UIFont.systemFont(ofSize: 12, weight: .regular)
     label.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: textFont)
-    label.textColor = UIColor.virtualCardTextColor
+    label.textColor = UIColor.consumerCardTextColor
 
     label.translatesAutoresizingMaskIntoConstraints = false
     label.adjustsFontForContentSizeCategory = true

@@ -15,7 +15,7 @@ final class EnterAmountView: UIView {
     view.backgroundColor = .clear
     view.layer.cornerRadius = 12
     view.layer.borderWidth = 1
-    view.layer.borderColor = UIColor.virtualCardTextColor.cgColor
+    view.layer.borderColor = UIColor.consumerCardTextColor.cgColor
     view.translatesAutoresizingMaskIntoConstraints = false
 
     return view

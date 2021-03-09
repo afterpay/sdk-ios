@@ -13,6 +13,6 @@ extension UIColor {
 
   static let primaryColor = UIColor(red: 0.698, green: 0.988, blue: 0.894, alpha: 1)
 
-  static let virtualCardDescriptionTextColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
-  static let virtualCardTextColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+  static let consumerCardDescriptionTextColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+  static let consumerCardTextColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
 }
