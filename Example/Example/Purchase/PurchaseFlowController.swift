@@ -69,7 +69,7 @@ final class PurchaseFlowController: UIViewController {
     case .showCart(let cart):
       let cartViewController = CartViewController(cart: cart) { event in
         switch event {
-        case .didTapPay:
+        case .didTapPay(let requestCard):
           if requestCard {
             logicController.payWithVirtualCard()
           } else {

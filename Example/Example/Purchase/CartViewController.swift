@@ -23,7 +23,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let eventHandler: (Event) -> Void
 
   enum Event {
-    case didTapPay
+    case didTapPay(requestCard: Bool)
     case optionsChanged(CheckoutOptionsCell.Event)
   }
 
@@ -74,7 +74,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: Actions
 
   @objc private func didTapPay() {
-    eventHandler(.didTapPay(requestVirtualCard))
+    eventHandler(.didTapPay(requestCard: requestVirtualCard))
   }
 
   @objc private func toggleRequestCard() {
