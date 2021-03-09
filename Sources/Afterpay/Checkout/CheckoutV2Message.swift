@@ -77,7 +77,7 @@ struct CheckoutV2Message: Codable {
     case .shippingOptions(let shippingOptions):
       try container.encode(shippingOptions, forKey: .payload)
     case .errorMessage(let errorMessage):
-      // This is asymmentric with decode, errors are encoded as their own key/value pair when sent
+      // This is asymmetric with decode, errors are encoded as their own key/value pair when sent
       // not as the payload
       try container.encode(errorMessage, forKey: .error)
     default:
