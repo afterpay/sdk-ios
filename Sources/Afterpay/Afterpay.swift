@@ -249,7 +249,7 @@ public func presentConsumerCardRequestPageModally(
       message: "This feature is available in US region only",
       preferredStyle: .alert
     )
-    
+
     let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
 
     alertController.addAction(alertAction)

@@ -122,7 +122,7 @@ And that's it, the Afterpay SDK is now ready to import and use within your appli
 
 ### XCFramework
 
-1. Download the [latest release][latest-release] framework zip from GitHub and unzip it. 
+1. Download the [latest release][latest-release] framework zip from GitHub and unzip it.
 2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
 3. Drag the `Afterpay.xcframework` under the "Frameworks, Libraries, and Embedded Content" section of your application target in the General tab.
 
@@ -221,7 +221,7 @@ The Afterpay badge is a simple `UIView` that can be scaled to suit the needs of 
 let badgeView = BadgeView()
 ```
 
-Below are examples of the badge in each of the color schemes:  
+Below are examples of the badge in each of the color schemes:
 ![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
 
 ### Payment Button
@@ -231,7 +231,7 @@ The Afterpay Payment Button is a subclass of `UIButton` that can be scaled to su
 Below are examples of the button in each of the color schemes:
 | Mint and Black | Black and White |
 | -- | -- |
-| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] | 
+| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] |
 | ![Mint on Black button][button-mint-on-black] | ![Black on White button][button-black-on-white] |
 
 ## Price Breakdown
@@ -269,7 +269,7 @@ priceBreakdownView.totalAmount = totalAmount
 
 After setting the total amount the matching breakdown string for the set Afterpay configuration will be displayed.
 
-For example:  
+For example:
 ![Four payments available][four-payments]
 
 ### Accessibility and Dark mode
@@ -384,7 +384,7 @@ You may also choose to send the desired locale and/or environment data back from
 
 The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers have not been provided at this time for v2. Please raise an issue if you would like to see them implemented.
 
-> **NOTE:** 
+> **NOTE:**
 > Two requirements must be met in order to use checkout v2 successfully:
 > - Configuration must always be set before presentation otherwise you will incur an assertionFailure.
 > - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
@@ -524,8 +524,8 @@ import UIKit
 final class CheckoutViewController: UIViewController {
   let consumerCardRequest = ConsumerCardRequest(....) // Create ConsumerCardRequest object
   // ...
-  @objc func didTapPayWithAfterpayVirtualCard() {
-    Afterpay.presentVirtualCardRequestPageModally(over: viewController, payload: consumerCardRequest) { result in
+  @objc func didTapPayWithAfterpayConsumerCard() {
+    Afterpay.presentConsumerCardRequestPageModally(over: viewController, payload: consumerCardRequest) { result in
         switch result {
         case .success(let virtualCard):
           // Handle success with `VirtualCard` object
