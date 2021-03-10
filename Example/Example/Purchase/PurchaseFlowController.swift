@@ -95,7 +95,7 @@ final class PurchaseFlowController: UIViewController {
           logicController.cancelled(with: reason)
         }
       }
-  
+
     case .showAfterpayConsumerCardFlow:
       presentAfterpayConsumerCardRequestModally()
 

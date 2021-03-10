@@ -16,6 +16,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
     case amount
     case consumerCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
     case checkout(CheckoutWebViewController)
+    case info
     case loading
   }
 
@@ -43,7 +44,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
   private let enterAmountView: EnterAmountView
   private let consumerCardView: ConsumerCardView
   private let loadingView: LoadingView
-  private let infoBarButtonItem: UIBarButtonItem
+  private var infoBarButtonItem: UIBarButtonItem?
   private var consumerCardToken: String
   private let mode: Mode
 
@@ -71,18 +72,6 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       merchantName: consumerCardRequest.merchant.name
     )
     self.loadingView = LoadingView()
-
-
-    // Setup left bar button item
-    let infoIcon = SVGView(svgConfiguration: InfoIconSVGConfiguration())
-    infoIcon.frame = CGRect(x: 0, y: 0, width: 21, height: 21)
-
-    let renderer = UIGraphicsImageRenderer(size: infoIcon.bounds.size)
-    let infoIconImage = renderer.image { rendererContext in
-      infoIcon.layer.render(in: rendererContext.cgContext)
-    }
-
-    self.infoBarButtonItem = UIBarButtonItem(image: infoIconImage, style: .plain, target: nil, action: nil)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -123,6 +112,11 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       subview = consumerCardView
     case .checkout(let viewControllerToPresent):
       loadingView.stopLoadingSpinner()
+      navigationController?.show(viewControllerToPresent, sender: self)
+      return
+    case .info:
+      loadingView.stopLoadingSpinner()
+      let viewControllerToPresent = ConsumerCardInfoViewController()
       navigationController?.show(viewControllerToPresent, sender: self)
       return
     case .loading:
@@ -200,6 +194,17 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       action: #selector(dismissConsumerCardFlow)
     )
 
+    // Setup left bar button item
+    let infoIcon = SVGView(svgConfiguration: InfoIconSVGConfiguration())
+    infoIcon.frame = CGRect(x: 0, y: 0, width: 21, height: 21)
+
+    let renderer = UIGraphicsImageRenderer(size: infoIcon.bounds.size)
+    let infoIconImage = renderer.image { rendererContext in
+      infoIcon.layer.render(in: rendererContext.cgContext)
+    }
+
+    self.infoBarButtonItem = UIBarButtonItem(image: infoIconImage, style: .plain, target: self, action: #selector(showInfoPage))
+
     updateNavigationBar()
   }
 
@@ -245,6 +250,10 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
     currentScreen = .loading
 
     callConsumerCardAPI(payload: consumerCardRequest)
+  }
+
+  @objc private func showInfoPage() {
+    currentScreen = .info
   }
 
   // MARK: - Callbacks
