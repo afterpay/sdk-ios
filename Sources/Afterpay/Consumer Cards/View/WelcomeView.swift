@@ -39,7 +39,10 @@ final class WelcomeView: UIView {
 
     let divider = DividerView()
 
-    let termsAndConditionTextView = getTermsAndConditionTextView(aggregatorName: aggregatorName)
+    let hyperlinkText = "terms and conditions."
+    let termsAndConditionTextView = TermsAndConditionTextView()
+    termsAndConditionTextView.configure(with: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See \(hyperlinkText)")
+    termsAndConditionTextView.addHyperlink(title: hyperlinkText, link: "https://www.afterpay.com/installment-agreement")
 
     verticalStackView.addArrangedSubview(firstHeadline)
     verticalStackView.addArrangedSubview(secondHeadline)
@@ -142,38 +145,5 @@ final class WelcomeView: UIView {
     iconView.translatesAutoresizingMaskIntoConstraints = false
 
     return iconView
-  }
-
-  private func getTermsAndConditionTextView(aggregatorName: String) -> UITextView {
-    let textView = UITextView()
-
-    let font = UIFont.afterPayFont(weight: .regular, size: 12)
-    let fontMetrics = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: font)
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineHeightMultiple = 1.34
-    textView.textContainer.lineBreakMode = .byWordWrapping
-
-    let attributedString = NSMutableAttributedString(
-      string: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See terms and conditions.",
-      attributes: [
-        .font: fontMetrics,
-        .paragraphStyle: paragraphStyle,
-      ]
-    )
-
-    let range = (attributedString.string as NSString).range(of: "terms and conditions")
-    attributedString.addAttribute(.link, value: "https://www.afterpay.com/installment-agreement", range: range)
-
-    textView.adjustsFontForContentSizeCategory = true
-    textView.translatesAutoresizingMaskIntoConstraints = false
-
-    textView.attributedText = attributedString
-    textView.isEditable = false
-    textView.isSelectable = true
-    textView.isScrollEnabled = false
-    textView.textContainerInset = .zero
-    textView.textContainer.lineFragmentPadding = .zero
-
-    return textView
   }
 }

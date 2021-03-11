@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable line_length
 class ConsumerCardInfoViewController: UIViewController {
 
   private let titleLabel = TitleLabel(with: "Shop now, pay later with Afterpay on Rakuten", fontSize: 32)
@@ -27,6 +28,8 @@ class ConsumerCardInfoViewController: UIViewController {
 
     return label
   }()
+
+  private let termsAndConditionContentView = TermsAndConditionTextView()
 
   private let headlineTexts: [String] = [
     "Add Products to your Rakuten Cart",
@@ -54,9 +57,23 @@ class ConsumerCardInfoViewController: UIViewController {
       verticalStackView.addArrangedSubview(createHeadlineView(index: index + 1, text: text))
     }
 
+    let lineHeightMultiple: CGFloat = 1.42
+    let hyperlinkTitle = "Click here for full terms."
+
+    termsAndConditionContentView.configure(with: """
+    You must be over 18, a resident of the US and meet additional eligiblity criteria to qualify.Late fees may apply. Estimated payment amounts shown on product pages exclude taxes and shipping charges,  which are added at the checkout. \(hyperlinkTitle)
+    \n
+    Loans to California residents made or arranged pursuant to a California Lenders Law license.
+    \n
+    @ 2021 Afterpay
+    """,
+      lineHeightMultiple: lineHeightMultiple)
+    termsAndConditionContentView.addHyperlink(title: hyperlinkTitle, link: "https://www.afterpay.com/installment-agreement")
+
     view.addSubview(titleLabel)
     view.addSubview(verticalStackView)
     view.addSubview(termsAndConditionTitleLabel)
+    view.addSubview(termsAndConditionContentView)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
@@ -70,6 +87,10 @@ class ConsumerCardInfoViewController: UIViewController {
       termsAndConditionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
       termsAndConditionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
       termsAndConditionTitleLabel.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 32),
+
+      termsAndConditionContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+      termsAndConditionContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+      termsAndConditionContentView.topAnchor.constraint(equalTo: termsAndConditionTitleLabel.bottomAnchor, constant: 16),
     ])
   }
 
@@ -123,3 +144,4 @@ class ConsumerCardInfoViewController: UIViewController {
     return label
   }
 }
+// swiftlint:enable line_length
