@@ -11,6 +11,22 @@ import UIKit
 class ConsumerCardInfoViewController: UIViewController {
 
   private let titleLabel = TitleLabel(with: "Shop now, pay later with Afterpay on Rakuten", fontSize: 32)
+  private let termsAndConditionTitleLabel: UILabel = {
+    let label = UILabel()
+    label.text = "Terms and conditions"
+    label.textAlignment = .left
+
+    label.numberOfLines = 1
+
+    let font = UIFont.afterPayFont(weight: .regular, size: 14)
+    label.font = UIFontMetrics(forTextStyle: .title3).scaledFont(for: font)
+    label.textColor = UIColor.termsConditionTitleColor
+
+    label.adjustsFontForContentSizeCategory = true
+    label.translatesAutoresizingMaskIntoConstraints = false
+
+    return label
+  }()
 
   private let headlineTexts: [String] = [
     "Add Products to your Rakuten Cart",
@@ -40,6 +56,7 @@ class ConsumerCardInfoViewController: UIViewController {
 
     view.addSubview(titleLabel)
     view.addSubview(verticalStackView)
+    view.addSubview(termsAndConditionTitleLabel)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
@@ -49,6 +66,10 @@ class ConsumerCardInfoViewController: UIViewController {
       verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 42),
       verticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
       verticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
+      termsAndConditionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+      termsAndConditionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+      termsAndConditionTitleLabel.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 32),
     ])
   }
 

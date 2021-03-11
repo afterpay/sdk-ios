@@ -15,4 +15,6 @@ extension UIColor {
 
   static let consumerCardDescriptionTextColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
   static let consumerCardTextColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+
+  static let termsConditionTitleColor  = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
 }
