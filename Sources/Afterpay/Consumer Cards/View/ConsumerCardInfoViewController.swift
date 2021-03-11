@@ -35,7 +35,7 @@ class ConsumerCardInfoViewController: UIViewController {
     navigationItem.titleView = LogoView()
 
     for (index, text) in headlineTexts.enumerated() {
-      verticalStackView.addArrangedSubview(createHeadlineView(index: index, text: text))
+      verticalStackView.addArrangedSubview(createHeadlineView(index: index + 1, text: text))
     }
 
     view.addSubview(titleLabel)
@@ -57,23 +57,28 @@ class ConsumerCardInfoViewController: UIViewController {
     let indexLabel = createHeadlineLabel(with: "\(index).")
     let headlineLabel = createHeadlineLabel(with: text)
     let divider = DividerView()
+    let horizontalStackView = UIStackView()
 
-    indexLabel.sizeToFit()
+    indexLabel.numberOfLines = 1
 
-    superview.addSubview(indexLabel)
-    superview.addSubview(headlineLabel)
+    horizontalStackView.axis = .horizontal
+    horizontalStackView.spacing = 16
+    horizontalStackView.distribution = .fillProportionally
+    horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+    horizontalStackView.addArrangedSubview(indexLabel)
+    horizontalStackView.addArrangedSubview(headlineLabel)
+
+    indexLabel.adjustsFontSizeToFitWidth = true
+
+    superview.addSubview(horizontalStackView)
     superview.addSubview(divider)
 
     NSLayoutConstraint.activate([
-      indexLabel.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
-      indexLabel.topAnchor.constraint(equalTo: superview.topAnchor),
-      indexLabel.trailingAnchor.constraint(equalTo: headlineLabel.leadingAnchor, constant: -16),
-      indexLabel.lastBaselineAnchor.constraint(equalTo: headlineLabel.lastBaselineAnchor),
+      horizontalStackView.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+      horizontalStackView.topAnchor.constraint(equalTo: superview.topAnchor),
+      horizontalStackView.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
 
-      headlineLabel.topAnchor.constraint(equalTo: superview.topAnchor),
-      headlineLabel.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
-
-      divider.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor, constant: 16),
+      divider.topAnchor.constraint(equalTo: horizontalStackView.bottomAnchor, constant: 16),
       divider.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
       divider.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
       divider.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
