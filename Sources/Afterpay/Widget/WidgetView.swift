@@ -68,6 +68,18 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     NSLayoutConstraint.activate(webViewConstraints)
   }
 
+  public func sendUpdate(amount: String) {
+    guard
+      let currencyCode = getConfiguration()?.currencyCode,
+      let data = try? encoder.encode(Money(amount: amount, currency: currencyCode)),
+      let json = String(data: data, encoding: .utf8)
+    else {
+      return
+    }
+
+    webView.evaluateJavaScript(#"update(\#(json))"#)
+  }
+
   // MARK: WKNavigationDelegate
 
   public func webView(
