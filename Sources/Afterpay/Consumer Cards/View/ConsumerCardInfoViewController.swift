@@ -96,10 +96,13 @@ class ConsumerCardInfoViewController: UIViewController {
 
   private func createHeadlineView(index: Int, text: String) -> UIView {
     let superview = UIView()
-    let indexLabel = createHeadlineLabel(with: "\(index).")
-    let headlineLabel = createHeadlineLabel(with: text)
+    let indexLabel = HeadlineLabel()
+    let headlineLabel = HeadlineLabel()
     let divider = DividerView()
     let horizontalStackView = UIStackView()
+
+    indexLabel.text = "\(index)."
+    headlineLabel.text = text
 
     indexLabel.numberOfLines = 1
 
@@ -127,21 +130,6 @@ class ConsumerCardInfoViewController: UIViewController {
     ])
 
     return superview
-  }
-
-  private func createHeadlineLabel(with text: String) -> UILabel {
-    let label = UILabel()
-    label.text = text
-    label.textAlignment = .left
-
-    label.numberOfLines = 0
-
-    let font = UIFont.afterPayFont(weight: .bold, size: 14)
-    label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-
-    label.adjustsFontForContentSizeCategory = true
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
   }
 }
 // swiftlint:enable line_length

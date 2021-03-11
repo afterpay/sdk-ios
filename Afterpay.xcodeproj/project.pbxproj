@@ -57,6 +57,7 @@
 		7664EDD725E745A800D8A1EB /* AfterpayBundleLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664EDD625E745A800D8A1EB /* AfterpayBundleLocator.swift */; };
 		7664EDDD25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */; };
 		76ECB14025F9DA2E005F0B3E /* TermsAndConditionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ECB13F25F9DA2E005F0B3E /* TermsAndConditionTextView.swift */; };
+		76ECB14625F9DB4C005F0B3E /* HeadlineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */; };
 		76F3A90025F89C5600C74FB7 /* ConsumerCardInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F3A8FF25F89C5600C74FB7 /* ConsumerCardInfoViewController.swift */; };
 		76F7ACA925DF5781006F4DF4 /* APIPlusErrorDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F7ACA825DF5781006F4DF4 /* APIPlusErrorDetails.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
@@ -163,6 +164,7 @@
 		7664EDD625E745A800D8A1EB /* AfterpayBundleLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayBundleLocator.swift; sourceTree = "<group>"; };
 		7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonWithLogo.swift; sourceTree = "<group>"; };
 		76ECB13F25F9DA2E005F0B3E /* TermsAndConditionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionTextView.swift; sourceTree = "<group>"; };
+		76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlineLabel.swift; sourceTree = "<group>"; };
 		76F3A8FF25F89C5600C74FB7 /* ConsumerCardInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumerCardInfoViewController.swift; sourceTree = "<group>"; };
 		76F7ACA825DF5781006F4DF4 /* APIPlusErrorDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPlusErrorDetails.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
@@ -449,6 +451,7 @@
 				DD6A967725DB80ED00482F66 /* SubtitleLabel.swift */,
 				76ECB13F25F9DA2E005F0B3E /* TermsAndConditionTextView.swift */,
 				DD6A967325DB287C00482F66 /* TitleLabel.swift */,
+				76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -697,6 +700,7 @@
 				76F7ACA925DF5781006F4DF4 /* APIPlusErrorDetails.swift in Sources */,
 				DD0C331A25D4E88C00B7496D /* Endpoint.swift in Sources */,
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
+				76ECB14625F9DB4C005F0B3E /* HeadlineLabel.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
 				DD8E78E225DA439000DCB50D /* PrimaryButton.swift in Sources */,
 				DDBD9C1F25D3B4F500008642 /* APIPlusNetworkService.swift in Sources */,

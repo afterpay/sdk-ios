@@ -86,8 +86,10 @@ final class WelcomeView: UIView {
 
   private func createHeadlineView(icon: Icon, text: String) -> UIStackView {
     let stackView = UIStackView()
-    let headlineLabel = createHeadlineLabel(with: text)
+    let headlineLabel = HeadlineLabel()
     let iconView = createIconView(icon: icon)
+
+    headlineLabel.text = text
 
     stackView.axis = .horizontal
     stackView.spacing = 16
@@ -97,21 +99,6 @@ final class WelcomeView: UIView {
 
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
-  }
-
-  private func createHeadlineLabel(with text: String) -> UILabel {
-    let label = UILabel()
-    label.text = text
-    label.textAlignment = .left
-
-    label.numberOfLines = 0
-
-    let font = UIFont.afterPayFont(weight: .bold, size: 14)
-    label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-
-    label.adjustsFontForContentSizeCategory = true
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
   }
 
   private func createIconView(icon: Icon) -> UIView {
