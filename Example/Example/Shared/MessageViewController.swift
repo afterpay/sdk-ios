@@ -12,6 +12,8 @@ import UIKit
 final class MessageViewController: UIViewController {
 
   private var messageLabel = UILabel()
+  private var widgetView: WidgetView!
+  private let updateButton = UIButton(type: .system)
 
   private let message: String
   private let token: Token
@@ -29,6 +31,7 @@ final class MessageViewController: UIViewController {
 
     setupMessageLabel()
     setupWidget()
+    setupWidgetUpdateButton()
   }
 
   private func setupMessageLabel() {
@@ -56,13 +59,12 @@ final class MessageViewController: UIViewController {
   private func setupWidget() {
     guard AfterpayFeatures.widgetEnabled else { return }
 
-    let widgetView = WidgetView(token: token)
+    widgetView = WidgetView(token: token)
+    widgetView.translatesAutoresizingMaskIntoConstraints = false
 
     view.addSubview(widgetView)
 
     let layoutGuide = view.safeAreaLayoutGuide
-
-    widgetView.translatesAutoresizingMaskIntoConstraints = false
 
     let constraints = [
       widgetView.topAnchor.constraint(equalTo: messageLabel.topAnchor, constant: 32),
@@ -72,6 +74,35 @@ final class MessageViewController: UIViewController {
     ]
 
     NSLayoutConstraint.activate(constraints)
+  }
+
+  private func setupWidgetUpdateButton() {
+    guard AfterpayFeatures.widgetEnabled else { return }
+
+    updateButton.setTitle("Update widget", for: .normal)
+    updateButton.translatesAutoresizingMaskIntoConstraints = false
+    updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
+    updateButton.translatesAutoresizingMaskIntoConstraints = false
+
+    view.addSubview(updateButton)
+
+    let layoutGuide = view.safeAreaLayoutGuide
+
+    let constraints = [
+      updateButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      updateButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+      updateButton.topAnchor.constraint(equalTo: widgetView.bottomAnchor, constant: 16),
+    ]
+
+    NSLayoutConstraint.activate(constraints)
+  }
+
+  @objc private func updateTapped() {
+    let randomDouble = Double.random(in: 0..<99)
+
+    widgetView.sendUpdate(
+      amount: String(format: "%.2f", randomDouble)
+    )
   }
 
   // MARK: Unavailable
