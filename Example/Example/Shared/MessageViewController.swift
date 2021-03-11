@@ -27,6 +27,10 @@ final class MessageViewController: UIViewController {
     view = UIView()
     view.backgroundColor = .appBackground
 
+    setupMessageLabel()
+  }
+
+  private func setupMessageLabel() {
     messageLabel.text = message
     messageLabel.font = .preferredFont(forTextStyle: .body)
     messageLabel.adjustsFontForContentSizeCategory = true
@@ -40,8 +44,8 @@ final class MessageViewController: UIViewController {
     let layoutGuide = view.safeAreaLayoutGuide
 
     let labelConstraints = [
-      messageLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
       messageLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 16),
+      messageLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
       messageLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
     ]
 
