@@ -6,7 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
-import Foundation
+import Afterpay
 import UIKit
 
 final class MessageViewController: UIViewController {
@@ -28,6 +28,7 @@ final class MessageViewController: UIViewController {
     view.backgroundColor = .appBackground
 
     setupMessageLabel()
+    setupWidget()
   }
 
   private func setupMessageLabel() {
@@ -50,6 +51,27 @@ final class MessageViewController: UIViewController {
     ]
 
     NSLayoutConstraint.activate(labelConstraints)
+  }
+
+  private func setupWidget() {
+    guard AfterpayFeatures.widgetEnabled else { return }
+
+    let widgetView = WidgetView(token: token)
+
+    view.addSubview(widgetView)
+
+    let layoutGuide = view.safeAreaLayoutGuide
+
+    widgetView.translatesAutoresizingMaskIntoConstraints = false
+
+    let constraints = [
+      widgetView.topAnchor.constraint(equalTo: messageLabel.topAnchor, constant: 32),
+      widgetView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      widgetView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+      widgetView.heightAnchor.constraint(equalToConstant: 350),
+    ]
+
+    NSLayoutConstraint.activate(constraints)
   }
 
   // MARK: Unavailable
