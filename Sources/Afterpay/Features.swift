@@ -8,10 +8,12 @@
 
 import Foundation
 
-struct Features {
+public struct AfterpayFeatures {
 
   /// Is the checkout widget enabled?
-  static var widgetEnabled: Bool {
+  ///
+  /// Enable by setting '`-com.afterpay.widget-enabled YES`' argument on launch.
+  public static var widgetEnabled: Bool {
     UserDefaults.standard.bool(forKey: "com.afterpay.widget-enabled")
   }
 
