@@ -102,8 +102,8 @@ final class PurchaseFlowController: UIViewController {
       let alert = AlertFactory.alert(for: errorMessage)
       navigationController.present(alert, animated: true, completion: nil)
 
-    case .showSuccessWithMessage(let message):
-      let messageViewController = MessageViewController(message: message)
+    case .showSuccessWithMessage(let message, let token):
+      let messageViewController = MessageViewController(message: message, token: token)
       let viewControllers = [productsViewController, messageViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     }

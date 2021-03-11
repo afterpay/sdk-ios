@@ -18,7 +18,7 @@ final class PurchaseLogicController {
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
-    case showSuccessWithMessage(String)
+    case showSuccessWithMessage(String, Token)
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
@@ -135,7 +135,7 @@ final class PurchaseLogicController {
   func success(with token: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
-    commandHandler(.showSuccessWithMessage("Success with: \(token)"))
+    commandHandler(.showSuccessWithMessage("Success", token))
   }
 
   func cancelled(with reason: CheckoutResult.CancellationReason) {

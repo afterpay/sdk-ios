@@ -14,9 +14,11 @@ final class MessageViewController: UIViewController {
   private var messageLabel = UILabel()
 
   private let message: String
+  private let token: Token
 
-  init(message: String) {
+  init(message: String, token: Token) {
     self.message = message
+    self.token = token
 
     super.init(nibName: nil, bundle: nil)
   }
