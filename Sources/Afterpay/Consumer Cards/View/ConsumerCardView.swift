@@ -52,6 +52,24 @@ final class ConsumerCardView: UIView {
     return stackView
   }()
 
+  private var editCancelButton: UIButton = {
+    let button = UIButton()
+    let font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .afterPayFont(weight: .bold, size: 14))
+    let attributedTitle = NSAttributedString(
+      string: "Edit or Cancel Card",
+      attributes: [
+        .font: font,
+        .underlineStyle: NSUnderlineStyle.single.rawValue
+      ]
+    )
+
+    button.titleLabel?.adjustsFontForContentSizeCategory = true
+    button.setAttributedTitle(attributedTitle, for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
+
+    return button
+  }()
+
   init(continueAction: Selector, merchantName: String) {
     super.init(frame: .zero)
 
@@ -70,6 +88,7 @@ final class ConsumerCardView: UIView {
     addSubview(continueButton)
     addSubview(consumerCardDisplayView)
     addSubview(consumerCardExpiryView)
+    addSubview(editCancelButton)
 
     // Adjust constraint
     NSLayoutConstraint.activate([
@@ -94,8 +113,12 @@ final class ConsumerCardView: UIView {
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       continueButton.topAnchor.constraint(greaterThanOrEqualTo: consumerCardExpiryView.bottomAnchor, constant: 24),
-      continueButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -64),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
+
+      editCancelButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      editCancelButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      editCancelButton.topAnchor.constraint(equalTo: continueButton.bottomAnchor, constant: 16),
+      editCancelButton.bottomAnchor.constraint(equalTo: readableContentGuide.bottomAnchor),
     ])
   }
 
