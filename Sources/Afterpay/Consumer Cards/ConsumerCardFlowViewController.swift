@@ -68,8 +68,9 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       merchantName: consumerCardRequest.merchant.name
     )
     self.consumerCardView = ConsumerCardView(
+      merchantName: consumerCardRequest.merchant.name,
       continueAction: #selector(dismissConsumerCardFlow),
-      merchantName: consumerCardRequest.merchant.name
+      editCancelAction: #selector(showEditCancelPage)
     )
     self.loadingView = LoadingView()
 
@@ -254,6 +255,10 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
 
   @objc private func showInfoPage() {
     currentScreen = .info
+  }
+
+  @objc private func showEditCancelPage() {
+
   }
 
   // MARK: - Callbacks

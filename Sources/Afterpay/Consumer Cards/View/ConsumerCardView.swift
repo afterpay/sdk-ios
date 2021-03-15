@@ -70,7 +70,7 @@ final class ConsumerCardView: UIView {
     return button
   }()
 
-  init(continueAction: Selector, merchantName: String) {
+  init(merchantName: String, continueAction: Selector, editCancelAction: Selector) {
     super.init(frame: .zero)
 
     let subtitleLabel = SubtitleLabel(title: "Ready to use at ", merchantName: merchantName, fontSize: 16)
@@ -78,8 +78,8 @@ final class ConsumerCardView: UIView {
 
     consumerCardDisplayView.translatesAutoresizingMaskIntoConstraints = false
 
-    // Add target for continue button
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
+    editCancelButton.addTarget(inputView, action: editCancelAction, for: .touchDown)
 
     consumerCardExpiryView.addArrangedSubview(consumerCardExpiryLabel)
 
