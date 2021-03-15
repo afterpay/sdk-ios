@@ -149,7 +149,11 @@ final class CheckoutWebViewController:
 
     case (false, .cancelled):
       decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+      if keepModalOpenOnComplete {
+        self.completion(.cancelled(reason: .userInitiated))
+      } else {
+        dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+      }
 
     case (false, nil):
       decisionHandler(.allow)

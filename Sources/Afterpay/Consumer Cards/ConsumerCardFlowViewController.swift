@@ -271,6 +271,8 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
 
     case .cancelled(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
+      self.navigationController?.popToRootViewController(animated: true)
+      currentScreen = .amount
     }
   }
 
