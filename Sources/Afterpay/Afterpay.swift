@@ -247,7 +247,7 @@ public func presentConsumerCardRequestPageModally(
     let alertController = UIAlertController(
       title: "Unable to request consumer card",
       message: "This feature is available in US region only",
-      preferredStyle: .alert
+      preferredStyle: .actionSheet
     )
 
     let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)

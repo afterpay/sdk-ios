@@ -258,7 +258,21 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
   }
 
   @objc private func showEditCancelPage() {
+    let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default)
+    let cancelAction = UIAlertAction(title: "Cancel Single-Use card", style: .destructive)
+    let continueAction = UIAlertAction(title: "Continue with purchase", style: .cancel)
 
+    let editCancelAlert = UIAlertController(
+      title: nil,
+      message: nil,
+      preferredStyle: .actionSheet
+    )
+
+    editCancelAlert.addAction(editCardAction)
+    editCancelAlert.addAction(cancelAction)
+    editCancelAlert.addAction(continueAction)
+
+    self.present(editCancelAlert, animated: true)
   }
 
   // MARK: - Callbacks
