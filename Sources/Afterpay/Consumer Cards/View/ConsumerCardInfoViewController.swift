@@ -11,6 +11,18 @@ import UIKit
 // swiftlint:disable line_length
 class ConsumerCardInfoViewController: UIViewController {
 
+  private let scrollView: UIScrollView = {
+    let scrollView = UIScrollView()
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
+    return scrollView
+  }()
+
+  private let contentView: UIView = {
+    let contentView = UIView()
+    contentView.translatesAutoresizingMaskIntoConstraints = false
+    return contentView
+  }()
+
   private let titleLabel = TitleLabel(with: "", fontSize: 32)
   private let termsAndConditionTitleLabel: UILabel = {
     let label = UILabel()
@@ -82,30 +94,61 @@ class ConsumerCardInfoViewController: UIViewController {
   }
 
   private func addSubviews() {
-    view.addSubview(titleLabel)
-    view.addSubview(verticalStackView)
-    view.addSubview(termsAndConditionTitleLabel)
-    view.addSubview(termsAndConditionContentView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+
+    contentView.addSubview(titleLabel)
+    contentView.addSubview(verticalStackView)
+    contentView.addSubview(termsAndConditionTitleLabel)
+    contentView.addSubview(termsAndConditionContentView)
   }
 
   private func setupConstraints() {
-    NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
-      titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-      titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+    let layoutGuide = contentView.safeAreaLayoutGuide
 
+    let scrollViewConstraints = [
+      scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+    ]
+
+    let contentViewConstraints = [
+      contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+      contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+      contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+      contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
+    ]
+
+    let titleLabelConstraints = [
+      titleLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 32),
+      titleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      titleLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+    ]
+
+    let verticalStackConstraints = [
       verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 42),
-      verticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-      verticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+      verticalStackView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      verticalStackView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+    ]
 
-      termsAndConditionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-      termsAndConditionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+    let termsAndConditionTitleLabelConstraints = [
+      termsAndConditionTitleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      termsAndConditionTitleLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
       termsAndConditionTitleLabel.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor, constant: 32),
+    ]
 
-      termsAndConditionContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-      termsAndConditionContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+    let termsAndConditionContentViewConstraints = [
+      termsAndConditionContentView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      termsAndConditionContentView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
       termsAndConditionContentView.topAnchor.constraint(equalTo: termsAndConditionTitleLabel.bottomAnchor, constant: 16),
-    ])
+      termsAndConditionContentView.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor, constant: 16),
+    ]
+
+    let constraints = scrollViewConstraints + contentViewConstraints + titleLabelConstraints + verticalStackConstraints + termsAndConditionTitleLabelConstraints + termsAndConditionContentViewConstraints
+
+    NSLayoutConstraint.activate(constraints)
   }
 
   private func createHeadlineView(index: Int, text: String) -> UIView {
