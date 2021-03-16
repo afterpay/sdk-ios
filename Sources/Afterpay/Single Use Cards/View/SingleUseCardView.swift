@@ -90,6 +90,9 @@ final class SingleUseCardView: UIView {
     addSubview(singleUseCardExpiryView)
     addSubview(editCancelButton)
 
+    // Hide edit/cancel button for POC
+    editCancelButton.isHidden = true
+
     // Adjust constraint
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 32),
