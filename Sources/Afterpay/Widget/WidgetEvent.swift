@@ -10,7 +10,10 @@ import Foundation
 
 public enum WidgetStatus {
 
+  /// The widget is valid. In particular, this provides the total amount due, and the payment schedule checksum, which should be persisted on the merchant backend.
   case valid(amountDue: Money, checksum: String)
+
+  /// The widget is invalid, and checkout should not proceed. Although the widget will inform the user of the errors on its own, they are also provided here for convenience.
   case invalid(errorCode: String, message: String)
 
 }
