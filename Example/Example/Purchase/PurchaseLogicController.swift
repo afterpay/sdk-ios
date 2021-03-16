@@ -15,7 +15,7 @@ final class PurchaseLogicController {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
     case showAfterpayCheckout(CheckoutV2Options)
-    case showAfterpayConsumerCardFlow
+    case showAfterpaySingleUseCardFlow
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
@@ -133,17 +133,17 @@ final class PurchaseLogicController {
     commandHandler(.provideShippingOptionsResult(result))
   }
 
-  func payWithConsumerCard() {
-    commandHandler(.showAfterpayConsumerCardFlow)
+  func payWithSingleUseCard() {
+    commandHandler(.showAfterpaySingleUseCardFlow)
   }
 
-  func consumerCardSuccess(with cardNumber: String) {
+  func singleUseCardSuccess(with cardNumber: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
     commandHandler(.showSuccessWithMessage("Here is your virtual card number: \(cardNumber)"))
   }
 
-  func consumerCardFailed(with reason: ConsumerCardCheckoutResult.ConsumerCardFailureReason) {
+  func singleUseCardFailed(with reason: SingleUseCardCheckoutResult.SingleUseCardFailureReason) {
 
     switch reason {
     case .networkError(let error):
@@ -180,7 +180,7 @@ final class PurchaseLogicController {
     }
   }
 
-  func createConsumerCardRequest() -> ConsumerCardRequest {
+  func createSingleUseCardRequest() -> SingleUseCardRequest {
     let currencyFormatter = CurrencyFormatter(currencyCode: currencyCode)
 
     let totalAmount = currencyFormatter.displayString(from: total, showCurrencyCode: false)
@@ -193,7 +193,7 @@ final class PurchaseLogicController {
       email: "vigad35147@hrandod.com"
     )
 
-    let consumerCardRequest = ConsumerCardRequest(
+    let singleUseCardRequest = SingleUseCardRequest(
       aggregator: "deadbeef",
       amount: Money(amount: totalAmount, currency: currencyCode),
       consumer: consumer,
@@ -201,6 +201,6 @@ final class PurchaseLogicController {
       merchant: merchant
     )
 
-    return consumerCardRequest
+    return singleUseCardRequest
   }
 }

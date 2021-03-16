@@ -1,5 +1,5 @@
 //
-//  ConsumerCardView.swift
+//  SingleUseCardView.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 12/2/21.
@@ -11,8 +11,8 @@ import UIKit
 
 final class SingleUseCardView: UIView {
 
-  private let consumerCardDisplayView = SingleUseCardDisplayView(lastFourDigits: "", expiryDate: "")
-  private let consumerCardExpiryLabel: UILabel = {
+  private let singleUseCardDisplayView = SingleUseCardDisplayView(lastFourDigits: "", expiryDate: "")
+  private let singleUseCardExpiryLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
     label.textAlignment = .left
@@ -32,7 +32,7 @@ final class SingleUseCardView: UIView {
     return String(cardNumber.suffix(4))
   }
 
-  private var consumerCardExpiryView: UIStackView = {
+  private var singleUseCardExpiryView: UIStackView = {
     let stackView = UIStackView()
     let iconView = SVGView(svgConfiguration: ClockIconSVGConfiguration(colorScheme: .static(.blackOnWhite)))
 
@@ -76,18 +76,18 @@ final class SingleUseCardView: UIView {
     let subtitleLabel = SubtitleLabel(title: "Ready to use at ", merchantName: merchantName, fontSize: 16)
     let continueButton = PrimaryButton(title: "Continue to finalize your order")
 
-    consumerCardDisplayView.translatesAutoresizingMaskIntoConstraints = false
+    singleUseCardDisplayView.translatesAutoresizingMaskIntoConstraints = false
 
     continueButton.addTarget(inputViewController, action: continueAction, for: .touchUpInside)
     editCancelButton.addTarget(inputView, action: editCancelAction, for: .touchDown)
 
-    consumerCardExpiryView.addArrangedSubview(consumerCardExpiryLabel)
+    singleUseCardExpiryView.addArrangedSubview(singleUseCardExpiryLabel)
 
     addSubview(titleLabel)
     addSubview(subtitleLabel)
     addSubview(continueButton)
-    addSubview(consumerCardDisplayView)
-    addSubview(consumerCardExpiryView)
+    addSubview(singleUseCardDisplayView)
+    addSubview(singleUseCardExpiryView)
     addSubview(editCancelButton)
 
     // Adjust constraint
@@ -100,19 +100,19 @@ final class SingleUseCardView: UIView {
       subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 
-      consumerCardDisplayView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 32),
-      consumerCardDisplayView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-      consumerCardDisplayView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      consumerCardDisplayView.heightAnchor.constraint(equalToConstant: 216),
+      singleUseCardDisplayView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 32),
+      singleUseCardDisplayView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      singleUseCardDisplayView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      singleUseCardDisplayView.heightAnchor.constraint(equalToConstant: 216),
 
-      consumerCardExpiryView.topAnchor.constraint(equalTo: consumerCardDisplayView.bottomAnchor, constant: 24),
-      consumerCardExpiryView.centerXAnchor.constraint(equalTo: centerXAnchor),
-      consumerCardExpiryView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16),
-      consumerCardExpiryView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+      singleUseCardExpiryView.topAnchor.constraint(equalTo: singleUseCardDisplayView.bottomAnchor, constant: 24),
+      singleUseCardExpiryView.centerXAnchor.constraint(equalTo: centerXAnchor),
+      singleUseCardExpiryView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16),
+      singleUseCardExpiryView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
 
       continueButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       continueButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-      continueButton.topAnchor.constraint(greaterThanOrEqualTo: consumerCardExpiryView.bottomAnchor, constant: 24),
+      continueButton.topAnchor.constraint(greaterThanOrEqualTo: singleUseCardExpiryView.bottomAnchor, constant: 24),
       continueButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 64),
 
       editCancelButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -127,11 +127,11 @@ final class SingleUseCardView: UIView {
   }
 
   func updateCardDetails(with amount: Money, virtualCard: VirtualCard, expiry: String) {
-    consumerCardDisplayView.updateCardDetails(
+    singleUseCardDisplayView.updateCardDetails(
       lastFourDigits: lastFourDigits(virtualCard.cardNumber),
       expiryDate: virtualCard.expiry
     )
-    consumerCardExpiryLabel.text = "This card is valid until \(expiry.convertToLocalTime())"
+    singleUseCardExpiryLabel.text = "This card is valid until \(expiry.convertToLocalTime())"
     titleLabel.text = "$\(amount.amount)"
   }
 }

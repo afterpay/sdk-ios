@@ -78,9 +78,9 @@ final class APIPlusNetworkService {
 
   func getRequestBody(for endpoint: Endpoint) throws -> Data {
     switch endpoint {
-    case .consumerCardConfirm(let payload):
+    case .singleUseCardConfirm(let payload):
       return try encode(payload)
-    case .consumerCards(let payload):
+    case .singleUseCards(let payload):
       return try encode(payload)
     }
   }

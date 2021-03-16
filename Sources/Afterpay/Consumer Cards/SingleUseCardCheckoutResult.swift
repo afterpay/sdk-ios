@@ -8,11 +8,11 @@
 
 import Foundation
 
-@frozen public enum ConsumerCardCheckoutResult {
+@frozen public enum SingleUseCardCheckoutResult {
   case success(virtualCard: VirtualCard)
-  case failed(reason: ConsumerCardFailureReason)
+  case failed(reason: SingleUseCardFailureReason)
 
-  public enum ConsumerCardFailureReason {
+  public enum SingleUseCardFailureReason {
     case apiError(APIPlusErrorDetails)
     case networkError(Error)
     case checkoutCancelled(reason: CheckoutResult.CancellationReason)

@@ -12,7 +12,7 @@ import Foundation
 final class CartViewController: UIViewController, UITableViewDataSource {
 
   private var tableView: UITableView!
-  private var requestConsumerCard: Bool
+  private var requestSingleUseCard: Bool
   private let cart: CartDisplay
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let productCellIdentifier = String(describing: ProductCell.self)
@@ -30,7 +30,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
     self.cart = cart
     self.eventHandler = eventHandler
-    self.requestConsumerCard = false
+    self.requestSingleUseCard = false
 
     super.init(nibName: nil, bundle: nil)
 
@@ -74,11 +74,11 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: Actions
 
   @objc private func didTapPay() {
-    eventHandler(.didTapPay(requestCard: requestConsumerCard))
+    eventHandler(.didTapPay(requestCard: requestSingleUseCard))
   }
 
   @objc private func toggleRequestCard() {
-    requestConsumerCard.toggle()
+    requestSingleUseCard.toggle()
     tableView.reloadSections([Section.options.rawValue], with: .automatic)
   }
 
@@ -105,7 +105,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case .total, .cardToggle:
       return 1
     case .options:
-      return requestConsumerCard ? 0 : 1
+      return requestSingleUseCard ? 0 : 1
     }
   }
 
@@ -150,7 +150,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         withIdentifier: requestCardToggleCellIdentifier
       ) as! RequestCardToggleCell
       cardToggleCell.toggleSwitch.isEnabled = cart.payEnabled
-      cardToggleCell.toggleSwitch.setOn(requestConsumerCard, animated: true)
+      cardToggleCell.toggleSwitch.setOn(requestSingleUseCard, animated: true)
       cardToggleCell.toggleSwitch.addTarget(
         self,
         action: #selector(toggleRequestCard),

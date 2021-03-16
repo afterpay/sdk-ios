@@ -71,7 +71,7 @@ final class PurchaseFlowController: UIViewController {
         switch event {
         case .didTapPay(let requestCard):
           if requestCard {
-            logicController.payWithConsumerCard()
+            logicController.payWithSingleUseCard()
           } else {
             logicController.payWithAfterpay()
           }
@@ -96,8 +96,8 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
-    case .showAfterpayConsumerCardFlow:
-      presentAfterpayConsumerCardRequestModally()
+    case .showAfterpaySingleUseCardFlow:
+      presentAfterpaySingleUseCardRequestModally()
 
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
@@ -116,21 +116,21 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
-  private func presentAfterpayConsumerCardRequestModally() {
+  private func presentAfterpaySingleUseCardRequestModally() {
     let logicController = self.logicController
     let viewController = self.ownedNavigationController
 
-    Afterpay.presentConsumerCardRequestPageModally(
+    Afterpay.presentSingleUseCardRequestPageModally(
       over: viewController,
-      consumerCardRequest: logicController.createConsumerCardRequest(),
+      singleUseCardRequest: logicController.createSingleUseCardRequest(),
       mode: .sandbox,
       aggregatorName: "Shopper"
     ) { result in
       switch result {
       case .success(let virtualCard):
-        logicController.consumerCardSuccess(with: virtualCard.cardNumber)
+        logicController.singleUseCardSuccess(with: virtualCard.cardNumber)
       case .failed(let reason):
-        logicController.consumerCardFailed(with: reason)
+        logicController.singleUseCardFailed(with: reason)
       }
     }
   }

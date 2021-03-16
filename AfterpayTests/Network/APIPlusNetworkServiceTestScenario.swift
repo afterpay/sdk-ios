@@ -15,7 +15,7 @@ enum APIPlusNetworkServiceTestScenario {
   case decodeError
 }
 
-extension ConsumerCardResponse {
+extension SingleUseCardResponse {
   static func mock(scenario: APIPlusNetworkServiceTestScenario) -> Data {
     let jsonString: String
 
@@ -55,9 +55,9 @@ extension ConsumerCardResponse {
   }
 }
 
-extension ConsumerCardConfirmRequest {
-  static func mock() -> ConsumerCardConfirmRequest {
-    return ConsumerCardConfirmRequest(
+extension SingleUseCardConfirmRequest {
+  static func mock() -> SingleUseCardConfirmRequest {
+    return SingleUseCardConfirmRequest(
       consumerCardToken: "consumerCardToken1234",
       token: "token1234",
       requestId: "",
@@ -66,8 +66,8 @@ extension ConsumerCardConfirmRequest {
   }
 }
 
-extension ConsumerCardRequest {
-  static func mock() -> ConsumerCardRequest {
+extension SingleUseCardRequest {
+  static func mock() -> SingleUseCardRequest {
     let consumer = Consumer(
       phoneNumber: "",
       givenNames: "",
@@ -75,7 +75,7 @@ extension ConsumerCardRequest {
       email: "john.smith@gmail.com"
     )
 
-    return ConsumerCardRequest(
+    return SingleUseCardRequest(
       aggregator: "",
       amount: Money(amount: "35.00", currency: "USD"),
       consumer: consumer,

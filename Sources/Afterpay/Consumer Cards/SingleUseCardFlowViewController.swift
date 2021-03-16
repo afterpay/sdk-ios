@@ -14,7 +14,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   enum Screen: Equatable {
     case welcome
     case amount
-    case consumerCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
+    case singleUseCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
     case checkout(CheckoutWebViewController)
     case info
     case loading
@@ -34,7 +34,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // Payload for consumer cards API request
-  private var consumerCardRequest: SingleUseCardRequest
+  private var singleUseCardRequest: SingleUseCardRequest
 
   private var virtualCard: VirtualCard?
 
@@ -42,24 +42,24 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private let welcomeView: WelcomeView
   private let enterAmountView: EnterAmountView
-  private let consumerCardView: ConsumerCardView
+  private let singleUseCardView: SingleUseCardView
   private let loadingView: LoadingView
-  private let infoViewController: ConsumerCardInfoViewController
+  private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
-  private var consumerCardToken: String
+  private var singleUseCardToken: String
   private let mode: Mode
 
   init(
-    with consumerCardRequest: SingleUseCardRequest,
+    with singleUseCardRequest: SingleUseCardRequest,
     completion: @escaping (_ result: SingleUseCardCheckoutResult) -> Void,
     mode: Mode,
     aggregatorName: String
   ) {
-    let merchantName = consumerCardRequest.merchant.name
+    let merchantName = singleUseCardRequest.merchant.name
 
-    self.consumerCardRequest = consumerCardRequest
+    self.singleUseCardRequest = singleUseCardRequest
     self.completion = completion
-    self.consumerCardToken = ""
+    self.singleUseCardToken = ""
     self.mode = mode
 
     self.welcomeView = WelcomeView(
@@ -70,13 +70,13 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       continueAction: #selector(triggerCheckoutFlowAction),
       merchantName: merchantName
     )
-    self.consumerCardView = ConsumerCardView(
+    self.singleUseCardView = SingleUseCardView(
       merchantName: "\(merchantName) via \(aggregatorName)",
-      continueAction: #selector(dismissConsumerCardFlow),
+      continueAction: #selector(dismissSingleUseCardFlow),
       editCancelAction: #selector(showEditCancelPage)
     )
     self.loadingView = LoadingView()
-    self.infoViewController = ConsumerCardInfoViewController(merchantName: merchantName, aggregator: aggregatorName)
+    self.infoViewController = SingleUseCardInfoViewController(merchantName: merchantName, aggregator: aggregatorName)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -111,10 +111,10 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       loadingView.stopLoadingSpinner()
       enterAmountView.amountField.becomeFirstResponder()
       subview = enterAmountView
-    case .consumerCard(let amount, let virtualCard, let expiry):
+    case .singleUseCard(let amount, let virtualCard, let expiry):
       loadingView.stopLoadingSpinner()
-      consumerCardView.updateCardDetails(with: amount, virtualCard: virtualCard, expiry: expiry)
-      subview = consumerCardView
+      singleUseCardView.updateCardDetails(with: amount, virtualCard: virtualCard, expiry: expiry)
+      subview = singleUseCardView
     case .checkout(let viewControllerToPresent):
       loadingView.stopLoadingSpinner()
       navigationController?.show(viewControllerToPresent, sender: self)
@@ -149,7 +149,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     switch currentScreen {
     case .loading, .checkout:
       navigationController?.setNavigationBarHidden(true, animated: true)
-    case .consumerCard:
+    case .singleUseCard:
       navigationController?.setNavigationBarHidden(false, animated: true)
       navigationItem.leftBarButtonItem = nil
     default:
@@ -161,18 +161,18 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func setupSubViews() {
     welcomeView.backgroundColor = view.backgroundColor
     enterAmountView.backgroundColor = view.backgroundColor
-    consumerCardView.backgroundColor  = view.backgroundColor
+    singleUseCardView.backgroundColor  = view.backgroundColor
     loadingView.backgroundColor = view.backgroundColor
 
     welcomeView.translatesAutoresizingMaskIntoConstraints = false
     enterAmountView.translatesAutoresizingMaskIntoConstraints = false
-    consumerCardView.translatesAutoresizingMaskIntoConstraints = false
+    singleUseCardView.translatesAutoresizingMaskIntoConstraints = false
 
     loadingView.frame = view.frame
 
     view.addSubview(welcomeView)
     view.addSubview(enterAmountView)
-    view.addSubview(consumerCardView)
+    view.addSubview(singleUseCardView)
     view.addSubview(loadingView)
   }
 
@@ -196,7 +196,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .stop,
       target: self,
-      action: #selector(dismissConsumerCardFlow)
+      action: #selector(dismissSingleUseCardFlow)
     )
 
     // Setup left bar button item
@@ -223,7 +223,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   private func dismissModalCompletion() {
-    guard let virtualCard = virtualCard, case .consumerCard = currentScreen else {
+    guard let virtualCard = virtualCard, case .singleUseCard = currentScreen else {
       return
     }
     completion(.success(virtualCard: virtualCard))
@@ -236,7 +236,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // MARK: - Navigation Bar Button Actions
-  @objc private func dismissConsumerCardFlow() {
+  @objc private func dismissSingleUseCardFlow() {
     dismiss(animated: true) { [weak self] in
       self?.dismissModalCompletion()
     }
@@ -245,16 +245,16 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   // MARK: - Button Actions
 
   @objc private func requireAmountAction() {
-    enterAmountView.amountField.text = consumerCardRequest.amount.amount
+    enterAmountView.amountField.text = singleUseCardRequest.amount.amount
     currentScreen = .amount
   }
 
   @objc private func triggerCheckoutFlowAction() {
     let amountValue = enterAmountView.amountField.text ?? "0.00"
-    consumerCardRequest.amount = Money(amount: amountValue, currency: consumerCardRequest.amount.currency)
+    singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
     currentScreen = .loading
 
-    callConsumerCardAPI(payload: consumerCardRequest)
+    callSingleUseCardAPI(payload: singleUseCardRequest)
   }
 
   @objc private func showInfoPage() {
@@ -284,7 +284,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
-      self.callConsumerCardConfirmAPI(checkoutToken: token)
+      self.callSingleUseCardConfirmAPI(checkoutToken: token)
       self.navigationController?.popToRootViewController(animated: true)
 
     case .cancelled(let reason):
@@ -296,29 +296,29 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   // MARK: - API Calls
 
-  private func callConsumerCardConfirmAPI(checkoutToken: String) {
-    let payload = ConsumerCardConfirmRequest(
-      consumerCardToken: self.consumerCardToken,
+  private func callSingleUseCardConfirmAPI(checkoutToken: String) {
+    let payload = SingleUseCardConfirmRequest(
+      consumerCardToken: self.singleUseCardToken,
       token: checkoutToken,
       requestId: "",
-      aggregator: self.consumerCardRequest.aggregator
+      aggregator: self.singleUseCardRequest.aggregator
     )
 
     currentScreen = .loading
     loadingView.startLoadingSpinner()
 
     APIPlusNetworkService.shared.request(
-      endpoint: .consumerCardConfirm(payload),
+      endpoint: .singleUseCardConfirm(payload),
       mode: mode
-    ) { [unowned self] (result: Result<ConsumerCardConfirmResponse, Error>) in
+    ) { [unowned self] (result: Result<SingleUseCardConfirmResponse, Error>) in
       switch result {
       case .success(let response):
         let virtualCard = response.paymentDetails.virtualCard
         self.virtualCard = virtualCard
 
         DispatchQueue.main.async {
-          self.currentScreen = .consumerCard(
-            amount: consumerCardRequest.amount,
+          self.currentScreen = .singleUseCard(
+            amount: singleUseCardRequest.amount,
             virtualCard: virtualCard,
             vccExpiry: response.vccExpiry
           )
@@ -333,14 +333,14 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
-  private func callConsumerCardAPI(payload: SingleUseCardRequest) {
+  private func callSingleUseCardAPI(payload: SingleUseCardRequest) {
     APIPlusNetworkService.shared.request(
-      endpoint: .consumerCards(payload),
+      endpoint: .singleUseCards(payload),
       mode: mode
-    ) { [unowned self] (result: Result<ConsumerCardResponse, Error>) in
+    ) { [unowned self] (result: Result<SingleUseCardResponse, Error>) in
       switch result {
       case .success(let response):
-        self.consumerCardToken = response.consumerCardToken
+        self.singleUseCardToken = response.consumerCardToken
         DispatchQueue.main.async {
           let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
             checkoutUrl: response.redirectCheckoutUrl,

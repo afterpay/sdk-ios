@@ -1,5 +1,5 @@
 //
-//  ConsumerCardConfirm.swift
+//  SingleUseCardConfirm.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 11/2/21.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct ConsumerCardConfirmRequest: Encodable {
+struct SingleUseCardConfirmRequest: Encodable {
   let consumerCardToken: String
   let token: String
   let requestId: String
   let aggregator: String
 }
 
-struct ConsumerCardConfirmResponse: Decodable {
+struct SingleUseCardConfirmResponse: Decodable {
   let id: String
   let token: String
   let paymentDetails: PaymentDetails

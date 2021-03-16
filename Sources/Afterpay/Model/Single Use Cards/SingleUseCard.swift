@@ -1,5 +1,5 @@
 //
-//  ConsumerCard.swift
+//  SingleUseCard.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 9/2/21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ConsumerCardRequest: Encodable {
+public struct SingleUseCardRequest: Encodable {
   public let aggregator: String
   public var amount: Money
   public let consumer: Consumer
@@ -48,7 +48,7 @@ public struct ConsumerCardRequest: Encodable {
   }
 }
 
-public struct ConsumerCardResponse: Decodable, Equatable {
+public struct SingleUseCardResponse: Decodable, Equatable {
   let consumerCardToken: String
   let token: String
   let expires: String

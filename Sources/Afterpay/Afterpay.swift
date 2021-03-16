@@ -219,30 +219,30 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
-///   - payload: The `ConsumerCardRequest` object that contains the information required to request for a consumer card.
+///   - payload: The `SingleUseCardRequest` object that contains the information required to request for a consumer card.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after consumer card request has been completed.
 ///   - mode: switching between Afterpay environments: either sandbox for testing or production.
 ///   - result: The result of the user's completion (a success or failure).
-public func presentConsumerCardRequestPageModally(
+public func presentSingleUseCardRequestPageModally(
   over viewController: UIViewController,
-  consumerCardRequest: ConsumerCardRequest,
+  singleUseCardRequest: SingleUseCardRequest,
   mode: Mode,
   aggregatorName: String,
   animated: Bool = true,
-  completion: @escaping (_ result: ConsumerCardCheckoutResult) -> Void
+  completion: @escaping (_ result: SingleUseCardCheckoutResult) -> Void
 ) {
   let viewControllerToPresent: UIViewController
 
   if getLocale() == Locales.unitedStates {
-    let consumerCardViewController: UIViewController = ConsumerCardFlowViewController(
-      with: consumerCardRequest,
+    let singleUseCardViewController: UIViewController = SingleUseCardFlowViewController(
+      with: singleUseCardRequest,
       completion: completion,
       mode: mode,
       aggregatorName: aggregatorName
     )
 
-    viewControllerToPresent = UINavigationController(rootViewController: consumerCardViewController)
+    viewControllerToPresent = UINavigationController(rootViewController: singleUseCardViewController)
   } else {
     let alertController = UIAlertController(
       title: "Unable to request consumer card",
