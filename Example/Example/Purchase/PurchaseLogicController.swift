@@ -185,7 +185,7 @@ final class PurchaseLogicController {
 
     let totalAmount = currencyFormatter.displayString(from: total, showCurrencyCode: false)
     let items = Item.createItems(with: quantities, products: products, currencyCode: currencyCode)
-    let merchant = Merchant(name: "Aftersnack via Shopper")
+    let merchant = Merchant(name: "Aftersnack")
     let consumer = Consumer(
       phoneNumber: "917-653-8956",
       givenNames: "John",

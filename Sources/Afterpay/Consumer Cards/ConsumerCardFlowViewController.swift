@@ -55,6 +55,8 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
     mode: Mode,
     aggregatorName: String
   ) {
+    let merchantName = consumerCardRequest.merchant.name
+
     self.consumerCardRequest = consumerCardRequest
     self.completion = completion
     self.consumerCardToken = ""
@@ -66,15 +68,15 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
     )
     self.enterAmountView = EnterAmountView(
       continueAction: #selector(triggerCheckoutFlowAction),
-      merchantName: consumerCardRequest.merchant.name
+      merchantName: merchantName
     )
     self.consumerCardView = ConsumerCardView(
-      merchantName: consumerCardRequest.merchant.name,
+      merchantName: "\(merchantName) via \(aggregatorName)",
       continueAction: #selector(dismissConsumerCardFlow),
       editCancelAction: #selector(showEditCancelPage)
     )
     self.loadingView = LoadingView()
-    self.infoViewController = ConsumerCardInfoViewController(merchantName: consumerCardRequest.merchant.name)
+    self.infoViewController = ConsumerCardInfoViewController(merchantName: merchantName, aggregator: aggregatorName)
 
     super.init(nibName: nil, bundle: nil)
   }

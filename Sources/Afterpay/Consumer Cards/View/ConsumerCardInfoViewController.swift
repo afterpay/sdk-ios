@@ -46,7 +46,7 @@ class ConsumerCardInfoViewController: UIViewController {
     return stackview
   }()
 
-  init(merchantName: String) {
+  init(merchantName: String, aggregator: String) {
     super.init(nibName: nil, bundle: nil)
 
     headlineTexts.insert("Add Products to your \(merchantName) Cart", at: 0)
