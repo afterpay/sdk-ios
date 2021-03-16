@@ -112,7 +112,7 @@ final class Repository {
         minimumAmount: response.minimumAmount?.amount,
         maximumAmount: response.maximumAmount.amount,
         currencyCode: response.maximumAmount.currency,
-        locale: Locale(identifier: response.locale),
+        locale: Locale(identifier: response.locale.identifier),
         environment: environment
       )
     }

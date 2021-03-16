@@ -113,6 +113,11 @@ final class CheckoutV2ViewController:
     self.view = view
   }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    bootstrapWebView.configuration.userContentController.removeScriptMessageHandler(forName: "iOS")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
