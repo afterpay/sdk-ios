@@ -52,7 +52,12 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     webView.allowsLinkPreview = false
     webView.scrollView.isScrollEnabled = false
 
-    webView.load(URLRequest(url: URL(string: "http://localhost:8000/widget-bootstrap.html")!))
+    webView.load(
+      URLRequest(
+        url: URL(string: "http://localhost:8000/widget-bootstrap.html")!,
+        cachePolicy: .reloadIgnoringLocalCacheData
+      )
+    )
 
     addSubview(webView)
   }
