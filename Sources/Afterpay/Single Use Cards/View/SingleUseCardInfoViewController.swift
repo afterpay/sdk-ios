@@ -61,8 +61,8 @@ class SingleUseCardInfoViewController: UIViewController {
   init(merchantName: String, aggregator: String) {
     super.init(nibName: nil, bundle: nil)
 
-    headlineTexts.insert("Add Products to your \(merchantName) Cart", at: 0)
-    titleLabel.text = "Shop now, pay later with Afterpay on \(merchantName)"
+    headlineTexts.insert("Add Products to your \(aggregator) Cart", at: 0)
+    titleLabel.text = "Shop now, pay later with Afterpay on \(aggregator)"
   }
 
   override func viewDidLoad() {
