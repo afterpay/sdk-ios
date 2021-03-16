@@ -199,7 +199,7 @@ func getCheckoutV2Handler() -> CheckoutV2Handler? {
   checkoutV2Handler
 }
 
-/// Set the checkout handler for handling asychronous web view events mostly associated
+/// Set the checkout handler for handling asynchronous web view events mostly associated
 /// with express checkout. The handler is retained weakly and as such a strong reference should be
 /// maintained outside of the SDK.
 /// - Parameter handler: The Checkout Handler.

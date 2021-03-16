@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	</head>
+	<body style="margin: 0px -7px">
+		<div id="afterpay-widget-container"></div>
+
+		<script>
+
+			function createAfterpayWidget(token) {
+				window.afterpayWidget = new AfterPay.Widgets.PaymentSchedule({
+					token: token,
+					target: "#afterpay-widget-container",
+					locale: "en-US",
+					onReady: function (event) {
+						sendToApp(event);
+					},
+					onChange: function (event) {
+						sendToApp(event);
+					},
+					onError: function (event) {
+						sendToApp(event);
+					},
+					style: {
+						border: false,
+					}
+				});
+			}
+
+			const app = window.webkit.messageHandlers.iOS;
+			
+			// in error:
+			// {error: Object, isValid: false, amountDueToday: undefined, paymentScheduleChecksum: undefined}
+
+			function sendToApp(event) {
+				const data = event.data;
+				let completeData = {
+					...data,
+					"type": event.type
+				};
+				
+				if (typeof data.amountDueToday !== 'undefined') {
+					completeData.amountDueToday = {
+						"amount": data.amountDueToday.amount,
+						"currency": data.amountDueToday.currency
+					}
+				}
+				
+				app.postMessage(JSON.stringify(completeData));
+			}
+
+			function update(data) {
+				window.afterpayWidget.update({
+					amount: data 
+				});
+			}
+
+			</script>
+
+		<script src="https://portal.sandbox.afterpay.com/afterpay.js?merchant_key=demo"></script>
+	</body>
+</html>

@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Afterpay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "665FC5762488766C00A5A93E"
+               BuildableName = "AfterpayTests.xctest"
+               BlueprintName = "AfterpayTests"
+               ReferencedContainer = "container:Afterpay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
