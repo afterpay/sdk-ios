@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 
-public final class WidgetView: UIView, WKNavigationDelegate {
+public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHandler {
 
   private var webView: WKWebView!
   private let token: String
@@ -39,11 +39,13 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     preferences.javaScriptEnabled = true
     preferences.javaScriptCanOpenWindowsAutomatically = true
 
-    let processPool = WKProcessPool()
+    let userContentController = WKUserContentController()
+    userContentController.add(self, name: "iOS")
 
     let bootstrapConfiguration = WKWebViewConfiguration()
-    bootstrapConfiguration.processPool = processPool
+    bootstrapConfiguration.processPool = WKProcessPool()
     bootstrapConfiguration.preferences = preferences
+    bootstrapConfiguration.userContentController = userContentController
 
     webView = WKWebView(frame: .zero, configuration: bootstrapConfiguration)
     webView.navigationDelegate = self
@@ -53,6 +55,12 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     webView.load(URLRequest(url: URL(string: "http://localhost:8000/widget-bootstrap.html")!))
 
     addSubview(webView)
+  }
+
+  public override func willMove(toSuperview newSuperview: UIView?) {
+    if newSuperview == nil {
+      webView.configuration.userContentController.removeScriptMessageHandler(forName: "iOS")
+    }
   }
 
   private func setupConstraints() {
@@ -100,11 +108,46 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     self.webView.evaluateJavaScript(javaScript)
   }
 
+  // MARK: WKScriptMessageHandler
+
+  public func userContentController(
+    _ userContentController: WKUserContentController,
+    didReceive message: WKScriptMessage
+  ) {
+    guard
+      let jsonData = (message.body as? String)?.data(using: .utf8),
+      let widgetEvent = try? decoder.decode(WidgetEvent.self, from: jsonData)
+    else {
+      return
+    }
+
+    getWidgetHandler()?.didReceiveEvent(widgetEvent)
+  }
+
   // MARK: Unavailable
 
   @available(*, unavailable)
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+}
+
+private extension WidgetHandler {
+
+  func didReceiveEvent(_ event: WidgetEvent) {
+
+    switch event {
+    case let .change(status):
+      onChanged(status: status)
+
+    case let .error(errorCode, message):
+      onError(errorCode: errorCode, message: message)
+
+    case let .ready(isValid, amountDue, checksum):
+      onReady(isValid: isValid, amountDueToday: amountDue, paymentScheduleChecksum: checksum)
+    }
+
   }
 
 }

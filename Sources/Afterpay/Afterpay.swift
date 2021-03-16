@@ -207,6 +207,38 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
+/// A handler of web view events for the widget.
+///
+/// Conforming to this protocol and calling `Afterpay.setWidgetHandler` will enable the display of the `WidgetView`.
+public protocol WidgetHandler: AnyObject {
+
+  /// Fires when the widget is ready to accept updates.
+  func onReady(isValid: Bool, amountDueToday: Money, paymentScheduleChecksum: String)
+
+  /// Fires after each update and on any other state changes.
+  ///
+  /// Check the status to know if the Widget is currently valid or invalid.
+  func onChanged(status: WidgetStatus)
+
+  /// Fires when a state change causes an error. This event is in addition an invalid status being sent to `onChanged`.
+  func onError(errorCode: String, message: String)
+
+}
+
+private weak var widgetHandler: WidgetHandler?
+
+func getWidgetHandler() -> WidgetHandler? {
+  widgetHandler
+}
+
+/// Set the checkout handler for handling asynchronous events from the `WidgetView`.
+///
+/// The handler is retained weakly and as such a strong reference should be maintained outside of the SDK.
+/// - Parameter handler: The Checkout Handler.
+public func setWidgetHandler(_ handler: WidgetHandler?) {
+  widgetHandler = handler
+}
+
 // MARK: - Authentication
 
 /// A handler that is passed a `challenge` a `completionHandler`. If the challenge has been
