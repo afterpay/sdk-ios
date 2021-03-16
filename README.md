@@ -485,11 +485,11 @@ final class MyViewController: UIViewController {
 The user interface to request a virtual card is a UIViewController that can be presented modally over the view controller of your choosing.
 
 ### Required parameter
-To create a virtual card, the API requires `ConsumerCardRequest` object to be created and passed as parameter. This object contains necessary information to create Afterpay virtual card.
+To create a virtual card, the API requires `SingleUseCardRequest` object to be created and passed as parameter. This object contains necessary information to create Afterpay virtual card.
 
-**ConsumerCardRequest**
+**SingleUseCardRequest**
 ```swift
-public struct ConsumerCardRequest: Encodable {
+public struct SingleUseCardRequest: Encodable {
   let aggregator: String
   var amount: Money
   let consumer: Consumer
@@ -522,15 +522,15 @@ import Afterpay
 import UIKit
 
 final class CheckoutViewController: UIViewController {
-  let consumerCardRequest = ConsumerCardRequest(....) // Create ConsumerCardRequest object
+  let singleUseCardRequest = SingleUseCardRequest(....) // Create SingleUseCardRequest object
   // ...
-  @objc func didTapPayWithAfterpayConsumerCard() {
-    Afterpay.presentConsumerCardRequestPageModally(over: viewController, payload: consumerCardRequest) { result in
+  @objc func didTapPayWithAfterpaySingleUseCard() {
+    Afterpay.presentSingleUseCardRequestPageModally(over: viewController, payload: singleUseCardRequest) { result in
         switch result {
         case .success(let virtualCard):
           // Handle success with `VirtualCard` object
         case .failed(let reason):
-          // Handle failure with `ConsumerCardFailureReason`
+          // Handle failure with `SingleUseCardFailureReason`
       }
     }
   }
