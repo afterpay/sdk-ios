@@ -65,13 +65,14 @@ class ConsumerCardInfoViewController: UIViewController {
 
     let lineHeightMultiple: CGFloat = 1.42
     let hyperlinkTitle = "Click here for full terms."
+    let year = Calendar.current.component(.year, from: Date())
 
     termsAndConditionContentView.configure(with: """
-    You must be over 18, a resident of the US and meet additional eligiblity criteria to qualify.Late fees may apply. Estimated payment amounts shown on product pages exclude taxes and shipping charges,  which are added at the checkout. \(hyperlinkTitle)
+    You must be over 18, a resident of the US and meet additional eligibility criteria to qualify. Late fees may apply. Estimated payment amounts shown on product pages exclude taxes and shipping charges,  which are added at the checkout. \(hyperlinkTitle)
     \n
     Loans to California residents made or arranged pursuant to a California Lenders Law license.
     \n
-    @ 2021 Afterpay
+    @ \(year) Afterpay
     """,
       lineHeightMultiple: lineHeightMultiple)
     termsAndConditionContentView.addHyperlink(title: hyperlinkTitle, link: "https://www.afterpay.com/installment-agreement")
