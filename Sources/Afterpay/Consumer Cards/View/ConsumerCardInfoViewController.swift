@@ -11,7 +11,7 @@ import UIKit
 // swiftlint:disable line_length
 class ConsumerCardInfoViewController: UIViewController {
 
-  private let titleLabel = TitleLabel(with: "Shop now, pay later with Afterpay on Rakuten", fontSize: 32)
+  private let titleLabel = TitleLabel(with: "", fontSize: 32)
   private let termsAndConditionTitleLabel: UILabel = {
     let label = UILabel()
     label.text = "Terms and conditions"
@@ -31,8 +31,7 @@ class ConsumerCardInfoViewController: UIViewController {
 
   private let termsAndConditionContentView = TermsAndConditionTextView()
 
-  private let headlineTexts: [String] = [
-    "Add Products to your Rakuten Cart",
+  private var headlineTexts: [String] = [
     "Select Buy now. Pay later with Afterpay",
     "Login or create an Afterpay account",
     "Purchase split into 4 payments,  due every 2 weeks",
@@ -46,6 +45,13 @@ class ConsumerCardInfoViewController: UIViewController {
 
     return stackview
   }()
+
+  init(merchantName: String) {
+    super.init(nibName: nil, bundle: nil)
+
+    headlineTexts.insert("Add Products to your \(merchantName) Cart", at: 0)
+    titleLabel.text = "Shop now, pay later with Afterpay on \(merchantName)"
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -70,11 +76,18 @@ class ConsumerCardInfoViewController: UIViewController {
       lineHeightMultiple: lineHeightMultiple)
     termsAndConditionContentView.addHyperlink(title: hyperlinkTitle, link: "https://www.afterpay.com/installment-agreement")
 
+    addSubviews()
+    setupConstraints()
+  }
+
+  private func addSubviews() {
     view.addSubview(titleLabel)
     view.addSubview(verticalStackView)
     view.addSubview(termsAndConditionTitleLabel)
     view.addSubview(termsAndConditionContentView)
+  }
 
+  private func setupConstraints() {
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
       titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -130,6 +143,10 @@ class ConsumerCardInfoViewController: UIViewController {
     ])
 
     return superview
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
   }
 }
 // swiftlint:enable line_length

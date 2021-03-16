@@ -44,6 +44,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
   private let enterAmountView: EnterAmountView
   private let consumerCardView: ConsumerCardView
   private let loadingView: LoadingView
+  private let infoViewController: ConsumerCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
   private var consumerCardToken: String
   private let mode: Mode
@@ -73,6 +74,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       editCancelAction: #selector(showEditCancelPage)
     )
     self.loadingView = LoadingView()
+    self.infoViewController = ConsumerCardInfoViewController(merchantName: consumerCardRequest.merchant.name)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -117,7 +119,7 @@ final class ConsumerCardFlowViewController: UIViewController, UIAdaptivePresenta
       return
     case .info:
       loadingView.stopLoadingSpinner()
-      let viewControllerToPresent = ConsumerCardInfoViewController()
+      let viewControllerToPresent = infoViewController
       navigationController?.show(viewControllerToPresent, sender: self)
       return
     case .loading:
