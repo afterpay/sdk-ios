@@ -17,6 +17,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case singleUseCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
     case checkout(CheckoutWebViewController)
     case info
+    case cancel
     case loading
   }
 
@@ -127,6 +128,10 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case .loading:
       loadingView.startLoadingSpinner()
       subview = loadingView
+    case .cancel:
+      let viewControllerToPresent = CancelCardViewController()
+      navigationController?.show(viewControllerToPresent, sender: self)
+      return
     }
 
     view.bringSubviewToFront(subview)
@@ -263,7 +268,9 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   @objc private func showEditCancelPage() {
     let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default)
-    let cancelAction = UIAlertAction(title: "Cancel Single-Use card", style: .destructive)
+    let cancelAction = UIAlertAction(title: "Cancel Single-Use card", style: .destructive) { [weak self] _ in
+      self?.currentScreen = .cancel
+    }
     let continueAction = UIAlertAction(title: "Continue with purchase", style: .cancel)
 
     let editCancelAlert = UIAlertController(
