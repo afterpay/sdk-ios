@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum WidgetStatus {
+public enum WidgetStatus: Decodable {
 
   /// The widget is valid.
   ///
@@ -21,6 +21,23 @@ public enum WidgetStatus {
   /// Although the widget will inform the user of the errors on its own, they are also provided here for convenience
   /// if they are available.
   case invalid(errorCode: String?, message: String?)
+
+  private enum CodingKeys: String, CodingKey {
+    case isValid, amountDueToday, paymentScheduleChecksum
+  }
+
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+    if try container.decode(Bool.self, forKey: .isValid) == true {
+      let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
+      let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
+
+      self = .valid(amountDue: amountDue, checksum: checksum)
+    } else {
+      self = .invalid(errorCode: nil, message: nil)
+    }
+  }
 
 }
 

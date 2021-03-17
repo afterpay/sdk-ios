@@ -18,6 +18,11 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()
 
+  enum WidgetError: Error {
+    /// An error occurred while executing some JavaScript. The error is included as an associated value.
+    case javaScriptError(source: Error? = nil)
+  }
+
   public init(token: String) {
     precondition(
       AfterpayFeatures.widgetEnabled,
@@ -81,6 +86,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     NSLayoutConstraint.activate(webViewConstraints)
   }
 
+  // MARK: Public methods
+
   /// Inform the widget about a change to the order total.
   ///
   /// Any time the order total changes (for example, a change of shipping option, promo code, or cart contents),
@@ -98,6 +105,35 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     }
 
     webView.evaluateJavaScript(#"update(\#(json))"#)
+  }
+
+  /// Enquire about the status of the widget.
+  ///
+  /// The method sends the current `WidgetStatus` (or an error) to the completion handler. The completion handler always
+  /// runs on the main thread.
+  ///
+  /// - Parameter completion: Completion handler called with a `Result` containing the `WidgetStatus`.
+  ///
+  /// # See also
+  /// `WidgetStatus` for information about what kind of statuses the method returns.
+  public func getStatus(completion: @escaping (Result<WidgetStatus, Error>) -> Void) {
+    webView.evaluateJavaScript(#"getWidgetStatus()"#) { [decoder] returnValue, error in
+      guard
+        let jsonData = (returnValue as? String)?.data(using: .utf8),
+        error != nil
+      else {
+        completion(.failure(WidgetError.javaScriptError(source: error)))
+        return
+      }
+
+      do {
+        let status = try decoder.decode(WidgetStatus.self, from: jsonData)
+
+        completion(.success(status))
+      } catch {
+        completion(.failure(error))
+      }
+    }
   }
 
   // MARK: WKNavigationDelegate

@@ -15,6 +15,8 @@ final class MessageViewController: UIViewController {
   private var widgetView: WidgetView!
   private let updateButton = UIButton(type: .system)
 
+  private let getStatusButton = UIButton(type: .system)
+
   private let message: String
   private let token: Token
 
@@ -32,6 +34,7 @@ final class MessageViewController: UIViewController {
     setupMessageLabel()
     setupWidget()
     setupWidgetUpdateButton()
+    setupGetStatusButton()
   }
 
   private func setupMessageLabel() {
@@ -97,12 +100,47 @@ final class MessageViewController: UIViewController {
     NSLayoutConstraint.activate(constraints)
   }
 
+  private func setupGetStatusButton() {
+    guard AfterpayFeatures.widgetEnabled else { return }
+
+    getStatusButton.setTitle("Print status to console", for: .normal)
+    getStatusButton.translatesAutoresizingMaskIntoConstraints = false
+    getStatusButton.addTarget(self, action: #selector(getStatusTapped), for: .touchUpInside)
+    getStatusButton.translatesAutoresizingMaskIntoConstraints = false
+
+    view.addSubview(getStatusButton)
+
+    let layoutGuide = view.safeAreaLayoutGuide
+
+    let constraints = [
+      getStatusButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+      getStatusButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+      getStatusButton.topAnchor.constraint(equalTo: updateButton.bottomAnchor, constant: 16),
+    ]
+
+    NSLayoutConstraint.activate(constraints)
+  }
+
   @objc private func updateTapped() {
     let randomDouble = Double.random(in: 0..<99)
 
     widgetView.sendUpdate(
       amount: String(format: "%.2f", randomDouble)
     )
+  }
+
+  @objc private func getStatusTapped() {
+    DispatchQueue.main.async { [widgetView] in
+      widgetView?.getStatus { result in
+        switch result {
+        case .failure(let error):
+          print("Sorry: \(error.localizedDescription)")
+        case .success(let status):
+          print("Status: \(status)")
+        }
+      }
+    }
+
   }
 
   // MARK: Unavailable
