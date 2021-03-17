@@ -233,6 +233,9 @@ public protocol WidgetHandler: AnyObject {
   /// This callback is in addition to an `invalid` status being sent to `onChanged`.
   func onError(errorCode: String, message: String)
 
+  /// Fires when an internal error happens inside the SDK.
+  func onFailure(error: Error)
+
 }
 
 private weak var widgetHandler: WidgetHandler?

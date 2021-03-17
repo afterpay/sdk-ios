@@ -22,4 +22,8 @@ final class WidgetEventHandler: WidgetHandler {
     print("on error")
   }
 
+  func onFailure(error: Error) {
+    print("Internal error occurred in the SDK: \(error.localizedDescription)")
+  }
+
 }

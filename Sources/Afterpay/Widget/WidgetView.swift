@@ -119,14 +119,15 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     _ userContentController: WKUserContentController,
     didReceive message: WKScriptMessage
   ) {
-    guard
-      let jsonData = (message.body as? String)?.data(using: .utf8),
-      let widgetEvent = try? decoder.decode(WidgetEvent.self, from: jsonData)
-    else {
-      return
-    }
+    let jsonData = (message.body as? String)?.data(using: .utf8)
 
-    getWidgetHandler()?.didReceiveEvent(widgetEvent)
+    do {
+      let widgetEvent = try decoder.decode(WidgetEvent.self, from: jsonData ?? Data())
+      getWidgetHandler()?.didReceiveEvent(widgetEvent)
+
+    } catch {
+      getWidgetHandler()?.onFailure(error: error)
+    }
   }
 
   // MARK: Unavailable
