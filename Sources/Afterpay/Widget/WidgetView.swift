@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 
-public final class WidgetView: UIView, WKNavigationDelegate {
+public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHandler {
 
   private var webView: WKWebView!
   private let token: String
@@ -39,20 +39,33 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     preferences.javaScriptEnabled = true
     preferences.javaScriptCanOpenWindowsAutomatically = true
 
-    let processPool = WKProcessPool()
+    let userContentController = WKUserContentController()
+    userContentController.add(self, name: "iOS")
 
     let bootstrapConfiguration = WKWebViewConfiguration()
-    bootstrapConfiguration.processPool = processPool
+    bootstrapConfiguration.processPool = WKProcessPool()
     bootstrapConfiguration.preferences = preferences
+    bootstrapConfiguration.userContentController = userContentController
 
     webView = WKWebView(frame: .zero, configuration: bootstrapConfiguration)
     webView.navigationDelegate = self
     webView.allowsLinkPreview = false
     webView.scrollView.isScrollEnabled = false
 
-    webView.load(URLRequest(url: URL(string: "http://localhost:8000/widget-bootstrap.html")!))
+    webView.load(
+      URLRequest(
+        url: URL(string: "http://localhost:8000/widget-bootstrap.html")!,
+        cachePolicy: .reloadIgnoringLocalCacheData
+      )
+    )
 
     addSubview(webView)
+  }
+
+  public override func willMove(toSuperview newSuperview: UIView?) {
+    if newSuperview == nil {
+      webView.configuration.userContentController.removeScriptMessageHandler(forName: "iOS")
+    }
   }
 
   private func setupConstraints() {
@@ -68,6 +81,13 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     NSLayoutConstraint.activate(webViewConstraints)
   }
 
+  /// Inform the widget about a change to the order total.
+  ///
+  /// Any time the order total changes (for example, a change of shipping option, promo code, or cart contents),
+  /// the widget must be notified of the new amount.
+  ///
+  /// - Parameter amount: The order total as a String. Must be in the same currency that was sent to
+  /// `Afterpay.setConfiguration`.
   public func sendUpdate(amount: String) {
     guard
       let currencyCode = getConfiguration()?.currencyCode,
@@ -100,11 +120,47 @@ public final class WidgetView: UIView, WKNavigationDelegate {
     self.webView.evaluateJavaScript(javaScript)
   }
 
+  // MARK: WKScriptMessageHandler
+
+  public func userContentController(
+    _ userContentController: WKUserContentController,
+    didReceive message: WKScriptMessage
+  ) {
+    let jsonData = (message.body as? String)?.data(using: .utf8)
+
+    do {
+      let widgetEvent = try decoder.decode(WidgetEvent.self, from: jsonData ?? Data())
+      getWidgetHandler()?.didReceiveEvent(widgetEvent)
+
+    } catch {
+      getWidgetHandler()?.onFailure(error: error)
+    }
+  }
+
   // MARK: Unavailable
 
   @available(*, unavailable)
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+}
+
+private extension WidgetHandler {
+
+  func didReceiveEvent(_ event: WidgetEvent) {
+
+    switch event {
+    case let .change(status):
+      onChanged(status: status)
+
+    case let .error(errorCode, message):
+      onError(errorCode: errorCode, message: message)
+
+    case let .ready(isValid, amountDue, checksum):
+      onReady(isValid: isValid, amountDueToday: amountDue, paymentScheduleChecksum: checksum)
+    }
+
   }
 
 }

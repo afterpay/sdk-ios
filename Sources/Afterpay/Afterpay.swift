@@ -207,6 +207,56 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
+/// A handler of web view events from the widget.
+///
+/// An object which conforms to the protocol and sent to `Afterpay.setWidgetHandler` will receive the web view events
+/// from the widget.
+public protocol WidgetHandler: AnyObject {
+
+  /// Fires when the widget is ready to accept updates.
+  func onReady(isValid: Bool, amountDueToday: Money, paymentScheduleChecksum: String)
+
+  /// Fires after each update and on any other state changes.
+  ///
+  /// Check the status to know if the Widget is currently valid or invalid.
+  ///
+  /// If valid, use the associated values in the `status` to update your checkout UI.
+  ///
+  /// If it's invalid, the widget itself will inform the user something has gone wrong, but the values associated with
+  /// `WidgetStatus.invalid` will provide some information, too. In this instance, the `onError` callback will also be
+  /// called.
+  ///
+  /// - Parameter status: A `WidgetStatus`, which is either `valid` or `invalid` and contains associated values for
+  /// either situation
+  func onChanged(status: WidgetStatus)
+
+  /// Fires when a state change causes an error.
+  ///
+  /// When this happens, the widget is not valid, and the checkout should not proceed. The widget will inform the user
+  /// of errors on its own, but some error information is also sent through here for convenience.
+  ///
+  /// This callback is in addition to an `invalid` status being sent to `onChanged`.
+  func onError(errorCode: String, message: String)
+
+  /// Fires when an internal error happens inside the SDK.
+  func onFailure(error: Error)
+
+}
+
+private weak var widgetHandler: WidgetHandler?
+
+func getWidgetHandler() -> WidgetHandler? {
+  widgetHandler
+}
+
+/// Set the checkout handler for handling asynchronous events from the `WidgetView`.
+///
+/// The handler is retained weakly and as such a strong reference should be maintained outside of the SDK.
+/// - Parameter handler: A `WidgetHandler`
+public func setWidgetHandler(_ handler: WidgetHandler?) {
+  widgetHandler = handler
+}
+
 // MARK: - Authentication
 
 /// A handler that is passed a `challenge` a `completionHandler`. If the challenge has been
