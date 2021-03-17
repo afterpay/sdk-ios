@@ -1,5 +1,5 @@
 //
-//  TermsAndConditionTextView.swift
+//  BodyTextView.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 11/3/21.
@@ -13,10 +13,11 @@ final class BodyTextView: UITextView {
 
   let textFont: UIFont
   let paragraphStyle: NSMutableParagraphStyle
+  let fontSize: CGFloat = 14
 
   override init(frame: CGRect, textContainer: NSTextContainer?) {
     self.textFont = UIFontMetrics(forTextStyle: .footnote)
-      .scaledFont(for: UIFont.afterPayFont(weight: .regular, size: 12))
+      .scaledFont(for: UIFont.afterPayFont(weight: .regular, size: fontSize))
     self.paragraphStyle = NSMutableParagraphStyle()
 
     super.init(frame: frame, textContainer: textContainer)
@@ -34,7 +35,7 @@ final class BodyTextView: UITextView {
 
   required init?(coder: NSCoder) {
     self.textFont = UIFontMetrics(forTextStyle: .footnote)
-      .scaledFont(for: UIFont.afterPayFont(weight: .regular, size: 12))
+      .scaledFont(for: UIFont.afterPayFont(weight: .regular, size: fontSize))
     self.paragraphStyle = NSMutableParagraphStyle()
 
     super.init(coder: coder)
