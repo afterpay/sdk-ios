@@ -83,9 +83,11 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
   /// Inform the widget about a change to the order total.
   ///
-  /// Any time the order total changes (for example, a change of shipping option, promo code, or cart contents), the widget must be notified of the new amount.
+  /// Any time the order total changes (for example, a change of shipping option, promo code, or cart contents),
+  /// the widget must be notified of the new amount.
   ///
-  /// - Parameter amount: The order total as a String. Must be in the same currency that was sent to `Afterpay.setConfiguration`.
+  /// - Parameter amount: The order total as a String. Must be in the same currency that was sent to
+  /// `Afterpay.setConfiguration`.
   public func sendUpdate(amount: String) {
     guard
       let currencyCode = getConfiguration()?.currencyCode,

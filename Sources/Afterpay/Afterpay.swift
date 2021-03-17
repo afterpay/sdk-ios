@@ -209,7 +209,8 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 
 /// A handler of web view events from the widget.
 ///
-/// An object which conforms to the protocol and sent to `Afterpay.setWidgetHandler` will receive the web view events from the widget. It will allow
+/// An object which conforms to the protocol and sent to `Afterpay.setWidgetHandler` will receive the web view events
+/// from the widget.
 public protocol WidgetHandler: AnyObject {
 
   /// Fires when the widget is ready to accept updates.
@@ -221,14 +222,18 @@ public protocol WidgetHandler: AnyObject {
   ///
   /// If valid, use the associated values in the `status` to update your checkout UI.
   ///
-  /// If it's invalid, the widget itself will inform the user something has gone wrong, but the values associated with `WidgetStatus.invalid` will provide some information, too. In this instance, the `onError` callback will also be called.
+  /// If it's invalid, the widget itself will inform the user something has gone wrong, but the values associated with
+  /// `WidgetStatus.invalid` will provide some information, too. In this instance, the `onError` callback will also be
+  /// called.
   ///
-  /// - Parameter status: A `WidgetStatus`, which is either `valid` or `invalid` and contains associated values for either situation
+  /// - Parameter status: A `WidgetStatus`, which is either `valid` or `invalid` and contains associated values for
+  /// either situation
   func onChanged(status: WidgetStatus)
 
   /// Fires when a state change causes an error.
   ///
-  /// When this happens, the widget is not valid, and the checkout should not proceed. The widget will inform the user of errors on its own, but some error information is also sent through here for convenience.
+  /// When this happens, the widget is not valid, and the checkout should not proceed. The widget will inform the user
+  /// of errors on its own, but some error information is also sent through here for convenience.
   ///
   /// This callback is in addition to an `invalid` status being sent to `onChanged`.
   func onError(errorCode: String, message: String)
