@@ -1,5 +1,5 @@
 //
-//  CheckoutResult.swift
+//  SingleUseCardCheckoutResult.swift
 //  Afterpay
 //
 //  Created by Adam Campbell on 29/6/20.

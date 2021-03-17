@@ -40,7 +40,7 @@ final class WelcomeView: UIView {
     let divider = DividerView()
 
     let hyperlinkText = "terms and conditions."
-    let termsAndConditionTextView = TermsAndConditionTextView()
+    let termsAndConditionTextView = BodyTextView()
     termsAndConditionTextView.configure(with: "By continuing you agree for \(aggregatorName) to share your data to complete your purchase. See \(hyperlinkText)")
     termsAndConditionTextView.addHyperlink(title: hyperlinkText, link: "https://www.afterpay.com/installment-agreement")
 

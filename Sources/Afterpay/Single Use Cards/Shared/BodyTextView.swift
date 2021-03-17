@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class TermsAndConditionTextView: UITextView {
+final class BodyTextView: UITextView {
 
   let textFont: UIFont
   let paragraphStyle: NSMutableParagraphStyle

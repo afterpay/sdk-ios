@@ -11,7 +11,7 @@ import UIKit
 
 final class TitleLabel: UILabel {
 
-  init(with title: String, fontSize: CGFloat = 32) {
+  init(with title: String = "", fontSize: CGFloat = 32) {
     super.init(frame: .zero)
 
     let paragraphStyle = NSMutableParagraphStyle()

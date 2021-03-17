@@ -26,7 +26,7 @@ final class SingleUseCardView: UIView {
     return label
   }()
 
-  private var titleLabel: TitleLabel = TitleLabel(with: "", fontSize: 56)
+  private var titleLabel: TitleLabel = TitleLabel(fontSize: 56)
 
   private let lastFourDigits: (_ cardNumber: String) -> String = { cardNumber in
     return String(cardNumber.suffix(4))

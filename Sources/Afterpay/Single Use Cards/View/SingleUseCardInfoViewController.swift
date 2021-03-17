@@ -23,7 +23,7 @@ class SingleUseCardInfoViewController: UIViewController {
     return contentView
   }()
 
-  private let titleLabel = TitleLabel(with: "", fontSize: 32)
+  private let titleLabel = TitleLabel(fontSize: 32)
   private let termsAndConditionTitleLabel: UILabel = {
     let label = UILabel()
     label.text = "Terms and conditions"
@@ -41,7 +41,7 @@ class SingleUseCardInfoViewController: UIViewController {
     return label
   }()
 
-  private let termsAndConditionContentView = TermsAndConditionTextView()
+  private let termsAndConditionContentView = BodyTextView()
 
   private var headlineTexts: [String] = [
     "Select Buy now. Pay later with Afterpay",
