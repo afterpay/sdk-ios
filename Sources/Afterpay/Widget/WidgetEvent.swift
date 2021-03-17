@@ -22,7 +22,6 @@ public enum WidgetStatus {
   /// if they are available.
   case invalid(errorCode: String?, message: String?)
 
-
 }
 
 enum WidgetEvent: Decodable {
