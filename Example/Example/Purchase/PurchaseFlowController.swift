@@ -15,6 +15,7 @@ final class PurchaseFlowController: UIViewController {
   private let productsViewController: ProductsViewController
   private let ownedNavigationController: UINavigationController
   private let checkoutHandler: CheckoutHandler
+  private let widgetHandler: WidgetHandler
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
@@ -40,6 +41,9 @@ final class PurchaseFlowController: UIViewController {
     )
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
+
+    widgetHandler = WidgetEventHandler()
+    Afterpay.setWidgetHandler(widgetHandler)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -109,8 +113,8 @@ final class PurchaseFlowController: UIViewController {
       let alert = AlertFactory.alert(for: errorMessage)
       navigationController.present(alert, animated: true, completion: nil)
 
-    case .showSuccessWithMessage(let message):
-      let messageViewController = MessageViewController(message: message)
+    case .showSuccessWithMessage(let message, let token):
+      let messageViewController = MessageViewController(message: message, token: token)
       let viewControllers = [productsViewController, messageViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     }

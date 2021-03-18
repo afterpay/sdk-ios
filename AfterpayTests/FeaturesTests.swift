@@ -12,11 +12,11 @@ import XCTest
 class FeaturesTests: XCTestCase {
 
   func testWidgetEnabledIsOffByDefault() {
-    XCTAssertFalse(Features.widgetEnabled)
+    XCTAssertFalse(AfterpayFeatures.widgetEnabled)
 
     UserDefaults.standard.setVolatileDomain(["com.afterpay.widget-enabled": true], forName: UserDefaults.argumentDomain)
 
-    XCTAssertTrue(Features.widgetEnabled)
+    XCTAssertTrue(AfterpayFeatures.widgetEnabled)
   }
 
 }
