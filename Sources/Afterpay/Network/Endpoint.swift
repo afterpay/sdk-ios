@@ -22,7 +22,7 @@ extension Endpoint {
   func baseURL(mode: Mode = .sandbox) -> String {
     switch mode {
     case .sandbox:
-      return "https://api-plus.us-sandbox.afterpay.com"
+      return "https://api-plus-single-use-cards.us-sandbox.afterpay.com"
     case .production:
       return "https://api-plus.us.afterpay.com"
     }
