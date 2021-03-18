@@ -18,8 +18,8 @@ final class WidgetEventHandler: WidgetHandler {
     print("on changed")
   }
 
-  func onError(errorCode: String, message: String) {
-    print("on error")
+  func onError(errorCode: String?, message: String?) {
+    print("On error: code \(errorCode ?? "null"), message: \(message ?? "null")")
   }
 
   func onFailure(error: Error) {

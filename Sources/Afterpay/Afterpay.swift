@@ -233,10 +233,10 @@ public protocol WidgetHandler: AnyObject {
   /// Fires when a state change causes an error.
   ///
   /// When this happens, the widget is not valid, and the checkout should not proceed. The widget will inform the user
-  /// of errors on its own, but some error information is also sent through here for convenience.
+  /// of errors on its own, but some error information is also sent through here for convenience, if it is available.
   ///
   /// This callback is in addition to an `invalid` status being sent to `onChanged`.
-  func onError(errorCode: String, message: String)
+  func onError(errorCode: String?, message: String?)
 
   /// Fires when an internal error happens inside the SDK.
   func onFailure(error: Error)
