@@ -16,5 +16,6 @@ import Foundation
     case apiError(APIPlusErrorDetails)
     case networkError(Error)
     case checkoutCancelled(reason: CheckoutResult.CancellationReason)
+    case cardCancelled
   }
 }

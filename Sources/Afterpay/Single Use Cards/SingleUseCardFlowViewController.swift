@@ -129,7 +129,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       loadingView.startLoadingSpinner()
       subview = loadingView
     case .cancel:
-      let viewControllerToPresent = CancelCardViewController()
+      let viewControllerToPresent = CancelCardViewController(cancelAction: confirmCancelCard)
       navigationController?.show(viewControllerToPresent, sender: self)
       return
     }
@@ -284,6 +284,12 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     editCancelAlert.addAction(continueAction)
 
     self.present(editCancelAlert, animated: true)
+  }
+
+  private func confirmCancelCard() {
+    dismiss(animated: true) { [weak self] in
+      self?.completion(.failed(reason: .cardCancelled))
+    }
   }
 
   // MARK: - Callbacks

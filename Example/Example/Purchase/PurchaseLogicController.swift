@@ -154,6 +154,8 @@ final class PurchaseLogicController {
       cancelled(with: checkoutCancelledreason)
     case .apiError(let errorDetails):
       commandHandler(.showAlertForErrorMessage(errorDetails.message))
+    case .cardCancelled:
+      commandHandler(.showAlertForErrorMessage("Card has been cancelled"))
     }
   }
 

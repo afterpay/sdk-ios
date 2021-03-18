@@ -15,6 +15,12 @@ final class CancelCardViewController: UIViewController {
   private let editAmountTextView = BodyTextView()
   private let divider = DividerView()
   private let cancelButton = PrimaryButton(title: "Cancel single-use card")
+  private let cancelAction: () -> Void
+
+  init(cancelAction: @escaping () -> Void) {
+    self.cancelAction = cancelAction
+    super.init(nibName: nil, bundle: nil)
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,9 +35,15 @@ final class CancelCardViewController: UIViewController {
     """
     )
 
+    cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+
     configureEditAmountTextView()
     addSubviews()
     setupConstraints()
+  }
+
+  @objc func cancelButtonTapped() {
+    cancelAction()
   }
 
   private func configureEditAmountTextView() {
@@ -100,5 +112,10 @@ final class CancelCardViewController: UIViewController {
       + editAmountViewConstraints
 
     NSLayoutConstraint.activate(constraints)
+  }
+
+  required init?(coder: NSCoder) {
+    self.cancelAction = { }
+    super.init(coder: coder)
   }
 }
