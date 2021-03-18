@@ -11,11 +11,11 @@ import Afterpay
 final class WidgetEventHandler: WidgetHandler {
 
   func onReady(isValid: Bool, amountDueToday: Money, paymentScheduleChecksum: String) {
-    print("on ready")
+    print("On ready: valid: \(isValid), amount due: \(amountDueToday), checksum: \(paymentScheduleChecksum)")
   }
 
   func onChanged(status: WidgetStatus) {
-    print("on changed")
+    print("On changed: new status: \(status)")
   }
 
   func onError(errorCode: String?, message: String?) {
