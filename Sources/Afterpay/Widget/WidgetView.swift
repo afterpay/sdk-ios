@@ -120,7 +120,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     webView.evaluateJavaScript(#"getWidgetStatus()"#) { [decoder] returnValue, error in
       guard
         let jsonData = (returnValue as? String)?.data(using: .utf8),
-        error != nil
+        error == nil
       else {
         completion(.failure(WidgetError.javaScriptError(source: error)))
         return

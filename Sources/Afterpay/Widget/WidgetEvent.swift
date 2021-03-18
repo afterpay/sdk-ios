@@ -45,7 +45,7 @@ enum WidgetEvent: Decodable {
 
   case ready(isValid: Bool, amountDue: Money, checksum: String)
   case change(status: WidgetStatus)
-  case error(errorCode: String, message: String)
+  case error(errorCode: String?, message: String?)
 
   private enum CodingKeys: String, CodingKey {
     case type, isValid, amountDueToday, paymentScheduleChecksum, error
@@ -67,8 +67,8 @@ enum WidgetEvent: Decodable {
 
     switch type {
     case .error:
-      let error = try container.decode(WidgetError.self, forKey: .error)
-      self = .error(errorCode: error.errorCode, message: error.message)
+      let error = try? container.decodeIfPresent(WidgetError.self, forKey: .error)
+      self = .error(errorCode: error?.errorCode, message: error?.message)
 
     case .ready:
       let isValid = try container.decode(Bool.self, forKey: .isValid)
@@ -88,9 +88,9 @@ enum WidgetEvent: Decodable {
 
         status = .valid(amountDue: amountDue, checksum: checksum)
       } else {
-        let error = try container.decode(WidgetError.self, forKey: .error)
+        let error = try? container.decodeIfPresent(WidgetError.self, forKey: .error)
 
-        status = .invalid(errorCode: error.errorCode, message: error.message)
+        status = .invalid(errorCode: error?.errorCode, message: error?.message)
       }
 
       self = .change(status: status)
