@@ -12,9 +12,9 @@ public enum WidgetStatus: Decodable {
 
   /// The widget is valid.
   ///
-  /// In particular, this provides the total amount due, and the payment schedule checksum; both of which should be
+  /// In particular, this provides the amount due today, and the payment schedule checksum; both of which should be
   /// persisted on the merchant backend.
-  case valid(amountDue: Money, checksum: String)
+  case valid(amountDueToday: Money, checksum: String)
 
   /// The widget is invalid, and checkout should not proceed
   ///
@@ -33,7 +33,7 @@ public enum WidgetStatus: Decodable {
       let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
       let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
 
-      self = .valid(amountDue: amountDue, checksum: checksum)
+      self = .valid(amountDueToday: amountDue, checksum: checksum)
     } else {
       self = .invalid(errorCode: nil, message: nil)
     }
@@ -86,7 +86,7 @@ enum WidgetEvent: Decodable {
         let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
         let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
 
-        status = .valid(amountDue: amountDue, checksum: checksum)
+        status = .valid(amountDueToday: amountDue, checksum: checksum)
       } else {
         let error = try? container.decodeIfPresent(WidgetError.self, forKey: .error)
 
