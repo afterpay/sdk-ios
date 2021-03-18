@@ -140,7 +140,8 @@ final class PurchaseLogicController {
   func singleUseCardSuccess(with cardNumber: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
-    commandHandler(.showSuccessWithMessage("Here is your virtual card number: \(cardNumber)"))
+
+    // TODO: Create and use success single-use card handler
   }
 
   func singleUseCardFailed(with reason: SingleUseCardCheckoutResult.SingleUseCardFailureReason) {
