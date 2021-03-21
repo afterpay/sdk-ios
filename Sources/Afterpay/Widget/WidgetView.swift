@@ -69,6 +69,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
   public override func willMove(toSuperview newSuperview: UIView?) {
     if newSuperview == nil {
+      // Remove the handler when being dismissed, so it doesn't keep a strong reference and cause a leak
       webView.configuration.userContentController.removeScriptMessageHandler(forName: "iOS")
     }
   }
