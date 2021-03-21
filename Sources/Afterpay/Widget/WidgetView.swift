@@ -153,8 +153,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    let javaScript = #"createAfterpayWidget("\#(self.token)");"#
-    self.webView.evaluateJavaScript(javaScript)
+    let javaScript = #"createAfterpayWidget("\#(token)");"#
+    webView.evaluateJavaScript(javaScript)
   }
 
   // MARK: WKScriptMessageHandler
