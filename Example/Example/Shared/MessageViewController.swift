@@ -80,7 +80,6 @@ final class MessageViewController: UIViewController {
       widgetView.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 16),
       widgetView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
       widgetView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
-      widgetView.heightAnchor.constraint(equalToConstant: 300),
     ]
 
     NSLayoutConstraint.activate(constraints)

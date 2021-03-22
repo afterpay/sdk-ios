@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum WidgetStatus: Decodable {
+public enum WidgetStatus: Decodable, Equatable {
 
   /// The widget is valid.
   ///
@@ -41,18 +41,19 @@ public enum WidgetStatus: Decodable {
 
 }
 
-enum WidgetEvent: Decodable {
+enum WidgetEvent: Decodable, Equatable {
 
   case ready(isValid: Bool, amountDue: Money, checksum: String)
   case change(status: WidgetStatus)
   case error(errorCode: String?, message: String?)
+  case resize
 
   private enum CodingKeys: String, CodingKey {
     case type, isValid, amountDueToday, paymentScheduleChecksum, error
   }
 
   private enum EventType: String, Decodable {
-    case ready, change, error
+    case ready, change, error, resize
   }
 
   private struct WidgetError: Codable {
@@ -94,6 +95,8 @@ enum WidgetEvent: Decodable {
       }
 
       self = .change(status: status)
+    case .resize:
+      self = .resize
     }
   }
 

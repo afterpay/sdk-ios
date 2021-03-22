@@ -74,6 +74,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     }
   }
 
+  public override var intrinsicContentSize: CGSize {
+    webView.scrollView.contentSize
+  }
+
   private func setupConstraints() {
     webView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -169,6 +173,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
       let widgetEvent = try decoder.decode(WidgetEvent.self, from: jsonData ?? Data())
       getWidgetHandler()?.didReceiveEvent(widgetEvent)
 
+      if widgetEvent == .resize {
+        invalidateIntrinsicContentSize()
+      }
+
     } catch {
       getWidgetHandler()?.onFailure(error: error)
     }
@@ -196,6 +204,10 @@ private extension WidgetHandler {
 
     case let .ready(isValid, amountDue, checksum):
       onReady(isValid: isValid, amountDueToday: amountDue, paymentScheduleChecksum: checksum)
+
+    case .resize:
+      // Do not need to tell anyone about a resize event. It's handled internally.
+      break
     }
 
   }
