@@ -35,7 +35,7 @@ public struct ShippingOption: Codable {
 
 }
 
-public struct Money: Codable {
+public struct Money: Codable, Equatable {
 
   var amount: String
   var currency: String

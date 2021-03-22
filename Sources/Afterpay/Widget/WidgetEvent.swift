@@ -8,13 +8,13 @@
 
 import Foundation
 
-public enum WidgetStatus: Decodable {
+public enum WidgetStatus: Decodable, Equatable {
 
   /// The widget is valid.
   ///
-  /// In particular, this provides the total amount due, and the payment schedule checksum; both of which should be
+  /// In particular, this provides the amount due today, and the payment schedule checksum; both of which should be
   /// persisted on the merchant backend.
-  case valid(amountDue: Money, checksum: String)
+  case valid(amountDueToday: Money, checksum: String)
 
   /// The widget is invalid, and checkout should not proceed
   ///
@@ -33,7 +33,7 @@ public enum WidgetStatus: Decodable {
       let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
       let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
 
-      self = .valid(amountDue: amountDue, checksum: checksum)
+      self = .valid(amountDueToday: amountDue, checksum: checksum)
     } else {
       self = .invalid(errorCode: nil, message: nil)
     }
@@ -41,18 +41,19 @@ public enum WidgetStatus: Decodable {
 
 }
 
-enum WidgetEvent: Decodable {
+enum WidgetEvent: Decodable, Equatable {
 
   case ready(isValid: Bool, amountDue: Money, checksum: String)
   case change(status: WidgetStatus)
   case error(errorCode: String?, message: String?)
+  case resize
 
   private enum CodingKeys: String, CodingKey {
     case type, isValid, amountDueToday, paymentScheduleChecksum, error
   }
 
   private enum EventType: String, Decodable {
-    case ready, change, error
+    case ready, change, error, resize
   }
 
   private struct WidgetError: Codable {
@@ -86,7 +87,7 @@ enum WidgetEvent: Decodable {
         let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
         let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
 
-        status = .valid(amountDue: amountDue, checksum: checksum)
+        status = .valid(amountDueToday: amountDue, checksum: checksum)
       } else {
         let error = try? container.decodeIfPresent(WidgetError.self, forKey: .error)
 
@@ -94,6 +95,8 @@ enum WidgetEvent: Decodable {
       }
 
       self = .change(status: status)
+    case .resize:
+      self = .resize
     }
   }
 
