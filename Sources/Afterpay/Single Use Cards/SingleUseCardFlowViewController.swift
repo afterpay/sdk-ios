@@ -294,6 +294,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   private func confirmCancelCard() {
+    loadingView.startLoadingSpinner()
+    currentScreen = .loading
     callSingleUseCardCancelAPI()
   }
 
