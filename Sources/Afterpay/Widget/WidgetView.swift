@@ -13,7 +13,13 @@ import WebKit
 public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHandler {
 
   private var webView: WKWebView!
-  private let token: String
+
+  private enum Config {
+    case token(String)
+    case money(Money)
+  }
+
+  private let initialConfig: Config
 
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()
@@ -21,17 +27,53 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   enum WidgetError: Error {
     /// An error occurred while executing some JavaScript. The error is included as an associated value.
     case javaScriptError(source: Error? = nil)
+
+    /// No currency code was set in the Afterpay configuration. Set one with `Afterpay.setConfiguration` first.
+    case noCurrencyCode
   }
 
+  /// Initialize the `WidgetView` with a token.
+  ///
+  /// - Parameters:
+  ///   - token: The checkout token provided on completion of an Afterpay Checkout. The widget will use the token to
+  ///   look up information about the transaction. (eg. The token could come from a `CheckoutResult`'s `success` case)
   public init(token: String) {
+    self.initialConfig = .token(token)
+
+    super.init(frame: .zero)
+
+    setup()
+  }
+
+  /// Initialize the `WidgetView` with no token (token-less), providing the total order amount instead.
+  ///
+  /// Use this initializer if you want a `WidgetView`, but have not yet been through an Afterpay Checkout. For example,
+  /// to show a hypothetical price breakdown.
+  ///
+  /// - Parameters:
+  ///   - amount: The order total as a String. Must be in the same currency that was sent to
+  ///   `Afterpay.setConfiguration`.
+  ///
+  /// - Throws: An error of type `WidgetError.noCurrencyCode` when a currency code has not be configured for the SDK.
+  public init(amount: String) throws {
+    guard
+      let currencyCode = getConfiguration()?.currencyCode
+    else {
+      throw WidgetError.noCurrencyCode
+    }
+
+    self.initialConfig = .money(Money(amount: amount, currency: currencyCode))
+
+    super.init(frame: .zero)
+
+    setup()
+  }
+
+  private func setup() {
     precondition(
       AfterpayFeatures.widgetEnabled,
       "`WidgetView` is experimental. Enable by passing launch argument `-com.afterpay.widget-enabled YES`."
     )
-
-    self.token = token
-
-    super.init(frame: .zero)
 
     setupWebView()
     setupConstraints()
@@ -100,16 +142,20 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   ///
   /// - Parameter amount: The order total as a String. Must be in the same currency that was sent to
   /// `Afterpay.setConfiguration`.
-  public func sendUpdate(amount: String) {
+  ///
+  /// - Throws: An error of type `WidgetError.noCurrencyCode` when a currency code has not be configured for the SDK.
+  public func sendUpdate(amount: String) throws {
+    guard let currencyCode = getConfiguration()?.currencyCode else {
+      throw WidgetError.noCurrencyCode
+    }
     guard
-      let currencyCode = getConfiguration()?.currencyCode,
       let data = try? encoder.encode(Money(amount: amount, currency: currencyCode)),
       let json = String(data: data, encoding: .utf8)
     else {
       return
     }
 
-    webView.evaluateJavaScript(#"update(\#(json))"#)
+    webView.evaluateJavaScript(#"updateAmount(\#(json))"#)
   }
 
   /// Enquire about the status of the widget.
@@ -157,7 +203,16 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    let javaScript = #"createAfterpayWidget("\#(token)");"#
+    let javaScript: String
+
+    switch initialConfig {
+    case let .token(token):
+      javaScript = #"createAfterpayWidget("\#(token)", null);"#
+    case let .money(money):
+      let moneyObj = (try? encoder.encode(money)).flatMap { String.init(data: $0, encoding: .utf8) } ?? "null"
+      javaScript = #"createAfterpayWidget(null, \#(moneyObj));"#
+    }
+
     webView.evaluateJavaScript(javaScript)
   }
 

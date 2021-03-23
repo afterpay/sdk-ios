@@ -8,7 +8,7 @@
 		<script>
 			const app = window.webkit.messageHandlers.iOS;
 
-			function createAfterpayWidget(token) {
+			function createAfterpayWidget(token, amount) {
 				
 				new MutationObserver(() => { 
 						app.postMessage(JSON.stringify({ "type": "resize" }))
@@ -22,6 +22,7 @@
 					token: token,
 					target: "#afterpay-widget-container",
 					locale: "en-US",
+					amount: amount, 
 					onReady: function (event) {
 						sendToApp(event);
 					},
@@ -54,9 +55,9 @@
 				app.postMessage(JSON.stringify(completeData));
 			}
 
-			function update(data) {
+			function updateAmount(amount) {
 				window.afterpayWidget.update({
-					amount: data 
+					amount: amount 
 				});
 			}
 			
