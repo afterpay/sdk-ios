@@ -30,61 +30,52 @@ final class APIPlusNetworkService {
   ///   - mode: Environment mode that determines base URL value
   ///   - completion: The block executed after HTTP request has been completed.
   func request(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<Data, Error>) -> Void) {
-    var urlRequest: URLRequest
-
     do {
-      urlRequest = try makeUrlRequest(with: endpoint, mode: mode)
+      var urlRequest = try makeUrlRequest(with: endpoint, mode: mode)
+      if endpoint.method == .post {
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = try getRequestBody(for: endpoint)
+      }
+
+      session.dataTask(with: urlRequest) { data, response, error in
+        if let data = data, let response = response as? HTTPURLResponse, error == nil {
+          do {
+            switch response.statusCode {
+            case 200...299:
+              completion(.success(data))
+            default:
+              let response = try JSONDecoder().decode(APIPlusErrorDetails.self, from: data)
+              completion(.failure(APIPlusError.error(details: response)))
+            }
+          } catch {
+            completion(.failure(NetworkError.failedToDecode(data)))
+          }      } else if let error = error {
+          completion(.failure(error))
+        }
+      }.resume()
+
     } catch {
       completion(.failure(error))
-      return
     }
-
-    if endpoint.method == .post {
-      urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-      do {
-        urlRequest.httpBody = try getRequestBody(for: endpoint)
-      } catch {
-        completion(.failure(error))
-        return
-      }
-    }
-
-    session.dataTask(with: urlRequest) { data, response, error in
-      if let data = data, let response = response as? HTTPURLResponse, error == nil {
-        do {
-          switch response.statusCode {
-          case 200...299:
-            completion(.success(data))
-          default:
-            let response = try JSONDecoder().decode(APIPlusErrorDetails.self, from: data)
-            completion(.failure(APIPlusError.error(details: response)))
-          }
-        } catch {
-          completion(.failure(NetworkError.failedToDecode(data)))
-        }      } else if let error = error {
-        completion(.failure(error))
-      }
-    }.resume()
   }
 
-  /// HTTP request generic method that handles JSON response body. The generic decodable type needs to be specified to decode JSON response body.
+  /// HTTP request generic method that handles JSON response body.
+  /// The generic decodable type needs to be specified to decode JSON response body.
   /// - Parameters:
   ///   - endpoint: HTTP Request Endpoint
   ///   - mode: Environment mode that determines base URL value
   ///   - completion: The block executed after HTTP request has been completed.
   func request<T: Decodable>(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<T, Error>) -> Void) {
     request(endpoint: endpoint, mode: mode) { result in
-      switch result {
-        case .success(let data):
+      result.fold(
+        successTransform: { data in
           do {
             let response = try JSONDecoder().decode(T.self, from: data)
             completion(.success(response))
           } catch {
             completion(.failure(NetworkError.failedToDecode(data)))
           }
-      case .failure(let error):
-        completion(.failure(error))
-      }
+      }, errorTransform: { error in completion(.failure(error)) })
     }
   }
 
