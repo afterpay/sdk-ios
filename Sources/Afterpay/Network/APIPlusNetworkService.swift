@@ -82,6 +82,8 @@ final class APIPlusNetworkService {
       return try encode(payload)
     case .singleUseCards(let payload):
       return try encode(payload)
+    case .singleUseCardCancel(let payload):
+      return try encode(payload)
     }
   }
 }

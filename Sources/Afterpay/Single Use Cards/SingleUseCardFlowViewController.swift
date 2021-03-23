@@ -35,7 +35,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // Payload for consumer cards API request
-  private var singleUseCardRequest: SingleUseCardRequest
+  private var singleUseCardRequest: SingleUseCardCreateRequest
 
   private var virtualCard: VirtualCard?
 
@@ -51,7 +51,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let mode: Mode
 
   init(
-    with singleUseCardRequest: SingleUseCardRequest,
+    with singleUseCardRequest: SingleUseCardCreateRequest,
     completion: @escaping (_ result: SingleUseCardCheckoutResult) -> Void,
     mode: Mode,
     aggregatorName: String
@@ -313,7 +313,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     let payload = SingleUseCardConfirmRequest(
       consumerCardToken: self.singleUseCardToken,
       token: checkoutToken,
-      requestId: "",
       aggregator: self.singleUseCardRequest.aggregator
     )
 
@@ -346,11 +345,11 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
-  private func callSingleUseCardAPI(payload: SingleUseCardRequest) {
+  private func callSingleUseCardAPI(payload: SingleUseCardCreateRequest) {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(payload),
       mode: mode
-    ) { [unowned self] (result: Result<SingleUseCardResponse, Error>) in
+    ) { [unowned self] (result: Result<SingleUseCardCreateResponse, Error>) in
       switch result {
       case .success(let response):
         self.singleUseCardToken = response.consumerCardToken

@@ -183,7 +183,7 @@ final class PurchaseLogicController {
     }
   }
 
-  func createSingleUseCardRequest() -> SingleUseCardRequest {
+  func createSingleUseCardRequest() -> SingleUseCardCreateRequest {
     let currencyFormatter = CurrencyFormatter(currencyCode: currencyCode)
 
     let totalAmount = currencyFormatter.displayString(from: total, showCurrencyCode: false)
@@ -196,7 +196,7 @@ final class PurchaseLogicController {
       email: "vigad35147@hrandod.com"
     )
 
-    let singleUseCardRequest = SingleUseCardRequest(
+    let singleUseCardRequest = SingleUseCardCreateRequest(
       aggregator: "deadbeef",
       amount: Money(amount: totalAmount, currency: currencyCode),
       consumer: consumer,

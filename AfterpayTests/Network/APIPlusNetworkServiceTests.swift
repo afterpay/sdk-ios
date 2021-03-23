@@ -17,7 +17,7 @@ class APIPlusNetworkServiceTests: XCTestCase {
     let networkService = createNetworkService(with: mockRequest)
     let networkExpectation = expectation(description: "Network")
 
-    let expectedResponse = SingleUseCardResponse(
+    let expectedResponse = SingleUseCardCreateResponse(
       consumerCardToken: "CC13851e16b3e24fb783f63d90bbed805c",
       token: "002.cr7v4knfeh38209sd2iu0btqlc87nkfogregdntsom1ghlk2",
       expires: "2021-03-03T07:31:53.553Z",
@@ -26,7 +26,7 @@ class APIPlusNetworkServiceTests: XCTestCase {
     networkService.request(
       endpoint: mockRequest.endpoint,
       mode: .sandbox
-    ) { (result: Result<SingleUseCardResponse, Error>) in
+    ) { (result: Result<SingleUseCardCreateResponse, Error>) in
       switch result {
       case .success(let actualResponse):
         XCTAssertEqual(actualResponse, expectedResponse)
@@ -56,7 +56,7 @@ class APIPlusNetworkServiceTests: XCTestCase {
     networkService.request(
       endpoint: mockRequest.endpoint,
       mode: .sandbox
-    ) { (result: Result<SingleUseCardResponse, Error>) in
+    ) { (result: Result<SingleUseCardCreateResponse, Error>) in
       switch result {
       case .success:
         XCTFail("Request should not succeed")
@@ -84,7 +84,7 @@ class APIPlusNetworkServiceTests: XCTestCase {
     networkService.request(
       endpoint: mockRequest.endpoint,
       mode: .sandbox
-    ) { (result: Result<SingleUseCardResponse, Error>) in
+    ) { (result: Result<SingleUseCardCreateResponse, Error>) in
       switch result {
       case .success:
         XCTFail("Request should not succeed")

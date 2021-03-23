@@ -2,13 +2,15 @@
 //  SingleUseCard.swift
 //  Afterpay
 //
-//  Created by Nabila Herzegovina on 9/2/21.
+//  Created by Nabila Herzegovina on 11/2/21.
 //  Copyright © 2021 Afterpay. All rights reserved.
 //
 
 import Foundation
 
-public struct SingleUseCardRequest: Encodable {
+// MARK: - Request Body
+
+public struct SingleUseCardCreateRequest: Encodable {
   public let aggregator: String
   public var amount: Money
   public let consumer: Consumer
@@ -48,9 +50,40 @@ public struct SingleUseCardRequest: Encodable {
   }
 }
 
-public struct SingleUseCardResponse: Decodable, Equatable {
+protocol SingleUseCardRequest: Encodable {
+  var consumerCardToken: String { get }
+  var token: String { get }
+  var aggregator: String { get }
+}
+
+struct SingleUseCardConfirmRequest: SingleUseCardRequest {
+  var consumerCardToken: String
+  var token: String
+  var aggregator: String
+}
+
+struct SingleUseCardCancelRequest: SingleUseCardRequest {
+  var consumerCardToken: String
+  var token: String
+  var aggregator: String
+}
+
+// MARK: - Response Body
+
+public struct SingleUseCardCreateResponse: Decodable, Equatable {
   let consumerCardToken: String
   let token: String
   let expires: String
   public let redirectCheckoutUrl: URL
+}
+
+struct SingleUseCardConfirmResponse: Decodable {
+  let id: String
+  let token: String
+  let paymentDetails: PaymentDetails
+  let status: String
+  let created: String
+  let vccExpiry: String
+  let originalAmount: Money
+  let orderDetails: OrderDetails
 }
