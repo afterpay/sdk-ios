@@ -12,7 +12,6 @@ import WebKit
 final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
   enum Screen: Equatable {
-    case welcome
     case amount
     case singleUseCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
     case checkout(CheckoutWebViewController)
@@ -22,7 +21,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // View State
-  private var currentScreen: Screen = .welcome {
+  private var currentScreen: Screen = .amount {
     didSet {
       if #available(iOS 13.0, *) {
         isModalInPresentation = currentScreen == .loading
@@ -41,8 +40,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private let completion: (_ result: SingleUseCardCheckoutResult) -> Void
 
-  private let welcomeView: WelcomeView
-  private let enterAmountView: EnterAmountView
+  private var enterAmountViewController: EnterAmountViewController
   private let singleUseCardView: SingleUseCardView
   private let loadingView: LoadingView
   private let infoViewController: SingleUseCardInfoViewController
@@ -63,12 +61,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     self.singleUseCardToken = ""
     self.mode = mode
 
-    self.welcomeView = WelcomeView(
-      continueAction: #selector(requireAmountAction),
-      aggregatorName: aggregatorName
-    )
-    self.enterAmountView = EnterAmountView(
-      continueAction: #selector(triggerCheckoutFlowAction),
+    self.enterAmountViewController = EnterAmountViewController(
+      aggregatorName: aggregatorName,
       merchantName: merchantName
     )
     self.singleUseCardView = SingleUseCardView(
@@ -80,6 +74,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     self.infoViewController = SingleUseCardInfoViewController(merchantName: merchantName, aggregator: aggregatorName)
 
     super.init(nibName: nil, bundle: nil)
+
+    enterAmountViewController.configureEnterAmountAction(triggerCheckoutFlowAction)
   }
 
   required init?(coder: NSCoder) {
@@ -99,19 +95,20 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     setupSubViews()
     setupNavigationBar()
-    reloadView()
+
+    enterAmountViewController.setAmount(value: singleUseCardRequest.amount.amount)
+    navigationController?.setViewControllers([self, enterAmountViewController], animated: true)
   }
 
   private func reloadView() {
     var subview: UIView
 
     switch currentScreen {
-    case .welcome:
-      subview = welcomeView
     case .amount:
       loadingView.stopLoadingSpinner()
-      enterAmountView.amountField.becomeFirstResponder()
-      subview = enterAmountView
+      enterAmountViewController.setAmount(value: singleUseCardRequest.amount.amount)
+      navigationController?.show(enterAmountViewController, sender: self)
+      return
     case .singleUseCard(let amount, let virtualCard, let expiry):
       loadingView.stopLoadingSpinner()
       singleUseCardView.updateCardDetails(with: amount, virtualCard: virtualCard, expiry: expiry)
@@ -136,18 +133,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     view.bringSubviewToFront(subview)
     updateLayout(with: subview)
-    updateKeyboard()
-  }
-
-  // MARK: - Screen triggered updates
-
-  private func updateKeyboard() {
-    switch currentScreen {
-    case .amount:
-      enterAmountView.becomeFirstResponder()
-    default:
-      enterAmountView.endEditing(true)
-    }
   }
 
   private func updateNavigationBar() {
@@ -164,19 +149,13 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   private func setupSubViews() {
-    welcomeView.backgroundColor = view.backgroundColor
-    enterAmountView.backgroundColor = view.backgroundColor
     singleUseCardView.backgroundColor  = view.backgroundColor
     loadingView.backgroundColor = view.backgroundColor
 
-    welcomeView.translatesAutoresizingMaskIntoConstraints = false
-    enterAmountView.translatesAutoresizingMaskIntoConstraints = false
     singleUseCardView.translatesAutoresizingMaskIntoConstraints = false
 
     loadingView.frame = view.frame
 
-    view.addSubview(welcomeView)
-    view.addSubview(enterAmountView)
     view.addSubview(singleUseCardView)
     view.addSubview(loadingView)
   }
@@ -247,27 +226,23 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
-  // MARK: - Button Actions
-
-  @objc private func requireAmountAction() {
-    enterAmountView.amountField.text = singleUseCardRequest.amount.amount
-    currentScreen = .amount
-  }
-
-  @objc private func triggerCheckoutFlowAction() {
-    let amountValue = enterAmountView.amountField.text ?? "0.00"
+  private func triggerCheckoutFlowAction() {
+    let amountValue = enterAmountViewController.getAmountValue() ?? "0.00"
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
     currentScreen = .loading
 
     callSingleUseCardAPI(payload: singleUseCardRequest)
   }
 
+  // MARK: - Button Actions
   @objc private func showInfoPage() {
     currentScreen = .info
   }
 
   @objc private func showEditCancelPage() {
-    let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default)
+    let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default) { [weak self] _ in
+      self?.currentScreen = .amount
+    }
     let cancelAction = UIAlertAction(title: "Cancel Single-Use card", style: .destructive) { [weak self] _ in
       self?.currentScreen = .cancel
     }
