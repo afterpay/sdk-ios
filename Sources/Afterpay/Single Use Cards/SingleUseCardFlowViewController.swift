@@ -378,6 +378,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
+  // TODO: Handle when cancelling card fails
   private func callSingleUseCardCancelAPI() {
     let payload = SingleUseCardCancelRequest(
       consumerCardToken: self.singleUseCardToken,
@@ -385,20 +386,17 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       aggregator: self.singleUseCardRequest.aggregator
     )
 
-    APIPlusNetworkService.shared.requestV2(
+    APIPlusNetworkService.shared.request(
       endpoint: .singleUseCardCancel(payload),
       mode: mode) { [unowned self] result in
-      switch result {
-      case .success:
+
+      result.fold(successTransform: { _ in
         DispatchQueue.main.async {
-          dismiss(animated: true) {
+          self.dismiss(animated: true) {
             completion(.failed(reason: .cardCancelled))
           }
         }
-      case .failure:
-        // TODO: Handle when cancelling card fails
-        return
-      }
+      }, errorTransform: { _ in return })
     }
   }
 

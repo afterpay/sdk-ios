@@ -24,26 +24,28 @@ final class APIPlusNetworkService {
     self.session = session
   }
 
-  func requestV2(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<Data, Error>) -> Void) {
+  /// HTTP request method without handling JSON response body
+  /// - Parameters:
+  ///   - endpoint: HTTP Request Endpoint
+  ///   - mode: Environment mode that determines base URL value
+  ///   - completion: The block executed after HTTP request has been completed.
+  func request(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<Data, Error>) -> Void) {
+    var urlRequest: URLRequest
 
-    var urlComponent = URLComponents(string: endpoint.baseURL())
-    urlComponent?.path = endpoint.path
-
-    guard let url = urlComponent?.url else {
-      completion(.failure(NetworkError.invalidUrl))
+    do {
+      urlRequest = try makeUrlRequest(with: endpoint, mode: mode)
+    } catch {
+      completion(.failure(error))
       return
     }
 
-    var urlRequest = URLRequest(url: url)
-    urlRequest.httpMethod = endpoint.method.rawValue
-
     if endpoint.method == .post {
       urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
       do {
         urlRequest.httpBody = try getRequestBody(for: endpoint)
       } catch {
         completion(.failure(error))
+        return
       }
     }
 
@@ -65,52 +67,44 @@ final class APIPlusNetworkService {
     }.resume()
   }
 
+  /// HTTP request generic method that handles JSON response body. The generic decodable type needs to be specified to decode JSON response body.
+  /// - Parameters:
+  ///   - endpoint: HTTP Request Endpoint
+  ///   - mode: Environment mode that determines base URL value
+  ///   - completion: The block executed after HTTP request has been completed.
   func request<T: Decodable>(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<T, Error>) -> Void) {
+    request(endpoint: endpoint, mode: mode) { result in
+      switch result {
+        case .success(let data):
+          do {
+            let response = try JSONDecoder().decode(T.self, from: data)
+            completion(.success(response))
+          } catch {
+            completion(.failure(NetworkError.failedToDecode(data)))
+          }
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
 
-    var urlComponent = URLComponents(string: endpoint.baseURL())
+  private func makeUrlRequest(with endpoint: Endpoint, mode: Mode) throws -> URLRequest {
+    var urlComponent = URLComponents(string: endpoint.baseURL(mode: mode))
     urlComponent?.path = endpoint.path
 
     guard let url = urlComponent?.url else {
-      completion(.failure(NetworkError.invalidUrl))
-      return
+      throw NetworkError.invalidUrl
     }
 
     var urlRequest = URLRequest(url: url)
     urlRequest.httpMethod = endpoint.method.rawValue
 
-    if endpoint.method == .post {
-      urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-      do {
-        urlRequest.httpBody = try getRequestBody(for: endpoint)
-      } catch {
-        completion(.failure(error))
-      }
-    }
-
-    session.dataTask(with: urlRequest) { data, response, error in
-      if let data = data, let response = response as? HTTPURLResponse, error == nil {
-        do {
-          switch response.statusCode {
-          case 200...299:
-            let response = try JSONDecoder().decode(T.self, from: data)
-            completion(.success(response))
-          default:
-            let response = try JSONDecoder().decode(APIPlusErrorDetails.self, from: data)
-            completion(.failure(APIPlusError.error(details: response)))
-          }
-        } catch {
-          completion(.failure(NetworkError.failedToDecode(data)))
-        }
-      } else if let error = error {
-        completion(.failure(error))
-      }
-    }.resume()
+    return urlRequest
   }
 
-  // Encode
+  // MARK: - Encode
 
-  func encode<T>(_ payload: T) throws -> Data where T: Encodable {
+  private func encode<T>(_ payload: T) throws -> Data where T: Encodable {
     do {
       return try JSONEncoder().encode(payload)
     } catch {
@@ -118,7 +112,7 @@ final class APIPlusNetworkService {
     }
   }
 
-  func getRequestBody(for endpoint: Endpoint) throws -> Data {
+  private func getRequestBody(for endpoint: Endpoint) throws -> Data {
     switch endpoint {
     case .singleUseCardConfirm(let payload):
       return try encode(payload)
