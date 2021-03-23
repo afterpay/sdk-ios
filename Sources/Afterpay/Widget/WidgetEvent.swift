@@ -14,7 +14,9 @@ public enum WidgetStatus: Decodable, Equatable {
   ///
   /// In particular, this provides the amount due today, and the payment schedule checksum; both of which should be
   /// persisted on the merchant backend.
-  case valid(amountDueToday: Money, checksum: String)
+  ///
+  /// The checksum is optional. It is only provided if once you've sent the Widget a checkout token.
+  case valid(amountDueToday: Money, checksum: String?)
 
   /// The widget is invalid, and checkout should not proceed
   ///
@@ -31,7 +33,7 @@ public enum WidgetStatus: Decodable, Equatable {
 
     if try container.decode(Bool.self, forKey: .isValid) == true {
       let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
-      let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
+      let checksum = try? container.decodeIfPresent(String.self, forKey: .paymentScheduleChecksum)
 
       self = .valid(amountDueToday: amountDue, checksum: checksum)
     } else {
@@ -43,7 +45,7 @@ public enum WidgetStatus: Decodable, Equatable {
 
 enum WidgetEvent: Decodable, Equatable {
 
-  case ready(isValid: Bool, amountDue: Money, checksum: String)
+  case ready(isValid: Bool, amountDue: Money, checksum: String?)
   case change(status: WidgetStatus)
   case error(errorCode: String?, message: String?)
   case resize
@@ -74,7 +76,7 @@ enum WidgetEvent: Decodable, Equatable {
     case .ready:
       let isValid = try container.decode(Bool.self, forKey: .isValid)
       let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
-      let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
+      let checksum = try? container.decodeIfPresent(String.self, forKey: .paymentScheduleChecksum)
 
       self = .ready(isValid: isValid, amountDue: amountDue, checksum: checksum)
 
@@ -85,7 +87,7 @@ enum WidgetEvent: Decodable, Equatable {
 
       if valid {
         let amountDue = try container.decode(Money.self, forKey: .amountDueToday)
-        let checksum = try container.decode(String.self, forKey: .paymentScheduleChecksum)
+        let checksum = try? container.decodeIfPresent(String.self, forKey: .paymentScheduleChecksum)
 
         status = .valid(amountDueToday: amountDue, checksum: checksum)
       } else {

@@ -214,7 +214,12 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 public protocol WidgetHandler: AnyObject {
 
   /// Fires when the widget is ready to accept updates.
-  func onReady(isValid: Bool, amountDueToday: Money, paymentScheduleChecksum: String)
+  ///
+  /// In particular, this will tell you that the widget is valid, the amount of money due today and the payment
+  /// schedule checksum. The checksum will be `nil` if you are using the widget in token-less mode.
+  ///
+  /// See: `WidgetView.init(token:)` and `WidgetView.init(money:)`
+  func onReady(isValid: Bool, amountDueToday: Money, paymentScheduleChecksum: String?)
 
   /// Fires after each update and on any other state changes.
   ///
