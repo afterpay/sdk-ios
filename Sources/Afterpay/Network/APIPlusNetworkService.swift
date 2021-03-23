@@ -49,11 +49,11 @@ final class APIPlusNetworkService {
             }
           } catch {
             completion(.failure(NetworkError.failedToDecode(data)))
-          }      } else if let error = error {
+          }
+        } else if let error = error {
           completion(.failure(error))
         }
       }.resume()
-
     } catch {
       completion(.failure(error))
     }
