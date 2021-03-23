@@ -36,7 +36,7 @@ extension Endpoint {
     case .singleUseCardConfirm:
       return "/v2/consumer_cards/confirm"
     case .singleUseCardCancel:
-      return "v2/consumer_cards/cancel"
+      return "/v2/consumer_cards/cancel"
     }
   }
 

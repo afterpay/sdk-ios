@@ -24,6 +24,47 @@ final class APIPlusNetworkService {
     self.session = session
   }
 
+  func requestV2(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<Data, Error>) -> Void) {
+
+    var urlComponent = URLComponents(string: endpoint.baseURL())
+    urlComponent?.path = endpoint.path
+
+    guard let url = urlComponent?.url else {
+      completion(.failure(NetworkError.invalidUrl))
+      return
+    }
+
+    var urlRequest = URLRequest(url: url)
+    urlRequest.httpMethod = endpoint.method.rawValue
+
+    if endpoint.method == .post {
+      urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+      do {
+        urlRequest.httpBody = try getRequestBody(for: endpoint)
+      } catch {
+        completion(.failure(error))
+      }
+    }
+
+    session.dataTask(with: urlRequest) { data, response, error in
+      if let data = data, let response = response as? HTTPURLResponse, error == nil {
+        do {
+          switch response.statusCode {
+          case 200...299:
+            completion(.success(data))
+          default:
+            let response = try JSONDecoder().decode(APIPlusErrorDetails.self, from: data)
+            completion(.failure(APIPlusError.error(details: response)))
+          }
+        } catch {
+          completion(.failure(NetworkError.failedToDecode(data)))
+        }      } else if let error = error {
+        completion(.failure(error))
+      }
+    }.resume()
+  }
+
   func request<T: Decodable>(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<T, Error>) -> Void) {
 
     var urlComponent = URLComponents(string: endpoint.baseURL())

@@ -47,6 +47,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let loadingView: LoadingView
   private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
+  private var checkoutToken: String
   private var singleUseCardToken: String
   private let mode: Mode
 
@@ -60,6 +61,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     self.singleUseCardRequest = singleUseCardRequest
     self.completion = completion
+    self.checkoutToken = ""
     self.singleUseCardToken = ""
     self.mode = mode
 
@@ -213,7 +215,12 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       infoIcon.layer.render(in: rendererContext.cgContext)
     }
 
-    self.infoBarButtonItem = UIBarButtonItem(image: infoIconImage, style: .plain, target: self, action: #selector(showInfoPage))
+    self.infoBarButtonItem = UIBarButtonItem(
+      image: infoIconImage,
+      style: .plain,
+      target: self,
+      action: #selector(showInfoPage)
+    )
 
     updateNavigationBar()
   }
@@ -259,7 +266,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
     currentScreen = .loading
 
-    callSingleUseCardAPI(payload: singleUseCardRequest)
+    callSingleUseCardCreateAPI(payload: singleUseCardRequest)
   }
 
   @objc private func showInfoPage() {
@@ -287,9 +294,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   private func confirmCancelCard() {
-    dismiss(animated: true) { [weak self] in
-      self?.completion(.failed(reason: .cardCancelled))
-    }
+    callSingleUseCardCancelAPI()
   }
 
   // MARK: - Callbacks
@@ -297,19 +302,20 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
-      self.callSingleUseCardConfirmAPI(checkoutToken: token)
-      self.navigationController?.popToRootViewController(animated: true)
+      checkoutToken = token
+      callSingleUseCardConfirmAPI()
+      navigationController?.popToRootViewController(animated: true)
 
     case .cancelled(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
-      self.navigationController?.popToRootViewController(animated: true)
+      navigationController?.popToRootViewController(animated: true)
       currentScreen = .amount
     }
   }
 
   // MARK: - API Calls
 
-  private func callSingleUseCardConfirmAPI(checkoutToken: String) {
+  private func callSingleUseCardConfirmAPI() {
     let payload = SingleUseCardConfirmRequest(
       consumerCardToken: self.singleUseCardToken,
       token: checkoutToken,
@@ -345,7 +351,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
-  private func callSingleUseCardAPI(payload: SingleUseCardCreateRequest) {
+  private func callSingleUseCardCreateAPI(payload: SingleUseCardCreateRequest) {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(payload),
       mode: mode
@@ -368,6 +374,30 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
             handleAPICallError(error: error)
           }
         }
+      }
+    }
+  }
+
+  private func callSingleUseCardCancelAPI() {
+    let payload = SingleUseCardCancelRequest(
+      consumerCardToken: self.singleUseCardToken,
+      token: checkoutToken,
+      aggregator: self.singleUseCardRequest.aggregator
+    )
+
+    APIPlusNetworkService.shared.requestV2(
+      endpoint: .singleUseCardCancel(payload),
+      mode: mode) { [unowned self] result in
+      switch result {
+      case .success:
+        DispatchQueue.main.async {
+          dismiss(animated: true) {
+            completion(.failed(reason: .cardCancelled))
+          }
+        }
+      case .failure:
+        // TODO: Handle when cancelling card fails
+        return
       }
     }
   }
