@@ -47,18 +47,19 @@ final class APIPlusNetworkService {
       }
     }
 
-    session.dataTask(with: urlRequest) { data, _, error in
-      if let data = data, error == nil {
+    session.dataTask(with: urlRequest) { data, response, error in
+      if let data = data, let response = response as? HTTPURLResponse, error == nil {
         do {
-          let response = try JSONDecoder().decode(T.self, from: data)
-          completion(.success(response))
-        } catch {
-          do {
+          switch response.statusCode {
+          case 200...299:
+            let response = try JSONDecoder().decode(T.self, from: data)
+            completion(.success(response))
+          default:
             let response = try JSONDecoder().decode(APIPlusErrorDetails.self, from: data)
             completion(.failure(APIPlusError.error(details: response)))
-          } catch {
-            completion(.failure(NetworkError.failedToDecode(data)))
           }
+        } catch {
+          completion(.failure(NetworkError.failedToDecode(data)))
         }
       } else if let error = error {
         completion(.failure(error))
