@@ -12,10 +12,12 @@ import Foundation
 struct APIPlusRequestMock {
   var endpoint: Endpoint
   var response: Data
+  var statusCode: Int
 
   init(with scenario: APIPlusNetworkServiceTestScenario) {
     self.endpoint = .singleUseCards(.mock())
-    self.response = SingleUseCardCreateResponse.mock(scenario: scenario)
+    self.response = SingleUseCardCreateResponse.mockData(scenario: scenario)
+    self.statusCode = SingleUseCardCreateResponse.statusCode(scenario: scenario)
   }
 
   func getURL() -> URL? {

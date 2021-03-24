@@ -11,6 +11,8 @@ import XCTest
 
 class APIPlusNetworkServiceTests: XCTestCase {
 
+  private let maximumTime: TimeInterval = 5
+
   func testSuccessWithResponse() {
     let testScenario = APIPlusNetworkServiceTestScenario.success
     let mockRequest = APIPlusRequestMock(with: testScenario)
@@ -37,7 +39,7 @@ class APIPlusNetworkServiceTests: XCTestCase {
       networkExpectation.fulfill()
     }
 
-    waitForExpectations(timeout: 5, handler: nil)
+    waitForExpectations(timeout: maximumTime, handler: nil)
   }
 
   func testFailureWithAPIError() {
@@ -72,7 +74,7 @@ class APIPlusNetworkServiceTests: XCTestCase {
       networkExpectation.fulfill()
     }
 
-    waitForExpectations(timeout: 5, handler: nil)
+    waitForExpectations(timeout: maximumTime, handler: nil)
   }
 
   func testFailureWithDecodeError() {
@@ -100,11 +102,11 @@ class APIPlusNetworkServiceTests: XCTestCase {
       networkExpectation.fulfill()
     }
 
-    waitForExpectations(timeout: 5, handler: nil)
+    waitForExpectations(timeout: maximumTime, handler: nil)
   }
 
   private func createNetworkService(with mockRequest: APIPlusRequestMock) -> APIPlusNetworkService {
-    URLProtocolMock.testURLs = [mockRequest.getURL(): mockRequest.response]
+    URLProtocolMock.mockRequest = mockRequest
 
     let config = URLSessionConfiguration.ephemeral
     config.protocolClasses = [URLProtocolMock.self]

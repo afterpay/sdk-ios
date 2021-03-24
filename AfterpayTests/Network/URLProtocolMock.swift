@@ -9,7 +9,7 @@
 import Foundation
 
 final class URLProtocolMock: URLProtocol {
-  static var testURLs = [URL?: Data]()
+  static var mockRequest: APIPlusRequestMock?
 
   override class func canInit(with request: URLRequest) -> Bool {
     return true
@@ -20,10 +20,12 @@ final class URLProtocolMock: URLProtocol {
   }
 
   override func startLoading() {
-    if let url = request.url, let data = URLProtocolMock.testURLs[url] {
-      client?.urlProtocol(self, didLoad: data)
+    if let url = request.url,
+       let mockRequest = URLProtocolMock.mockRequest,
+       let httpUrlResponse = HTTPURLResponse(url: url, statusCode: mockRequest.statusCode, httpVersion: nil, headerFields: nil) {
+      client?.urlProtocol(self, didReceive: httpUrlResponse, cacheStoragePolicy: .notAllowed)
+      client?.urlProtocol(self, didLoad: mockRequest.response)
     }
-
     client?.urlProtocolDidFinishLoading(self)
   }
 
