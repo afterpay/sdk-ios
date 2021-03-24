@@ -17,6 +17,7 @@ final class PurchaseLogicController {
     case showAfterpayCheckout(CheckoutV2Options)
     case showAfterpaySingleUseCardFlow
     case provideCheckoutTokenResult(TokenResult)
+    case provideSingleUseCardResult(String)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
@@ -140,6 +141,7 @@ final class PurchaseLogicController {
   func singleUseCardSuccess(with cardNumber: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
+    commandHandler(.provideSingleUseCardResult(cardNumber))
 
     // TODO: Create and use success single-use card handler
   }
@@ -156,7 +158,7 @@ final class PurchaseLogicController {
     case .apiError(let errorDetails):
       commandHandler(.showAlertForErrorMessage(errorDetails.message))
     case .cardCancelled:
-      commandHandler(.showAlertForErrorMessage("Card has been cancelled"))
+      return
     }
   }
 

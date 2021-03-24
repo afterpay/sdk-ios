@@ -106,6 +106,16 @@ final class PurchaseFlowController: UIViewController {
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
 
+    case .provideSingleUseCardResult(let cardNumber):
+      let alertView = UIAlertController(
+        title: "Success",
+        message: "Your purchase was paid with card:\n\(cardNumber)",
+        preferredStyle: .alert
+      )
+      let okAction = UIAlertAction(title: "OK", style: .cancel)
+      alertView.addAction(okAction)
+      navigationController.present(alertView, animated: true)
+
     case .provideShippingOptionsResult(let shippingOptionsResult):
       checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)
 

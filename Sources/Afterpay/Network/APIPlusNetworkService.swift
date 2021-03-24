@@ -31,11 +31,7 @@ final class APIPlusNetworkService {
   ///   - completion: The block executed after HTTP request has been completed.
   func request(endpoint: Endpoint, mode: Mode, completion: @escaping (Result<Data, Error>) -> Void) {
     do {
-      var urlRequest = try makeUrlRequest(with: endpoint, mode: mode)
-      if endpoint.method == .post {
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = try getRequestBody(for: endpoint)
-      }
+      let urlRequest = try makeUrlRequest(with: endpoint, mode: mode)
 
       session.dataTask(with: urlRequest) { data, response, error in
         if let data = data, let response = response as? HTTPURLResponse, error == nil {
@@ -89,6 +85,11 @@ final class APIPlusNetworkService {
 
     var urlRequest = URLRequest(url: url)
     urlRequest.httpMethod = endpoint.method.rawValue
+
+    if endpoint.method == .post {
+      urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      urlRequest.httpBody = try getRequestBody(for: endpoint)
+    }
 
     return urlRequest
   }
