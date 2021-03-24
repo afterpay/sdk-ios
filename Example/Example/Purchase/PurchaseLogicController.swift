@@ -142,8 +142,6 @@ final class PurchaseLogicController {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
     commandHandler(.provideSingleUseCardResult(cardNumber))
-
-    // TODO: Create and use success single-use card handler
   }
 
   func singleUseCardFailed(with reason: SingleUseCardCheckoutResult.SingleUseCardFailureReason) {
