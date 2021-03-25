@@ -20,9 +20,15 @@ final class URLProtocolMock: URLProtocol {
   }
 
   override func startLoading() {
-    if let url = request.url,
-       let mockRequest = URLProtocolMock.mockRequest,
-       let httpUrlResponse = HTTPURLResponse(url: url, statusCode: mockRequest.statusCode, httpVersion: nil, headerFields: nil) {
+    if
+      let url = request.url,
+      let mockRequest = URLProtocolMock.mockRequest,
+      let httpUrlResponse = HTTPURLResponse(
+        url: url,
+        statusCode: mockRequest.statusCode,
+        httpVersion: nil,
+        headerFields: nil
+      ) {
       client?.urlProtocol(self, didReceive: httpUrlResponse, cacheStoragePolicy: .notAllowed)
       client?.urlProtocol(self, didLoad: mockRequest.response)
     }
