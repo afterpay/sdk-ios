@@ -70,7 +70,7 @@
 		DBBB8D074F1DE5A57C429316 /* SingleUseCardCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBB85C0A5E2C784A538CD60 /* SingleUseCardCheckoutResult.swift */; };
 		DD0BCABA25DCD7370019BBD6 /* SingleUseCardDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0BCAB925DCD7370019BBD6 /* SingleUseCardDisplayView.swift */; };
 		DD0C331A25D4E88C00B7496D /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C331925D4E88C00B7496D /* Endpoint.swift */; };
-		DD0C331E25D4EAD500B7496D /* SingleUseCardConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C331D25D4EAD500B7496D /* SingleUseCardConfirm.swift */; };
+		DD0C331E25D4EAD500B7496D /* SingleUseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C331D25D4EAD500B7496D /* SingleUseCard.swift */; };
 		DD18F41E25D5E1CD00E345C9 /* SingleUseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18F41D25D5E1CD00E345C9 /* SingleUseCardView.swift */; };
 		DD18F42D25D61A1400E345C9 /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 6640C15124D8E1A700F7F4CC /* Macaw */; };
 		DD18F43725D6510200E345C9 /* PaymentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18F43625D6510200E345C9 /* PaymentDetails.swift */; };
@@ -78,7 +78,6 @@
 		DD18F43F25D6515200E345C9 /* OrderDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18F43E25D6515200E345C9 /* OrderDetails.swift */; };
 		DD6A967425DB287C00482F66 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6A967325DB287C00482F66 /* TitleLabel.swift */; };
 		DD6A967825DB80ED00482F66 /* SubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6A967725DB80ED00482F66 /* SubtitleLabel.swift */; };
-		DD70770A25D2171C00401BDB /* SingleUseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70770925D2171C00401BDB /* SingleUseCard.swift */; };
 		DD70771725D223F400401BDB /* SingleUseCardFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70771625D223F400401BDB /* SingleUseCardFlowViewController.swift */; };
 		DD70771D25D2361900401BDB /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70771C25D2361900401BDB /* WelcomeView.swift */; };
 		DD70772125D2396F00401BDB /* EnterAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70772025D2396F00401BDB /* EnterAmountView.swift */; };
@@ -183,14 +182,13 @@
 		DBBB85C0A5E2C784A538CD60 /* SingleUseCardCheckoutResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleUseCardCheckoutResult.swift; sourceTree = "<group>"; };
 		DD0BCAB925DCD7370019BBD6 /* SingleUseCardDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardDisplayView.swift; sourceTree = "<group>"; };
 		DD0C331925D4E88C00B7496D /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
-		DD0C331D25D4EAD500B7496D /* SingleUseCardConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardConfirm.swift; sourceTree = "<group>"; };
+		DD0C331D25D4EAD500B7496D /* SingleUseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCard.swift; sourceTree = "<group>"; };
 		DD18F41D25D5E1CD00E345C9 /* SingleUseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardView.swift; sourceTree = "<group>"; };
 		DD18F43625D6510200E345C9 /* PaymentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetails.swift; sourceTree = "<group>"; };
 		DD18F43A25D6512500E345C9 /* Courrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Courrier.swift; sourceTree = "<group>"; };
 		DD18F43E25D6515200E345C9 /* OrderDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetails.swift; sourceTree = "<group>"; };
 		DD6A967325DB287C00482F66 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		DD6A967725DB80ED00482F66 /* SubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleLabel.swift; sourceTree = "<group>"; };
-		DD70770925D2171C00401BDB /* SingleUseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCard.swift; sourceTree = "<group>"; };
 		DD70771625D223F400401BDB /* SingleUseCardFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardFlowViewController.swift; sourceTree = "<group>"; };
 		DD70771C25D2361900401BDB /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		DD70772025D2396F00401BDB /* EnterAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountView.swift; sourceTree = "<group>"; };
@@ -498,8 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				DDBD9C0125D33C3D00008642 /* Consumer.swift */,
-				DD70770925D2171C00401BDB /* SingleUseCard.swift */,
-				DD0C331D25D4EAD500B7496D /* SingleUseCardConfirm.swift */,
+				DD0C331D25D4EAD500B7496D /* SingleUseCard.swift */,
 				DDBD9C0725D33C5D00008642 /* Contact.swift */,
 				DD18F43A25D6512500E345C9 /* Courrier.swift */,
 				DDBD9C0B25D33C7000008642 /* Item.swift */,
@@ -709,7 +706,7 @@
 				7664ED0725E5E01900D8A1EB /* DividerView.swift in Sources */,
 				66483F3B24D7A164000BE6B5 /* PriceBreakdownView.swift in Sources */,
 				DD18F43F25D6515200E345C9 /* OrderDetails.swift in Sources */,
-				DD0C331E25D4EAD500B7496D /* SingleUseCardConfirm.swift in Sources */,
+				DD0C331E25D4EAD500B7496D /* SingleUseCard.swift in Sources */,
 				6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */,
 				66B5458C256B65B7002B3DD5 /* CheckoutHost.swift in Sources */,
 				DD18F43B25D6512500E345C9 /* Courrier.swift in Sources */,
@@ -755,7 +752,6 @@
 				DD70771D25D2361900401BDB /* WelcomeView.swift in Sources */,
 				DDBD9C1025D33CB000008642 /* Merchant.swift in Sources */,
 				7664ECFD25E4BA4800D8A1EB /* Icons.swift in Sources */,
-				DD70770A25D2171C00401BDB /* SingleUseCard.swift in Sources */,
 				946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */,
 				DD8E78DE25DA432A00DCB50D /* Colors.swift in Sources */,
 				DD0BCABA25DCD7370019BBD6 /* SingleUseCardDisplayView.swift in Sources */,

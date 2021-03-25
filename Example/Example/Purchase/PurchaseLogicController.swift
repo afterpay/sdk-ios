@@ -17,6 +17,7 @@ final class PurchaseLogicController {
     case showAfterpayCheckout(CheckoutV2Options)
     case showAfterpaySingleUseCardFlow
     case provideCheckoutTokenResult(TokenResult)
+    case provideSingleUseCardResult(String)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
@@ -140,8 +141,7 @@ final class PurchaseLogicController {
   func singleUseCardSuccess(with cardNumber: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
-
-    // TODO: Create and use success single-use card handler
+    commandHandler(.provideSingleUseCardResult(cardNumber))
   }
 
   func singleUseCardFailed(with reason: SingleUseCardCheckoutResult.SingleUseCardFailureReason) {
@@ -156,7 +156,7 @@ final class PurchaseLogicController {
     case .apiError(let errorDetails):
       commandHandler(.showAlertForErrorMessage(errorDetails.message))
     case .cardCancelled:
-      commandHandler(.showAlertForErrorMessage("Card has been cancelled"))
+      return
     }
   }
 
@@ -183,7 +183,7 @@ final class PurchaseLogicController {
     }
   }
 
-  func createSingleUseCardRequest() -> SingleUseCardRequest {
+  func createSingleUseCardRequest() -> SingleUseCardCreateRequest {
     let currencyFormatter = CurrencyFormatter(currencyCode: currencyCode)
 
     let totalAmount = currencyFormatter.displayString(from: total, showCurrencyCode: false)
@@ -196,7 +196,7 @@ final class PurchaseLogicController {
       email: "vigad35147@hrandod.com"
     )
 
-    let singleUseCardRequest = SingleUseCardRequest(
+    let singleUseCardRequest = SingleUseCardCreateRequest(
       aggregator: "deadbeef",
       amount: Money(amount: totalAmount, currency: currencyCode),
       consumer: consumer,

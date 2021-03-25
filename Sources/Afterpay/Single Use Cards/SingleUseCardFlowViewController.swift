@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 
+// swiftlint:disable file_length type_body_length
 final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
   enum Screen: Equatable {
@@ -34,7 +35,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // Payload for consumer cards API request
-  private var singleUseCardRequest: SingleUseCardRequest
+  private var singleUseCardRequest: SingleUseCardCreateRequest
 
   private var virtualCard: VirtualCard?
 
@@ -45,11 +46,12 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let loadingView: LoadingView
   private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
+  private var checkoutToken: String
   private var singleUseCardToken: String
   private let mode: Mode
 
   init(
-    with singleUseCardRequest: SingleUseCardRequest,
+    with singleUseCardRequest: SingleUseCardCreateRequest,
     completion: @escaping (_ result: SingleUseCardCheckoutResult) -> Void,
     mode: Mode,
     aggregatorName: String
@@ -58,6 +60,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     self.singleUseCardRequest = singleUseCardRequest
     self.completion = completion
+    self.checkoutToken = ""
     self.singleUseCardToken = ""
     self.mode = mode
 
@@ -192,7 +195,12 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       infoIcon.layer.render(in: rendererContext.cgContext)
     }
 
-    self.infoBarButtonItem = UIBarButtonItem(image: infoIconImage, style: .plain, target: self, action: #selector(showInfoPage))
+    self.infoBarButtonItem = UIBarButtonItem(
+      image: infoIconImage,
+      style: .plain,
+      target: self,
+      action: #selector(showInfoPage)
+    )
 
     updateNavigationBar()
   }
@@ -231,7 +239,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
     currentScreen = .loading
 
-    callSingleUseCardAPI(payload: singleUseCardRequest)
+    callSingleUseCardCreateAPI(payload: singleUseCardRequest)
   }
 
   // MARK: - Button Actions
@@ -262,9 +270,9 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   private func confirmCancelCard() {
-    dismiss(animated: true) { [weak self] in
-      self?.completion(.failed(reason: .cardCancelled))
-    }
+    loadingView.startLoadingSpinner()
+    currentScreen = .loading
+    callSingleUseCardCancelAPI()
   }
 
   // MARK: - Callbacks
@@ -272,79 +280,116 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
-      self.callSingleUseCardConfirmAPI(checkoutToken: token)
-      self.navigationController?.popToRootViewController(animated: true)
+      checkoutToken = token
+      currentScreen = .loading
+      loadingView.startLoadingSpinner()
+      callSingleUseCardConfirmAPI()
+      navigationController?.popToRootViewController(animated: true)
 
     case .cancelled(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
-      self.navigationController?.popToRootViewController(animated: true)
+      navigationController?.popToRootViewController(animated: true)
       currentScreen = .amount
     }
   }
 
   // MARK: - API Calls
 
-  private func callSingleUseCardConfirmAPI(checkoutToken: String) {
+  private func callSingleUseCardConfirmAPI() {
     let payload = SingleUseCardConfirmRequest(
-      consumerCardToken: self.singleUseCardToken,
+      consumerCardToken: singleUseCardToken,
       token: checkoutToken,
-      requestId: "",
-      aggregator: self.singleUseCardRequest.aggregator
+      aggregator: singleUseCardRequest.aggregator
     )
-
-    currentScreen = .loading
-    loadingView.startLoadingSpinner()
 
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCardConfirm(payload),
       mode: mode
-    ) { [unowned self] (result: Result<SingleUseCardConfirmResponse, Error>) in
-      switch result {
-      case .success(let response):
-        let virtualCard = response.paymentDetails.virtualCard
-        self.virtualCard = virtualCard
-
-        DispatchQueue.main.async {
-          self.currentScreen = .singleUseCard(
-            amount: singleUseCardRequest.amount,
-            virtualCard: virtualCard,
-            vccExpiry: response.vccExpiry
-          )
-        }
-      case .failure(let error):
-        DispatchQueue.main.async {
-          dismiss(animated: true) {
-            handleAPICallError(error: error)
-          }
-        }
+    ) { [weak self] (result: Result<SingleUseCardConfirmResponse, Error>) in
+      DispatchQueue.main.async {
+        result.fold(
+          successTransform: { response in self?.handleConfirmCardSucces(response) },
+          errorTransform: { error in self?.dismissAndHandleError(error: error) }
+        )
       }
     }
   }
 
-  private func callSingleUseCardAPI(payload: SingleUseCardRequest) {
+  private func callSingleUseCardCreateAPI(payload: SingleUseCardCreateRequest) {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(payload),
       mode: mode
-    ) { [unowned self] (result: Result<SingleUseCardResponse, Error>) in
-      switch result {
-      case .success(let response):
-        self.singleUseCardToken = response.consumerCardToken
-        DispatchQueue.main.async {
-          let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
-            checkoutUrl: response.redirectCheckoutUrl,
-            keepModelOpenOnComplete: true,
-            completion: checkoutCompletion(_:)
-          )
-
-          currentScreen = .checkout(viewControllerToPresent)
-        }
-      case .failure(let error):
-        DispatchQueue.main.async {
-          dismiss(animated: true) {
-            handleAPICallError(error: error)
-          }
-        }
+    ) { [weak self] (result: Result<SingleUseCardCreateResponse, Error>) in
+      DispatchQueue.main.async {
+        result.fold(
+          successTransform: { response in self?.handleCreateCardSuccess(response) },
+          errorTransform: { error in self?.dismissAndHandleError(error: error)}
+        )
       }
+    }
+  }
+
+  // TODO: Handle when cancelling card fails
+  private func callSingleUseCardCancelAPI() {
+    let payload = SingleUseCardCancelRequest(
+      consumerCardToken: self.singleUseCardToken,
+      token: checkoutToken,
+      aggregator: self.singleUseCardRequest.aggregator
+    )
+
+    APIPlusNetworkService.shared.request(
+      endpoint: .singleUseCardCancel(payload),
+      mode: mode) { [weak self] result in
+      result.fold(
+        successTransform: { _ in self?.handleCancelCardSuccess() },
+        errorTransform: { _ in return }
+      )
+    }
+  }
+
+  // MARK: - API Response handlers
+
+  private func handleConfirmCardSucces(_ response: SingleUseCardConfirmResponse) {
+    let virtualCard = response.paymentDetails.virtualCard
+    self.virtualCard = virtualCard
+
+    currentScreen = .singleUseCard(
+      amount: singleUseCardRequest.amount,
+      virtualCard: virtualCard,
+      vccExpiry: response.vccExpiry
+    )
+  }
+
+  private func handleCreateCardSuccess(_ response: SingleUseCardCreateResponse) {
+    self.singleUseCardToken = response.consumerCardToken
+
+    let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
+      checkoutUrl: response.redirectCheckoutUrl,
+      keepModelOpenOnComplete: true,
+      completion: checkoutCompletion(_:)
+    )
+
+    currentScreen = .checkout(viewControllerToPresent)
+  }
+
+  private func handleCancelCardSuccess() {
+    DispatchQueue.main.async {
+      let alertView = UIAlertController(
+        title: "Success",
+        message: "The Single-use card has been cancelled.",
+        preferredStyle: .alert
+      )
+      let okAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
+        self?.dismiss(animated: true) { self?.completion(.failed(reason: .cardCancelled)) }
+      }
+      alertView.addAction(okAction)
+      self.navigationController?.present(alertView, animated: true)
+    }
+  }
+
+  private func dismissAndHandleError(error: Error) {
+    dismiss(animated: true) { [weak self] in
+      self?.handleAPICallError(error: error)
     }
   }
 
@@ -356,3 +401,4 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 }
+// swiftlint:enable file_length type_body_length

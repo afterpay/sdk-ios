@@ -6,8 +6,18 @@
 		<div id="afterpay-widget-container"></div>
 
 		<script>
+			const app = window.webkit.messageHandlers.iOS;
 
 			function createAfterpayWidget(token) {
+				
+				new MutationObserver(() => { 
+						app.postMessage(JSON.stringify({ "type": "resize" }))
+					})
+					.observe(
+						document.getElementById('afterpay-widget-container'),
+						{ attributes: true, childList: true, subtree: true }
+					);
+				
 				window.afterpayWidget = new AfterPay.Widgets.PaymentSchedule({
 					token: token,
 					target: "#afterpay-widget-container",
@@ -27,8 +37,6 @@
 				});
 			}
 
-			const app = window.webkit.messageHandlers.iOS;
-			
 			function sendToApp(event) {
 				const data = event.data;
 				let completeData = {

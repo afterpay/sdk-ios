@@ -226,7 +226,7 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 ///   - result: The result of the user's completion (a success or failure).
 public func presentSingleUseCardRequestPageModally(
   over viewController: UIViewController,
-  singleUseCardRequest: SingleUseCardRequest,
+  singleUseCardRequest: SingleUseCardCreateRequest,
   mode: Mode,
   aggregatorName: String,
   animated: Bool = true,

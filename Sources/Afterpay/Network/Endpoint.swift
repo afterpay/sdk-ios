@@ -14,8 +14,9 @@ enum RequestMethod: String {
 }
 
 enum Endpoint {
-  case singleUseCards(SingleUseCardRequest)
+  case singleUseCards(SingleUseCardCreateRequest)
   case singleUseCardConfirm(SingleUseCardConfirmRequest)
+  case singleUseCardCancel(SingleUseCardCancelRequest)
 }
 
 extension Endpoint {
@@ -34,12 +35,14 @@ extension Endpoint {
       return "/v2/consumer_cards"
     case .singleUseCardConfirm:
       return "/v2/consumer_cards/confirm"
+    case .singleUseCardCancel:
+      return "/v2/consumer_cards/cancel"
     }
   }
 
   var method: RequestMethod {
     switch self {
-    case .singleUseCards, .singleUseCardConfirm:
+    case .singleUseCards, .singleUseCardConfirm, .singleUseCardCancel:
       return .post
     }
   }

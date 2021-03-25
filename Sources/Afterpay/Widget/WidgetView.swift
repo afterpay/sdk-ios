@@ -69,8 +69,13 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
   public override func willMove(toSuperview newSuperview: UIView?) {
     if newSuperview == nil {
+      // Remove the handler when being dismissed, so it doesn't keep a strong reference and cause a leak
       webView.configuration.userContentController.removeScriptMessageHandler(forName: "iOS")
     }
+  }
+
+  public override var intrinsicContentSize: CGSize {
+    webView.scrollView.contentSize
   }
 
   private func setupConstraints() {
@@ -152,8 +157,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    let javaScript = #"createAfterpayWidget("\#(self.token)");"#
-    self.webView.evaluateJavaScript(javaScript)
+    let javaScript = #"createAfterpayWidget("\#(token)");"#
+    webView.evaluateJavaScript(javaScript)
   }
 
   // MARK: WKScriptMessageHandler
@@ -167,6 +172,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     do {
       let widgetEvent = try decoder.decode(WidgetEvent.self, from: jsonData ?? Data())
       getWidgetHandler()?.didReceiveEvent(widgetEvent)
+
+      if widgetEvent == .resize {
+        invalidateIntrinsicContentSize()
+      }
 
     } catch {
       getWidgetHandler()?.onFailure(error: error)
@@ -195,6 +204,10 @@ private extension WidgetHandler {
 
     case let .ready(isValid, amountDue, checksum):
       onReady(isValid: isValid, amountDueToday: amountDue, paymentScheduleChecksum: checksum)
+
+    case .resize:
+      // Do not need to tell anyone about a resize event. It's handled internally.
+      break
     }
 
   }
