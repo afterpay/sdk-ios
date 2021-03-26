@@ -399,16 +399,9 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private func handleCancelCardSuccess() {
     DispatchQueue.main.async {
-      let alertView = UIAlertController(
-        title: "Success",
-        message: "The Single-use card has been cancelled.",
-        preferredStyle: .alert
-      )
-      let okAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
-        self?.dismiss(animated: true) { self?.completion(.failed(reason: .cardCancelled)) }
+      self.dismiss(animated: true) { [weak self] in
+        self?.completion(.failed(reason: .cardCancelled))
       }
-      alertView.addAction(okAction)
-      self.navigationController?.present(alertView, animated: true)
     }
   }
 
