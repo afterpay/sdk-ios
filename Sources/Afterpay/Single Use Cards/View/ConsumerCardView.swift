@@ -59,7 +59,7 @@ final class SingleUseCardView: UIView {
       string: "Edit or Cancel Card",
       attributes: [
         .font: font,
-        .underlineStyle: NSUnderlineStyle.single.rawValue
+        .underlineStyle: NSUnderlineStyle.single.rawValue,
       ]
     )
 

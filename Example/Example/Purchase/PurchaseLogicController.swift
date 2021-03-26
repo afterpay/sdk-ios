@@ -20,6 +20,7 @@ final class PurchaseLogicController {
     case provideSingleUseCardResult(String)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case showAlertForErrorMessage(String)
+    case showAlertForCancelCardSuccess
     case showSuccessWithMessage(String, Token)
   }
 
@@ -145,7 +146,6 @@ final class PurchaseLogicController {
   }
 
   func singleUseCardFailed(with reason: SingleUseCardCheckoutResult.SingleUseCardFailureReason) {
-
     switch reason {
     case .networkError(let error):
       let errorMessage = error.localizedDescription
@@ -156,7 +156,7 @@ final class PurchaseLogicController {
     case .apiError(let errorDetails):
       commandHandler(.showAlertForErrorMessage(errorDetails.message))
     case .cardCancelled:
-      return
+      commandHandler(.showAlertForCancelCardSuccess)
     }
   }
 

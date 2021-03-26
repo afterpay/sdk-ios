@@ -123,6 +123,16 @@ final class PurchaseFlowController: UIViewController {
       let alert = AlertFactory.alert(for: errorMessage)
       navigationController.present(alert, animated: true, completion: nil)
 
+    case .showAlertForCancelCardSuccess:
+      let alertView = UIAlertController(
+        title: "Success",
+        message: "The Single-use card has been cancelled.",
+        preferredStyle: .alert
+      )
+      let okAction = UIAlertAction(title: "OK", style: .cancel)
+      alertView.addAction(okAction)
+      navigationController.present(alertView, animated: true, completion: nil)
+
     case .showSuccessWithMessage(let message, let token):
       let messageViewController = MessageViewController(message: message, token: token)
       let viewControllers = [productsViewController, messageViewController]
