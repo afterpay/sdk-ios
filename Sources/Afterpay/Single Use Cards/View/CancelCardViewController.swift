@@ -31,7 +31,7 @@ final class CancelCardViewController: UIViewController {
     titleLabel.text = "Do you want to cancel your single-use card?"
 
     bodyTextView.configure(with: """
-    If you change your mind simply cancel the card and a refund will be issued for the first payment amount in an extimated 5-7 days (the exact timing depends on your financial institution).
+    If you change your mind simply cancel the card and a refund will be issued for the first payment amount in an estimated 5-7 days (the exact timing depends on your financial institution).
     """
     )
 
