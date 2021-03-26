@@ -16,5 +16,6 @@ extension OSLog {
   private static let subsystem = Bundle(for: BundleTag.self).bundleIdentifier!
 
   static let checkout = OSLog(subsystem: subsystem, category: "checkout")
+  static let singleUseCard = OSLog(subsystem: subsystem, category: "SingleUseCard")
 
 }

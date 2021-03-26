@@ -62,6 +62,7 @@
 		7664EDDD25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */; };
 		768350082601882A00F1AFB1 /* CancelCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768350072601882A00F1AFB1 /* CancelCardViewController.swift */; };
 		768853B426083E5A00497238 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768853B326083E5A00497238 /* EnterAmountViewController.swift */; };
+		768853D8260D8DFF00497238 /* SingleUseCardLogicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768853D7260D8DFF00497238 /* SingleUseCardLogicController.swift */; };
 		76ECB14025F9DA2E005F0B3E /* BodyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ECB13F25F9DA2E005F0B3E /* BodyTextView.swift */; };
 		76ECB14625F9DB4C005F0B3E /* HeadlineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */; };
 		76F3A90025F89C5600C74FB7 /* SingleUseCardInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F3A8FF25F89C5600C74FB7 /* SingleUseCardInfoViewController.swift */; };
@@ -174,6 +175,7 @@
 		7664EDDC25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonWithLogo.swift; sourceTree = "<group>"; };
 		768350072601882A00F1AFB1 /* CancelCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCardViewController.swift; sourceTree = "<group>"; };
 		768853B326083E5A00497238 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
+		768853D7260D8DFF00497238 /* SingleUseCardLogicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardLogicController.swift; sourceTree = "<group>"; };
 		76ECB13F25F9DA2E005F0B3E /* BodyTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTextView.swift; sourceTree = "<group>"; };
 		76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlineLabel.swift; sourceTree = "<group>"; };
 		76F3A8FF25F89C5600C74FB7 /* SingleUseCardInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardInfoViewController.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				DD92264525DA09B8009788D1 /* View */,
 				DBBB85C0A5E2C784A538CD60 /* SingleUseCardCheckoutResult.swift */,
 				DD70771625D223F400401BDB /* SingleUseCardFlowViewController.swift */,
+				768853D7260D8DFF00497238 /* SingleUseCardLogicController.swift */,
 			);
 			path = "Single Use Cards";
 			sourceTree = "<group>";
@@ -698,6 +701,7 @@
 				66639B5424D2619200C68558 /* SVGView.swift in Sources */,
 				DDBD9C0225D33C3D00008642 /* Consumer.swift in Sources */,
 				7664EDDD25E8C17100D8A1EB /* PrimaryButtonWithLogo.swift in Sources */,
+				768853D8260D8DFF00497238 /* SingleUseCardLogicController.swift in Sources */,
 				66E255AE24E3C14600C81F20 /* Strings.swift in Sources */,
 				DDBD9C0C25D33C7000008642 /* Item.swift in Sources */,
 				DD92264225DA0983009788D1 /* LoadingView.swift in Sources */,
