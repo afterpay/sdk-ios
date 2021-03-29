@@ -10,11 +10,13 @@ import Foundation
 import os.log
 
 final class SingleUseCardLogicController {
+  typealias CheckoutCancelReason = CheckoutResult.CancellationReason
+
   enum Screen: Equatable {
     case initialAmount(value: String)
     case editAmount(value: String)
     case singleUseCard
-    case checkout
+    case checkout(url: URL)
     case info
     case cancel
     case loading
@@ -26,36 +28,66 @@ final class SingleUseCardLogicController {
     case dismissOnCardCancellation
     case showEditCancelActionSheet
     case dismissModalOnSuccess(VirtualCard)
+    case cancelWebCheckout(reason: CheckoutCancelReason)
   }
 
   // Payload for consumer cards API request
   private var singleUseCardRequest: SingleUseCardCreateRequest
   private var virtualCard: VirtualCard?
+  private var cardExpiry: String?
   private var checkoutToken: String?
   private var singleUseCardToken: String?
 
-  var currentScreen: Screen {
+  private var currentScreen: Screen {
     didSet {
       commandHandler(.navigateTo(screen: currentScreen))
     }
   }
 
+  var amount: Money {
+    return singleUseCardRequest.amount
+  }
+  var merchantName: String {
+    return singleUseCardRequest.merchant.name
+  }
+  var singleUseCard: (virtualCard: VirtualCard?, expiry: String?) {
+    return (virtualCard, cardExpiry)
+  }
   let aggregatorName: String
-  private let mode: Mode
+  let mode: Mode
 
-  private let commandHandler: (Command) -> Void
+  private var commandHandler: (Command) -> Void = { _ in }
 
   init(
     with singleUseCardRequest: SingleUseCardCreateRequest,
     mode: Mode,
-    aggregatorName: String,
-    commandHandler: @escaping (Command) -> Void
+    aggregatorName: String
   ) {
     self.singleUseCardRequest = singleUseCardRequest
     self.mode = mode
     self.aggregatorName = aggregatorName
-    self.commandHandler = commandHandler
     self.currentScreen = .initialAmount(value: singleUseCardRequest.amount.amount)
+  }
+
+  func configureCommandHandler(with handler: @escaping (Command) -> Void) {
+    commandHandler = handler
+  }
+
+  func checkoutSuccess(checkoutToken: String) {
+    self.checkoutToken = checkoutToken
+    currentScreen = .loading
+    callCardConfirmAPI()
+    currentScreen = .loading
+  }
+
+  func checkoutCancel(reason: CheckoutCancelReason) {
+    if virtualCard == nil {
+      currentScreen = .initialAmount(value: amount.amount)
+    } else {
+      currentScreen = .editAmount(value: amount.amount)
+    }
+
+    commandHandler(.cancelWebCheckout(reason: reason))
   }
 
   func showInfoPage() {
@@ -64,7 +96,7 @@ final class SingleUseCardLogicController {
 
   func confirmCardCancellation() {
     currentScreen = .loading
-    callSingleUseCardCancelAPI()
+    callCardCancelAPI()
   }
 
   func showEditCancelOptions() {
@@ -75,35 +107,44 @@ final class SingleUseCardLogicController {
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
     currentScreen = .loading
 
-    callSingleUseCardCreateAPI()
+    callCardCreateAPI()
   }
 
   func dismissModal() {
-    if case .singleUseCard = currentScreen,
-       let card = virtualCard {
+    if case .singleUseCard = currentScreen, let card = virtualCard {
       commandHandler(.dismissModalOnSuccess(card))
     }
+  }
+
+  // TODO: Cancel current card and create new one
+  func showEditCardScreen() {
+    commandHandler(.navigateTo(screen: .editAmount(value: singleUseCardRequest.amount.amount)))
+  }
+
+  func showCancelCardScreen() {
+    commandHandler(.navigateTo(screen: .cancel))
   }
 
   // MARK: - API Response handlers
 
   private func handleCreateCardSuccess(_ response: SingleUseCardCreateResponse) {
     singleUseCardToken = response.consumerCardToken
-    DispatchQueue.main.async { self.currentScreen = .checkout }
+    cardExpiry = response.expires
+    self.currentScreen = .checkout(url: response.redirectCheckoutUrl)
   }
 
   private func handleConfirmCardSucces(_ response: SingleUseCardConfirmResponse) {
     virtualCard = response.paymentDetails.virtualCard
-    DispatchQueue.main.async { self.currentScreen = .singleUseCard }
+    self.currentScreen = .singleUseCard
   }
 
   private func handleCancelCardSuccess() {
-    DispatchQueue.main.async { self.commandHandler(.dismissOnCardCancellation) }
+    self.commandHandler(.dismissOnCardCancellation)
   }
 
   // MARK: - API Calls
 
-  func callSingleUseCardCreateAPI() {
+  func callCardCreateAPI() {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(singleUseCardRequest),
       mode: mode
@@ -150,7 +191,7 @@ final class SingleUseCardLogicController {
   }
 
   // TODO: Handle when cancelling card fails
-  private func callSingleUseCardCancelAPI() {
+  private func callCardCancelAPI() {
     guard
       let singleUseCardToken = singleUseCardToken,
       let checkoutToken = checkoutToken
@@ -159,10 +200,11 @@ final class SingleUseCardLogicController {
       return
     }
 
+    // TODO: Replace hardcoded aggregator name
     let payload = SingleUseCardCancelRequest(
       consumerCardToken: singleUseCardToken,
       token: checkoutToken,
-      aggregator: aggregatorName
+      aggregator: "deadbeef"
     )
 
     APIPlusNetworkService.shared.request(
@@ -171,7 +213,9 @@ final class SingleUseCardLogicController {
     ) { [weak self] result in
       result.fold(
         successTransform: { _ in self?.handleCancelCardSuccess() },
-        errorTransform: { _ in return }
+        errorTransform: { error in
+          self?.commandHandler(.handleError(error))
+        }
       )
     }
   }

@@ -211,7 +211,7 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
-// MARK: - Consumer Card
+// MARK: - Single Use Card
 
 /// Present Afterpay Consumer Card modally over the specified view controller loading your
 /// generated checkout URL.
@@ -219,7 +219,7 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
-///   - payload: The `SingleUseCardRequest` object that contains the information required to request for a consumer card.
+///   - singleUseCardRequest: The `SingleUseCardRequest` object that contains the information required to request for a consumer card.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
 ///   - completion: The block executed after consumer card request has been completed.
 ///   - mode: switching between Afterpay environments: either sandbox for testing or production.
@@ -235,11 +235,15 @@ public func presentSingleUseCardRequestPageModally(
   let viewControllerToPresent: UIViewController
 
   if getLocale() == Locales.unitedStates {
-    let singleUseCardViewController: UIViewController = SingleUseCardFlowViewController(
+    let logicController = SingleUseCardLogicController(
       with: singleUseCardRequest,
-      completion: completion,
       mode: mode,
       aggregatorName: aggregatorName
+    )
+
+    let singleUseCardViewController: UIViewController = SingleUseCardFlowViewController(
+      with: logicController,
+      completion: completion
     )
 
     viewControllerToPresent = UINavigationController(rootViewController: singleUseCardViewController)

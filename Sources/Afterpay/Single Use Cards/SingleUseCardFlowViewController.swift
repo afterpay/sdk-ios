@@ -9,35 +9,12 @@
 import UIKit
 import WebKit
 
-// swiftlint:disable file_length type_body_length
 final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
-
-  enum Screen: Equatable {
-    case amount
-    case singleUseCard(amount: Money, virtualCard: VirtualCard, vccExpiry: String)
-    case checkout(CheckoutWebViewController)
-    case info
-    case cancel
-    case loading
-  }
-
-  // View State
-  private var currentScreen: Screen = .amount {
-    didSet {
-      if #available(iOS 13.0, *) {
-        isModalInPresentation = currentScreen == .loading
-      }
-
-      updateNavigationBar()
-      updatePresentationControllerDelegate()
-      reloadView()
-    }
-  }
+  typealias Command = SingleUseCardLogicController.Command
+  typealias Screen = SingleUseCardLogicController.Screen
 
   // Payload for consumer cards API request
-  private var singleUseCardRequest: SingleUseCardCreateRequest
-
-  private var virtualCard: VirtualCard?
+  private let logicController: SingleUseCardLogicController
 
   private let completion: (_ result: SingleUseCardCheckoutResult) -> Void
 
@@ -46,39 +23,37 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let loadingView: LoadingView
   private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
-  private var checkoutToken: String
-  private var singleUseCardToken: String
-  private let mode: Mode
 
   init(
-    with singleUseCardRequest: SingleUseCardCreateRequest,
-    completion: @escaping (_ result: SingleUseCardCheckoutResult) -> Void,
-    mode: Mode,
-    aggregatorName: String
+    with logicController: SingleUseCardLogicController,
+    completion: @escaping (_ result: SingleUseCardCheckoutResult) -> Void
   ) {
-    let merchantName = singleUseCardRequest.merchant.name
-
-    self.singleUseCardRequest = singleUseCardRequest
+    self.logicController = logicController
     self.completion = completion
-    self.checkoutToken = ""
-    self.singleUseCardToken = ""
-    self.mode = mode
 
     self.enterAmountViewController = EnterAmountViewController(
-      aggregatorName: aggregatorName,
-      merchantName: merchantName
+      aggregatorName: logicController.aggregatorName,
+      merchantName: logicController.merchantName
     )
     self.singleUseCardView = SingleUseCardView(
-      merchantName: "\(merchantName) via \(aggregatorName)",
+      merchantName: "\(logicController.merchantName) via \(logicController.aggregatorName)",
       continueAction: #selector(dismissSingleUseCardFlow),
-      editCancelAction: #selector(showEditCancelPage)
+      editCancelAction: #selector(showEditCancelActionSheet)
     )
     self.loadingView = LoadingView()
-    self.infoViewController = SingleUseCardInfoViewController(merchantName: merchantName, aggregator: aggregatorName)
+    self.infoViewController = SingleUseCardInfoViewController(
+      merchantName: logicController.merchantName,
+      aggregator: logicController.aggregatorName
+    )
 
     super.init(nibName: nil, bundle: nil)
 
     enterAmountViewController.configureEnterAmountAction(triggerCheckoutFlowAction)
+    logicController.configureCommandHandler(with: { [unowned self] command in
+      DispatchQueue.main.async {
+        self.commandHandler(command: command)
+      }
+    })
   }
 
   required init?(coder: NSCoder) {
@@ -99,47 +74,12 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     setupSubViews()
     setupNavigationBar()
 
-    enterAmountViewController.setAmount(value: singleUseCardRequest.amount.amount)
+    enterAmountViewController.setAmount(value: logicController.amount.amount)
     navigationController?.setViewControllers([self, enterAmountViewController], animated: true)
   }
 
-  private func reloadView() {
-    var subview: UIView
-
-    switch currentScreen {
-    case .amount:
-      loadingView.stopLoadingSpinner()
-      enterAmountViewController.setAmount(value: singleUseCardRequest.amount.amount)
-      navigationController?.show(enterAmountViewController, sender: self)
-      return
-    case .singleUseCard(let amount, let virtualCard, let expiry):
-      loadingView.stopLoadingSpinner()
-      singleUseCardView.updateCardDetails(with: amount, virtualCard: virtualCard, expiry: expiry)
-      subview = singleUseCardView
-    case .checkout(let viewControllerToPresent):
-      loadingView.stopLoadingSpinner()
-      navigationController?.show(viewControllerToPresent, sender: self)
-      return
-    case .info:
-      loadingView.stopLoadingSpinner()
-      let viewControllerToPresent = infoViewController
-      navigationController?.show(viewControllerToPresent, sender: self)
-      return
-    case .loading:
-      loadingView.startLoadingSpinner()
-      subview = loadingView
-    case .cancel:
-      let viewControllerToPresent = CancelCardViewController(cancelAction: confirmCancelCard)
-      navigationController?.show(viewControllerToPresent, sender: self)
-      return
-    }
-
-    view.bringSubviewToFront(subview)
-    updateLayout(with: subview)
-  }
-
-  private func updateNavigationBar() {
-    switch currentScreen {
+  private func updateNavigationBar(screen: Screen) {
+    switch screen {
     case .loading, .checkout:
       navigationController?.setNavigationBarHidden(true, animated: true)
     case .singleUseCard:
@@ -153,10 +93,9 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private func setupSubViews() {
     singleUseCardView.backgroundColor  = view.backgroundColor
-    loadingView.backgroundColor = view.backgroundColor
-
     singleUseCardView.translatesAutoresizingMaskIntoConstraints = false
 
+    loadingView.backgroundColor = view.backgroundColor
     loadingView.frame = view.frame
 
     view.addSubview(singleUseCardView)
@@ -177,9 +116,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     navigationController?.navigationBar.isTranslucent = false
     navigationController?.navigationBar.barTintColor = view.backgroundColor
     navigationController?.navigationBar.tintColor = .black
-
     navigationItem.titleView = LogoView()
-
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .stop,
       target: self,
@@ -201,58 +138,128 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       target: self,
       action: #selector(showInfoPage)
     )
-
-    updateNavigationBar()
   }
 
-  private func updatePresentationControllerDelegate() {
-    switch currentScreen {
-    case .checkout(let viewControllerToPresent):
-      navigationController?.presentationController?.delegate = viewControllerToPresent
+  private func updatePresentationControllerDelegate(screen: Screen) {
+    switch screen {
+    case .checkout:
+      return
     default:
       navigationController?.presentationController?.delegate = self
     }
   }
 
-  private func dismissModalCompletion() {
-    guard let virtualCard = virtualCard, case .singleUseCard = currentScreen else {
-      return
+  private func handleAPIError(_ error: (Error)) {
+    if let apiError = error as? APIPlusError, case .error(let details) = apiError {
+      completion(.failed(reason: .apiError(details)))
+    } else {
+      completion(.failed(reason: .networkError(error)))
     }
-    completion(.success(virtualCard: virtualCard))
+  }
+
+  private func commandHandler(command: Command) {
+    switch command {
+    case .handleError(let error):
+      dismiss(animated: true) { [weak self] in
+        self?.handleAPIError(error)
+      }
+    case .dismissOnCardCancellation:
+      dismiss(animated: true) { [weak self] in
+        self?.completion(.failed(reason: .cardCancelled))
+      }
+    case .showEditCancelActionSheet:
+      showEditCancelActionSheet()
+    case .dismissModalOnSuccess(let virtualCard):
+      completion(.success(virtualCard: virtualCard))
+    case .cancelWebCheckout(let reason):
+      completion(.failed(reason: .checkoutCancelled(reason: reason)))
+      navigationController?.popToRootViewController(animated: true)
+    case .navigateTo(let screen):
+      if #available(iOS 13.0, *) {
+        isModalInPresentation = screen == .loading
+      }
+      navigateTo(screen: screen)
+      updateNavigationBar(screen: screen)
+      updatePresentationControllerDelegate(screen: screen)
+    }
+  }
+
+  // TODO: Extract out to separate methods
+  private func navigateTo(screen: Screen) {
+    if case .loading = screen {
+      loadingView.startLoadingSpinner()
+    } else {
+      loadingView.stopLoadingSpinner()
+    }
+
+    switch screen {
+    case .initialAmount(let value):
+      enterAmountViewController.setAmount(value: value)
+      navigationController?.setViewControllers([self, enterAmountViewController], animated: false)
+    case .editAmount(let value):
+      // TODO: Edit card screen should cancel existing card and create new one
+      enterAmountViewController.setAmount(value: value)
+      navigationController?.setViewControllers([self, enterAmountViewController], animated: true)
+    case .singleUseCard:
+      guard
+        let card = logicController.singleUseCard.virtualCard,
+        let expiry = logicController.singleUseCard.expiry
+      else {
+        return
+      }
+      singleUseCardView.updateCardDetails(with: logicController.amount, virtualCard: card, expiry: expiry)
+      view.bringSubviewToFront(singleUseCardView)
+      updateLayout(with: singleUseCardView)
+
+    case .checkout(let url):
+      let viewControllerToPresent = CheckoutWebViewController(
+        checkoutUrl: url,
+        keepModelOpenOnComplete: true,
+        completion: checkoutCompletion(_:)
+      )
+      navigationController?.show(viewControllerToPresent, sender: self)
+    case .info:
+      let viewControllerToPresent = infoViewController
+      navigationController?.show(viewControllerToPresent, sender: self)
+    case .loading:
+      loadingView.startLoadingSpinner()
+      view.bringSubviewToFront(loadingView)
+      updateLayout(with: loadingView)
+    case .cancel:
+      let viewControllerToPresent = CancelCardViewController(cancelAction: confirmCancelCard)
+      navigationController?.show(viewControllerToPresent, sender: self)
+    }
   }
 
   // MARK: - UIAdaptivePresentationControllerDelegate
 
   func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-    dismissModalCompletion()
+    logicController.dismissModal()
   }
 
   // MARK: - Navigation Bar Button Actions
   @objc private func dismissSingleUseCardFlow() {
     dismiss(animated: true) { [weak self] in
-      self?.dismissModalCompletion()
+      self?.logicController.dismissModal()
     }
   }
 
   private func triggerCheckoutFlowAction() {
     let amountValue = enterAmountViewController.getAmountValue() ?? "0.00"
-    singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
-    currentScreen = .loading
-
-    callSingleUseCardCreateAPI(payload: singleUseCardRequest)
+    logicController.loadCheckout(amountValue: amountValue)
   }
 
   // MARK: - Button Actions
   @objc private func showInfoPage() {
-    currentScreen = .info
+    logicController.showInfoPage()
   }
 
-  @objc private func showEditCancelPage() {
+  @objc private func showEditCancelActionSheet() {
     let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default) { [weak self] _ in
-      self?.currentScreen = .amount
+      self?.logicController.showEditCardScreen()
     }
     let cancelAction = UIAlertAction(title: "Cancel Single-Use card", style: .destructive) { [weak self] _ in
-      self?.currentScreen = .cancel
+      self?.logicController.showCancelCardScreen()
     }
     let continueAction = UIAlertAction(title: "Continue with purchase", style: .cancel)
 
@@ -270,9 +277,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   private func confirmCancelCard() {
-    loadingView.startLoadingSpinner()
-    currentScreen = .loading
-    callSingleUseCardCancelAPI()
+    logicController.confirmCardCancellation()
   }
 
   // MARK: - Callbacks
@@ -280,118 +285,12 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
-      checkoutToken = token
-      currentScreen = .loading
       loadingView.startLoadingSpinner()
-      callSingleUseCardConfirmAPI()
+      logicController.checkoutSuccess(checkoutToken: token)
       navigationController?.popToRootViewController(animated: true)
 
     case .cancelled(let reason):
-      completion(.failed(reason: .checkoutCancelled(reason: reason)))
-      navigationController?.popToRootViewController(animated: true)
-      currentScreen = .amount
-    }
-  }
-
-  // MARK: - API Calls
-
-  private func callSingleUseCardConfirmAPI() {
-    let payload = SingleUseCardConfirmRequest(
-      consumerCardToken: singleUseCardToken,
-      token: checkoutToken,
-      aggregator: singleUseCardRequest.aggregator
-    )
-
-    APIPlusNetworkService.shared.request(
-      endpoint: .singleUseCardConfirm(payload),
-      mode: mode
-    ) { [weak self] (result: Result<SingleUseCardConfirmResponse, Error>) in
-      DispatchQueue.main.async {
-        result.fold(
-          successTransform: { response in self?.handleConfirmCardSucces(response) },
-          errorTransform: { error in self?.dismissAndHandleError(error: error) }
-        )
-      }
-    }
-  }
-
-  private func callSingleUseCardCreateAPI(payload: SingleUseCardCreateRequest) {
-    APIPlusNetworkService.shared.request(
-      endpoint: .singleUseCards(payload),
-      mode: mode
-    ) { [weak self] (result: Result<SingleUseCardCreateResponse, Error>) in
-      DispatchQueue.main.async {
-        result.fold(
-          successTransform: { response in self?.handleCreateCardSuccess(response) },
-          errorTransform: { error in self?.dismissAndHandleError(error: error)}
-        )
-      }
-    }
-  }
-
-  // TODO: Handle when cancelling card fails
-  private func callSingleUseCardCancelAPI() {
-    let payload = SingleUseCardCancelRequest(
-      consumerCardToken: self.singleUseCardToken,
-      token: checkoutToken,
-      aggregator: self.singleUseCardRequest.aggregator
-    )
-
-    APIPlusNetworkService.shared.request(
-      endpoint: .singleUseCardCancel(payload),
-      mode: mode) { [weak self] result in
-      result.fold(
-        successTransform: { _ in self?.handleCancelCardSuccess() },
-        errorTransform: { _ in return }
-      )
-    }
-  }
-
-  // MARK: - API Response handlers
-
-  private func handleConfirmCardSucces(_ response: SingleUseCardConfirmResponse) {
-    let virtualCard = response.paymentDetails.virtualCard
-    self.virtualCard = virtualCard
-
-    currentScreen = .singleUseCard(
-      amount: singleUseCardRequest.amount,
-      virtualCard: virtualCard,
-      vccExpiry: response.vccExpiry
-    )
-  }
-
-  private func handleCreateCardSuccess(_ response: SingleUseCardCreateResponse) {
-    self.singleUseCardToken = response.consumerCardToken
-
-    let viewControllerToPresent: CheckoutWebViewController = CheckoutWebViewController(
-      checkoutUrl: response.redirectCheckoutUrl,
-      keepModelOpenOnComplete: true,
-      completion: checkoutCompletion(_:)
-    )
-
-    currentScreen = .checkout(viewControllerToPresent)
-  }
-
-  private func handleCancelCardSuccess() {
-    DispatchQueue.main.async {
-      self.dismiss(animated: true) { [weak self] in
-        self?.completion(.failed(reason: .cardCancelled))
-      }
-    }
-  }
-
-  private func dismissAndHandleError(error: Error) {
-    dismiss(animated: true) { [weak self] in
-      self?.handleAPICallError(error: error)
-    }
-  }
-
-  private func handleAPICallError(error: Error) {
-    if let apiError = error as? APIPlusError, case .error(let details) = apiError {
-      completion(.failed(reason: .apiError(details)))
-    } else {
-      completion(.failed(reason: .networkError(error)))
+      logicController.checkoutCancel(reason: reason)
     }
   }
 }
-// swiftlint:enable file_length type_body_length

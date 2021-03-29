@@ -37,6 +37,8 @@ final class EnterAmountViewController: UIViewController {
     super.viewDidLoad()
 
     view.backgroundColor = .white
+    navigationItem.titleView = LogoView()
+
     welcomeView.backgroundColor = .white
     enterAmountView.backgroundColor = .white
 
