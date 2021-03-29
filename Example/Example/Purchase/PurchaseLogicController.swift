@@ -116,15 +116,15 @@ final class PurchaseLogicController {
         id: "standard",
         name: "Standard",
         description: "3 - 5 days",
-        shippingAmount: Money(amount: "0.00", currency: "AUD"),
-        orderAmount: Money(amount: "50.00", currency: "AUD")
+        shippingAmount: Money(amount: "0.00", currency: currencyCode),
+        orderAmount: Money(amount: "50.00", currency: currencyCode)
       ),
       ShippingOption(
         id: "priority",
         name: "Priority",
         description: "Next business day",
-        shippingAmount: Money(amount: "10.00", currency: "AUD"),
-        orderAmount: Money(amount: "60.00", currency: "AUD")
+        shippingAmount: Money(amount: "10.00", currency: currencyCode),
+        orderAmount: Money(amount: "60.00", currency: currencyCode)
       ),
     ]
 
