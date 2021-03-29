@@ -8,7 +8,7 @@
 		<script>
 			const app = window.webkit.messageHandlers.iOS;
 
-			function createAfterpayWidget(token, amount) {
+			function createAfterpayWidget(token, amount, locale) {
 				
 				new MutationObserver(() => { 
 						app.postMessage(JSON.stringify({ "type": "resize" }))
@@ -21,7 +21,7 @@
 				window.afterpayWidget = new AfterPay.Widgets.PaymentSchedule({
 					token: token,
 					target: "#afterpay-widget-container",
-					locale: "en-US",
+					locale: locale.replaceAll("_", "-"),
 					amount: amount, 
 					onReady: function (event) {
 						sendToApp(event);

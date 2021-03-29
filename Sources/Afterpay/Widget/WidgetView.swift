@@ -205,12 +205,14 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
     let javaScript: String
 
+    let locale = Afterpay.getLocale().identifier
+
     switch initialConfig {
     case let .token(token):
-      javaScript = #"createAfterpayWidget("\#(token)", null);"#
+      javaScript = #"createAfterpayWidget("\#(token)", null, "\#(locale)");"#
     case let .money(money):
       let moneyObj = (try? encoder.encode(money)).flatMap { String.init(data: $0, encoding: .utf8) } ?? "null"
-      javaScript = #"createAfterpayWidget(null, \#(moneyObj));"#
+      javaScript = #"createAfterpayWidget(null, \#(moneyObj), "\#(locale)");"#
     }
 
     webView.evaluateJavaScript(javaScript)
