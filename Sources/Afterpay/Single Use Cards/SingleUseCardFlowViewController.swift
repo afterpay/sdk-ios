@@ -73,7 +73,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     navigationController?.presentationController?.delegate = self
 
-  logicController.navigateToCurrentScreen()
+    logicController.navigateToCurrentScreen()
 
     setupSubViews()
     setupNavigationBar()
