@@ -23,6 +23,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let loadingView: LoadingView
   private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
+  private var closeBarButtonItem: UIBarButtonItem?
 
   init(
     with logicController: SingleUseCardLogicController,
@@ -54,6 +55,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
         self.commandHandler(command: command)
       }
     })
+    enterAmountViewController.setAmount(value: logicController.amount.amount)
   }
 
   required init?(coder: NSCoder) {
@@ -71,24 +73,24 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     navigationController?.presentationController?.delegate = self
 
+  logicController.navigateToCurrentScreen()
+
     setupSubViews()
     setupNavigationBar()
-
-    enterAmountViewController.setAmount(value: logicController.amount.amount)
-    navigationController?.setViewControllers([self, enterAmountViewController], animated: true)
   }
 
-  private func updateNavigationBar(screen: Screen) {
-    switch screen {
-    case .loading, .checkout:
-      navigationController?.setNavigationBarHidden(true, animated: true)
-    case .singleUseCard:
-      navigationController?.setNavigationBarHidden(false, animated: true)
-      navigationItem.leftBarButtonItem = nil
-    default:
-      navigationItem.leftBarButtonItem = infoBarButtonItem
-      navigationController?.setNavigationBarHidden(false, animated: true)
-    }
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+
+    singleUseCardView.isHidden = true
+    loadingView.isHidden = true
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    singleUseCardView.isHidden = false
+    loadingView.isHidden = false
   }
 
   private func setupSubViews() {
@@ -117,11 +119,13 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     navigationController?.navigationBar.barTintColor = view.backgroundColor
     navigationController?.navigationBar.tintColor = .black
     navigationItem.titleView = LogoView()
-    navigationItem.rightBarButtonItem = UIBarButtonItem(
+
+    self.closeBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .stop,
       target: self,
       action: #selector(dismissSingleUseCardFlow)
     )
+    navigationItem.rightBarButtonItem = closeBarButtonItem
 
     // Setup left bar button item
     let infoIcon = SVGView(svgConfiguration: InfoIconSVGConfiguration())
@@ -138,6 +142,28 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       target: self,
       action: #selector(showInfoPage)
     )
+  }
+
+  private func updateNavigationBar(screen: Screen) {
+    switch screen {
+    case .initialAmount:
+      enterAmountViewController.navigationItem.hidesBackButton = true
+      enterAmountViewController.navigationItem.leftBarButtonItem = infoBarButtonItem
+      enterAmountViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
+    case .editAmount:
+      enterAmountViewController.navigationItem.leftBarButtonItem = nil
+      enterAmountViewController.navigationItem.hidesBackButton = false
+      enterAmountViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
+    case .loading, .checkout:
+      navigationController?.setNavigationBarHidden(true, animated: true)
+    case .singleUseCard:
+      navigationController?.setNavigationBarHidden(false, animated: true)
+      navigationItem.leftBarButtonItem = nil
+    case .info:
+      infoViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
+    case .cancel:
+      return
+    }
   }
 
   private func updatePresentationControllerDelegate(screen: Screen) {
@@ -222,7 +248,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       let viewControllerToPresent = infoViewController
       navigationController?.show(viewControllerToPresent, sender: self)
     case .loading:
-      loadingView.startLoadingSpinner()
       view.bringSubviewToFront(loadingView)
       updateLayout(with: loadingView)
     case .cancel:

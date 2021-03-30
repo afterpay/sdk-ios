@@ -51,6 +51,12 @@ final class EnterAmountViewController: UIViewController {
     reloadView()
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    if currentScreen == .enterAmount {
+      enterAmountView.amountField.becomeFirstResponder()
+    }
+  }
+
   override func viewWillDisappear(_ animated: Bool) {
     view.endEditing(true)
   }

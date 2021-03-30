@@ -53,6 +53,7 @@ final class SingleUseCardLogicController {
   var singleUseCard: (virtualCard: VirtualCard?, expiry: String?) {
     return (virtualCard, cardExpiry)
   }
+
   let aggregatorName: String
   let mode: Mode
 
@@ -71,6 +72,10 @@ final class SingleUseCardLogicController {
 
   func configureCommandHandler(with handler: @escaping (Command) -> Void) {
     commandHandler = handler
+  }
+
+  func navigateToCurrentScreen() {
+    commandHandler(.navigateTo(screen: currentScreen))
   }
 
   func checkoutSuccess(checkoutToken: String) {
