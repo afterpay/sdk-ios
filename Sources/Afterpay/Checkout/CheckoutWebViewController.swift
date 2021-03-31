@@ -150,7 +150,6 @@ final class CheckoutWebViewController:
     case (false, .cancelled):
       decisionHandler(.cancel)
       if keepModalOpenOnComplete {
-        navigationController?.popViewController(animated: true)
         self.completion(.cancelled(reason: .userInitiated))
       } else {
         dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }

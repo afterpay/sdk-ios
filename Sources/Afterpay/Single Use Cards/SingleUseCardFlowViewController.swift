@@ -19,8 +19,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let completion: (_ result: SingleUseCardCheckoutResult) -> Void
 
   private var enterAmountViewController: EnterAmountViewController
-  private let singleUseCardViewController: VirtualCardViewController
-  private let loadingView: LoadingView
+  private let singleUseCardViewController: VirtualCardDisplayViewController
+  private let loadingViewController: LoadingViewController
   private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
   private var closeBarButtonItem: UIBarButtonItem?
@@ -36,11 +36,11 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       aggregatorName: logicController.aggregatorName,
       merchantName: logicController.merchantName
     )
-    self.singleUseCardViewController = VirtualCardViewController(
+    self.singleUseCardViewController = VirtualCardDisplayViewController(
       merchantName: "\(logicController.merchantName) via \(logicController.aggregatorName)"
     )
 
-    self.loadingView = LoadingView()
+    self.loadingViewController = LoadingViewController()
     self.infoViewController = SingleUseCardInfoViewController(
       merchantName: logicController.merchantName,
       aggregator: logicController.aggregatorName
@@ -79,33 +79,15 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     logicController.navigateToCurrentScreen()
 
-    setupSubViews()
     setupNavigationBar()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    loadingView.isHidden = true
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-  }
-
-  private func setupSubViews() {
-    loadingView.backgroundColor = view.backgroundColor
-    loadingView.frame = view.frame
-
-    view.addSubview(loadingView)
-  }
-
-  private func updateLayout(with subview: UIView) {
-    NSLayoutConstraint.activate([
-      subview.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-      subview.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-      subview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      subview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-    ])
   }
 
   private func setupNavigationBar() {
@@ -210,22 +192,23 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   // TODO: Extract out to separate methods
   private func navigateScreen(from origin: Screen, to destination: Screen) {
-    if case .loading = destination {
-      loadingView.startLoadingSpinner()
-      loadingView.isHidden = false
-    } else {
-      loadingView.stopLoadingSpinner()
-      loadingView.isHidden = true
-    }
 
     switch destination {
     case .initialAmount(let value):
       enterAmountViewController.setAmount(value: value)
-      navigationController?.setViewControllers([self, enterAmountViewController], animated: false)
+      if navigationController?.contains(enterAmountViewController) ?? false {
+        navigationController?.popToViewController(enterAmountViewController, animated: true)
+      } else {
+        navigationController?.setViewControllers([self, enterAmountViewController], animated: false)
+      }
     case .editAmount(let value):
       // TODO: Edit card screen should cancel existing card and create new one
       enterAmountViewController.setAmount(value: value)
-      navigationController?.setViewControllers([self, enterAmountViewController], animated: true)
+      if navigationController?.contains(enterAmountViewController) ?? false {
+        navigationController?.popToViewController(enterAmountViewController, animated: true)
+      } else {
+        navigationController?.setViewControllers([self, singleUseCardViewController, enterAmountViewController], animated: true)
+      }
     case .singleUseCard:
       guard
         let card = logicController.singleUseCard.virtualCard,
@@ -247,8 +230,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       let viewControllerToPresent = infoViewController
       navigationController?.show(viewControllerToPresent, sender: self)
     case .loading:
-      view.bringSubviewToFront(loadingView)
-      updateLayout(with: loadingView)
+      navigationController?.show(loadingViewController, sender: self)
     case .cancel:
       let viewControllerToPresent = CancelCardViewController(cancelAction: confirmCancelCard)
       singleUseCardViewController.navigationController?.show(viewControllerToPresent, sender: self)
@@ -309,7 +291,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
     case .success(let token):
-      loadingView.startLoadingSpinner()
       logicController.checkoutSuccess(checkoutToken: token)
       navigationController?.popToRootViewController(animated: true)
 

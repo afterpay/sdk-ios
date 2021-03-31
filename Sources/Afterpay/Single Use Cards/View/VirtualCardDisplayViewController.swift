@@ -1,5 +1,5 @@
 //
-//  VirtualCardViewController.swift
+//  VirtualCardDisplayViewController.swift
 //  Afterpay
 //
 //  Created by Nabila Herzegovina on 31/3/21.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class VirtualCardViewController: UIViewController {
+final class VirtualCardDisplayViewController: UIViewController {
 
   private let merchantName: String
   private let singleUseCardView: SingleUseCardView

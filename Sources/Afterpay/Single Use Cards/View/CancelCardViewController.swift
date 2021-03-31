@@ -43,7 +43,6 @@ final class CancelCardViewController: UIViewController {
   }
 
   @objc func cancelButtonTapped() {
-    navigationController?.popViewController(animated: true)
     cancelAction()
   }
 

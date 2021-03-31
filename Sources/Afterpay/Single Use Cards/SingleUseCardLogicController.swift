@@ -82,7 +82,6 @@ final class SingleUseCardLogicController {
     self.checkoutToken = checkoutToken
     currentScreen = .loading
     callCardConfirmAPI()
-    currentScreen = .loading
   }
 
   func checkoutCancel(reason: CheckoutCancelReason) {

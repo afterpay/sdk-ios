@@ -91,7 +91,6 @@ final class EnterAmountViewController: UIViewController {
 
   @objc private func enterAmountButtonTapped() {
     enterAmountAction?()
-    navigationController?.popViewController(animated: true)
   }
 
   func configureEnterAmountAction(_ action: @escaping () -> Void) {
