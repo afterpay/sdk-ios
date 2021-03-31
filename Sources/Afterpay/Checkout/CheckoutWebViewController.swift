@@ -27,12 +27,12 @@ final class CheckoutWebViewController:
 
   init(
     checkoutUrl: URL,
-    keepModelOpenOnComplete: Bool = false,
+    keepModalOpenOnComplete: Bool = false,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.checkoutUrl = checkoutUrl
     self.completion = completion
-    self.keepModalOpenOnComplete = keepModelOpenOnComplete
+    self.keepModalOpenOnComplete = keepModalOpenOnComplete
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -150,6 +150,7 @@ final class CheckoutWebViewController:
     case (false, .cancelled):
       decisionHandler(.cancel)
       if keepModalOpenOnComplete {
+        navigationController?.popViewController(animated: true)
         self.completion(.cancelled(reason: .userInitiated))
       } else {
         dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }

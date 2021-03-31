@@ -86,13 +86,13 @@ final class SingleUseCardLogicController {
   }
 
   func checkoutCancel(reason: CheckoutCancelReason) {
+    commandHandler(.cancelWebCheckout(reason: reason))
+
     if virtualCard == nil {
       currentScreen = .initialAmount(value: amount.amount)
     } else {
       currentScreen = .editAmount(value: amount.amount)
     }
-
-    commandHandler(.cancelWebCheckout(reason: reason))
   }
 
   func showInfoPage() {
@@ -123,11 +123,11 @@ final class SingleUseCardLogicController {
 
   // TODO: Cancel current card and create new one
   func showEditCardScreen() {
-    commandHandler(.navigateTo(screen: .editAmount(value: singleUseCardRequest.amount.amount)))
+    currentScreen = .editAmount(value: singleUseCardRequest.amount.amount)
   }
 
   func showCancelCardScreen() {
-    commandHandler(.navigateTo(screen: .cancel))
+    currentScreen = .cancel
   }
 
   // MARK: - API Response handlers

@@ -147,19 +147,22 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private func updateNavigationBar(screen: Screen) {
     switch screen {
     case .initialAmount:
+      navigationController?.setNavigationBarHidden(false, animated: true)
       enterAmountViewController.navigationItem.hidesBackButton = true
       enterAmountViewController.navigationItem.leftBarButtonItem = infoBarButtonItem
       enterAmountViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
     case .editAmount:
+      navigationController?.setNavigationBarHidden(false, animated: true)
       enterAmountViewController.navigationItem.leftBarButtonItem = nil
       enterAmountViewController.navigationItem.hidesBackButton = false
-      enterAmountViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
+      enterAmountViewController.navigationItem.rightBarButtonItem = infoBarButtonItem
     case .loading, .checkout:
       navigationController?.setNavigationBarHidden(true, animated: true)
     case .singleUseCard:
       navigationController?.setNavigationBarHidden(false, animated: true)
       navigationItem.leftBarButtonItem = nil
     case .info:
+      navigationController?.setNavigationBarHidden(false, animated: true)
       infoViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
     case .cancel:
       return
@@ -199,7 +202,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       completion(.success(virtualCard: virtualCard))
     case .cancelWebCheckout(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
-      navigationController?.popToRootViewController(animated: true)
     case .navigateTo(let screen):
       if #available(iOS 13.0, *) {
         isModalInPresentation = screen == .loading
@@ -240,7 +242,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case .checkout(let url):
       let viewControllerToPresent = CheckoutWebViewController(
         checkoutUrl: url,
-        keepModelOpenOnComplete: true,
+        keepModalOpenOnComplete: true,
         completion: checkoutCompletion(_:)
       )
       navigationController?.show(viewControllerToPresent, sender: self)
