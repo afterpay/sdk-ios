@@ -63,6 +63,7 @@
 		768350082601882A00F1AFB1 /* CancelCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768350072601882A00F1AFB1 /* CancelCardViewController.swift */; };
 		768853B426083E5A00497238 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768853B326083E5A00497238 /* EnterAmountViewController.swift */; };
 		768853D8260D8DFF00497238 /* SingleUseCardLogicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768853D7260D8DFF00497238 /* SingleUseCardLogicController.swift */; };
+		76AD9C38261424A10062D441 /* VirtualCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AD9C37261424A10062D441 /* VirtualCardViewController.swift */; };
 		76ECB14025F9DA2E005F0B3E /* BodyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ECB13F25F9DA2E005F0B3E /* BodyTextView.swift */; };
 		76ECB14625F9DB4C005F0B3E /* HeadlineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */; };
 		76F3A90025F89C5600C74FB7 /* SingleUseCardInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F3A8FF25F89C5600C74FB7 /* SingleUseCardInfoViewController.swift */; };
@@ -176,6 +177,7 @@
 		768350072601882A00F1AFB1 /* CancelCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCardViewController.swift; sourceTree = "<group>"; };
 		768853B326083E5A00497238 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
 		768853D7260D8DFF00497238 /* SingleUseCardLogicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardLogicController.swift; sourceTree = "<group>"; };
+		76AD9C37261424A10062D441 /* VirtualCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualCardViewController.swift; sourceTree = "<group>"; };
 		76ECB13F25F9DA2E005F0B3E /* BodyTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTextView.swift; sourceTree = "<group>"; };
 		76ECB14525F9DB4C005F0B3E /* HeadlineLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlineLabel.swift; sourceTree = "<group>"; };
 		76F3A8FF25F89C5600C74FB7 /* SingleUseCardInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUseCardInfoViewController.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				DD70771C25D2361900401BDB /* WelcomeView.swift */,
 				768350072601882A00F1AFB1 /* CancelCardViewController.swift */,
 				768853B326083E5A00497238 /* EnterAmountViewController.swift */,
+				76AD9C37261424A10062D441 /* VirtualCardViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -737,6 +740,7 @@
 				DDBD9C1F25D3B4F500008642 /* APIPlusNetworkService.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */,
+				76AD9C38261424A10062D441 /* VirtualCardViewController.swift in Sources */,
 				1522246025C925E5004B9CE5 /* Environment.swift in Sources */,
 				66996F672580A5BE0061C365 /* CheckoutV2Completion.swift in Sources */,
 				157C65AF25D23E8F00115149 /* Version.swift in Sources */,

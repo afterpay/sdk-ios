@@ -19,7 +19,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   private let completion: (_ result: SingleUseCardCheckoutResult) -> Void
 
   private var enterAmountViewController: EnterAmountViewController
-  private let singleUseCardView: SingleUseCardView
+  private let singleUseCardViewController: VirtualCardViewController
   private let loadingView: LoadingView
   private let infoViewController: SingleUseCardInfoViewController
   private var infoBarButtonItem: UIBarButtonItem?
@@ -36,11 +36,10 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       aggregatorName: logicController.aggregatorName,
       merchantName: logicController.merchantName
     )
-    self.singleUseCardView = SingleUseCardView(
-      merchantName: "\(logicController.merchantName) via \(logicController.aggregatorName)",
-      continueAction: #selector(dismissSingleUseCardFlow),
-      editCancelAction: #selector(showEditCancelActionSheet)
+    self.singleUseCardViewController = VirtualCardViewController(
+      merchantName: "\(logicController.merchantName) via \(logicController.aggregatorName)"
     )
+
     self.loadingView = LoadingView()
     self.infoViewController = SingleUseCardInfoViewController(
       merchantName: logicController.merchantName,
@@ -56,6 +55,11 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       }
     })
     enterAmountViewController.setAmount(value: logicController.amount.amount)
+
+    singleUseCardViewController.configureButtons(
+      continueAction: dismissSingleUseCardFlow,
+      editCancelAction: showEditCancelActionSheet
+    )
   }
 
   required init?(coder: NSCoder) {
@@ -81,26 +85,17 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-
-    singleUseCardView.isHidden = true
     loadingView.isHidden = true
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-
-    singleUseCardView.isHidden = false
-    loadingView.isHidden = false
   }
 
   private func setupSubViews() {
-    singleUseCardView.backgroundColor  = view.backgroundColor
-    singleUseCardView.translatesAutoresizingMaskIntoConstraints = false
-
     loadingView.backgroundColor = view.backgroundColor
     loadingView.frame = view.frame
 
-    view.addSubview(singleUseCardView)
     view.addSubview(loadingView)
   }
 
@@ -160,7 +155,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       navigationController?.setNavigationBarHidden(true, animated: true)
     case .singleUseCard:
       navigationController?.setNavigationBarHidden(false, animated: true)
-      navigationItem.leftBarButtonItem = nil
+      singleUseCardViewController.navigationItem.hidesBackButton = true
+      singleUseCardViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
     case .info:
       navigationController?.setNavigationBarHidden(false, animated: true)
       infoViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
@@ -202,25 +198,27 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       completion(.success(virtualCard: virtualCard))
     case .cancelWebCheckout(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
-    case .navigateTo(let screen):
+    case .navigate(let origin, let destination):
       if #available(iOS 13.0, *) {
-        isModalInPresentation = screen == .loading
+        isModalInPresentation = destination == .loading
       }
-      navigateTo(screen: screen)
-      updateNavigationBar(screen: screen)
-      updatePresentationControllerDelegate(screen: screen)
+      navigateScreen(from: origin, to: destination)
+      updateNavigationBar(screen: destination)
+      updatePresentationControllerDelegate(screen: destination)
     }
   }
 
   // TODO: Extract out to separate methods
-  private func navigateTo(screen: Screen) {
-    if case .loading = screen {
+  private func navigateScreen(from origin: Screen, to destination: Screen) {
+    if case .loading = destination {
       loadingView.startLoadingSpinner()
+      loadingView.isHidden = false
     } else {
       loadingView.stopLoadingSpinner()
+      loadingView.isHidden = true
     }
 
-    switch screen {
+    switch destination {
     case .initialAmount(let value):
       enterAmountViewController.setAmount(value: value)
       navigationController?.setViewControllers([self, enterAmountViewController], animated: false)
@@ -235,9 +233,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       else {
         return
       }
-      singleUseCardView.updateCardDetails(with: logicController.amount, virtualCard: card, expiry: expiry)
-      view.bringSubviewToFront(singleUseCardView)
-      updateLayout(with: singleUseCardView)
+      singleUseCardViewController.updateCardDetails(with: logicController.amount, virtualCard: card, expiry: expiry)
+      navigationController?.setViewControllers([self, singleUseCardViewController], animated: true)
 
     case .checkout(let url):
       let viewControllerToPresent = CheckoutWebViewController(
@@ -254,7 +251,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       updateLayout(with: loadingView)
     case .cancel:
       let viewControllerToPresent = CancelCardViewController(cancelAction: confirmCancelCard)
-      navigationController?.show(viewControllerToPresent, sender: self)
+      singleUseCardViewController.navigationController?.show(viewControllerToPresent, sender: self)
     }
   }
 
@@ -281,7 +278,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     logicController.showInfoPage()
   }
 
-  @objc private func showEditCancelActionSheet() {
+  private func showEditCancelActionSheet() {
     let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default) { [weak self] _ in
       self?.logicController.showEditCardScreen()
     }

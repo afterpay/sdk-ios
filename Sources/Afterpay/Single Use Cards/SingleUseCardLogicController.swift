@@ -23,7 +23,7 @@ final class SingleUseCardLogicController {
   }
 
   enum Command {
-    case navigateTo(screen: Screen)
+    case navigate(fromScreen: Screen, toScreen: Screen)
     case handleError(Error)
     case dismissOnCardCancellation
     case showEditCancelActionSheet
@@ -40,7 +40,7 @@ final class SingleUseCardLogicController {
 
   private var currentScreen: Screen {
     didSet {
-      commandHandler(.navigateTo(screen: currentScreen))
+      commandHandler(.navigate(fromScreen: oldValue, toScreen: currentScreen))
     }
   }
 
@@ -75,7 +75,7 @@ final class SingleUseCardLogicController {
   }
 
   func navigateToCurrentScreen() {
-    commandHandler(.navigateTo(screen: currentScreen))
+    commandHandler(.navigate(fromScreen: currentScreen, toScreen: currentScreen))
   }
 
   func checkoutSuccess(checkoutToken: String) {
