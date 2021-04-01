@@ -66,6 +66,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     fatalError("init(coder:) has not been implemented")
   }
 
+  // MARK: - Overrides
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -90,6 +91,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     super.viewWillAppear(animated)
   }
 
+  // MARK: - Setups
   private func setupNavigationBar() {
     navigationController?.navigationBar.barStyle = .black
     navigationController?.navigationBar.isTranslucent = false
@@ -121,6 +123,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     )
   }
 
+  // MARK: - Updates
   private func updateNavigationBar(screen: Screen) {
     switch screen {
     case .initialAmount:
@@ -156,6 +159,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
+  // MARK: - Handlers
   private func handleAPIError(_ error: (Error)) {
     if let apiError = error as? APIPlusError, case .error(let details) = apiError {
       completion(.failed(reason: .apiError(details)))
@@ -179,6 +183,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case .dismissModalOnSuccess(let virtualCard):
       completion(.success(virtualCard: virtualCard))
     case .cancelWebCheckout(let reason):
+      // TODO: Show error in enter amount screen instead
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
     case .navigate(let origin, let destination):
       if #available(iOS 13.0, *) {
@@ -190,6 +195,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
+  // MARK: - Screen navigation
   // TODO: Extract out to separate methods
   private func navigateScreen(from origin: Screen, to destination: Screen) {
 
@@ -202,12 +208,14 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
         navigationController?.setViewControllers([self, enterAmountViewController], animated: false)
       }
     case .editAmount(let value):
-      // TODO: Edit card screen should cancel existing card and create new one
       enterAmountViewController.setAmount(value: value)
       if navigationController?.contains(enterAmountViewController) ?? false {
         navigationController?.popToViewController(enterAmountViewController, animated: true)
       } else {
-        navigationController?.setViewControllers([self, singleUseCardViewController, enterAmountViewController], animated: true)
+        navigationController?.setViewControllers(
+          [self, singleUseCardViewController, enterAmountViewController],
+          animated: true
+        )
       }
     case .singleUseCard:
       guard
@@ -243,7 +251,11 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     logicController.dismissModal()
   }
 
-  // MARK: - Navigation Bar Button Actions
+  // MARK: - Button Actions
+  @objc private func showInfoPage() {
+    logicController.showInfoPage()
+  }
+
   @objc private func dismissSingleUseCardFlow() {
     dismiss(animated: true) { [weak self] in
       self?.logicController.dismissModal()
@@ -255,9 +267,9 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     logicController.loadCheckout(amountValue: amountValue)
   }
 
-  // MARK: - Button Actions
-  @objc private func showInfoPage() {
-    logicController.showInfoPage()
+  private func triggerCheckoutFlowActionfForEdit() {
+    let amountValue = enterAmountViewController.getAmountValue() ?? "0.00"
+    logicController.loadCheckout(amountValue: amountValue)
   }
 
   private func showEditCancelActionSheet() {
@@ -290,8 +302,8 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private func checkoutCompletion(_ result: CheckoutResult) {
     switch result {
-    case .success(let token):
-      logicController.checkoutSuccess(checkoutToken: token)
+    case .success:
+      logicController.checkoutSuccess()
       navigationController?.popToRootViewController(animated: true)
 
     case .cancelled(let reason):
