@@ -34,15 +34,3 @@ public struct ShippingOption: Codable {
   }
 
 }
-
-public struct Money: Codable, Equatable {
-
-  var amount: String
-  var currency: String
-
-  public init(amount: String, currency: String) {
-    self.amount = amount
-    self.currency = currency
-  }
-
-}
