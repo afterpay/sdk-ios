@@ -48,10 +48,10 @@ enum WidgetEvent: Decodable, Equatable {
   case ready(isValid: Bool, amountDue: Money, checksum: String?)
   case change(status: WidgetStatus)
   case error(errorCode: String?, message: String?)
-  case resize
+  case resize(suggestedSize: Int?)
 
   private enum CodingKeys: String, CodingKey {
-    case type, isValid, amountDueToday, paymentScheduleChecksum, error
+    case type, isValid, amountDueToday, paymentScheduleChecksum, error, size
   }
 
   private enum EventType: String, Decodable {
@@ -98,7 +98,9 @@ enum WidgetEvent: Decodable, Equatable {
 
       self = .change(status: status)
     case .resize:
-      self = .resize
+      let suggestedSize = try? container.decodeIfPresent(Int.self, forKey: .size)
+
+      self = .resize(suggestedSize: suggestedSize)
     }
   }
 

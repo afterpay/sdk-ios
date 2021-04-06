@@ -2,16 +2,17 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	</head>
-	<body style="margin: 0px -7px">
-		<div id="afterpay-widget-container"></div>
+	<body>
+		<div id="afterpay-widget-container" style="margin: 16px 0px"></div>
 
 		<script>
 			const app = window.webkit.messageHandlers.iOS;
 
 			function createAfterpayWidget(token, amount, locale) {
 				
-				new MutationObserver(() => { 
-						app.postMessage(JSON.stringify({ "type": "resize" }))
+				new MutationObserver(() => {
+						const height = document.getElementById("afterpay-widget-container").offsetHeight + 36; // plus extra px for margins
+						app.postMessage(JSON.stringify({ "type": "resize", "size": height }));
 					})
 					.observe(
 						document.getElementById('afterpay-widget-container'),

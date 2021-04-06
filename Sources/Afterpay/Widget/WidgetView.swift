@@ -21,6 +21,13 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
   private let initialConfig: Config
 
+  /// The bootstrap JS will send us resize events, which we'll use to populate this value
+  private var suggestedHeight: Int? {
+    didSet {
+      invalidateIntrinsicContentSize()
+    }
+  }
+
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()
 
@@ -117,7 +124,14 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   public override var intrinsicContentSize: CGSize {
-    webView.scrollView.contentSize
+    guard let suggestedHeight = suggestedHeight else {
+      return webView.scrollView.contentSize
+    }
+
+    return CGSize(
+      width: webView.scrollView.contentSize.width,
+      height: max(CGFloat(suggestedHeight), 250)
+    )
   }
 
   private func setupConstraints() {
@@ -230,10 +244,9 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
       let widgetEvent = try decoder.decode(WidgetEvent.self, from: jsonData ?? Data())
       getWidgetHandler()?.didReceiveEvent(widgetEvent)
 
-      if widgetEvent == .resize {
-        invalidateIntrinsicContentSize()
+      if case let .resize(.some(suggestedHeight)) = widgetEvent {
+        self.suggestedHeight = suggestedHeight
       }
-
     } catch {
       getWidgetHandler()?.onFailure(error: error)
     }
