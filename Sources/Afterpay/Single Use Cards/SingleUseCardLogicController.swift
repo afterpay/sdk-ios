@@ -87,14 +87,20 @@ final class SingleUseCardLogicController {
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
     currentScreen = .loading
 
-    callCardCreateAPI(responseHandler: handleCreateCardSuccess(_:))
+    callCardCreateAPI()
   }
 
   func checkoutSuccess() {
     currentScreen = .loading
     // Cancel existing card
     if virtualCard != nil {
-      callCardCancelAPI(cardToken: newSingleUseCardToken, checkOutToken: newCheckoutToken)
+      callCardCancelAPI(
+        cardToken: newSingleUseCardToken,
+        checkOutToken: newCheckoutToken,
+        responseHandler: { [weak self] in
+        self?.handleCancelCardSuccess()
+        self?.callCardConfirmAPI()
+      })
     } else {
       callCardConfirmAPI()
     }
@@ -113,7 +119,11 @@ final class SingleUseCardLogicController {
   // MARK: - Card Cancellation
   func confirmCardCancellation() {
     currentScreen = .loading
-    callCardCancelAPI(cardToken: singleUseCardToken, checkOutToken: checkoutToken)
+    callCardCancelAPI(
+      cardToken: singleUseCardToken,
+      checkOutToken: checkoutToken,
+      responseHandler: handleCancelCardSuccess
+    )
   }
 
   // MARK: - Show screens
@@ -173,8 +183,6 @@ final class SingleUseCardLogicController {
       newSingleUseCardToken = nil
       newCardExpiry = nil
       newCheckoutToken = nil
-
-      callCardConfirmAPI()
     } else if virtualCard != nil {
       self.commandHandler(.dismissOnCardCancellation)
     }
@@ -182,14 +190,14 @@ final class SingleUseCardLogicController {
 
   // MARK: - API Calls
 
-  func callCardCreateAPI(responseHandler: @escaping (SingleUseCardCreateResponse) -> Void) {
+  func callCardCreateAPI() {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(singleUseCardRequest),
       mode: mode
     ) { [weak self] (result: Result<SingleUseCardCreateResponse, Error>) in
       result.fold(
         successTransform: { response in
-          responseHandler(response)
+          self?.handleCreateCardSuccess(response)
         },
         errorTransform: { error in
           self?.commandHandler(.handleError(error))
@@ -229,7 +237,7 @@ final class SingleUseCardLogicController {
   }
 
   // TODO: Handle cancel card failure
-  private func callCardCancelAPI(cardToken: String?, checkOutToken: String?) {
+  private func callCardCancelAPI(cardToken: String?, checkOutToken: String?, responseHandler: @escaping () -> Void) {
     guard
       let cardToken = singleUseCardToken,
       let checkoutToken = checkoutToken
@@ -250,7 +258,7 @@ final class SingleUseCardLogicController {
       mode: mode
     ) { [weak self] result in
       result.fold(
-        successTransform: { _ in self?.handleCancelCardSuccess() },
+        successTransform: { _ in responseHandler() },
         errorTransform: { error in
           self?.commandHandler(.handleError(error))
         }
