@@ -41,7 +41,6 @@ final class SingleUseCardLogicController {
   private var newCardExpiry: String?
   private var newCheckoutToken: String?
 
-
   private var currentScreen: Screen {
     didSet {
       commandHandler(.navigate(fromScreen: oldValue, toScreen: currentScreen))
@@ -156,7 +155,6 @@ final class SingleUseCardLogicController {
   // MARK: - API Response handlers
 
   private func handleCreateCardSuccess(_ response: SingleUseCardCreateResponse) {
-
     if virtualCard == nil {
       singleUseCardToken = response.consumerCardToken
       cardExpiry = response.expires

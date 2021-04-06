@@ -238,7 +238,10 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case .loading:
       navigationController?.show(loadingViewController, sender: self)
     case .cancel:
-      let viewControllerToPresent = CancelCardViewController(cancelAction: confirmCancelCard)
+      let viewControllerToPresent = CancelCardViewController(
+        cancelAction: confirmCancelCard,
+        editCardAction: editAmountCard
+      )
       singleUseCardViewController.navigationController?.show(viewControllerToPresent, sender: self)
     }
   }
@@ -272,7 +275,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private func showEditCancelActionSheet() {
     let editCardAction = UIAlertAction(title: "Edit Card Amount", style: .default) { [weak self] _ in
-      self?.logicController.showEditCardScreen()
+      self?.editAmountCard()
     }
     let cancelAction = UIAlertAction(title: "Cancel Single-Use card", style: .destructive) { [weak self] _ in
       self?.logicController.showCancelCardScreen()
@@ -294,6 +297,10 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
   private func confirmCancelCard() {
     logicController.confirmCardCancellation()
+  }
+
+  private func editAmountCard() {
+    logicController.showEditCardScreen()
   }
 
   // MARK: - Callbacks

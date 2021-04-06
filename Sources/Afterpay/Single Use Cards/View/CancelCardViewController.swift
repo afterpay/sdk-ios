@@ -16,9 +16,11 @@ final class CancelCardViewController: UIViewController {
   private let divider = DividerView()
   private let cancelButton = PrimaryButton(title: "Cancel single-use card")
   private let cancelAction: () -> Void
+  private let editCardAction: () -> Void
 
-  init(cancelAction: @escaping () -> Void) {
+  init(cancelAction: @escaping () -> Void, editCardAction: @escaping () -> Void) {
     self.cancelAction = cancelAction
+    self.editCardAction = editCardAction
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -34,6 +36,9 @@ final class CancelCardViewController: UIViewController {
     If you change your mind simply cancel the card and a refund will be issued for the first payment amount in an estimated 5-7 days (the exact timing depends on your financial institution).
     """
     )
+    let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(editCardTextViewTapped))
+    editAmountTextView.isUserInteractionEnabled = true
+    editAmountTextView.addGestureRecognizer(tapGestureRecogniser)
 
     cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
 
@@ -44,6 +49,10 @@ final class CancelCardViewController: UIViewController {
 
   @objc func cancelButtonTapped() {
     cancelAction()
+  }
+
+  @objc func editCardTextViewTapped() {
+    editCardAction()
   }
 
   private func configureEditAmountTextView() {
@@ -116,6 +125,7 @@ final class CancelCardViewController: UIViewController {
 
   required init?(coder: NSCoder) {
     self.cancelAction = { }
+    self.editCardAction = { }
     super.init(coder: coder)
   }
 }
