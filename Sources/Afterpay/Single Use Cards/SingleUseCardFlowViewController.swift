@@ -196,9 +196,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // MARK: - Screen navigation
-  // TODO: Extract out to separate methods
   private func navigateScreen(from origin: Screen, to destination: Screen) {
-
     switch destination {
     case .initialAmount(let value):
       enterAmountViewController.setAmount(value: value)

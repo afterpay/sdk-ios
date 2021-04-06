@@ -122,7 +122,10 @@ final class SingleUseCardLogicController {
     callCardCancelAPI(
       cardToken: singleUseCardToken,
       checkOutToken: checkoutToken,
-      responseHandler: handleCancelCardSuccess
+      responseHandler: { [weak self] in
+        self?.handleCancelCardSuccess()
+        self?.commandHandler(.dismissOnCardCancellation)
+      }
     )
   }
 
@@ -183,8 +186,6 @@ final class SingleUseCardLogicController {
       newSingleUseCardToken = nil
       newCardExpiry = nil
       newCheckoutToken = nil
-    } else if virtualCard != nil {
-      self.commandHandler(.dismissOnCardCancellation)
     }
   }
 
