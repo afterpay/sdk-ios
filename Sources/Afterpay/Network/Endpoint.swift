@@ -25,7 +25,7 @@ extension Endpoint {
     case .sandbox:
       return "https://api-plus-single-use-cards.us-sandbox.afterpay.com"
     case .production:
-      return "https://api-plus.us.afterpay.com"
+      return "https://api-plus-single-use-cards.us.afterpay.com"
     }
   }
 
