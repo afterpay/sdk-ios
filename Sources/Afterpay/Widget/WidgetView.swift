@@ -84,6 +84,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     setupWebView()
     setupConstraints()
+    setupBorder()
   }
 
   // MARK: Subviews
@@ -145,6 +146,20 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     ]
 
     NSLayoutConstraint.activate(webViewConstraints)
+  }
+
+  private func setupBorder() {
+    layer.masksToBounds = true
+    layer.cornerRadius = 10
+
+    if #available(iOS 13.0, *) {
+      layer.cornerCurve = .continuous
+      layer.borderColor = UIColor.separator.cgColor
+    } else {
+      layer.borderColor = UIColor.lightGray.cgColor
+    }
+
+    layer.borderWidth = 1
   }
 
   // MARK: Public methods
