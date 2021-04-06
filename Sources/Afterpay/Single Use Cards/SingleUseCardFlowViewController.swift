@@ -210,10 +210,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       if navigationController?.contains(enterAmountViewController) ?? false {
         navigationController?.popToViewController(enterAmountViewController, animated: true)
       } else {
-        navigationController?.setViewControllers(
-          [self, singleUseCardViewController, enterAmountViewController],
-          animated: true
-        )
+        navigationController?.show(enterAmountViewController, sender: self)
       }
     case .singleUseCard:
       guard
@@ -242,7 +239,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
         cancelAction: confirmCancelCard,
         editCardAction: editAmountCard
       )
-      singleUseCardViewController.navigationController?.show(viewControllerToPresent, sender: self)
+      navigationController?.show(viewControllerToPresent, sender: self)
     }
   }
 
