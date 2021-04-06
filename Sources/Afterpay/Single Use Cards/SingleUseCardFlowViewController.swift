@@ -183,7 +183,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case .dismissModalOnSuccess(let virtualCard):
       completion(.success(virtualCard: virtualCard))
     case .cancelWebCheckout(let reason):
-      // TODO: Show error in enter amount screen instead
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
     case .navigate(let origin, let destination):
       if #available(iOS 13.0, *) {
