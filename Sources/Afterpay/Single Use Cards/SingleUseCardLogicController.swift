@@ -168,6 +168,7 @@ final class SingleUseCardLogicController {
   }
 
   private func handleCancelCardSuccess() {
+    // Replace with the new tokens when the previous card has been cancelled.
     if let cardToken = newSingleUseCardToken, let expiry = newCardExpiry, let checkoutToken = newCheckoutToken {
       singleUseCardToken = cardToken
       cardExpiry = expiry
