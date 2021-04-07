@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class VirtualCardDisplayViewController: UIViewController {
+final class VirtualCardDisplayViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
   private let merchantName: String
   private let singleUseCardView: SingleUseCardView
@@ -34,6 +34,7 @@ final class VirtualCardDisplayViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    navigationController?.presentationController?.delegate = self
     navigationItem.titleView = LogoView()
 
     view.backgroundColor  = .white
@@ -74,5 +75,11 @@ final class VirtualCardDisplayViewController: UIViewController {
 
   @objc func editCancelButtonTapped() {
     editCancelAction?()
+  }
+
+  // MARK: - UIAdaptivePresentationControllerDelegate
+
+  func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+    continueAction?()
   }
 }

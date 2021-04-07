@@ -57,7 +57,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     enterAmountViewController.setAmount(value: logicController.amount.amount)
 
     singleUseCardViewController.configureButtons(
-      continueAction: dismissSingleUseCardFlow,
+      continueAction: transferCardDetails,
       editCancelAction: showEditCancelActionSheet
     )
   }
@@ -102,7 +102,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     self.closeBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .stop,
       target: self,
-      action: #selector(dismissSingleUseCardFlow)
+      action: nil
     )
     navigationItem.rightBarButtonItem = closeBarButtonItem
 
@@ -124,7 +124,19 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   }
 
   // MARK: - Updates
+  private func updatePresentationControllerDelegate(screen: Screen) {
+    switch screen {
+    case .checkout, .singleUseCard:
+      return
+    default:
+      navigationController?.presentationController?.delegate = self
+    }
+  }
+
+  // MARK: Update Navigation Bar
   private func updateNavigationBar(screen: Screen) {
+    updateCloseBarButton(screen: screen)
+
     switch screen {
     case .initialAmount:
       navigationController?.setNavigationBarHidden(false, animated: true)
@@ -150,12 +162,11 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
-  private func updatePresentationControllerDelegate(screen: Screen) {
-    switch screen {
-    case .checkout:
-      return
-    default:
-      navigationController?.presentationController?.delegate = self
+  private func updateCloseBarButton(screen: Screen) {
+    if case .singleUseCard = screen {
+      closeBarButtonItem?.action = #selector(transferCardDetails)
+    } else {
+      closeBarButtonItem?.action = #selector(dismissSingleUseCardFlow)
     }
   }
 
@@ -242,21 +253,19 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
   }
 
-  // MARK: - UIAdaptivePresentationControllerDelegate
-
-  func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-    logicController.dismissModal()
-  }
-
   // MARK: - Button Actions
   @objc private func showInfoPage() {
     logicController.showInfoPage()
   }
 
-  @objc private func dismissSingleUseCardFlow() {
+  @objc private func transferCardDetails() {
     dismiss(animated: true) { [weak self] in
-      self?.logicController.dismissModal()
+      self?.logicController.completeSingleUseCardFlow()
     }
+  }
+
+  @objc private func dismissSingleUseCardFlow() {
+    dismiss(animated: true, completion: nil)
   }
 
   private func triggerCheckoutFlowAction() {

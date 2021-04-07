@@ -145,9 +145,8 @@ final class SingleUseCardLogicController {
     currentScreen = .cancel
   }
 
-  // MARK: - Dismiss
-  func dismissModal() {
-    if case .singleUseCard = currentScreen, let card = virtualCard {
+  func completeSingleUseCardFlow() {
+    if let card = virtualCard {
       commandHandler(.dismissModalOnSuccess(card))
     }
   }
