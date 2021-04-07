@@ -49,7 +49,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Presenting Web Checkout v2](#presenting-web-checkout-v2)
     - [Debugging](#debugging)
     - [Swift (UIKit)](#swift-uikit-1)
-  - [Presenting The Widget](#presenting-widget)
+  - [Presenting the Widget](#presenting-the-widget)
     - [With Checkout Token](#with-checkout-token)
     - [Tokenless](#tokenless)
     - [Updating the Widget](#updating-the-widget)
