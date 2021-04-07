@@ -247,6 +247,18 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     webView.evaluateJavaScript(javaScript)
   }
 
+  public func webView(
+    _ webView: WKWebView,
+    didReceive challenge: URLAuthenticationChallenge,
+    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+  ) {
+    let handled = authenticationChallengeHandler(challenge, completionHandler)
+
+    if handled == false {
+      completionHandler(.performDefaultHandling, nil)
+    }
+  }
+
   // MARK: WKScriptMessageHandler
 
   public func userContentController(
