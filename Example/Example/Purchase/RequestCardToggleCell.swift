@@ -16,7 +16,7 @@ final class RequestCardToggleCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-    titleLabel.text = "Use consumer card?"
+    titleLabel.text = "Use single-use card?"
     titleLabel.font = .preferredFont(forTextStyle: .headline)
 
     let horizontalStackView = UIStackView(

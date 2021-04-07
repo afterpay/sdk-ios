@@ -114,6 +114,7 @@ final class PurchaseFlowController: UIViewController {
       )
       let okAction = UIAlertAction(title: "OK", style: .cancel)
       alertView.addAction(okAction)
+      navigationController.popViewController(animated: true)
       navigationController.present(alertView, animated: true)
 
     case .provideShippingOptionsResult(let shippingOptionsResult):
