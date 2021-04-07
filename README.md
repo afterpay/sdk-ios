@@ -180,7 +180,7 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 > **⚠️ NOTE:** 
 > This is an experimental feature which is not yet enabled by default. Enable it by passing the argument `-com.afterpay.widget-enabled YES` on launch.
 
-The checkout widget needs to be shown if the order value is going to change after the Afterpay Express checkout has finished. It displays the consumer's payment schedule and can be updated as the order total changes. For example, the order total may change in response to shipping costs and promo codes. It can also be used to show if there are any barriers to the completing the purchase, like if the customer has gone over their Afterpay payment limit.
+The checkout widget displays the consumer's payment schedule, and can be updated as the order total changes. It should be shown if the order value is going to change after the Afterpay Express checkout has finished. For example, the order total may change in response to shipping costs and promo codes. It can also be used to show if there are any barriers to completing the purchase, like if the customer has gone over their Afterpay payment limit.
 
 It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode'). 
 
@@ -507,13 +507,13 @@ final class MyViewController: UIViewController {
 > **⚠️ NOTE:** 
 > This is an experimental feature which is not yet enabled by default. Enable it by passing the argument `-com.afterpay.widget-enabled YES` on launch.
 
-The checkout widget is available via `WidgetView`, which is a `UIView` subclass. There are two initialisers, depending on if you are showing the widget before or after doing a checkout.
+The checkout widget is available via `WidgetView`, which is a `UIView` subclass. There are two initialisers. Which one you'll use depends on if you are showing the widget before or after a checkout.
 
-Internally, the web widget is rendered as in a `WKWebView` subview.  It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which will fit the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height.
+Internally, the web widget is rendered in `WKWebView` subview. It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which fits the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height.
 
 ### With Checkout Token
 
-Use this mode after completing a checkout using [Checkout v2](#checkout-v2). Take the token from the checkout's result, and provide it here. The widget will use the token to look up information about the transaction.
+Use this mode after completing a checkout using the [v2 Checkout](#checkout-v2) feature. Take the token from the checkout's result and provide it to this initialiser. The widget will use the token to look up information about the transaction and display it.
 
 ```swift
 WidgetView.init(token:)
@@ -521,7 +521,7 @@ WidgetView.init(token:)
 
 ### Tokenless
 
-Use this mode if you want a `WidgetView`, but have not yet been through an Afterpay Checkout. The `amount` parameter is the order total as a String. It be in the same currency that was sent to `Afterpay.setConfiguration`.  The configuration object *must* be set before initialising a tokenless widget.
+Use this mode if you want a `WidgetView`, but have not yet been through an Afterpay checkout. The `amount` parameter is the order total. It must be in the same currency that was sent to `Afterpay.setConfiguration`.  The configuration object *must* be set before initialising a tokenless widget.
 
 ```swift
 WidgetView.init(amount:)
@@ -529,9 +529,9 @@ WidgetView.init(amount:)
 
 ### Updating the Widget
 
-When the amount needs to change, you should inform the widget. The amount will change due to circumstances like promo codes, shipping options, _et cetera_.
+The order total will change due to circumstances like promo codes, shipping options, _et cetera_. When the it has changed, you should inform the widget so that it can update what it is displaying. 
 
-You may send updates to the widget via its `sendUpdate(amount:)` function. The `amount` parameter is the total amount of the order. It be in the same currency that was sent to `Afterpay.setConfiguration`.  The configuration object *must* be set calling this method, or it will throw.
+You may send updates to the widget via its `sendUpdate(amount:)` function. The `amount` parameter is the total amount of the order. It must be in the same currency that was sent to `Afterpay.setConfiguration`.  The configuration object *must* be set before calling this method, or it will throw.
 
 ```swift
 widgetView.sendUpdate(amount: "50.00") // set the widget's amount to 50
@@ -549,9 +549,9 @@ widgetView.getStatus { result in
 }
 ```
 
-The `result` returned, if successful, is a `WidgetStatus`. This tells you if the widget is either in a valid or invalid state. `WidgetStatus` is an enum with two cases: `valid` and `invalid`. Each has associated values appropriate for their case. 
+The `result` returned, if successful, is a `WidgetStatus`. This tells you if the widget is either in a valid or invalid state. `WidgetStatus` is an enum with two cases: `valid` and `invalid`. Each case has associated values appropriate for their circumstances. 
 
-`valid` has the amount of money due today and the checkout checksum. The checksum is a unique value representing the payment schedule that must be provided when capturing the order. `invalid` has the error code and error message. These may be `nil`, depending on whether we could decode them or not.
+`valid` has the amount of money due today and the payment schedule checksum. The checksum is a unique value representing the payment schedule that must be provided when capturing the order. `invalid` has the error code and error message. The error code and message are optional.
 
 ### Widget Handler
 
