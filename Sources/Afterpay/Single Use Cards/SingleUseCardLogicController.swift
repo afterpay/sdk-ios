@@ -23,7 +23,7 @@ final class SingleUseCardLogicController {
   }
 
   enum Command {
-    case navigate(fromScreen: Screen, toScreen: Screen)
+    case navigateTo(screen: Screen)
     case handleError(Error)
     case dismissOnCardCancellation
     case showEditCancelActionSheet
@@ -40,12 +40,6 @@ final class SingleUseCardLogicController {
   private var newSingleUseCardToken: String?
   private var newCardExpiry: String?
   private var newCheckoutToken: String?
-
-  private var currentScreen: Screen {
-    didSet {
-      commandHandler(.navigate(fromScreen: oldValue, toScreen: currentScreen))
-    }
-  }
 
   var amount: Money {
     return singleUseCardRequest.amount
@@ -70,27 +64,28 @@ final class SingleUseCardLogicController {
     self.singleUseCardRequest = singleUseCardRequest
     self.mode = mode
     self.aggregatorName = aggregatorName
-    self.currentScreen = .initialAmount(value: singleUseCardRequest.amount.amount)
   }
 
   func configureCommandHandler(with handler: @escaping (Command) -> Void) {
     commandHandler = handler
   }
 
-  func navigateToCurrentScreen() {
-    commandHandler(.navigate(fromScreen: currentScreen, toScreen: currentScreen))
+  func navigateToInitialScreen() {
+    let amountValue = singleUseCardRequest.amount.amount
+    commandHandler(.navigateTo(screen: .initialAmount(value: amountValue)))
   }
 
   // MARK: - Checkout
   func loadCheckout(amountValue: String) {
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
-    currentScreen = .loading
 
+    commandHandler(.navigateTo(screen: .loading))
     callCardCreateAPI()
   }
 
   func checkoutSuccess() {
-    currentScreen = .loading
+    commandHandler(.navigateTo(screen: .loading))
+
     // Cancel existing card
     if virtualCard != nil {
       callCardCancelAPI(
@@ -108,16 +103,16 @@ final class SingleUseCardLogicController {
   func checkoutCancel(reason: CheckoutCancelReason) {
     commandHandler(.cancelWebCheckout(reason: reason))
 
-    if virtualCard == nil {
-      currentScreen = .initialAmount(value: amount.amount)
-    } else {
-      currentScreen = .editAmount(value: amount.amount)
-    }
+    let destinationScreen: Screen = virtualCard == nil ?
+      .initialAmount(value: amount.amount) :
+      .editAmount(value: amount.amount)
+
+    commandHandler(.navigateTo(screen: destinationScreen))
   }
 
   // MARK: - Card Cancellation
   func confirmCardCancellation() {
-    currentScreen = .loading
+    commandHandler(.navigateTo(screen: .loading))
     callCardCancelAPI(
       cardToken: singleUseCardToken,
       checkOutToken: checkoutToken,
@@ -134,15 +129,15 @@ final class SingleUseCardLogicController {
   }
 
   func showInfoPage() {
-    currentScreen = .info
+    commandHandler(.navigateTo(screen: .info))
   }
 
   func showEditCardScreen() {
-    currentScreen = .editAmount(value: singleUseCardRequest.amount.amount)
+    commandHandler(.navigateTo(screen: .editAmount(value: singleUseCardRequest.amount.amount)))
   }
 
   func showCancelCardScreen() {
-    currentScreen = .cancel
+    commandHandler(.navigateTo(screen: .cancel))
   }
 
   func completeSingleUseCardFlow() {
@@ -164,18 +159,16 @@ final class SingleUseCardLogicController {
       newCheckoutToken = response.token
     }
 
-    self.currentScreen = .checkout(url: response.redirectCheckoutUrl)
+    commandHandler(.navigateTo(screen: .checkout(url: response.redirectCheckoutUrl)))
   }
 
   private func handleConfirmCardSucces(_ response: SingleUseCardConfirmResponse) {
     virtualCard = response.paymentDetails.virtualCard
-    self.currentScreen = .singleUseCard
+    commandHandler(.navigateTo(screen: .singleUseCard))
   }
 
   private func handleCancelCardSuccess() {
-    if let cardToken = newSingleUseCardToken,
-       let expiry = newCardExpiry,
-       let checkoutToken = newCheckoutToken {
+    if let cardToken = newSingleUseCardToken, let expiry = newCardExpiry, let checkoutToken = newCheckoutToken {
       singleUseCardToken = cardToken
       cardExpiry = expiry
       self.checkoutToken = checkoutToken

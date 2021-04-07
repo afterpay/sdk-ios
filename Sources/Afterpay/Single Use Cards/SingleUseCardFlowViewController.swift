@@ -78,7 +78,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
 
     navigationController?.presentationController?.delegate = self
 
-    logicController.navigateToCurrentScreen()
+    logicController.navigateToInitialScreen()
 
     setupNavigationBar()
   }
@@ -195,19 +195,19 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       completion(.success(virtualCard: virtualCard))
     case .cancelWebCheckout(let reason):
       completion(.failed(reason: .checkoutCancelled(reason: reason)))
-    case .navigate(let origin, let destination):
+    case .navigateTo(let screen):
       if #available(iOS 13.0, *) {
-        isModalInPresentation = destination == .loading
+        isModalInPresentation = screen == .loading
       }
-      navigateScreen(from: origin, to: destination)
-      updateNavigationBar(screen: destination)
-      updatePresentationControllerDelegate(screen: destination)
+      navigate(to: screen)
+      updateNavigationBar(screen: screen)
+      updatePresentationControllerDelegate(screen: screen)
     }
   }
 
   // MARK: - Screen navigation
-  private func navigateScreen(from origin: Screen, to destination: Screen) {
-    switch destination {
+  private func navigate(to screen: Screen) {
+    switch screen {
     case .initialAmount(let value):
       enterAmountViewController.setAmount(value: value)
       if navigationController?.contains(enterAmountViewController) ?? false {
