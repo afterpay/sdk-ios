@@ -14,6 +14,7 @@
 		157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E88D025CBCA49007E54C4 /* Result+Fold.swift */; };
 		15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
+		5519DFAC261D38A8000628FF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5519DFAB261D38A8000628FF /* README.md */; };
 		551BEDEB25F983E200FDF9EE /* Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDEA25F983E200FDF9EE /* Features.swift */; };
 		551BEDF125F98FA800FDF9EE /* FeaturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDF025F98FA800FDF9EE /* FeaturesTests.swift */; };
 		551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDF725F9B95C00FDF9EE /* WidgetView.swift */; };
@@ -71,6 +72,7 @@
 		15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Afterpay.swift"; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		15FAC56625DCCEDF00DE7792 /* Afterpay.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.podspec; sourceTree = "<group>"; };
+		5519DFAB261D38A8000628FF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		551BEDEA25F983E200FDF9EE /* Features.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features.swift; sourceTree = "<group>"; };
 		551BEDF025F98FA800FDF9EE /* FeaturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesTests.swift; sourceTree = "<group>"; };
 		551BEDF725F9B95C00FDF9EE /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 		668F15FD2487653A0040345C = {
 			isa = PBXGroup;
 			children = (
+				5519DFAB261D38A8000628FF /* README.md */,
 				66B57E4E248F5C650020C642 /* Configurations */,
 				6632E0AD248A015E007F0BD9 /* Deployment */,
 				668F16092487653A0040345C /* Afterpay */,
@@ -445,6 +448,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5519DFAC261D38A8000628FF /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
