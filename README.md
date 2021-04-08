@@ -530,7 +530,7 @@ WidgetView.init(amount:)
 
 ### Widget Options
 
-The widget has appearance options. You will provide these when you initialise the `WidgetView`. 
+The widget has appearance options. You can provide these when you initialise the `WidgetView`. 
 
 Both initialisers take an optional second parameter: a `WidgetView.Style`. The style type contains the appearance options for the widget. At the moment, the only options for `Style` are booleans for the `logo` and the `header`. By default, they are `true`.
 
@@ -578,7 +578,7 @@ The `result` returned, if successful, is a `WidgetStatus`. This tells you if the
 
 ### Widget Handler
 
-If you wish to be informed when the status has changed, set up a `WidgetHandler`. `WidgetHandler` is protocol you can implement, and then provide your implementation to the Afterpay SDK with `Afterpay.setWidgetHandler`. 
+If you wish to be informed when the status has changed, set up a `WidgetHandler`. `WidgetHandler` is protocol you can implement, and then provide your implementation to the Afterpay SDK with `Afterpay.setWidgetHandler`. The SDK will call your implementation when an event occurs.
 
 For example:
 
