@@ -52,6 +52,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Presenting the Widget](#presenting-the-widget)
     - [With Checkout Token](#with-checkout-token)
     - [Tokenless](#tokenless)
+    - [Widget Options](#widget-options)
     - [Updating the Widget](#updating-the-widget)
     - [Getting the Widget Status](#getting-the-widget-status)
     - [Widget Handler](#widget-handler)
@@ -525,6 +526,28 @@ Use this mode if you want a `WidgetView`, but have not yet been through an After
 
 ```swift
 WidgetView.init(amount:)
+```
+
+### Widget Options
+
+The widget has appearance options. You will provide these when you initialise the `WidgetView`. 
+
+Both initialisers take an optional second parameter: a `WidgetView.Style`. The style type contains the appearance options for the widget. At the moment, the only options for `Style` are booleans for the `logo` and the `header`. By default, they are `true`.
+
+```swift
+WidgetView.init(amount: amount, style: WidgetView.Style(logo: false, heading: false))
+```
+
+#### The `WidgetView`'s border
+
+Additionally, the `WidgetView` has a border and rounded corners. These are set on the `WidgetView`'s layer. You can adjust them, too, to fit in with your app's design:
+
+```swift
+// make rounded corners less round
+widgetView.layer.cornerRadius = 4
+
+// change the color of the border
+widgetView.layer.borderColor = UIColor.someOtherColor
 ```
 
 ### Updating the Widget
