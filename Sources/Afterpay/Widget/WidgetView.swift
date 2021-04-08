@@ -19,7 +19,18 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     case money(Money)
   }
 
+  public struct Style: Encodable {
+    let logo: Bool
+    let heading: Bool
+
+    public init(logo: Bool = false, heading: Bool = false) {
+      self.logo = logo
+      self.heading = heading
+    }
+  }
+
   private let initialConfig: Config
+  private let style: Style
 
   /// The bootstrap JS will send us resize events, which we'll use to populate this value
   private var suggestedHeight: Int? {
@@ -31,7 +42,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()
 
-  enum WidgetError: Error {
+  public enum WidgetError: Error {
     /// An error occurred while executing some JavaScript. The error is included as an associated value.
     case javaScriptError(source: Error? = nil)
 
@@ -44,8 +55,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   /// - Parameters:
   ///   - token: The checkout token provided on completion of an Afterpay Checkout. The widget will use the token to
   ///   look up information about the transaction. (eg. The token could come from a `CheckoutResult`'s `success` case)
-  public init(token: String) {
+  ///   - style: Style parameters to pass to the widget.
+  public init(token: String, style: Style = Style()) {
     self.initialConfig = .token(token)
+    self.style = style
 
     super.init(frame: .zero)
 
@@ -60,9 +73,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   /// - Parameters:
   ///   - amount: The order total as a String. Must be in the same currency that was sent to
   ///   `Afterpay.setConfiguration`.
+  ///   - style: Style parameters to pass to the widget.
   ///
   /// - Throws: An error of type `WidgetError.noCurrencyCode` when a currency code has not be configured for the SDK.
-  public init(amount: String) throws {
+  public init(amount: String, style: Style = Style()) throws {
     guard
       let currencyCode = getConfiguration()?.currencyCode
     else {
@@ -70,6 +84,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     }
 
     self.initialConfig = .money(Money(amount: amount, currency: currencyCode))
+    self.style = style
 
     super.init(frame: .zero)
 
@@ -131,7 +146,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     return CGSize(
       width: webView.scrollView.contentSize.width,
-      height: max(CGFloat(suggestedHeight), 250)
+      height: CGFloat(suggestedHeight)
     )
   }
 
@@ -232,19 +247,22 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    let javaScript: String
-
-    let locale = Afterpay.getLocale().identifier
+    let tokenAndMoney: String
 
     switch initialConfig {
     case let .token(token):
-      javaScript = #"createAfterpayWidget("\#(token)", null, "\#(locale)");"#
+      tokenAndMoney = #"\#(token)", null"#
     case let .money(money):
-      let moneyObj = (try? encoder.encode(money)).flatMap { String.init(data: $0, encoding: .utf8) } ?? "null"
-      javaScript = #"createAfterpayWidget(null, \#(moneyObj), "\#(locale)");"#
+      let moneyObj = (try? encoder.encode(money)).flatMap { String(data: $0, encoding: .utf8) } ?? "null"
+      tokenAndMoney = #"null, \#(moneyObj)"#
     }
 
-    webView.evaluateJavaScript(javaScript)
+    let locale = Afterpay.getLocale().identifier
+    let styleParameter = (try? encoder.encode(style)).flatMap { String(data: $0, encoding: .utf8) } ?? "null"
+
+    webView.evaluateJavaScript(
+      #"createAfterpayWidget(\#(tokenAndMoney), "\#(locale)", \#(styleParameter));"#
+    )
   }
 
   public func webView(

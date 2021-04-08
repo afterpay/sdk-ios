@@ -8,7 +8,7 @@
 		<script>
 			const app = window.webkit.messageHandlers.iOS;
 
-			function createAfterpayWidget(token, amount, locale) {
+			function createAfterpayWidget(token, amount, locale, style) {
 				
 				new MutationObserver(() => {
 						const height = document.getElementById("afterpay-widget-container").offsetHeight + 36; // plus extra px for margins
@@ -35,6 +35,8 @@
 					},
 					style: {
 						border: false,
+						logo: style.logo,
+						heading: style.heading,
 					}
 				});
 			}
