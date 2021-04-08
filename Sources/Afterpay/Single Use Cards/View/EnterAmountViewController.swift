@@ -27,8 +27,14 @@ final class EnterAmountViewController: UIViewController {
   }
 
   init(aggregatorName: String, merchantName: String) {
-    self.welcomeView = WelcomeView(continueAction: #selector(welcomeButtonTapped), aggregatorName: aggregatorName)
-    self.enterAmountView = EnterAmountView(continueAction: #selector(enterAmountButtonTapped), merchantName: merchantName)
+    self.welcomeView = WelcomeView(
+      continueAction: #selector(welcomeButtonTapped),
+      aggregatorName: aggregatorName
+    )
+    self.enterAmountView = EnterAmountView(
+      continueAction: #selector(enterAmountButtonTapped),
+      merchantName: merchantName
+    )
 
     super.init(nibName: nil, bundle: nil)
   }
