@@ -40,7 +40,6 @@
 		66BD11B424ADB7EB00039DA6 /* TitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BD11B324ADB7EB00039DA6 /* TitleSubtitleCell.swift */; };
 		66D685B524BD7ABF00C7287C /* SwiftUIExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D685B424BD7ABF00C7287C /* SwiftUIExample.swift */; };
 		66E255A724E3764B00C81F20 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E255A624E3764B00C81F20 /* TextField.swift */; };
-		66E255A924E3818700C81F20 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E255A824E3818700C81F20 /* Label.swift */; };
 		66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */; };
 		66E6FDA624AC377D00ED81E8 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA524AC377D00ED81E8 /* Product.swift */; };
 		66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */; };
@@ -105,7 +104,6 @@
 		66BD11B324ADB7EB00039DA6 /* TitleSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSubtitleCell.swift; sourceTree = "<group>"; };
 		66D685B424BD7ABF00C7287C /* SwiftUIExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExample.swift; sourceTree = "<group>"; };
 		66E255A624E3764B00C81F20 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
-		66E255A824E3818700C81F20 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		66E6FDA324AC344800ED81E8 /* PurchaseLogicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseLogicController.swift; sourceTree = "<group>"; };
 		66E6FDA524AC377D00ED81E8 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseState.swift; sourceTree = "<group>"; };
@@ -148,7 +146,6 @@
 				6650F41B24BC03DC00B16A57 /* Colors.swift */,
 				667F833A24C819120077DC5F /* Dependencies.swift */,
 				665E6A0A24935624009E3BA1 /* Extensions.swift */,
-				66E255A824E3818700C81F20 /* Label.swift */,
 				663A228D249B030D0027C296 /* MessageViewController.swift */,
 				9490D1D524D8ED4F001E1EFC /* Repository.swift */,
 				66E255A624E3764B00C81F20 /* TextField.swift */,
@@ -390,7 +387,6 @@
 				664722A724A5D9B00079B1FB /* AlertFactory.swift in Sources */,
 				665311C124AC22A10088A063 /* ProductsViewController.swift in Sources */,
 				663A228E249B030D0027C296 /* MessageViewController.swift in Sources */,
-				66E255A924E3818700C81F20 /* Label.swift in Sources */,
 				668F162224877F950040345C /* AppDelegate.swift in Sources */,
 				66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */,
 				66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */,

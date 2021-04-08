@@ -14,16 +14,20 @@ final class MessageViewController: UIViewController {
   private var messageLabel = UILabel()
   private var widgetView: WidgetView!
 
-  private let updateLabel = UILabel()
-  private let updateField = UITextField()
-  private let updateButton = UIButton(type: .system)
+  private let updateAmountField = Field(
+    text: "Total Amount:",
+    placeholder: "0.00",
+    keyboardType: .decimalPad,
+    target: self,
+    action: #selector(updateAmountTapped)
+  )
 
   private let getStatusButton = UIButton(type: .system)
 
   private let message: String
-  private let token: Token
+  private let token: Token?
 
-  init(message: String, token: Token) {
+  init(message: String, token: Token?) {
     self.message = message
     self.token = token
 
@@ -38,7 +42,7 @@ final class MessageViewController: UIViewController {
 
     setupMessageLabel()
     setupWidget()
-    setupWidgetUpdateField()
+    setupUpdateAmountField()
     setupGetStatusButton()
   }
 
@@ -69,7 +73,12 @@ final class MessageViewController: UIViewController {
   private func setupWidget() {
     guard AfterpayFeatures.widgetEnabled else { return }
 
-    widgetView = WidgetView(token: token)
+    if let token = token {
+      widgetView = WidgetView(token: token)
+    } else {
+      // swiftlint:disable:next force_try
+      widgetView = try! WidgetView(amount: "200.00")
+    }
     widgetView.translatesAutoresizingMaskIntoConstraints = false
 
     view.addSubview(widgetView)
@@ -85,36 +94,20 @@ final class MessageViewController: UIViewController {
     NSLayoutConstraint.activate(constraints)
   }
 
-  private func setupWidgetUpdateField() {
+  private func setupUpdateAmountField() {
     guard AfterpayFeatures.widgetEnabled else { return }
 
-    updateLabel.text = "Total Amount:"
-    updateLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 249), for: .horizontal)
-
-    updateField.placeholder = "0.00"
-    updateField.keyboardType = .decimalPad
-
-    updateButton.setTitle("Send Update", for: .normal)
-    updateButton.translatesAutoresizingMaskIntoConstraints = false
-    updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
-    updateButton.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
-
-    let stack = UIStackView(arrangedSubviews: [updateLabel, updateField, updateButton])
-    stack.translatesAutoresizingMaskIntoConstraints = false
-    stack.axis = .horizontal
-    stack.spacing = 8
-
-    view.addSubview(stack)
+    view.addSubview(updateAmountField)
 
     let layoutGuide = view.safeAreaLayoutGuide
 
-    let constraints = [
-      stack.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
-      stack.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
-      stack.topAnchor.constraint(equalTo: widgetView.bottomAnchor, constant: 16),
-    ]
-
-    NSLayoutConstraint.activate(constraints)
+    NSLayoutConstraint.activate(
+      [
+        updateAmountField.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
+        updateAmountField.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
+        updateAmountField.topAnchor.constraint(equalTo: widgetView.bottomAnchor, constant: 16),
+      ]
+    )
   }
 
   private func setupGetStatusButton() {
@@ -132,15 +125,15 @@ final class MessageViewController: UIViewController {
     let constraints = [
       getStatusButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
       getStatusButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
-      getStatusButton.topAnchor.constraint(equalTo: updateButton.bottomAnchor, constant: 16),
+      getStatusButton.topAnchor.constraint(equalTo: updateAmountField.bottomAnchor, constant: 16),
     ]
 
     NSLayoutConstraint.activate(constraints)
   }
 
-  @objc private func updateTapped() {
-    widgetView.sendUpdate(
-      amount: updateField.text ?? ""
+  @objc private func updateAmountTapped() throws {
+    try widgetView.sendUpdate(
+      amount: updateAmountField.text ?? ""
     )
   }
 
@@ -162,6 +155,48 @@ final class MessageViewController: UIViewController {
 
   @available(*, unavailable)
   required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+}
+
+private class Field: UIStackView {
+
+  private let label = UILabel()
+  private let textField = UITextField()
+  private let button = UIButton(type: .system)
+
+  var text: String? { textField.text }
+
+  init(
+    text: String,
+    placeholder: String = "…",
+    keyboardType: UIKeyboardType,
+    target: Any?,
+    action: Selector
+  ) {
+    label.text = text
+    label.setContentHuggingPriority(UILayoutPriority(rawValue: 249), for: .horizontal)
+
+    textField.placeholder = placeholder
+    textField.keyboardType = keyboardType
+
+    button.setTitle("Update", for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.addTarget(target, action: action, for: .touchUpInside)
+    button.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
+
+    super.init(frame: .zero)
+
+    translatesAutoresizingMaskIntoConstraints = false
+    axis = .horizontal
+    spacing = 8
+
+    [label, textField, button].forEach(addArrangedSubview)
+  }
+
+  @available(*, unavailable)
+  required init(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
