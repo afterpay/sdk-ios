@@ -86,7 +86,6 @@
 		DD8E78E225DA439000DCB50D /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E78E125DA439000DCB50D /* PrimaryButton.swift */; };
 		DD92264225DA0983009788D1 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92264125DA0983009788D1 /* LoadingView.swift */; };
 		DDABB88125DA192400F2976F /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDABB88025DA192400F2976F /* LogoView.swift */; };
-		DDBD9BFD25D33BFE00008642 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9BFC25D33BFE00008642 /* Money.swift */; };
 		DDBD9C0225D33C3D00008642 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9C0125D33C3D00008642 /* Consumer.swift */; };
 		DDBD9C0825D33C5D00008642 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9C0725D33C5D00008642 /* Contact.swift */; };
 		DDBD9C0C25D33C7000008642 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD9C0B25D33C7000008642 /* Item.swift */; };
@@ -198,7 +197,6 @@
 		DD8E78E125DA439000DCB50D /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		DD92264125DA0983009788D1 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DDABB88025DA192400F2976F /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
-		DDBD9BFC25D33BFE00008642 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		DDBD9C0125D33C3D00008642 /* Consumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consumer.swift; sourceTree = "<group>"; };
 		DDBD9C0725D33C5D00008642 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		DDBD9C0B25D33C7000008642 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -747,7 +745,6 @@
 				151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */,
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,
 				66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */,
-				DDBD9BFD25D33BFE00008642 /* Money.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 				157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */,
 				55A2D307261BB36C00D8E23A /* Money.swift in Sources */,
