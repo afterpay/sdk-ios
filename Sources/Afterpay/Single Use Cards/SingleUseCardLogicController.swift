@@ -147,7 +147,6 @@ final class SingleUseCardLogicController {
   }
 
   // MARK: - API Response handlers
-
   private func handleCreateCardSuccess(_ response: SingleUseCardCreateResponse) {
     if virtualCard == nil {
       singleUseCardToken = response.consumerCardToken
@@ -181,7 +180,6 @@ final class SingleUseCardLogicController {
   }
 
   // MARK: - API Calls
-
   func callCardCreateAPI() {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(singleUseCardRequest),
