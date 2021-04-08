@@ -66,6 +66,7 @@ final class SingleUseCardLogicController {
     self.aggregatorName = aggregatorName
   }
 
+  // MARK: - Public methods
   func configureCommandHandler(with handler: @escaping (Command) -> Void) {
     commandHandler = handler
   }
@@ -75,7 +76,7 @@ final class SingleUseCardLogicController {
     commandHandler(.navigateTo(screen: .initialAmount(value: amountValue)))
   }
 
-  // MARK: - Checkout
+  // MARK: Checkout
   func loadCheckout(amountValue: String) {
     singleUseCardRequest.amount = Money(amount: amountValue, currency: singleUseCardRequest.amount.currency)
 
@@ -110,7 +111,7 @@ final class SingleUseCardLogicController {
     commandHandler(.navigateTo(screen: destinationScreen))
   }
 
-  // MARK: - Card Cancellation
+  // MARK: Card Cancellation
   func confirmCardCancellation() {
     commandHandler(.navigateTo(screen: .loading))
     callCardCancelAPI(
@@ -123,7 +124,7 @@ final class SingleUseCardLogicController {
     )
   }
 
-  // MARK: - Show screens
+  // MARK: Show screens
   func showEditCancelOptions() {
     commandHandler(.showEditCancelActionSheet)
   }
@@ -146,7 +147,8 @@ final class SingleUseCardLogicController {
     }
   }
 
-  // MARK: - API Response handlers
+  // MARK: - Private methods
+  // MARK: Handlers
   private func handleCreateCardSuccess(_ response: SingleUseCardCreateResponse) {
     if virtualCard == nil {
       singleUseCardToken = response.consumerCardToken
@@ -179,7 +181,7 @@ final class SingleUseCardLogicController {
     }
   }
 
-  // MARK: - API Calls
+  // MARK: API Calls
   func callCardCreateAPI() {
     APIPlusNetworkService.shared.request(
       endpoint: .singleUseCards(singleUseCardRequest),

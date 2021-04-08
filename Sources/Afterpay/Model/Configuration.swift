@@ -24,7 +24,7 @@ public enum ConfigurationError: LocalizedError, Equatable {
     case .invalidMaximum(let maximum):
       return "Maximum (\(maximum)) is not convertible to a positive Decimal number"
     case .invalidOrdering(let minimum, let maximum):
-      return "Minmum (\(minimum)) is not strictly less than maximum (\(maximum))"
+      return "Minimum (\(minimum)) is not strictly less than maximum (\(maximum))"
     case .invalidCurrencyCode(let currencyCode):
       return "Currency code (\(currencyCode)) is not valid"
     case .invalidLocale(let locale):
