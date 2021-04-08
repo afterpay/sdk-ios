@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 
+// swiftlint:disable type_body_length
 final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
   typealias Command = SingleUseCardLogicController.Command
   typealias Screen = SingleUseCardLogicController.Screen
@@ -75,11 +76,7 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     }
 
     view.backgroundColor = .white
-
-    navigationController?.presentationController?.delegate = self
-
     logicController.navigateToInitialScreen()
-
     setupNavigationBar()
   }
 
@@ -136,38 +133,45 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
   // MARK: Update Navigation Bar
   private func updateNavigationBar(screen: Screen) {
     updateCloseBarButton(screen: screen)
+    updateNavBarVisibility(screen: screen)
 
     switch screen {
     case .initialAmount:
-      navigationController?.setNavigationBarHidden(false, animated: true)
       enterAmountViewController.navigationItem.hidesBackButton = true
       enterAmountViewController.navigationItem.leftBarButtonItem = infoBarButtonItem
       enterAmountViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
+
     case .editAmount:
-      navigationController?.setNavigationBarHidden(false, animated: true)
       enterAmountViewController.navigationItem.leftBarButtonItem = nil
       enterAmountViewController.navigationItem.hidesBackButton = false
       enterAmountViewController.navigationItem.rightBarButtonItem = infoBarButtonItem
-    case .loading, .checkout:
-      navigationController?.setNavigationBarHidden(true, animated: true)
+
     case .singleUseCard:
-      navigationController?.setNavigationBarHidden(false, animated: true)
       singleUseCardViewController.navigationItem.hidesBackButton = true
       singleUseCardViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
+
     case .info:
-      navigationController?.setNavigationBarHidden(false, animated: true)
       infoViewController.navigationItem.rightBarButtonItem = closeBarButtonItem
-    case .cancel:
+
+    default:
       return
     }
   }
 
-  private func updateCloseBarButton(screen: Screen) {
-    if case .singleUseCard = screen {
-      closeBarButtonItem?.action = #selector(transferCardDetails)
-    } else {
-      closeBarButtonItem?.action = #selector(dismissSingleUseCardFlow)
+  private func updateNavBarVisibility(screen: Screen) {
+    switch screen {
+    case .loading, .checkout:
+      navigationController?.setNavigationBarHidden(true, animated: true)
+    default:
+      navigationController?.setNavigationBarHidden(false, animated: true)
     }
+  }
+
+  private func updateCloseBarButton(screen: Screen) {
+    let actionSelector = (screen == .singleUseCard) ?
+      #selector(transferCardDetails) :
+      #selector(dismissSingleUseCardFlow)
+    closeBarButtonItem?.action = actionSelector
   }
 
   // MARK: - Handlers
@@ -231,7 +235,6 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
       }
       singleUseCardViewController.updateCardDetails(with: logicController.amount, virtualCard: card, expiry: expiry)
       navigationController?.setViewControllers([self, singleUseCardViewController], animated: true)
-
     case .checkout(let url):
       let viewControllerToPresent = CheckoutWebViewController(
         checkoutUrl: url,
@@ -315,9 +318,9 @@ final class SingleUseCardFlowViewController: UIViewController, UIAdaptivePresent
     case .success:
       logicController.checkoutSuccess()
       navigationController?.popToRootViewController(animated: true)
-
     case .cancelled(let reason):
       logicController.checkoutCancel(reason: reason)
     }
   }
 }
+// swiftlint:enable type_body_length
