@@ -251,7 +251,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     switch initialConfig {
     case let .token(token):
-      tokenAndMoney = #"\#(token)", null"#
+      tokenAndMoney = #""\#(token)", null"#
     case let .money(money):
       let moneyObj = (try? encoder.encode(money)).flatMap { String(data: $0, encoding: .utf8) } ?? "null"
       tokenAndMoney = #"null, \#(moneyObj)"#
