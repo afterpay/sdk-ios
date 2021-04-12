@@ -17,6 +17,11 @@ import Foundation
     URL(string: "https://static.afterpay.com/mobile-sdk/bootstrap/index.html")!
   }
 
+
+  var widgetScriptURL: URL {
+    URL(string: "https://portal.sandbox.afterpay.com/afterpay.js")!
+  }
+
   var bootstrapCacheDisplayName: String { "afterpay.com" }
 
 }
