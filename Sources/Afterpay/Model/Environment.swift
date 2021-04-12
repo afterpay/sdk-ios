@@ -13,7 +13,7 @@ import Foundation
   case sandbox
   case production
 
-  var bootstrapURL: URL {
+  var checkoutBootstrapURL: URL {
     URL(string: "https://static.afterpay.com/mobile-sdk/bootstrap/index.html")!
   }
 
