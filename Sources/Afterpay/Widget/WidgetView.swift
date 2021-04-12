@@ -141,7 +141,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     webView.load(
       URLRequest(
-        url: URL(string: "http://localhost:8000/widget-bootstrap.html")!,
+        url: getConfiguration()!.environment.widgetBootstrapURL,
         cachePolicy: .reloadIgnoringLocalCacheData
       )
     )
