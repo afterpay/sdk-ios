@@ -22,7 +22,11 @@ import Foundation
   }
 
   var widgetScriptURL: URL {
-    URL(string: "https://portal.sandbox.afterpay.com/afterpay.js")!
+    /*
+     The `merchant_key` parameter is deprecated. It will be removed in a later version of `afterpay.js`.
+     The value `demo` is sufficient until then.
+     */
+    URL(string: "https://portal.sandbox.afterpay.com/afterpay.js?merchant_key=demo")!
   }
 
   var bootstrapCacheDisplayName: String { "afterpay.com" }

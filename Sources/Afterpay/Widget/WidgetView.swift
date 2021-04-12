@@ -119,7 +119,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     let script =
       """
       var script = document.createElement('script');
-      script.src = '\(configuration.environment.widgetScriptURL.absoluteString)?merchant_key=demo';
+      script.src = '\(configuration.environment.widgetScriptURL.absoluteString)';
       script.type = 'text/javascript';
       document.getElementsByTagName('head')[0].appendChild(script);
       """
