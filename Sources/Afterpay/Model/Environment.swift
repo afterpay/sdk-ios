@@ -18,14 +18,14 @@ import Foundation
   }
 
   var widgetBootstrapURL: URL {
-    URL(string: "http://localhost:8000/widget-bootstrap.html")!
+    URL(string: "https://afterpay.github.io/sdk-example-server/widget-bootstrap.html")!
   }
 
   var widgetScriptURL: URL {
     /*
-     The `merchant_key` parameter is deprecated. It will be removed in a later version of `afterpay.js`.
-     The value `demo` is sufficient until then.
-     */
+    The `merchant_key` parameter is deprecated. It will be removed in a later version of `afterpay.js`.
+    The value `demo` is sufficient until then.
+    */
     URL(string: "https://portal.sandbox.afterpay.com/afterpay.js?merchant_key=demo")!
   }
 
