@@ -38,7 +38,12 @@ final class MessageViewController: UIViewController {
 
   override func loadView() {
     view = UIView()
-    view.backgroundColor = .appBackground
+
+    if #available(iOS 13.0, *) {
+      view.backgroundColor = .secondarySystemBackground
+    } else {
+      view.backgroundColor = .white
+    }
 
     setupMessageLabel()
     try? setupWidget()
