@@ -62,6 +62,7 @@ private struct CheckoutView: View {
         self.repository.checkout(
           email: Settings.email,
           amount: "30.00",
+          checkoutMode: .v1,
           completion: self.checkoutResultHandler
         )
       }

@@ -28,6 +28,7 @@ final class PurchaseLogicController {
   typealias CheckoutResponseProvider = (
     _ email: String,
     _ amount: String,
+    _ checkoutMode: CheckoutMode,
     _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
@@ -104,7 +105,7 @@ final class PurchaseLogicController {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount) { [weak self] result in
+    checkoutResponseProvider(email, amount, .v2) { [weak self] result in
       let tokenResult = result.map(\.token)
       self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
     }

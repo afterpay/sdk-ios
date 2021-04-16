@@ -59,9 +59,10 @@ final class Repository {
   func checkout(
     email: String,
     amount: String,
+    checkoutMode: CheckoutMode,
     completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) {
-    apiClient.checkout(email, amount) { result in
+    apiClient.checkout(email, amount, checkoutMode) { result in
       completion(result.flatMap { data in
         Result { try JSONDecoder().decode(CheckoutsResponse.self, from: data) }
       })
