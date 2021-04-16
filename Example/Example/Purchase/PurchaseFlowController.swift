@@ -36,7 +36,7 @@ final class PurchaseFlowController: UIViewController {
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
 
     checkoutHandler = CheckoutHandler(
-      didCommenceCheckout: logicController.loadCheckout,
+      didCommenceCheckout: logicController.loadCheckoutToken,
       onShippingAddressDidChange: logicController.selectAddress
     )
 
@@ -76,17 +76,32 @@ final class PurchaseFlowController: UIViewController {
         case .didTapPay:
           logicController.payWithAfterpay()
         case .optionsChanged(.buyNow):
-          logicController.toggleOption(\.buyNow)
+          logicController.toggleCheckoutV2Option(\.buyNow)
         case .optionsChanged(.pickup):
-          logicController.toggleOption(\.pickup)
+          logicController.toggleCheckoutV2Option(\.pickup)
         case .optionsChanged(.shippingOptionRequired):
-          logicController.toggleOption(\.shippingOptionRequired)
+          logicController.toggleCheckoutV2Option(\.shippingOptionRequired)
+        case .optionsChanged(.expressToggled):
+          logicController.toggleExpressCheckout()
         }
       }
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayCheckout(let options):
+    case .showAfterpayCheckoutV1(let checkoutURL):
+      Afterpay.presentCheckoutModally(
+        over: ownedNavigationController,
+        loading: checkoutURL
+      ) { result in
+        switch result {
+        case .success(let token):
+          logicController.success(with: token)
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
+        }
+      }
+
+    case .showAfterpayCheckoutV2(let options):
       Afterpay.presentCheckoutV2Modally(over: ownedNavigationController, options: options) { result in
         switch result {
         case .success(let token):

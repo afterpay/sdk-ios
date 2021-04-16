@@ -47,7 +47,7 @@ public func presentCheckoutModally(
 
 /// Optional checkout flags to set when using `presentCheckoutV2Modally` that change the experience
 /// for the end user within the checkout.
-public struct CheckoutV2Options {
+public struct CheckoutV2Options: Equatable {
 
   /// Setting `pickup` to `true` when working with an express order will allow you to specify a
   /// pickup address when creating an order token via the `shipping` object. This also prevents the
