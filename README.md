@@ -52,6 +52,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
   - [Presenting the Widget](#presenting-the-widget)
     - [With Checkout Token](#with-checkout-token)
     - [Tokenless](#tokenless)
+    - [Widget Options](#widget-options)
     - [Updating the Widget](#updating-the-widget)
     - [Getting the Widget Status](#getting-the-widget-status)
     - [Widget Handler](#widget-handler)
@@ -527,6 +528,28 @@ Use this mode if you want a `WidgetView`, but have not yet been through an After
 WidgetView.init(amount:)
 ```
 
+### Widget Options
+
+The widget has appearance options. You can provide these when you initialise the `WidgetView`. 
+
+Both initialisers take an optional second parameter: a `WidgetView.Style`. The style type contains the appearance options for the widget. At the moment, the only options for `Style` are booleans for the `logo` and the `header`. By default, they are `true`.
+
+```swift
+WidgetView.init(amount: amount, style: WidgetView.Style(logo: false, heading: false))
+```
+
+#### The `WidgetView`'s border
+
+Additionally, the `WidgetView` has a border and rounded corners. These are set on the `WidgetView`'s layer. You can adjust them, too, to fit in with your app's design:
+
+```swift
+// make rounded corners less round
+widgetView.layer.cornerRadius = 4
+
+// change the color of the border
+widgetView.layer.borderColor = UIColor.someOtherColor
+```
+
 ### Updating the Widget
 
 The order total will change due to circumstances like promo codes, shipping options, _et cetera_. When the it has changed, you should inform the widget so that it can update what it is displaying. 
@@ -555,7 +578,7 @@ The `result` returned, if successful, is a `WidgetStatus`. This tells you if the
 
 ### Widget Handler
 
-If you wish to be informed when the status has changed, set up a `WidgetHandler`. `WidgetHandler` is protocol you can implement, and then provide your implementation to the Afterpay SDK with `Afterpay.setWidgetHandler`. 
+If you wish to be informed when the status has changed, set up a `WidgetHandler`. `WidgetHandler` is protocol you can implement, and then provide your implementation to the Afterpay SDK with `Afterpay.setWidgetHandler`. The SDK will call your implementation when an event occurs.
 
 For example:
 

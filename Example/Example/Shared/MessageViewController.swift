@@ -77,7 +77,7 @@ final class MessageViewController: UIViewController {
       widgetView = WidgetView(token: token)
     } else {
       // swiftlint:disable:next force_try
-      widgetView = try! WidgetView(amount: "200.00")
+      widgetView = try! WidgetView(amount: "200.00", style: WidgetView.Style(logo: false, heading: true))
     }
     widgetView.translatesAutoresizingMaskIntoConstraints = false
 
