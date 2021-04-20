@@ -11,21 +11,25 @@ import Foundation
 
 final class CheckoutOptionsCell: UITableViewCell {
 
+  let expressLabel = UILabel()
+  let expressSwitch = UISwitch()
+  let checkoutOptionsTitle = UILabel()
   let buyNowLabel = UILabel()
   let buyNowSwitch = UISwitch()
-
   let pickupLabel = UILabel()
   let pickupSwitch = UISwitch()
-
   let shippingOptionRequiredLabel = UILabel()
   let shippingOptionRequiredSwitch = UISwitch()
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-    let title = UILabel()
-    title.font = .preferredFont(forTextStyle: .headline)
-    title.text = "Checkout options"
+    expressLabel.text = "Express checkout"
+    expressLabel.font = .preferredFont(forTextStyle: .headline)
+    expressSwitch.addTarget(self, action: #selector(expressToggled), for: .valueChanged)
+
+    checkoutOptionsTitle.font = .preferredFont(forTextStyle: .headline)
+    checkoutOptionsTitle.text = "Express checkout options"
 
     buyNowLabel.text = "Buy now"
     buyNowSwitch.addTarget(self, action: #selector(buyNowToggled), for: .valueChanged)
@@ -40,7 +44,8 @@ final class CheckoutOptionsCell: UITableViewCell {
 
     let verticalStack = UIStackView(
       arrangedSubviews: [
-        title,
+        UIStackView(arrangedSubviews: [expressLabel, expressSwitch]),
+        checkoutOptionsTitle,
         UIStackView(arrangedSubviews: [buyNowLabel, buyNowSwitch]),
         UIStackView(arrangedSubviews: [pickupLabel, pickupSwitch]),
         UIStackView(arrangedSubviews: [shippingOptionRequiredLabel, shippingOptionRequiredSwitch]),
@@ -80,17 +85,32 @@ final class CheckoutOptionsCell: UITableViewCell {
     case buyNow
     case pickup
     case shippingOptionRequired
+
+    case expressToggled
   }
 
-  func configure(initialOptions: CheckoutV2Options, eventHandler: ((Event) -> Void)? = nil) {
-    buyNowSwitch.isOn = initialOptions.buyNow ?? false
-    pickupSwitch.isOn = initialOptions.pickup ?? false
-    shippingOptionRequiredSwitch.isOn = initialOptions.shippingOptionRequired ?? true
+  func configure(options: CheckoutV2Options, expressCheckout: Bool, eventHandler: ((Event) -> Void)? = nil) {
+    expressSwitch.isOn = expressCheckout
+    configureCheckoutV2Options(enabled: expressCheckout)
+
+    buyNowSwitch.isOn = options.buyNow ?? false
+    pickupSwitch.isOn = options.pickup ?? false
+    shippingOptionRequiredSwitch.isOn = options.shippingOptionRequired ?? true
 
     self.eventHandler = eventHandler
   }
 
+  private func configureCheckoutV2Options(enabled: Bool) {
+    [buyNowSwitch, pickupSwitch, shippingOptionRequiredSwitch].forEach { $0.isEnabled = enabled }
+    [checkoutOptionsTitle, buyNowLabel, pickupLabel, shippingOptionRequiredLabel].forEach { $0.isEnabled = enabled }
+  }
+
   private var eventHandler: ((Event) -> Void)?
+
+  @objc public func expressToggled() {
+    eventHandler?(.expressToggled)
+    configureCheckoutV2Options(enabled: expressSwitch.isOn)
+  }
 
   @objc public func buyNowToggled() {
     eventHandler?(.buyNow)

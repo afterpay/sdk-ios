@@ -129,9 +129,11 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         for: indexPath) as! CheckoutOptionsCell
 
       optionsCell.configure(
-        initialOptions: cart.initialCheckoutOptions,
-        eventHandler: { self.eventHandler(.optionsChanged($0)) }
-      )
+        options: cart.checkoutV2Options,
+        expressCheckout: cart.expressCheckout
+      ) { option in
+        self.eventHandler(.optionsChanged(option))
+      }
 
       cell = optionsCell
     }

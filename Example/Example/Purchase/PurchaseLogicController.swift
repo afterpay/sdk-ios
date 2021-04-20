@@ -14,9 +14,13 @@ final class PurchaseLogicController {
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayCheckout(CheckoutV2Options)
+
+    case showAfterpayCheckoutV1(checkoutURL: URL)
+
+    case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
+
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
   }
@@ -28,6 +32,7 @@ final class PurchaseLogicController {
   typealias CheckoutResponseProvider = (
     _ email: String,
     _ amount: String,
+    _ checkoutMode: CheckoutMode,
     _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
@@ -41,11 +46,13 @@ final class PurchaseLogicController {
 
   private var quantities: [UUID: UInt] = [:]
 
-  private var checkoutOptions = CheckoutV2Options(
+  private var checkoutV2Options = CheckoutV2Options(
     pickup: false,
     buyNow: false,
     shippingOptionRequired: true
   )
+
+  private var expressCheckout: Bool = true
 
   private var productDisplayModels: [ProductDisplay] {
     ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
@@ -80,31 +87,52 @@ final class PurchaseLogicController {
     commandHandler(.updateProducts(productDisplayModels))
   }
 
-  func toggleOption(_ option: WritableKeyPath<CheckoutV2Options, Bool?>) {
-    let currentValue = checkoutOptions[keyPath: option] ?? false
-    checkoutOptions[keyPath: option] = !currentValue
+  func toggleCheckoutV2Option(_ option: WritableKeyPath<CheckoutV2Options, Bool?>) {
+    let currentValue = checkoutV2Options[keyPath: option] ?? false
+    checkoutV2Options[keyPath: option] = !currentValue
+  }
+
+  func toggleExpressCheckout() {
+    expressCheckout.toggle()
   }
 
   func viewCart() {
     let productsInCart = productDisplayModels.filter { (quantities[$0.id] ?? 0) > 0 }
     let cart = CartDisplay(
-      products: productsInCart, total: total, currencyCode: currencyCode,
-      initialCheckoutOptions: checkoutOptions
+      products: productsInCart,
+      total: total,
+      currencyCode: currencyCode,
+      expressCheckout: expressCheckout,
+      initialCheckoutOptions: checkoutV2Options
     )
     commandHandler(.showCart(cart))
   }
 
   func payWithAfterpay() {
-    commandHandler(
-      .showAfterpayCheckout(checkoutOptions)
-    )
+    if expressCheckout {
+      commandHandler(.showAfterpayCheckoutV2(checkoutV2Options))
+    } else {
+      loadCheckoutURL(then: { self.commandHandler(.showAfterpayCheckoutV1(checkoutURL: $0)) })
+    }
   }
 
-  func loadCheckout() {
+  func loadCheckoutURL(then command: @escaping (URL) -> Void) {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount) { [weak self] result in
+    checkoutResponseProvider(email, amount, .v1) { result in
+      guard let url = try? result.map(\.url).get() else {
+        return
+      }
+      command(url)
+    }
+  }
+
+  func loadCheckoutToken() {
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    let amount = formatter.string(from: total)
+
+    checkoutResponseProvider(email, amount, .v2) { [weak self] result in
       let tokenResult = result.map(\.token)
       self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
     }
