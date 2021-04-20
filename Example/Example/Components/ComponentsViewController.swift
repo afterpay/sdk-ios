@@ -14,10 +14,6 @@ final class ComponentsViewController: UIViewController {
 
   private var scrollView: UIScrollView!
   private var pickerView: UIPickerView!
-  private var minimumAmountTextField: UITextField!
-  private var maximumAmountTextField: UITextField!
-  private var localeTextField: UITextField!
-  private var currencyTextField: UITextField!
 
   override func loadView() {
     let view = UIView()
@@ -118,22 +114,6 @@ final class ComponentsViewController: UIViewController {
     let insets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
     scrollView.contentInset =  insets
     scrollView.scrollIndicatorInsets = insets
-
-    let textFields: [UITextField] = [
-      minimumAmountTextField,
-      maximumAmountTextField,
-      localeTextField,
-      currencyTextField,
-    ]
-
-    let activeTextFieldOrigin = textFields
-      .first { $0.isFirstResponder }
-      .map { $0.frame.origin }
-
-    if let origin = activeTextFieldOrigin, !view.frame.contains(origin) {
-      let offset = CGPoint(x: 0, y: origin.y - keyboardHeight)
-      scrollView.setContentOffset(offset, animated: true)
-    }
   }
 
 }
