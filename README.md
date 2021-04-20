@@ -178,9 +178,6 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 
 ## Widget
 
-> **⚠️ NOTE:** 
-> This is an experimental feature which is not yet enabled by default. Enable it by passing the argument `-com.afterpay.widget-enabled YES` on launch.
-
 The checkout widget displays the consumer's payment schedule, and can be updated as the order total changes. It should be shown if the order value is going to change after the Afterpay Express checkout has finished. For example, the order total may change in response to shipping costs and promo codes. It can also be used to show if there are any barriers to completing the purchase, like if the customer has gone over their Afterpay payment limit.
 
 It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode'). 
@@ -196,6 +193,8 @@ WidgetView.init(amount:)
 ## Security
 
 For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
+
+This technique is support on both the checkout versions, and the widget.
 
 ### Swift
 
@@ -517,9 +516,6 @@ final class MyViewController: UIViewController {
 ```
 
 ## Presenting The Widget
-
-> **⚠️ NOTE:** 
-> This is an experimental feature which is not yet enabled by default. Enable it by passing the argument `-com.afterpay.widget-enabled YES` on launch.
 
 The checkout widget is available via `WidgetView`, which is a `UIView` subclass. There are two initialisers. Which one you'll use depends on if you are showing the widget before or after a checkout.
 
