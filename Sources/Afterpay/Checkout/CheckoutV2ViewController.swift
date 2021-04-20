@@ -45,7 +45,7 @@ final class CheckoutV2ViewController:
 
   // MARK: URLs
 
-  private var bootstrapURL: URL { configuration.environment.bootstrapURL }
+  private var bootstrapURL: URL { configuration.environment.checkoutBootstrapURL }
 
   // MARK: Web Views
 

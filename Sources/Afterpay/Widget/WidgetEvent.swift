@@ -25,7 +25,7 @@ public enum WidgetStatus: Decodable, Equatable {
   case invalid(errorCode: String?, message: String?)
 
   private enum CodingKeys: String, CodingKey {
-    case isValid, amountDueToday, paymentScheduleChecksum
+    case isValid, amountDueToday, paymentScheduleChecksum, error
   }
 
   public init(from decoder: Decoder) throws {
@@ -37,10 +37,16 @@ public enum WidgetStatus: Decodable, Equatable {
 
       self = .valid(amountDueToday: amountDue, checksum: checksum)
     } else {
-      self = .invalid(errorCode: nil, message: nil)
+      let error = try? container.decodeIfPresent(WidgetError.self, forKey: .error)
+      self = .invalid(errorCode: error?.errorCode, message: error?.message)
     }
   }
 
+}
+
+private struct WidgetError: Codable {
+  let errorCode: String
+  let message: String
 }
 
 enum WidgetEvent: Decodable, Equatable {
@@ -56,11 +62,6 @@ enum WidgetEvent: Decodable, Equatable {
 
   private enum EventType: String, Decodable {
     case ready, change, error, resize
-  }
-
-  private struct WidgetError: Codable {
-    let errorCode: String
-    let message: String
   }
 
   init(from decoder: Decoder) throws {

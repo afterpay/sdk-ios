@@ -38,10 +38,15 @@ final class MessageViewController: UIViewController {
 
   override func loadView() {
     view = UIView()
-    view.backgroundColor = .appBackground
+
+    if #available(iOS 13.0, *) {
+      view.backgroundColor = .secondarySystemBackground
+    } else {
+      view.backgroundColor = .white
+    }
 
     setupMessageLabel()
-    setupWidget()
+    try? setupWidget()
     setupUpdateAmountField()
     setupGetStatusButton()
   }
@@ -70,14 +75,13 @@ final class MessageViewController: UIViewController {
     NSLayoutConstraint.activate(labelConstraints)
   }
 
-  private func setupWidget() {
+  private func setupWidget() throws {
     guard AfterpayFeatures.widgetEnabled else { return }
 
     if let token = token {
-      widgetView = WidgetView(token: token)
+      widgetView = try WidgetView(token: token)
     } else {
-      // swiftlint:disable:next force_try
-      widgetView = try! WidgetView(amount: "200.00", style: WidgetView.Style(logo: false, heading: true))
+      widgetView = try WidgetView(amount: "200.00", style: WidgetView.Style(logo: false, heading: true))
     }
     widgetView.translatesAutoresizingMaskIntoConstraints = false
 

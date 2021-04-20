@@ -14,7 +14,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
   private var webView: WKWebView!
 
-  private enum Config {
+  private enum Mode {
     case token(String)
     case money(Money)
   }
@@ -29,7 +29,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     }
   }
 
-  private let initialConfig: Config
+  private let widgetMode: Mode
+  private let configuration: Configuration
   private let style: Style
 
   /// The bootstrap JS will send us resize events, which we'll use to populate this value
@@ -46,8 +47,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     /// An error occurred while executing some JavaScript. The error is included as an associated value.
     case javaScriptError(source: Error? = nil)
 
-    /// No currency code was set in the Afterpay configuration. Set one with `Afterpay.setConfiguration` first.
-    case noCurrencyCode
+    /// No config has been set for the Afterpay SDK. Set one with `Afterpay.setConfiguration` first.
+    case noConfiguration
   }
 
   /// Initialize the `WidgetView` with a token.
@@ -56,8 +57,15 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   ///   - token: The checkout token provided on completion of an Afterpay Checkout. The widget will use the token to
   ///   look up information about the transaction. (eg. The token could come from a `CheckoutResult`'s `success` case)
   ///   - style: Style parameters to pass to the widget.
-  public init(token: String, style: Style = Style()) {
-    self.initialConfig = .token(token)
+  ///
+  /// - Throws: An error of type `WidgetError.noConfiguration` the SDK has not be had a configuration set first.
+  public init(token: String, style: Style = Style()) throws {
+    guard let configuration = getConfiguration() else {
+      throw WidgetError.noConfiguration
+    }
+
+    self.configuration = configuration
+    self.widgetMode = .token(token)
     self.style = style
 
     super.init(frame: .zero)
@@ -75,15 +83,14 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   ///   `Afterpay.setConfiguration`.
   ///   - style: Style parameters to pass to the widget.
   ///
-  /// - Throws: An error of type `WidgetError.noCurrencyCode` when a currency code has not be configured for the SDK.
+  /// - Throws: An error of type `WidgetError.noConfiguration` the SDK has not be had a configuration set first.
   public init(amount: String, style: Style = Style()) throws {
-    guard
-      let currencyCode = getConfiguration()?.currencyCode
-    else {
-      throw WidgetError.noCurrencyCode
+    guard let configuration = getConfiguration() else {
+      throw WidgetError.noConfiguration
     }
 
-    self.initialConfig = .money(Money(amount: amount, currency: currencyCode))
+    self.configuration = configuration
+    self.widgetMode = .money(Money(amount: amount, currency: configuration.currencyCode))
     self.style = style
 
     super.init(frame: .zero)
@@ -109,8 +116,18 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     preferences.javaScriptEnabled = true
     preferences.javaScriptCanOpenWindowsAutomatically = true
 
+    let script =
+      """
+      var script = document.createElement('script');
+      script.src = '\(configuration.environment.widgetScriptURL.absoluteString)';
+      script.type = 'text/javascript';
+      document.getElementsByTagName('head')[0].appendChild(script);
+      """
+    let userScript = WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+
     let userContentController = WKUserContentController()
     userContentController.add(self, name: "iOS")
+    userContentController.addUserScript(userScript)
 
     let bootstrapConfiguration = WKWebViewConfiguration()
     bootstrapConfiguration.processPool = WKProcessPool()
@@ -124,7 +141,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     webView.load(
       URLRequest(
-        url: URL(string: "http://localhost:8000/widget-bootstrap.html")!,
+        url: getConfiguration()!.environment.widgetBootstrapURL,
         cachePolicy: .reloadIgnoringLocalCacheData
       )
     )
@@ -186,14 +203,9 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   ///
   /// - Parameter amount: The order total as a String. Must be in the same currency that was sent to
   /// `Afterpay.setConfiguration`.
-  ///
-  /// - Throws: An error of type `WidgetError.noCurrencyCode` when a currency code has not be configured for the SDK.
   public func sendUpdate(amount: String) throws {
-    guard let currencyCode = getConfiguration()?.currencyCode else {
-      throw WidgetError.noCurrencyCode
-    }
     guard
-      let data = try? encoder.encode(Money(amount: amount, currency: currencyCode)),
+      let data = try? encoder.encode(Money(amount: amount, currency: configuration.currencyCode)),
       let json = String(data: data, encoding: .utf8)
     else {
       return
@@ -249,7 +261,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
     let tokenAndMoney: String
 
-    switch initialConfig {
+    switch widgetMode {
     case let .token(token):
       tokenAndMoney = #""\#(token)", null"#
     case let .money(money):
