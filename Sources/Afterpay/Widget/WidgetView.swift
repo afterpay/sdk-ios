@@ -116,18 +116,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     preferences.javaScriptEnabled = true
     preferences.javaScriptCanOpenWindowsAutomatically = true
 
-    let script =
-      """
-      var script = document.createElement('script');
-      script.src = '\(configuration.environment.widgetScriptURL.absoluteString)';
-      script.type = 'text/javascript';
-      document.getElementsByTagName('head')[0].appendChild(script);
-      """
-    let userScript = WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-
     let userContentController = WKUserContentController()
     userContentController.add(self, name: "iOS")
-    userContentController.addUserScript(userScript)
 
     let bootstrapConfiguration = WKWebViewConfiguration()
     bootstrapConfiguration.processPool = WKProcessPool()
