@@ -16,7 +16,7 @@
 		55FA7270260025DC0006EFCB /* WidgetHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FA726F260025DC0006EFCB /* WidgetHandler.swift */; };
 		660072B724A1B55E00E9A2BC /* TextSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660072B624A1B55E00E9A2BC /* TextSettingCell.swift */; };
 		6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620B5D124934FB3004162BC /* AppFlowController.swift */; };
-		663A228E249B030D0027C296 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A228D249B030D0027C296 /* MessageViewController.swift */; };
+		663A228E249B030D0027C296 /* WidgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A228D249B030D0027C296 /* WidgetViewController.swift */; };
 		6640C15424D9208000F7F4CC /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640C15324D9208000F7F4CC /* SwiftUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		664722A724A5D9B00079B1FB /* AlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664722A624A5D9B00079B1FB /* AlertFactory.swift */; };
 		6650F41C24BC03DC00B16A57 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6650F41B24BC03DC00B16A57 /* Colors.swift */; };
@@ -77,7 +77,7 @@
 		55FA726F260025DC0006EFCB /* WidgetHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetHandler.swift; sourceTree = "<group>"; };
 		660072B624A1B55E00E9A2BC /* TextSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSettingCell.swift; sourceTree = "<group>"; };
 		6620B5D124934FB3004162BC /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
-		663A228D249B030D0027C296 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		663A228D249B030D0027C296 /* WidgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewController.swift; sourceTree = "<group>"; };
 		6640C15324D9208000F7F4CC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		664722A624A5D9B00079B1FB /* AlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFactory.swift; sourceTree = "<group>"; };
 		6650F41B24BC03DC00B16A57 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 				6650F41B24BC03DC00B16A57 /* Colors.swift */,
 				667F833A24C819120077DC5F /* Dependencies.swift */,
 				665E6A0A24935624009E3BA1 /* Extensions.swift */,
-				663A228D249B030D0027C296 /* MessageViewController.swift */,
+				663A228D249B030D0027C296 /* WidgetViewController.swift */,
 				9490D1D524D8ED4F001E1EFC /* Repository.swift */,
 				66E255A624E3764B00C81F20 /* TextField.swift */,
 				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
@@ -386,7 +386,7 @@
 				6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */,
 				664722A724A5D9B00079B1FB /* AlertFactory.swift in Sources */,
 				665311C124AC22A10088A063 /* ProductsViewController.swift in Sources */,
-				663A228E249B030D0027C296 /* MessageViewController.swift in Sources */,
+				663A228E249B030D0027C296 /* WidgetViewController.swift in Sources */,
 				668F162224877F950040345C /* AppDelegate.swift in Sources */,
 				66E6FDA824AC3BDD00ED81E8 /* PurchaseState.swift in Sources */,
 				66E6FDA424AC344800ED81E8 /* PurchaseLogicController.swift in Sources */,
