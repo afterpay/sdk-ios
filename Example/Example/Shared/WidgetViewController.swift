@@ -9,7 +9,7 @@
 import Afterpay
 import UIKit
 
-final class MessageViewController: UIViewController {
+final class WidgetViewController: UIViewController {
 
   private var messageLabel = UILabel()
   private var widgetView: WidgetView!
@@ -24,16 +24,30 @@ final class MessageViewController: UIViewController {
 
   private let getStatusButton = UIButton(type: .system)
 
-  private let message: String
-  private let token: Token?
+  private enum Either {
+    case token(Token)
+    case money(amount: String)
+  }
 
-  init(message: String, token: Token?) {
-    self.message = message
-    self.token = token
+  private let message: String
+  private let tokenOrMoney: Either
+
+  init(title: String, token: Token) {
+    self.tokenOrMoney = .token(token)
+    self.message = token
 
     super.init(nibName: nil, bundle: nil)
 
-    self.title = message
+    self.title = title
+  }
+
+  init(title: String, amount: String) {
+    self.tokenOrMoney = .money(amount: amount)
+    self.message = amount
+
+    super.init(nibName: nil, bundle: nil)
+
+    self.title = title
   }
 
   override func loadView() {
@@ -77,12 +91,15 @@ final class MessageViewController: UIViewController {
 
   private func setupWidget() throws {
     guard AfterpayFeatures.widgetEnabled else { return }
+    let style = WidgetView.Style(logo: false, heading: true)
 
-    if let token = token {
-      widgetView = try WidgetView(token: token)
-    } else {
-      widgetView = try WidgetView(amount: "200.00", style: WidgetView.Style(logo: false, heading: true))
+    switch tokenOrMoney {
+    case .token(let token):
+      widgetView = try WidgetView(token: token, style: style)
+    case .money(let amount):
+      widgetView = try WidgetView(amount: amount, style: style)
     }
+
     widgetView.translatesAutoresizingMaskIntoConstraints = false
 
     view.addSubview(widgetView)

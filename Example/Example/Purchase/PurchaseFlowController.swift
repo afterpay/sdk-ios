@@ -122,8 +122,8 @@ final class PurchaseFlowController: UIViewController {
       navigationController.present(alert, animated: true, completion: nil)
 
     case .showSuccessWithMessage(let message, let token):
-      let messageViewController = MessageViewController(message: message, token: token)
-      let viewControllers = [productsViewController, messageViewController]
+      let widgetViewController = WidgetViewController(title: message, token: token)
+      let viewControllers = [productsViewController, widgetViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     }
   }

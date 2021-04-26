@@ -82,4 +82,20 @@ final class WidgetEventTests: XCTestCase {
     )
   }
 
+  func testDecodingError() throws {
+    let eventJSON = """
+    {
+      "type": "error",
+      "error": { "errorCode": "SAD", "message": "I am sad" }
+    }
+    """.data(using: .utf8)!
+
+    let event = try JSONDecoder().decode(WidgetEvent.self, from: eventJSON)
+
+    XCTAssertEqual(
+      event,
+      .error(errorCode: "SAD", message: "I am sad")
+    )
+  }
+
 }

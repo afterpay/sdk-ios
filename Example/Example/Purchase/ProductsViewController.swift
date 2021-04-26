@@ -79,8 +79,8 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
   // MARK: Actions
 
   @objc private func tokenlessWidgetTapped() {
-    let messageViewController = MessageViewController(message: "Tokenless", token: nil)
-    navigationController?.pushViewController(messageViewController, animated: true)
+    let widgetViewController = WidgetViewController(title: "Tokenless", amount: "200.00")
+    navigationController?.pushViewController(widgetViewController, animated: true)
   }
 
   @objc private func didTapViewCart() {
