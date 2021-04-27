@@ -14,7 +14,7 @@ jobs:
 
   build-and-test:
     name: Build and Test
-    runs-on: macos-latest
+    runs-on: macos-11.0
 
     env:
       destination: platform=iOS Simulator,name=iPhone 11,OS=14.5
