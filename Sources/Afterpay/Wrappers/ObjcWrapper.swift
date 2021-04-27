@@ -15,12 +15,10 @@ public final class ObjcWrapper: NSObject {
   @available(*, unavailable)
   public override init() {}
 
-  /// Cannot be instantiated, instances will be of type CheckoutResultSuccess or
-  /// CheckoutResultCancelled
+  /// Should not be instantiated, instances should be of type CheckoutResultSuccess or CheckoutResultCancelled
   @objc(APCheckoutResult)
   public class CheckoutResult: NSObject {
-    @available(*, unavailable)
-    override init() {}
+    internal override init() {}
 
     static func success(token: String) -> CheckoutResultSuccess {
       CheckoutResultSuccess(token: token)
@@ -49,12 +47,11 @@ public final class ObjcWrapper: NSObject {
     }
   }
 
-  /// Cannot be instantiated, instances will be of type CancellationReasonUserInitiated,
-  /// CancellationReasonNetworkError or CancellationReasonInvalidURL
   @objc(APCancellationReason)
   public class CancellationReason: NSObject {
-    @available(*, unavailable)
-    override init() {}
+    /// Should not be instantiated, instances should be of type CancellationReasonUserInitiated,
+    /// CancellationReasonNetworkError or CancellationReasonInvalidURL
+    internal override init() {}
 
     static func userInitiated() -> CancellationReasonUserInitiated {
       CancellationReasonUserInitiated(())
