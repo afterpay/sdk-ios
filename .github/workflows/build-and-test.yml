@@ -84,7 +84,12 @@ jobs:
 
     - name: UI Test SDK Project
       run: |
-        xcodebuild test \
+        xcodebuild build-for-testing \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.example-ui-test-scheme }} \
+          -destination '${{ env.destination }}'
+          
+        xcodebuild test-without-building \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-ui-test-scheme }} \
           -destination '${{ env.destination }}'
