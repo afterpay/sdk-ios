@@ -43,6 +43,7 @@ struct URLItem: Identifiable {
 
 }
 
+@available(iOS 13.0, *)
 struct SwiftUIWrapper: UIViewControllerRepresentable {
 
   let checkoutURL: URL
