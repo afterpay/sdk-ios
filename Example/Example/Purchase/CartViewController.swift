@@ -50,6 +50,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
     let payButton: UIButton = PaymentButton()
     payButton.isEnabled = cart.payEnabled
+    payButton.accessibilityIdentifier = "payNow"
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
     view.addSubview(tableView)
