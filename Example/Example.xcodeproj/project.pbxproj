@@ -321,6 +321,7 @@
 				55432831263B7EC2005512E4 /* Sources */,
 				55432832263B7EC2005512E4 /* Frameworks */,
 				55432833263B7EC2005512E4 /* Resources */,
+				5543283F263BB5EE005512E4 /* Check Example Server is running */,
 			);
 			buildRules = (
 			);
@@ -417,6 +418,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5543283F263BB5EE005512E4 /* Check Example Server is running */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Check Example Server is running";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "curl localhost:3000 || (echo \"Cannot connect to the Example Server... Has it been started?\" ; exit 1) \n";
+		};
 		6632E0B0248A0288007F0BD9 /* swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
