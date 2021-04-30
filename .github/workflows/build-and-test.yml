@@ -19,6 +19,7 @@ jobs:
     env:
       destination: platform=iOS Simulator,name=iPhone 11,OS=14.0
       example-scheme: Example
+      example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
 
     steps:
@@ -81,6 +82,12 @@ jobs:
         AFTERPAY_SECRET_KEY: ${{ secrets.AFTERPAY_SECRET_KEY_AU }}
         AFTERPAY_REGION: AU
 
+    - name: UI Test SDK Project
+      run: |
+        xcodebuild test \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.example-ui-test-scheme }} \
+          -destination '${{ env.destination }}'
 
   validate-cocoapods:
     name: Validate Pod
