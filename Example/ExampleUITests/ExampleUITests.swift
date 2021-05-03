@@ -17,7 +17,7 @@ final class ExampleUITests: XCTestCase {
     app.launch()
   }
 
-  func testExampleAppLaunches() throws {
+  func testCheckoutShows() throws {
     app.staticTexts["+"].firstMatch.tap()
 
     app.staticTexts["View Cart"].tap()
@@ -25,7 +25,8 @@ final class ExampleUITests: XCTestCase {
     XCTAssertTrue(app.buttons["payNow"].waitForExistence(timeout: 0.5))
     app.buttons["payNow"].tap()
 
-    XCTAssertTrue(app.buttons["Log In"].waitForExistence(timeout: 10)) /* big timeout because it takes ages to load */
+    // we assert _some_ type of web view is shown
+    XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 2))
 
     app.swipeDown()
 
