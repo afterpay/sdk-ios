@@ -58,14 +58,12 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
       cartButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
     ])
 
-    if AfterpayFeatures.widgetEnabled {
-      navigationItem.rightBarButtonItem = UIBarButtonItem(
-        title: "Tokenless…",
-        style: .plain,
-        target: self,
-        action: #selector(tokenlessWidgetTapped)
-      )
-    }
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      title: "Tokenless…",
+      style: .plain,
+      target: self,
+      action: #selector(tokenlessWidgetTapped)
+    )
   }
 
   func update(products: [ProductDisplay]) {
