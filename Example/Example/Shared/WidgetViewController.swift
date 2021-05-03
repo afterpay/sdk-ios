@@ -66,8 +66,6 @@ final class WidgetViewController: UIViewController {
   }
 
   private func setupMessageLabel() {
-    guard AfterpayFeatures.widgetEnabled == false else { return }
-
     messageLabel.text = message
     messageLabel.font = .preferredFont(forTextStyle: .body)
     messageLabel.adjustsFontForContentSizeCategory = true
@@ -90,7 +88,6 @@ final class WidgetViewController: UIViewController {
   }
 
   private func setupWidget() throws {
-    guard AfterpayFeatures.widgetEnabled else { return }
     let style = WidgetView.Style(logo: false, heading: true)
 
     switch tokenOrMoney {
@@ -116,8 +113,6 @@ final class WidgetViewController: UIViewController {
   }
 
   private func setupUpdateAmountField() {
-    guard AfterpayFeatures.widgetEnabled else { return }
-
     view.addSubview(updateAmountField)
 
     let layoutGuide = view.safeAreaLayoutGuide
@@ -132,8 +127,6 @@ final class WidgetViewController: UIViewController {
   }
 
   private func setupGetStatusButton() {
-    guard AfterpayFeatures.widgetEnabled else { return }
-
     getStatusButton.setTitle("Print status to console", for: .normal)
     getStatusButton.translatesAutoresizingMaskIntoConstraints = false
     getStatusButton.addTarget(self, action: #selector(getStatusTapped), for: .touchUpInside)
