@@ -95,6 +95,7 @@ jobs:
           -destination '${{ env.destination }}'
             
     - name: Upload UI test artifacts
+      if: ${{ always() }}
       uses: actions/upload-artifact@v2
       with:
         name: xcresults
