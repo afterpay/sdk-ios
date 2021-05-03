@@ -93,6 +93,12 @@ jobs:
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-ui-test-scheme }} \
           -destination '${{ env.destination }}'
+            
+    - name: Upload UI test artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: xcresults
+        path: Logs/Test/*
 
   validate-cocoapods:
     name: Validate Pod
