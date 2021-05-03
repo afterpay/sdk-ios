@@ -37,7 +37,7 @@ final class ExampleUITests: XCTestCase {
   func testTokenlessWidget() throws {
     app.buttons["Tokenless…"].tap()
 
-    XCTAssertTrue(app.staticTexts["Due today"].waitForExistence(timeout: 3))
+    XCTAssertTrue(app.staticTexts["Due today"].waitForExistence(timeout: 10))
     XCTAssertTrue(app.staticTexts["Today"].waitForExistence(timeout: 0.5))
     XCTAssertTrue(app.staticTexts["In 2 weeks"].waitForExistence(timeout: 0.5))
     XCTAssertTrue(app.staticTexts["In 4 weeks"].waitForExistence(timeout: 0.5))
