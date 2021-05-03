@@ -19,6 +19,7 @@ jobs:
     env:
       destination: platform=iOS Simulator,name=iPhone 11,OS=14.0
       example-scheme: Example
+      example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
 
     steps:
@@ -57,6 +58,40 @@ jobs:
         xcodebuild \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-scheme }} \
+          -destination '${{ env.destination }}'
+          
+    - name: Checkout Example Server
+      uses: actions/checkout@v2
+      with:
+        repository: afterpay/sdk-example-server
+        path: ./example-server
+        
+    - name: Setup Example Server
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+        
+    - name: Run Example Server
+      working-directory: ./example-server
+      run: |
+        npm install
+        npm run build
+        npm run start &
+      env:
+        AFTERPAY_MERCHANT_ID: ${{ secrets.AFTERPAY_MERCHANT_ID_AU }}
+        AFTERPAY_SECRET_KEY: ${{ secrets.AFTERPAY_SECRET_KEY_AU }}
+        AFTERPAY_REGION: AU
+
+    - name: UI Test SDK Project
+      run: |
+        xcodebuild build-for-testing \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.example-ui-test-scheme }} \
+          -destination '${{ env.destination }}'
+          
+        xcodebuild test-without-building \
+          -workspace ${{ env.workspace }} \
+          -scheme ${{ env.example-ui-test-scheme }} \
           -destination '${{ env.destination }}'
 
   validate-cocoapods:
