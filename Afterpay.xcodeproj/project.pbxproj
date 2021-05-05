@@ -21,6 +21,8 @@
 		551BEDF125F98FA800FDF9EE /* FeaturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDF025F98FA800FDF9EE /* FeaturesTests.swift */; };
 		551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDF725F9B95C00FDF9EE /* WidgetView.swift */; };
 		551BEDFC25F9C56600FDF9EE /* WidgetEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDFB25F9C56600FDF9EE /* WidgetEvent.swift */; };
+		55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5543282F263A61C4005512E4 /* CombineWrapper.swift */; };
+		557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BA264259C30040CC51 /* CombineWrapperTests.swift */; };
 		55A2D307261BB36C00D8E23A /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2D306261BB36C00D8E23A /* Money.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
@@ -81,6 +83,8 @@
 		551BEDF025F98FA800FDF9EE /* FeaturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesTests.swift; sourceTree = "<group>"; };
 		551BEDF725F9B95C00FDF9EE /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		551BEDFB25F9C56600FDF9EE /* WidgetEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEvent.swift; sourceTree = "<group>"; };
+		5543282F263A61C4005512E4 /* CombineWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWrapper.swift; sourceTree = "<group>"; };
+		557511BA264259C30040CC51 /* CombineWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWrapperTests.swift; sourceTree = "<group>"; };
 		55A2D306261BB36C00D8E23A /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		6605666224E5199500DA588E /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			children = (
 				666D334B24A48F5C00FCD464 /* ObjcWrapper.swift */,
 				66D685B124BD3FB900C7287C /* SwiftUIWrapper.swift */,
+				5543282F263A61C4005512E4 /* CombineWrapper.swift */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				66DAAC8C24E109D200127460 /* PriceBreakdownTests.swift */,
 				550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */,
 				550D48142625539900C0B0C6 /* WidgetStatusTests.swift */,
+				557511BA264259C30040CC51 /* CombineWrapperTests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -509,6 +515,7 @@
 				66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */,
 				550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */,
 				550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */,
+				557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */,
 				66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,6 +553,7 @@
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,
 				66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
+				55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */,
 				157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */,
 				55A2D307261BB36C00D8E23A /* Money.swift in Sources */,
 				661D4323257DF1CB00ACCDE1 /* ShippingOption.swift in Sources */,

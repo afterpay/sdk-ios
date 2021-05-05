@@ -619,6 +619,15 @@ final class MyViewController: UIViewController {
 
 See the `WidgetHandler` protocol for a more detailed description of what gets called when and with what.
 
+For iOS 13 or above, we provide a `WidgetEventPublisher`. It provides Combine `Publisher`s for the `WidgetHandler` events:
+
+```swift
+let eventPublisher = WidgetEventPublisher()
+
+eventPublisher.changed
+  .sink(receiveValue: { status in /* respond to status */ })
+  .store(in: &cancellables)
+```
 
 # Examples
 
