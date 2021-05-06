@@ -165,7 +165,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
       webView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ]
 
-    NSLayoutConstraint.activate(webViewConstraints)
+    let heightConstraint = webView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
+    heightConstraint.priority = .defaultLow
+
+    NSLayoutConstraint.activate(webViewConstraints + [heightConstraint])
   }
 
   private func setupBorder() {
