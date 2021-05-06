@@ -36,7 +36,16 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   /// The bootstrap JS will send us resize events, which we'll use to populate this value
   private var suggestedHeight: Int? {
     didSet {
-      invalidateIntrinsicContentSize()
+
+      if UIAccessibility.isReduceMotionEnabled || oldValue == 0 {
+        invalidateIntrinsicContentSize()
+      } else {
+        UIView.animate(withDuration: 0.1) {
+          self.invalidateIntrinsicContentSize()
+          self.superview?.setNeedsLayout()
+          self.superview?.layoutIfNeeded()
+        }
+      }
     }
   }
 
