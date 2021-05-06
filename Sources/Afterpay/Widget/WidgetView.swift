@@ -129,11 +129,9 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     webView.allowsLinkPreview = false
     webView.scrollView.isScrollEnabled = false
 
-    webView.load(
-      URLRequest(
-        url: getConfiguration()!.environment.widgetBootstrapURL,
-        cachePolicy: .reloadIgnoringLocalCacheData
-      )
+    webView.loadHTMLString(
+      configuration.environment.widgetBootstrapHTML,
+      baseURL: configuration.environment.checkoutBootstrapURL
     )
 
     addSubview(webView)
