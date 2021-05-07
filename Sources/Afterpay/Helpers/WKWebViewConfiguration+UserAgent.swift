@@ -10,10 +10,10 @@ import WebKit
 
 extension WKWebViewConfiguration {
 
-  static var appNameForUserAgent: String? {
+  static let appNameForUserAgent: String? = {
     Bundle(for: CheckoutV2ViewController.self)
       .infoDictionary?["CFBundleShortVersionString"]
       .map { "Afterpay-iOS-SDK/\($0)" }
-  }
+  }()
 
 }
