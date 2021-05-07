@@ -34,7 +34,10 @@ final class CheckoutWebViewController:
   }
 
   override func loadView() {
-    view = WKWebView()
+    let config = WKWebViewConfiguration()
+    config.applicationNameForUserAgent = WKWebViewConfiguration.appNameForUserAgent
+
+    view = WKWebView(frame: .zero, configuration: config)
   }
 
   override func viewDidLoad() {

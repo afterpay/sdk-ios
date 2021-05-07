@@ -92,6 +92,7 @@ final class CheckoutV2ViewController:
 
     let bootstrapConfiguration = WKWebViewConfiguration()
     bootstrapConfiguration.processPool = processPool
+    bootstrapConfiguration.applicationNameForUserAgent = WKWebViewConfiguration.appNameForUserAgent
     bootstrapConfiguration.preferences = preferences
     bootstrapConfiguration.userContentController = userContentController
 

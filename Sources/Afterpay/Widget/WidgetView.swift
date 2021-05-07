@@ -130,6 +130,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     let bootstrapConfiguration = WKWebViewConfiguration()
     bootstrapConfiguration.processPool = WKProcessPool()
+    bootstrapConfiguration.applicationNameForUserAgent = WKWebViewConfiguration.appNameForUserAgent
     bootstrapConfiguration.preferences = preferences
     bootstrapConfiguration.userContentController = userContentController
 
@@ -139,10 +140,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     webView.scrollView.isScrollEnabled = false
 
     webView.removeCache(for: configuration.environment.bootstrapCacheDisplayName) { [configuration] in
-    webView.loadHTMLString(
-      configuration.environment.widgetBootstrapHTML,
-      baseURL: configuration.environment.checkoutBootstrapURL
-    )
+      webView.loadHTMLString(
+        configuration.environment.widgetBootstrapHTML,
+        baseURL: configuration.environment.checkoutBootstrapURL
+      )
     }
 
     self.webView = webView
