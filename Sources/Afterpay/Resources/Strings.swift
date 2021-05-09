@@ -16,7 +16,6 @@ enum Strings {
 
   static let info = "Info"
   static let orPayWith = "or pay with"
-  static let payNowWith = "pay now with"
 
   // MARK: - String Formats
 
