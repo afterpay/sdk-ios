@@ -25,6 +25,7 @@
 		557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BA264259C30040CC51 /* CombineWrapperTests.swift */; };
 		557511BF2644CAA50040CC51 /* WKWebView+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */; };
 		557511C12644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */; };
+		557511C326489F090040CC51 /* SVG+Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511C226489F090040CC51 /* SVG+Source.swift */; };
 		55A2D307261BB36C00D8E23A /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2D306261BB36C00D8E23A /* Money.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
@@ -89,6 +90,7 @@
 		557511BA264259C30040CC51 /* CombineWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWrapperTests.swift; sourceTree = "<group>"; };
 		557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Cache.swift"; sourceTree = "<group>"; };
 		557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+UserAgent.swift"; sourceTree = "<group>"; };
+		557511C226489F090040CC51 /* SVG+Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SVG+Source.swift"; sourceTree = "<group>"; };
 		55A2D306261BB36C00D8E23A /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		6605666224E5199500DA588E /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				151A4FEA258C1F8A0046CEEE /* StaticContent.swift */,
 				66E255AD24E3C14600C81F20 /* Strings.swift */,
 				6615F99A24D14620005036F1 /* SVG.swift */,
+				557511C226489F090040CC51 /* SVG+Source.swift */,
 				6672982925357D80001D1C5A /* SVGConfiguration.swift */,
 			);
 			path = Resources;
@@ -545,6 +548,7 @@
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				551BEDFC25F9C56600FDF9EE /* WidgetEvent.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
+				557511C326489F090040CC51 /* SVG+Source.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */,
 				1522246025C925E5004B9CE5 /* Environment.swift in Sources */,
