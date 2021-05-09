@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if compiler(>=5.1) && compiler(<5.4)
+#if compiler(>=5.1) && compiler(<5.5)
 @_implementationOnly import Macaw
 #else
 import Macaw
