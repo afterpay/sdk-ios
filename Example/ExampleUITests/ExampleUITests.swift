@@ -35,7 +35,8 @@ final class ExampleUITests: XCTestCase {
     app.buttons["Yes"].tap()
   }
 
-  func testTokenlessWidgetAppears() throws {
+  // Skipped while we come up with a better way to end to end test the bootstrap 
+  func skip_testTokenlessWidgetAppears() throws {
     app.buttons["Tokenless…"].tap()
 
     XCTAssertTrue(app.staticTexts["Due today"].waitForExistence(timeout: 10))
