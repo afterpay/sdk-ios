@@ -13,6 +13,13 @@ import WebKit
 public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHandler {
 
   private var webView: WKWebView!
+  private lazy var activityView: UIActivityIndicatorView = {
+    let view = UIActivityIndicatorView(style: .gray)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.hidesWhenStopped = true
+    view.startAnimating()
+    return view
+  }()
 
   private enum Mode {
     case token(String)
@@ -114,11 +121,25 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     )
 
     setupWebView()
-    setupConstraints()
+    setupWebViewConstraints()
+
+    setupActivityView()
     setupBorder()
   }
 
   // MARK: Subviews
+
+  private func setupActivityView() {
+    addSubview(activityView)
+
+    let constraints = [
+      activityView.centerXAnchor.constraint(equalTo: centerXAnchor),
+      activityView.centerYAnchor.constraint(equalTo: centerYAnchor),
+    ]
+    constraints.forEach { $0.priority = (.defaultLow - 1) }
+
+    NSLayoutConstraint.activate(constraints)
+  }
 
   private func setupWebView() {
     let preferences = WKPreferences()
@@ -168,7 +189,7 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
     )
   }
 
-  private func setupConstraints() {
+  private func setupWebViewConstraints() {
     webView.translatesAutoresizingMaskIntoConstraints = false
 
     let webViewConstraints = [
@@ -263,6 +284,8 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   public func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
+    activityView.stopAnimating()
+
     let tokenAndMoney: String
 
     switch widgetMode {
