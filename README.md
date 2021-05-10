@@ -257,6 +257,13 @@ Below are examples of the button in each of the color schemes:
 | ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] | 
 | ![Mint on Black button][button-mint-on-black] | ![Black on White button][button-black-on-white] |
 
+There are also a few other kinds of payment available, with different wording:
+
+* Buy Now
+* Checkout
+* Pay Now
+* Place Order
+
 ## Price Breakdown
 
 The price breakdown component displays information about Afterpay instalments and handles a number of common scenarios.
