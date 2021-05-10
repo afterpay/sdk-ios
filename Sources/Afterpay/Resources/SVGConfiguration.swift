@@ -23,39 +23,14 @@ struct BadgeConfiguration: SVGConfiguration {
   var colorScheme: ColorScheme = .static(.blackOnMint)
 
   func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
-    let svgForPalette: (ColorPalette) -> SVG = { palette in
-      switch (palette, locale) {
-      case (.blackOnMint, Locales.greatBritain):
-        return .clearpayBadgeBlackOnMint
-      case (.mintOnBlack, Locales.greatBritain):
-        return .clearpayBadgeMintOnBlack
-      case (.whiteOnBlack, Locales.greatBritain):
-        return .clearpayBadgeWhiteOnBlack
-      case (.blackOnWhite, Locales.greatBritain):
-        return .clearpayBadgeBlackOnWhite
-      case (.blackOnMint, _):
-        return .afterpayBadgeBlackOnMint
-      case (.mintOnBlack, _):
-        return .afterpayBadgeMintOnBlack
-      case (.whiteOnBlack, _):
-        return .afterpayBadgeWhiteOnBlack
-      case (.blackOnWhite, _):
-        return .afterpayBadgeBlackOnWhite
-      }
+    switch traitCollection.userInterfaceStyle {
+    case .dark:
+      return SVG.badge(palette: colorScheme.darkPalette, locale: locale)
+    case .light, .unspecified:
+      fallthrough
+    @unknown default:
+      return SVG.badge(palette: colorScheme.lightPalette, locale: locale)
     }
-
-    let svg: SVG = {
-      switch traitCollection.userInterfaceStyle {
-      case .dark:
-        return svgForPalette(colorScheme.darkPalette)
-      case .light, .unspecified:
-        fallthrough
-      @unknown default:
-        return svgForPalette(colorScheme.lightPalette)
-      }
-    }()
-
-    return svg
   }
 
   func accessibilityLabel(localizedFor locale: Locale) -> String {
@@ -67,41 +42,34 @@ struct BadgeConfiguration: SVGConfiguration {
 struct PaymentButtonConfiguration: SVGConfiguration {
 
   var colorScheme: ColorScheme
+  var buttonKind: ButtonKind
 
-  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
-    let svgForPalette: (ColorPalette) -> SVG = { palette in
-      switch (palette, locale) {
-      case (.blackOnMint, Locales.greatBritain):
-        return .clearpayPayNowBlackOnMint
-      case (.mintOnBlack, Locales.greatBritain):
-        return .clearpayPayNowMintOnBlack
-      case (.whiteOnBlack, Locales.greatBritain):
-        return .clearpayPayNowWhiteOnBlack
-      case (.blackOnWhite, Locales.greatBritain):
-        return .clearpayPayNowBlackOnWhite
-      case (.blackOnMint, _):
-        return .afterpayPayNowBlackOnMint
-      case (.mintOnBlack, _):
-        return .afterpayPayNowMintOnBlack
-      case (.whiteOnBlack, _):
-        return .afterpayPayNowWhiteOnBlack
-      case (.blackOnWhite, _):
-        return .afterpayPayNowBlackOnWhite
-      }
+  private func svg(for palette: ColorPalette, locale: Locale) -> SVG {
+    let svg: (ColorPalette, Locale) -> SVG
+
+    switch buttonKind {
+    case .buyNow:
+      svg = SVG.buyNow(palette:locale:)
+    case .checkout:
+      svg = SVG.checkout(palette:locale:)
+    case .payNow:
+      svg = SVG.payNow(palette:locale:)
+    case .placeOrder:
+      svg = SVG.placeOrder(palette:locale:)
     }
 
-    let svg: SVG = {
-      switch traitCollection.userInterfaceStyle {
-      case .dark:
-        return svgForPalette(colorScheme.darkPalette)
-      case .light, .unspecified:
-        fallthrough
-      @unknown default:
-        return svgForPalette(colorScheme.lightPalette)
-      }
-    }()
+    return svg(palette, locale)
+  }
 
-    return svg
+  func svg(localizedFor locale: Locale, withTraits traitCollection: UITraitCollection) -> SVG {
+    switch traitCollection.userInterfaceStyle {
+    case .dark:
+      return svg(for: colorScheme.darkPalette, locale: locale)
+    case .light, .unspecified:
+      fallthrough
+    @unknown default:
+      return svg(for: colorScheme.lightPalette, locale: locale)
+    }
   }
 
   func accessibilityLabel(localizedFor locale: Locale) -> String {
@@ -109,7 +77,7 @@ struct PaymentButtonConfiguration: SVGConfiguration {
       ? Strings.accessibleClearpay
       : Strings.accessibleAfterpay
 
-    return "\(Strings.payNowWith) \(accessiblePaymentMethod)"
+    return "\(buttonKind.accessibilityLabel) \(accessiblePaymentMethod)"
   }
 
 }

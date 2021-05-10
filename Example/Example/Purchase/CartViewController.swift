@@ -48,7 +48,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.register(CheckoutOptionsCell.self, forCellReuseIdentifier: checkoutOptionsCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
-    let payButton: UIButton = PaymentButton()
+    let payButton: UIButton =
+      PaymentButton(colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack), buttonKind: .checkout)
     payButton.isEnabled = cart.payEnabled
     payButton.accessibilityIdentifier = "payNow"
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)

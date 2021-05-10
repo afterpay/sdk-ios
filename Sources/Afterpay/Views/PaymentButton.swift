@@ -15,12 +15,17 @@ public final class PaymentButton: UIButton {
     didSet { updateImage() }
   }
 
-  private var configuration: SVGConfiguration {
-    PaymentButtonConfiguration(colorScheme: colorScheme)
+  public var buttonKind: ButtonKind = .buyNow {
+    didSet { updateImage() }
   }
 
-  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+  private var configuration: SVGConfiguration {
+    PaymentButtonConfiguration(colorScheme: colorScheme, buttonKind: buttonKind)
+  }
+
+  public init(colorScheme: ColorScheme = .static(.blackOnMint), buttonKind: ButtonKind = .payNow) {
     self.colorScheme = colorScheme
+    self.buttonKind = buttonKind
 
     super.init(frame: .zero)
 

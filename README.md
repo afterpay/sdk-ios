@@ -249,13 +249,26 @@ Below are examples of the badge in each of the color schemes:
 
 ### Payment Button
 
-The Afterpay Payment Button is a subclass of `UIButton` that can be scaled to suit your layout, to guarantee legibility it has a maximum width constraint of 256 points.
+The Afterpay `PaymentButton` is a subclass of `UIButton` that can be scaled to suit your layout, to guarantee legibility it has a maximum width constraint of 256 points.
 
 Below are examples of the button in each of the color schemes:
 | Mint and Black | Black and White |
 | -- | -- |
 | ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] | 
 | ![Mint on Black button][button-mint-on-black] | ![Black on White button][button-black-on-white] |
+
+There are also a few other kinds of payment available, with different wording:
+
+* Buy Now
+* Checkout
+* Pay Now
+* Place Order
+
+Using a `PaymentButton` is easy. Configure it with some parameters sent to its initialiser. These parameters are optional, however.
+
+```swift
+let payButton = PaymentButton(colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack), buttonKind: .checkout)
+```
 
 ## Price Breakdown
 
