@@ -194,7 +194,7 @@ WidgetView.init(amount:)
 
 For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
 
-This technique is support on both the checkout versions, and the widget.
+This technique is supported on both the checkout versions, and the widget.
 
 ### Swift
 
