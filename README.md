@@ -15,7 +15,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Table of Contents](#table-of-contents)
 - [Integration](#integration)
   - [Requirements](#requirements)
-  - [Swift Package Manager](#swift-package-manager)
+  - [Swift Package Manager](#swift-package-manager-recommended)
   - [Carthage](#carthage)
   - [CocoaPods](#cocoapods)
   - [Manual](#manual)
@@ -70,7 +70,9 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - Swift 5.3+
 - Xcode 12.0+
 
-## Swift Package Manager
+## Swift Package Manager (recommended)
+
+This is the recommended integration method.
 
 ```
 dependencies: [
