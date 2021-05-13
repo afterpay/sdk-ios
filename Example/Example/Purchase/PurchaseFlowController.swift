@@ -12,26 +12,38 @@ import Foundation
 final class PurchaseFlowController: UIViewController {
 
   private let logicController: PurchaseLogicController
-  private let ownedNavigationController: UINavigationController
   private let productsViewController: ProductsViewController
+  private let ownedNavigationController: UINavigationController
+  private let checkoutHandler: CheckoutHandler
+  private let widgetHandler: WidgetHandler
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
     logicController = purchaseLogicController
 
-    productsViewController = ProductsViewController { event in
+    productsViewController = ProductsViewController { [logicController] event in
       switch event {
       case .productEvent(.didTapPlus(let productId)):
-        purchaseLogicController.incrementQuantityOfProduct(with: productId)
+        logicController.incrementQuantityOfProduct(with: productId)
 
       case .productEvent(.didTapMinus(let productId)):
-        purchaseLogicController.decrementQuantityOfProduct(with: productId)
+        logicController.decrementQuantityOfProduct(with: productId)
 
       case .viewCart:
-        purchaseLogicController.viewCart()
+        logicController.viewCart()
       }
     }
 
     ownedNavigationController = UINavigationController(rootViewController: productsViewController)
+
+    checkoutHandler = CheckoutHandler(
+      didCommenceCheckout: logicController.loadCheckoutToken,
+      onShippingAddressDidChange: logicController.selectAddress
+    )
+
+    Afterpay.setCheckoutV2Handler(checkoutHandler)
+
+    widgetHandler = WidgetEventHandler()
+    Afterpay.setWidgetHandler(widgetHandler)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -49,6 +61,7 @@ final class PurchaseFlowController: UIViewController {
     }
   }
 
+  // swiftlint:disable:next cyclomatic_complexity
   private func execute(command: PurchaseLogicController.Command) {
     let logicController = self.logicController
     let navigationController = self.ownedNavigationController
@@ -62,36 +75,24 @@ final class PurchaseFlowController: UIViewController {
         switch event {
         case .didTapPay:
           logicController.payWithAfterpay()
+        case .optionsChanged(.buyNow):
+          logicController.toggleCheckoutV2Option(\.buyNow)
+        case .optionsChanged(.pickup):
+          logicController.toggleCheckoutV2Option(\.pickup)
+        case .optionsChanged(.shippingOptionRequired):
+          logicController.toggleCheckoutV2Option(\.shippingOptionRequired)
+        case .optionsChanged(.expressToggled):
+          logicController.toggleExpressCheckout()
         }
       }
 
       navigationController.pushViewController(cartViewController, animated: true)
 
-    case .showAfterpayCheckout(let url):
-      presentAfterpayCheckoutModally(loading: url, language: Settings.language)
-
-    case .showAlertForCheckoutURLError(let error):
-      let alert = AlertFactory.alert(for: error)
-      navigationController.present(alert, animated: true, completion: nil)
-
-    case .showAlertForErrorMessage(let errorMessage):
-      let alert = AlertFactory.alert(for: errorMessage)
-      navigationController.present(alert, animated: true, completion: nil)
-
-    case .showSuccessWithMessage(let message):
-      let messageViewController = MessageViewController(message: message)
-      let viewControllers = [productsViewController, messageViewController]
-      navigationController.setViewControllers(viewControllers, animated: true)
-    }
-  }
-
-  private func presentAfterpayCheckoutModally(loading url: URL, language: Language) {
-    let logicController = self.logicController
-    let viewController = self.ownedNavigationController
-
-    switch language {
-    case .swift:
-      Afterpay.presentCheckoutModally(over: viewController, loading: url) { result in
+    case .showAfterpayCheckoutV1(let checkoutURL):
+      Afterpay.presentCheckoutModally(
+        over: ownedNavigationController,
+        loading: checkoutURL
+      ) { result in
         switch result {
         case .success(let token):
           logicController.success(with: token)
@@ -100,15 +101,30 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
-    case .objectiveC:
-      Objc.presentCheckoutModally(
-        over: viewController,
-        loading: url,
-        successHandler: { token in logicController.success(with: token) },
-        userInitiatedCancelHandler: { logicController.cancelled(with: .userInitiated) },
-        networkErrorCancelHandler: { error in logicController.cancelled(with: .networkError(error)) },
-        invalidURLCancelHandler: { url in logicController.cancelled(with: .invalidURL(url)) }
-      )
+    case .showAfterpayCheckoutV2(let options):
+      Afterpay.presentCheckoutV2Modally(over: ownedNavigationController, options: options) { result in
+        switch result {
+        case .success(let token):
+          logicController.success(with: token)
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
+        }
+      }
+
+    case .provideCheckoutTokenResult(let tokenResult):
+      checkoutHandler.provideTokenResult(tokenResult: tokenResult)
+
+    case .provideShippingOptionsResult(let shippingOptionsResult):
+      checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)
+
+    case .showAlertForErrorMessage(let errorMessage):
+      let alert = AlertFactory.alert(for: errorMessage)
+      navigationController.present(alert, animated: true, completion: nil)
+
+    case .showSuccessWithMessage(let message, let token):
+      let widgetViewController = WidgetViewController(title: message, token: token)
+      let viewControllers = [productsViewController, widgetViewController]
+      navigationController.setViewControllers(viewControllers, animated: true)
     }
   }
 

@@ -11,31 +11,48 @@ import Foundation
 
 final class PurchaseLogicController {
 
-  typealias CheckoutURLProvider = (
-    _ email: String,
-    _ amount: String,
-    _ completion: @escaping (Result<URL, Error>) -> Void
-  ) -> Void
-
   enum Command {
     case updateProducts([ProductDisplay])
     case showCart(CartDisplay)
-    case showAfterpayCheckout(URL)
-    case showAlertForCheckoutURLError(Error)
+
+    case showAfterpayCheckoutV1(checkoutURL: URL)
+
+    case showAfterpayCheckoutV2(CheckoutV2Options)
+    case provideCheckoutTokenResult(TokenResult)
+    case provideShippingOptionsResult(ShippingOptionsResult)
+
     case showAlertForErrorMessage(String)
-    case showSuccessWithMessage(String)
+    case showSuccessWithMessage(String, Token)
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
     didSet { commandHandler(.updateProducts(productDisplayModels)) }
   }
 
-  private let checkoutURLProvider: CheckoutURLProvider
+  typealias CheckoutResponseProvider = (
+    _ email: String,
+    _ amount: String,
+    _ checkoutMode: CheckoutMode,
+    _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
+  ) -> Void
+
+  typealias ConfigurationProvider = () -> Configuration
+
+  private let checkoutResponseProvider: CheckoutResponseProvider
+  private let configurationProvider: ConfigurationProvider
   private let products: [Product]
-  private let email: String
-  private let currencyCode: String
+  private var email: String { Settings.email }
+  private var currencyCode: String { configurationProvider().currencyCode }
 
   private var quantities: [UUID: UInt] = [:]
+
+  private var checkoutV2Options = CheckoutV2Options(
+    pickup: false,
+    buyNow: false,
+    shippingOptionRequired: true
+  )
+
+  private var expressCheckout: Bool = true
 
   private var productDisplayModels: [ProductDisplay] {
     ProductDisplay.products(products, quantities: quantities, currencyCode: currencyCode)
@@ -49,15 +66,13 @@ final class PurchaseLogicController {
   }
 
   init(
-    checkoutURLProvider: @escaping CheckoutURLProvider,
-    products: [Product] = .stub,
-    email: String,
-    currencyCode: String
+    checkoutResponseProvider: @escaping CheckoutResponseProvider,
+    configurationProvider: @escaping ConfigurationProvider,
+    products: [Product] = .stub
   ) {
-    self.checkoutURLProvider = checkoutURLProvider
+    self.checkoutResponseProvider = checkoutResponseProvider
+    self.configurationProvider = configurationProvider
     self.products = products
-    self.email = email
-    self.currencyCode = currencyCode
   }
 
   func incrementQuantityOfProduct(with id: UUID) {
@@ -72,30 +87,83 @@ final class PurchaseLogicController {
     commandHandler(.updateProducts(productDisplayModels))
   }
 
+  func toggleCheckoutV2Option(_ option: WritableKeyPath<CheckoutV2Options, Bool?>) {
+    let currentValue = checkoutV2Options[keyPath: option] ?? false
+    checkoutV2Options[keyPath: option] = !currentValue
+  }
+
+  func toggleExpressCheckout() {
+    expressCheckout.toggle()
+  }
+
   func viewCart() {
     let productsInCart = productDisplayModels.filter { (quantities[$0.id] ?? 0) > 0 }
-    let cart = CartDisplay(products: productsInCart, total: total, currencyCode: currencyCode)
+    let cart = CartDisplay(
+      products: productsInCart,
+      total: total,
+      currencyCode: currencyCode,
+      expressCheckout: expressCheckout,
+      initialCheckoutOptions: checkoutV2Options
+    )
     commandHandler(.showCart(cart))
   }
 
   func payWithAfterpay() {
+    if expressCheckout {
+      commandHandler(.showAfterpayCheckoutV2(checkoutV2Options))
+    } else {
+      loadCheckoutURL(then: { self.commandHandler(.showAfterpayCheckoutV1(checkoutURL: $0)) })
+    }
+  }
+
+  func loadCheckoutURL(then command: @escaping (URL) -> Void) {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutURLProvider(email, amount) { [commandHandler] result in
-      switch result {
-      case .success(let url):
-        commandHandler(.showAfterpayCheckout(url))
-      case .failure(let error):
-        commandHandler(.showAlertForCheckoutURLError(error))
+    checkoutResponseProvider(email, amount, .v1) { result in
+      guard let url = try? result.map(\.url).get() else {
+        return
       }
+      command(url)
     }
+  }
+
+  func loadCheckoutToken() {
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    let amount = formatter.string(from: total)
+
+    checkoutResponseProvider(email, amount, .v2) { [weak self] result in
+      let tokenResult = result.map(\.token)
+      self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
+    }
+  }
+
+  func selectAddress(address: ShippingAddress) {
+    let shippingOptions = [
+      ShippingOption(
+        id: "standard",
+        name: "Standard",
+        description: "3 - 5 days",
+        shippingAmount: Money(amount: "0.00", currency: currencyCode),
+        orderAmount: Money(amount: "50.00", currency: currencyCode)
+      ),
+      ShippingOption(
+        id: "priority",
+        name: "Priority",
+        description: "Next business day",
+        shippingAmount: Money(amount: "10.00", currency: currencyCode),
+        orderAmount: Money(amount: "60.00", currency: currencyCode)
+      ),
+    ]
+
+    let result: ShippingOptionsResult = .success(shippingOptions)
+    commandHandler(.provideShippingOptionsResult(result))
   }
 
   func success(with token: String) {
     quantities = [:]
     commandHandler(.updateProducts(productDisplayModels))
-    commandHandler(.showSuccessWithMessage("Success with: \(token)"))
+    commandHandler(.showSuccessWithMessage("Success", token))
   }
 
   func cancelled(with reason: CheckoutResult.CancellationReason) {

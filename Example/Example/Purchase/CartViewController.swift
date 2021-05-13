@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Foundation
 
 final class CartViewController: UIViewController, UITableViewDataSource {
@@ -14,11 +15,13 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let cart: CartDisplay
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
   private let productCellIdentifier = String(describing: ProductCell.self)
+  private let checkoutOptionsCellIdentifier = String(describing: CheckoutOptionsCell.self)
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
   enum Event {
     case didTapPay
+    case optionsChanged(CheckoutOptionsCell.Event)
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
@@ -42,11 +45,13 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: genericCellIdentifier)
     tableView.register(ProductCell.self, forCellReuseIdentifier: productCellIdentifier)
+    tableView.register(CheckoutOptionsCell.self, forCellReuseIdentifier: checkoutOptionsCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
-    let payButton: UIButton = .primaryButton
+    let payButton: UIButton =
+      PaymentButton(colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack), buttonKind: .checkout)
     payButton.isEnabled = cart.payEnabled
-    payButton.setTitle("Pay with Afterpay", for: .normal)
+    payButton.accessibilityIdentifier = "payNow"
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
     view.addSubview(tableView)
@@ -57,9 +62,9 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor),
-      payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
+      payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+      payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+      payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
     ])
   }
 
@@ -72,10 +77,10 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: UITableViewDataSource
 
   private enum Section: Int, CaseIterable {
-    case message, products, total
+    case message, products, total, options
 
     static func from(section: Int) -> Section {
-      Section(rawValue: section)!
+      Section.allCases[section]
     }
   }
 
@@ -90,6 +95,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case .products:
       return cart.products.count
     case .total:
+      return 1
+    case .options:
       return 1
     }
   }
@@ -117,6 +124,20 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         for: indexPath) as! TitleSubtitleCell
       titleSubtitleCell.configure(title: "Total", subtitle: cart.displayTotal)
       cell = titleSubtitleCell
+
+    case .options:
+      let optionsCell = tableView.dequeueReusableCell(
+        withIdentifier: checkoutOptionsCellIdentifier,
+        for: indexPath) as! CheckoutOptionsCell
+
+      optionsCell.configure(
+        options: cart.checkoutV2Options,
+        expressCheckout: cart.expressCheckout
+      ) { option in
+        self.eventHandler(.optionsChanged(option))
+      }
+
+      cell = optionsCell
     }
 
     return cell

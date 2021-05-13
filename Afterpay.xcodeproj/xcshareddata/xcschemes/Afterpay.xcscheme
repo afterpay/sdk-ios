@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1150"
+   LastUpgradeVersion = "1200"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,6 +17,20 @@
                BlueprintIdentifier = "668F16062487653A0040345C"
                BuildableName = "Afterpay.framework"
                BlueprintName = "Afterpay"
+               ReferencedContainer = "container:Afterpay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "665FC5762488766C00A5A93E"
+               BuildableName = "AfterpayTests.xctest"
+               BlueprintName = "AfterpayTests"
                ReferencedContainer = "container:Afterpay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -10,23 +10,15 @@ import Afterpay
 import Foundation
 import UIKit
 
-// swiftlint:disable colon opening_brace
-final class ComponentsViewController:
-  UIViewController,
-  UIPickerViewDataSource,
-  UIPickerViewDelegate,
-  UITextFieldDelegate
-{
-  // swiftlint:enable colon opening_brace
+final class ComponentsViewController: UIViewController {
 
+  private var scrollView: UIScrollView!
   private var pickerView: UIPickerView!
-  private var minimumAmountTextField: UITextField!
-  private var maximumAmountTextField: UITextField!
 
   override func loadView() {
     let view = UIView()
 
-    let scrollView = UIScrollView()
+    scrollView = UIScrollView()
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     scrollView.backgroundColor = .appBackground
     view.addSubview(scrollView)
@@ -74,124 +66,54 @@ final class ComponentsViewController:
       embed: contentStack.addArrangedSubview
     )
 
-    let configurationView = UIView()
-    configurationView.backgroundColor = .appBackground
-    contentStack.addArrangedSubview(configurationView)
+    let constraints = scrollViewConstraints
+      + contentViewConstraints
+      + stackConstraints
 
-    let configurationStack = UIStackView()
-    configurationStack.translatesAutoresizingMaskIntoConstraints = false
-    configurationStack.axis = .vertical
-    configurationStack.spacing = 8
-    configurationView.addSubview(configurationStack)
-
-    let contentGuide = view.readableContentGuide
-
-    let configurationStackConstraints = [
-      configurationStack.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
-      configurationStack.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-      configurationStack.topAnchor.constraint(equalTo: configurationView.topAnchor, constant: 8),
-      configurationStack.bottomAnchor.constraint(equalTo: configurationView.bottomAnchor, constant: -8),
-    ]
-
-    let configurationTitle = UILabel()
-    configurationTitle.font = .preferredFont(forTextStyle: .title1)
-    configurationTitle.adjustsFontForContentSizeCategory = true
-    configurationTitle.textColor = .appLabel
-    configurationTitle.text = "Stub Configuration"
-    configurationStack.addArrangedSubview(configurationTitle)
-
-    let minimumAmountTitle: UILabel = .bodyLabel
-    minimumAmountTitle.text = "Minumum Amount:"
-    configurationStack.addArrangedSubview(minimumAmountTitle)
-
-    let doneSelector = #selector(endEditing)
-    let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: doneSelector)
-    let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let toolbar = UIToolbar(items: [spacer, done])
-
-    pickerView = UIPickerView()
-    pickerView.delegate = self
-    pickerView.dataSource = self
-
-    minimumAmountTextField = .roundedTextField
-    minimumAmountTextField.text = configurationStub.minimumAmount
-    minimumAmountTextField.delegate = self
-    minimumAmountTextField.inputView = pickerView
-    minimumAmountTextField.inputAccessoryView = toolbar
-    configurationStack.addArrangedSubview(minimumAmountTextField)
-
-    let maximumAmountTitle: UILabel = .bodyLabel
-    maximumAmountTitle.text = "Maximum Amount:"
-    configurationStack.addArrangedSubview(maximumAmountTitle)
-
-    maximumAmountTextField = .roundedTextField
-    maximumAmountTextField.text = configurationStub.maximumAmount
-    maximumAmountTextField.delegate = self
-    maximumAmountTextField.inputView = pickerView
-    maximumAmountTextField.inputAccessoryView = toolbar
-    configurationStack.addArrangedSubview(maximumAmountTextField)
-
-    let constraints = scrollViewConstraints + contentViewConstraints + stackConstraints + configurationStackConstraints
     NSLayoutConstraint.activate(constraints)
 
     self.view = view
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let notificationCenter = NotificationCenter.default
+    let selector = #selector(adjustForKeyboard)
+
+    notificationCenter.addObserver(
+      self,
+      selector: selector,
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+
+    notificationCenter.addObserver(
+      self,
+      selector: selector,
+      name: UIResponder.keyboardWillChangeFrameNotification,
+      object: nil
+    )
   }
 
   @objc private func endEditing() {
     view.endEditing(true)
   }
 
-  // MARK: - UITextFieldDelegate
-
-  func textFieldDidBeginEditing(_ textField: UITextField) {
-    let title = { self.pickerView(self.pickerView, titleForRow: $0, forComponent: 0) }
-
-    for row in 0...numberOfPickerRows where title(row) == textField.text {
-      pickerView.selectRow(row, inComponent: 0, animated: false)
+  @objc private func adjustForKeyboard(notification: Notification) {
+    guard
+      notification.name != UIResponder.keyboardWillHideNotification,
+      let keyboardFrameInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+      let keyboardHeight = (keyboardFrameInfo as? NSValue)?.cgRectValue.height
+    else {
+      scrollView.contentInset = .zero
+      scrollView.scrollIndicatorInsets = .zero
+      return
     }
-  }
 
-  // MARK: - UIPickerViewDataSource
-
-  let numberOfPickerRows = 5000
-
-  func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
-
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    numberOfPickerRows
-  }
-
-  // MARK: - UIPickerViewDelegate
-
-  let noMinimum = "No Minimum"
-
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    let isMinimum = minimumAmountTextField.isFirstResponder
-    let isMaximum = maximumAmountTextField.isFirstResponder
-
-    let format: (Int) -> String = { "\($0).00" }
-    let formattedRow = isMaximum ? format(row + 1) : format(row)
-
-    switch row {
-    case .zero where isMinimum:
-      return noMinimum
-    default:
-      return formattedRow
-    }
-  }
-
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    let isMinimum = minimumAmountTextField.isFirstResponder
-    let textField = isMinimum ? minimumAmountTextField : maximumAmountTextField
-
-    let title = self.pickerView(pickerView, titleForRow: row, forComponent: component)
-    textField?.text = title
-
-    if isMinimum {
-      configurationStub.minimumAmount = title == noMinimum ? nil : title
-    } else if let title = title {
-      configurationStub.maximumAmount = title
-    }
+    let insets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    scrollView.contentInset =  insets
+    scrollView.scrollIndicatorInsets = insets
   }
 
 }

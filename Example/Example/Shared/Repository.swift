@@ -15,7 +15,40 @@ final class Repository {
   private let userDefaults: UserDefaults
   private let now: () -> Date
 
+  private let environment = Environment.sandbox
+
   static let shared = Repository(apiClient: .live, userDefaults: .standard, now: Date.init)
+
+  private var fallbackConfiguration: Configuration {
+    // swiftlint:disable:next force_try
+    try! Configuration(
+      minimumAmount: nil,
+      maximumAmount: "1000.00",
+      currencyCode: "USD",
+      locale: Locale(identifier: "en_US"),
+      environment: environment
+    )
+  }
+
+  private(set) var configuration: Configuration {
+    get {
+      cachedConfiguration ?? fallbackConfiguration
+    }
+    set {
+      DispatchQueue.main.async {
+        Afterpay.setConfiguration(newValue)
+      }
+    }
+  }
+
+  private var cachedConfiguration: Configuration? {
+    let response = userDefaults.configuration
+      .flatMap { try? JSONDecoder().decode(ConfigurationResponse.self, from: $0) }
+
+    let configuration = response.flatMap(self.configuration(response:))
+
+    return try? configuration?.get()
+  }
 
   init(apiClient: APIClient, userDefaults: UserDefaults, now: @escaping () -> Date) {
     self.apiClient = apiClient
@@ -26,54 +59,45 @@ final class Repository {
   func checkout(
     email: String,
     amount: String,
-    completion: @escaping (Result<URL, Error>) -> Void
+    checkoutMode: CheckoutMode,
+    completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) {
-    apiClient.checkout(email, amount) { result in
+    apiClient.checkout(email, amount, checkoutMode) { result in
       completion(result.flatMap { data in
-        do {
-          let response = try JSONDecoder().decode(CheckoutsResponse.self, from: data)
-          return .success(response.url)
-        } catch {
-          return .failure(error)
-        }
+        Result { try JSONDecoder().decode(CheckoutsResponse.self, from: data) }
       })
     }
   }
 
-  func fetchConfiguration(completion: @escaping (Result<Configuration, Error>) -> Void) {
-    getConfigurationData { result in
-      completion(result.flatMap { data in
-        do {
-          let response = try JSONDecoder().decode(ConfigurationResponse.self, from: data)
-          let configuration = try Configuration(
-            minimumAmount: response.minimumAmount?.amount,
-            maximumAmount: response.maximumAmount.amount,
-            currencyCode: response.maximumAmount.currency
-          )
-          return .success(configuration)
-        } catch {
-          return .failure(error)
-        }
-      })
+  func fetchConfiguration(forceRefresh: Bool) {
+    getConfigurationResponse(forceRefresh) { result in
+      let configurationResult = result.flatMap(self.configuration(response:))
+
+      if case .success(let fetchedConfig) = configurationResult, case .success(let response) = result {
+        self.userDefaults.configuration = try? JSONEncoder().encode(response)
+        self.userDefaults.lastFetchDate = self.now()
+
+        self.configuration = fetchedConfig
+      }
+
     }
   }
 
-  private func getConfigurationData(completion: @escaping APIClient.Completion) {
+  private func getConfigurationResponse(
+    _ forceRefresh: Bool,
+    completion: @escaping (Result<ConfigurationResponse, Error>) -> Void
+  ) {
+    let responseFromData = { data in
+      Result { try JSONDecoder().decode(ConfigurationResponse.self, from: data) }
+    }
 
-    if Settings.config == .stub, let responseData = configurationStub.responseData {
-      completion(.success(responseData))
-    } else if let configuration = userDefaults.configuration, shouldUseCachedConfiguration {
-      completion(.success(configuration))
+    if let configuration = userDefaults.configuration, shouldUseCachedConfiguration, forceRefresh == false {
+      completion(responseFromData(configuration))
     } else {
       apiClient.configuration { result in
-        if case .success(let response) = result {
-          self.userDefaults.configuration = response
-          self.userDefaults.lastFetchDate = self.now()
-        }
-        completion(result)
+        completion(result.flatMap(responseFromData))
       }
     }
-
   }
 
   private var shouldUseCachedConfiguration: Bool {
@@ -81,6 +105,18 @@ final class Repository {
       return false
     }
     return now().timeIntervalSince(fetchDate) < .oneDay
+  }
+
+  private func configuration(response: ConfigurationResponse) -> Result<Configuration, Error> {
+    Result {
+      try Configuration(
+        minimumAmount: response.minimumAmount?.amount,
+        maximumAmount: response.maximumAmount.amount,
+        currencyCode: response.maximumAmount.currency,
+        locale: Locale(identifier: response.locale.identifier),
+        environment: environment
+      )
+    }
   }
 }
 

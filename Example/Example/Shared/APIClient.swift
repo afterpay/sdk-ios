@@ -10,18 +10,36 @@ import Foundation
 
 private let session = URLSession(configuration: .default)
 
+enum CheckoutMode: Equatable {
+  case v1
+  case v2
+}
+
 private struct CheckoutsRequest: Encodable {
   let email: String
   let amount: String
+  let mode: String?
+
+  init(email: String, amount: String, checkoutMode: CheckoutMode) {
+    self.email = email
+    self.amount = amount
+    self.mode = checkoutMode == .v2 ? "express" : nil
+  }
 }
 
 struct CheckoutsResponse: Decodable {
+  let token: String
   let url: URL
 }
 
 struct ConfigurationResponse: Codable {
   let minimumAmount: Money?
   let maximumAmount: Money
+  let locale: LocaleResponse
+
+  struct LocaleResponse: Codable {
+    let identifier: String
+  }
 
   struct Money: Codable {
     let amount: String
@@ -38,7 +56,8 @@ struct APIClient {
   typealias Completion = (Result<Data, Error>) -> Void
 
   var configuration: (_ completion: @escaping Completion) -> Void
-  var checkout: (_ email: String, _ amount: String, _ completion: @escaping Completion) -> Void
+  var checkout:
+    (_ email: String, _ amount: String, _ checkoutMode: CheckoutMode, _ completion: @escaping Completion) -> Void
 }
 
 extension APIClient {
@@ -46,27 +65,29 @@ extension APIClient {
     configuration: { completion in
       session.request(.configuration, completion: completion)
     },
-    checkout: { email, amount, completion in
-      session.request(.checkout(email: email, amount: amount), completion: completion)
+    checkout: { email, amount, checkoutMode, completion in
+      session.request(.checkout(email: email, amount: amount, checkoutMode: checkoutMode), completion: completion)
     }
   )
 }
 
 private enum Endpoint {
   case configuration
-  case checkout(email: String, amount: String)
+  case checkout(email: String, amount: String, checkoutMode: CheckoutMode)
 
   var request: URLRequest? {
     switch self {
     case .configuration:
       return makeRequest("/configuration")
-    case let .checkout(email, amount):
+    case let .checkout(email, amount, checkoutMode):
       return makeRequest("/checkouts") { request in
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // A failed encoding operation here would represent programmer error
         // swiftlint:disable:next force_try
-        request.httpBody = try! JSONEncoder().encode(CheckoutsRequest(email: email, amount: amount))
+        request.httpBody = try! JSONEncoder().encode(
+          CheckoutsRequest(email: email, amount: amount, checkoutMode: checkoutMode)
+        )
       }
     }
   }

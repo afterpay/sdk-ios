@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Foundation
 import UIKit
 
@@ -56,6 +57,15 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
       cartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       cartButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
     ])
+
+    if AfterpayFeatures.widgetEnabled {
+      navigationItem.rightBarButtonItem = UIBarButtonItem(
+        title: "Tokenless…",
+        style: .plain,
+        target: self,
+        action: #selector(tokenlessWidgetTapped)
+      )
+    }
   }
 
   func update(products: [ProductDisplay]) {
@@ -67,6 +77,11 @@ final class ProductsViewController: UIViewController, UITableViewDataSource {
   }
 
   // MARK: Actions
+
+  @objc private func tokenlessWidgetTapped() {
+    let widgetViewController = WidgetViewController(title: "Tokenless", amount: "200.00")
+    navigationController?.pushViewController(widgetViewController, animated: true)
+  }
 
   @objc private func didTapViewCart() {
     eventHandler(.viewCart)

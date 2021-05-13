@@ -9,40 +9,66 @@
 import Foundation
 import UIKit
 
+/// Implementing this delegate protocol allows launching of the info link modally in app.
 public protocol PriceBreakdownViewDelegate: AnyObject {
+
+  /// The view controller for which the modal info web view controller should be presented on.
+  /// - Returns: The view controller for modal presentation.
   func viewControllerForPresentation() -> UIViewController
+
 }
 
+/// A view that displays informative text, the Afterpay badge and an info link. The info link will
+/// launch externally by default but can launch modally in app by implementing
+/// PriceBreakdownViewDelegate. This view updates in response to Afterpay configuration changes
+/// as well as changes to the `totalAmount`.
 public final class PriceBreakdownView: UIView {
 
+  /// The price breakdown view delegate. Not setting this delegate will cause the info link to open
+  /// externally.
   public weak var delegate: PriceBreakdownViewDelegate?
 
+  /// The total amount of the product or cart being viewed as a Swift Decimal. This Decimal
+  /// conversion should be done from a lossless source. e.g. a String.
   public var totalAmount: Decimal = .zero {
     didSet {
       updateAttributedText()
     }
   }
 
-  private let linkTextView = LinkTextView()
-  private var textColor: UIColor!
-  private var linkColor: UIColor!
-  private let colorScheme: ColorScheme
-
-  private var termsLink: String {
-    switch getLocale() {
-    case Locales.australia:
-      return "https://static-us.afterpay.com/javascript/modal/au_rebrand_modal.html"
-    case Locales.newZealand:
-      return "https://static-us.afterpay.com/javascript/modal/nz_rebrand_modal.html"
-    case Locales.canada:
-      return "https://static-us.afterpay.com/javascript/modal/ca_rebrand_modal.html"
-    default:
-      return "https://static-us.afterpay.com/javascript/modal/us_rebrand_modal.html"
+  public var textColor: UIColor = {
+    if #available(iOS 13.0, *) {
+      return .label
+    } else {
+      return .black
     }
+  }()
+
+  public var linkColor: UIColor = {
+    if #available(iOS 13.0, *) {
+      return .secondaryLabel
+    } else {
+      return UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
+    }
+  }()
+
+  public var badgeColorScheme: ColorScheme = .static(.blackOnMint) {
+    didSet { updateAttributedText() }
   }
 
-  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
-    self.colorScheme = colorScheme
+  public var fontProvider: (UITraitCollection) -> UIFont = { traitCollection in
+    .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
+  }
+
+  private let linkTextView = LinkTextView()
+
+  private var infoLink: String {
+    let region = (getConfiguration()?.locale.regionCode ?? "US").lowercased()
+    return "https://static-us.afterpay.com/javascript/modal/\(region)_rebrand_modal.html"
+  }
+
+  public init(badgeColorScheme: ColorScheme = .static(.blackOnMint)) {
+    self.badgeColorScheme = badgeColorScheme
 
     super.init(frame: .zero)
 
@@ -50,27 +76,12 @@ public final class PriceBreakdownView: UIView {
   }
 
   required init?(coder: NSCoder) {
-    self.colorScheme = .static(.blackOnMint)
-
     super.init(coder: coder)
 
     sharedInit()
   }
 
   private func sharedInit() {
-    if #available(iOS 13.0, *) {
-      textColor = .label
-      linkColor = .secondaryLabel
-    } else {
-      textColor = .black
-      linkColor = UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
-    }
-
-    linkTextView.linkTextAttributes = [
-      .underlineStyle: NSUnderlineStyle.single.rawValue,
-      .foregroundColor: linkColor as Any,
-    ]
-
     linkTextView.linkHandler = { [weak self] url in
       if let viewController = self?.delegate?.viewControllerForPresentation() {
         let infoWebViewController = InfoWebViewController(infoURL: url)
@@ -81,8 +92,6 @@ public final class PriceBreakdownView: UIView {
       }
     }
 
-    updateAttributedText()
-
     addSubview(linkTextView)
 
     NSLayoutConstraint.activate([
@@ -92,16 +101,23 @@ public final class PriceBreakdownView: UIView {
       linkTextView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
 
-    let selector = #selector(updateAttributedText)
+    let selector = #selector(configurationDidChange)
     let name: NSNotification.Name = .configurationUpdated
     notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
   }
 
-  @objc private func updateAttributedText() {
-    let badgeSVGView = SVGView(svgPair: colorScheme.badgeSVGPair)
+  @objc private func configurationDidChange() {
+    DispatchQueue.main.async {
+      self.updateAttributedText()
+    }
+  }
+
+  private func updateAttributedText() {
+    let configuration = BadgeConfiguration(colorScheme: badgeColorScheme)
+    let badgeSVGView = SVGView(svgConfiguration: configuration)
     let svg = badgeSVGView.svg
 
-    let font: UIFont = .preferredFont(forTextStyle: .body)
+    let font: UIFont = fontProvider(traitCollection)
 
     let widthFittingFont = svg.height(for: font.ascender) / svg.aspectRatio
     let width = widthFittingFont > svg.minimumWidth ? widthFittingFont : svg.minimumWidth
@@ -119,6 +135,11 @@ public final class PriceBreakdownView: UIView {
       .foregroundColor: textColor as UIColor,
     ]
 
+    linkTextView.linkTextAttributes = [
+      .underlineStyle: NSUnderlineStyle.single.rawValue,
+      .foregroundColor: linkColor,
+    ]
+
     let attributedString = NSMutableAttributedString()
 
     let badge: NSAttributedString = {
@@ -126,7 +147,7 @@ public final class PriceBreakdownView: UIView {
       attachment.image = image
       let offset = svg.baselineOffset(for: image.size.height)
       attachment.bounds = CGRect(origin: .init(x: 0, y: -offset), size: image.size)
-      attachment.accessibilityLabel = Strings.accessibleAfterpay
+      attachment.accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
       return .init(attachment: attachment)
     }()
 
@@ -139,7 +160,7 @@ public final class PriceBreakdownView: UIView {
     var badgeAndBreakdown = [badge, space, breakdown]
     badgeAndBreakdown = badgePlacement == .start ? badgeAndBreakdown : badgeAndBreakdown.reversed()
 
-    let linkAttributes = textAttributes.merging([.link: termsLink]) { $1 }
+    let linkAttributes = textAttributes.merging([.link: infoLink]) { $1 }
     let link = NSAttributedString(string: Strings.info, attributes: linkAttributes)
     let strings = badgeAndBreakdown + [space, link]
 

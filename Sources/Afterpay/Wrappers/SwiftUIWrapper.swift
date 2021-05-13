@@ -37,12 +37,60 @@ public extension View {
 
 }
 
+@available(iOS 13.0, *)
+public struct AfterpayWidget: UIViewRepresentable {
+
+  private let token: String?
+  private let amount: String?
+
+  public init(token: String, amount: String?) {
+    self.amount = amount
+    self.token = token
+  }
+
+  public init(amount: String) {
+    self.amount = amount
+    self.token = .none
+  }
+
+  public func makeUIView(context: Context) -> WidgetView {
+    let view: WidgetView
+
+    switch (token, amount) {
+    case let (.some(token), _):
+      // swiftlint:disable:next force_try
+      view = try! WidgetView(token: token)
+    case let (_, .some(amount)):
+      // swiftlint:disable:next force_try
+      view = try! WidgetView(amount: amount)
+    default:
+      // swiftlint:disable:next force_try
+      view = try! WidgetView(amount: "0")
+    }
+
+    view.setContentHuggingPriority(.required, for: .vertical)
+    view.layer.borderWidth = 0
+    return view
+  }
+
+  public func updateUIView(_ widgetView: WidgetView, context: Context) {
+    guard let amount = amount else {
+      return
+    }
+
+    // swiftlint:disable:next force_try
+    try! widgetView.sendUpdate(amount: amount)
+  }
+
+}
+
 struct URLItem: Identifiable {
 
   let id: URL
 
 }
 
+@available(iOS 13.0, *)
 struct SwiftUIWrapper: UIViewControllerRepresentable {
 
   let checkoutURL: URL

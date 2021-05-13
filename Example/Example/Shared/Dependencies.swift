@@ -25,8 +25,12 @@ func initializeDependencies() {
         kTSKPublicKeyHashes: ["nQ1Tu17lpJ/Hsr3545eCkig+X9ZPcxRQoe5WMSyyqJI=", backupHash],
       ],
       "portal.sandbox.afterpay.com": [
-        kTSKExpirationDate: "2021-07-05",
-        kTSKPublicKeyHashes: ["15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4=", backupHash],
+        kTSKExpirationDate: "2021-09-09",
+        kTSKPublicKeyHashes: [
+          "15mVY9KpcF6J/UzKCS2AfUjUWPVsIvxi9PW0XuFnvH4=",
+          "TwuRz37J8epX4J1HDkoli34/3Woh7153cD3x9PFuh6I=",
+          "FEzVOUp4dF3gI0ZVPRJhFbSJVXR+uQmMH65xhs1glH4=",
+        ],
       ],
     ],
   ]
@@ -34,20 +38,18 @@ func initializeDependencies() {
   TrustKit.initSharedInstance(withConfiguration: configuration)
 
   // Pin Afterpay's payment portal certificates using TrustKit
-  Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
-    let validator = TrustKit.sharedInstance().pinningValidator
-    return validator.handle(challenge, completionHandler: completionHandler)
-  }
+  // Uncomment this to enable pinning
+  //
+  // Afterpay.setAuthenticationChallengeHandler { challenge, completionHandler -> Bool in
+  //   let validator = TrustKit.sharedInstance().pinningValidator
+  //   return validator.handle(challenge, completionHandler: completionHandler)
+  // }
 
-  // Configure the Afterpay SDK with the merchant configuration
-  Repository.shared.fetchConfiguration { result in
-    switch result {
-    case .success(let configuration):
-      Afterpay.setConfiguration(configuration)
-    case .failure(let error):
-      // Logs network, decoding and Afterpay configuration errors raised
-      let errorDescription = error.localizedDescription
-      os_log(.error, "Failed to set configuration with error: %{public}@", errorDescription)
-    }
-  }
+  let repository = Repository.shared
+
+  // Prime the app with the last cached configuration
+  Afterpay.setConfiguration(repository.configuration)
+
+  // Configure the Afterpay SDK with the latest merchant configuration
+  repository.fetchConfiguration(forceRefresh: false)
 }

@@ -26,5 +26,6 @@ enum Strings {
   // MARK: - Accessible Strings
 
   static let accessibleAfterpay = "after pay"
+  static let accessibleClearpay = "clear pay"
 
 }

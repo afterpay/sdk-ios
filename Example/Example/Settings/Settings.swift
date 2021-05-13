@@ -8,16 +8,6 @@
 
 import Foundation
 
-enum Language: Int, CaseIterable {
-  case swift
-  case objectiveC
-}
-
-enum Config: Int, CaseIterable {
-  case remote
-  case stub
-}
-
 struct Settings {
   @Setting("email", defaultValue: "email@example.com", title: "Email")
   static var email: String
@@ -27,15 +17,6 @@ struct Settings {
 
   @Setting("port", defaultValue: "3000", title: "Port")
   static var port: String
-
-  @Setting("currencyCode", defaultValue: "AUD", title: "Currency Code")
-  static var currencyCode: String
-
-  @Setting("language", defaultValue: .swift, title: "Language")
-  static var language: Language
-
-  @Setting("config", defaultValue: .remote, title: "Config")
-  static var config: Config
 }
 
 @propertyWrapper
@@ -157,26 +138,6 @@ extension PickerSetting {
   }
 }
 
-extension Language: SelectableSetting {
-  var label: String {
-    switch self {
-    case .swift: return "Swift"
-    case .objectiveC: return "Objective-C"
-    }
-  }
-}
-
-extension Config: SelectableSetting {
-  var label: String {
-    switch self {
-    case .remote:
-      return "Remote"
-    case .stub:
-      return "Stub"
-    }
-  }
-}
-
 enum AppSetting {
   case text(Setting<String>)
   case picker(PickerSetting)
@@ -188,9 +149,6 @@ extension AppSetting {
       .text(Settings.$email),
       .text(Settings.$host),
       .text(Settings.$port),
-      .text(Settings.$currencyCode),
-      .picker(PickerSetting(Settings.$language)),
-      .picker(PickerSetting(Settings.$config)),
     ]
   }
 }

@@ -30,22 +30,6 @@ public enum ColorScheme {
     }
   }
 
-  var badgeSVGPair: SVGPair {
-    let svg: (ColorPalette) -> SVG = { palette in
-      switch palette {
-      case .blackOnMint:
-        return .badgeBlackOnMint
-      case .mintOnBlack:
-        return .badgeMintOnBlack
-      case .whiteOnBlack:
-        return .badgeWhiteOnBlack
-      case .blackOnWhite:
-        return .badgeBlackOnWhite
-      }
-    }
-
-    return SVGPair(lightSVG: svg(lightPalette), darkSVG: svg(darkPalette))
-  }
 }
 
 public enum ColorPalette {
@@ -53,4 +37,24 @@ public enum ColorPalette {
   case mintOnBlack
   case whiteOnBlack
   case blackOnWhite
+}
+
+public enum ButtonKind {
+  case buyNow
+  case checkout
+  case payNow
+  case placeOrder
+
+  var accessibilityLabel: String {
+    switch self {
+    case .buyNow:
+      return "buy now with"
+    case .checkout:
+      return "checkout with"
+    case .payNow:
+      return "pay now with"
+    case .placeOrder:
+      return "place order with"
+    }
+  }
 }

@@ -9,9 +9,10 @@ Pod::Spec.new do |spec|
   spec.license       = "Apache License, Version 2.0"
   spec.author        = "Afterpay"
   spec.platform      = :ios, "12.0"
+  spec.ios.deployment_target  = "12.0"
   spec.source        = { :git => "https://github.com/afterpay/sdk-ios.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/Afterpay/**/*"
-  spec.swift_version = "5.1"
+  spec.swift_version = "5.2"
   spec.framework     = "UIKit"
 
   spec.dependency "Macaw", "0.9.7"

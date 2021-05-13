@@ -24,13 +24,25 @@ class PriceBreakdownTests: XCTestCase {
 
   private let setMinumumMaximumConfiguration = {
     Afterpay.setConfiguration(
-      try? Configuration(minimumAmount: "50.00", maximumAmount: "200.00", currencyCode: "USD")
+      try? Configuration(
+        minimumAmount: "50.00",
+        maximumAmount: "200.00",
+        currencyCode: "USD",
+        locale: Locale(identifier: "en_US"),
+        environment: .sandbox
+      )
     )
   }
 
   private let setMaximumConfiguration = {
     Afterpay.setConfiguration(
-      try? Configuration(minimumAmount: nil, maximumAmount: "200.00", currencyCode: "USD")
+      try? Configuration(
+        minimumAmount: nil,
+        maximumAmount: "200.00",
+        currencyCode: "USD",
+        locale: Locale(identifier: "en_US"),
+        environment: .sandbox
+      )
     )
   }
 

@@ -15,12 +15,10 @@ public final class ObjcWrapper: NSObject {
   @available(*, unavailable)
   public override init() {}
 
-  /// Cannot be instantiated, instances will be of type CheckoutResultSuccess or
-  /// CheckoutResultCancelled
+  /// Should not be instantiated, instances should be of type CheckoutResultSuccess or CheckoutResultCancelled
   @objc(APCheckoutResult)
   public class CheckoutResult: NSObject {
-    @available(*, unavailable)
-    override init() {}
+    internal override init() {}
 
     static func success(token: String) -> CheckoutResultSuccess {
       CheckoutResultSuccess(token: token)
@@ -49,12 +47,11 @@ public final class ObjcWrapper: NSObject {
     }
   }
 
-  /// Cannot be instantiated, instances will be of type CancellationReasonUserInitiated,
-  /// CancellationReasonNetworkError or CancellationReasonInvalidURL
   @objc(APCancellationReason)
   public class CancellationReason: NSObject {
-    @available(*, unavailable)
-    override init() {}
+    /// Should not be instantiated, instances should be of type CancellationReasonUserInitiated,
+    /// CancellationReasonNetworkError or CancellationReasonInvalidURL
+    internal override init() {}
 
     static func userInitiated() -> CancellationReasonUserInitiated {
       CancellationReasonUserInitiated(())
@@ -128,23 +125,35 @@ public final class ObjcWrapper: NSObject {
     Afterpay.setAuthenticationChallengeHandler(handler)
   }
 
+  // swiftlint:disable function_parameter_count
+
   @objc
   public static func setConfiguration(
     minimumAmount: String,
     maximumAmount: String,
     currencyCode: String,
+    locale: Locale,
+    environment: String,
     error: UnsafeMutablePointer<NSError>
   ) {
-    do {
-      let configuration = try Configuration(
+    let environment = Environment(rawValue: environment) ?? .production
+    let result = Result {
+      try Configuration(
         minimumAmount: minimumAmount,
         maximumAmount: maximumAmount,
-        currencyCode: currencyCode)
+        currencyCode: currencyCode,
+        locale: locale,
+        environment: environment)
+    }
 
+    switch result {
+    case .success(let configuration):
       Afterpay.setConfiguration(configuration)
-    } catch let configurationError {
+    case .failure(let configurationError):
       error.initialize(to: configurationError as NSError)
     }
   }
+
+  // swiftlint:enable function_parameter_count
 
 }

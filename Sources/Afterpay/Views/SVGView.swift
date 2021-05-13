@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if compiler(>=5.1) && compiler(<5.3)
+#if compiler(>=5.1) && compiler(<5.5)
 @_implementationOnly import Macaw
 #else
 import Macaw
@@ -16,12 +16,14 @@ import UIKit
 
 final class SVGView: Macaw.SVGView {
 
-  var svg: SVG { svg(for: traitCollection) }
+  var svg: SVG { svgConfiguration.svg(localizedFor: getLocale(), withTraits: traitCollection) }
 
-  private let svgPair: SVGPair
+  var svgConfiguration: SVGConfiguration {
+    didSet { svgDidChange() }
+  }
 
-  init(svgPair: SVGPair) {
-    self.svgPair = svgPair
+  init(svgConfiguration: SVGConfiguration) {
+    self.svgConfiguration = svgConfiguration
 
     super.init(frame: .zero)
 
@@ -29,6 +31,10 @@ final class SVGView: Macaw.SVGView {
     backgroundColor = .clear
     translatesAutoresizingMaskIntoConstraints = false
     setupConstraints()
+
+    let selector = #selector(configurationDidChange)
+    let name: NSNotification.Name = .configurationUpdated
+    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
   }
 
   private var aspectRatioConstraint: NSLayoutConstraint!
@@ -45,17 +51,6 @@ final class SVGView: Macaw.SVGView {
     NSLayoutConstraint.activate([aspectRatioConstraint, minimumWidthConstraint])
   }
 
-  private func svg(for traitCollection: UITraitCollection) -> SVG {
-    switch traitCollection.userInterfaceStyle {
-    case .dark:
-      return svgPair.darkSVG
-    case .light, .unspecified:
-      fallthrough
-    @unknown default:
-      return svgPair.lightSVG
-    }
-  }
-
   private func svgDidChange() {
     node = svg.node
 
@@ -68,10 +63,32 @@ final class SVGView: Macaw.SVGView {
     }
   }
 
+  @objc private func configurationDidChange(_ notification: NSNotification) {
+    let previousLocale = (notification.object as? Configuration)?.locale ?? Locales.unitedStates
+
+    DispatchQueue.main.async {
+      self.updateSvgLocale(previousLocale: previousLocale)
+    }
+  }
+
+  private func updateSvgLocale(previousLocale: Locale) {
+    let svgForLocale = { [traitCollection, svgConfiguration] locale in
+      svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
+    }
+
+    if svgForLocale(previousLocale) != svgForLocale(getLocale()) {
+      svgDidChange()
+    }
+  }
+
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
-    if previousTraitCollection.map(svg) != svg(for: traitCollection) {
+    let svgForTraits = { [svgConfiguration] traitCollection in
+      svgConfiguration.svg(localizedFor: getLocale(), withTraits: traitCollection)
+    }
+
+    if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {
       svgDidChange()
     }
   }

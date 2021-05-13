@@ -11,7 +11,10 @@ import UIKit
 
 public final class BadgeView: UIView {
 
-  private let colorScheme: ColorScheme
+  public var colorScheme: ColorScheme = .static(.blackOnMint) {
+    didSet { svgView.svgConfiguration.colorScheme = colorScheme }
+  }
+
   private var svgView: SVGView!
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -23,21 +26,21 @@ public final class BadgeView: UIView {
   }
 
   required init?(coder: NSCoder) {
-    self.colorScheme = .static(.blackOnMint)
-
     super.init(coder: coder)
 
     sharedInit()
   }
 
   private func sharedInit() {
+    let configuration = BadgeConfiguration(colorScheme: colorScheme)
+
     // Accessibility
     isAccessibilityElement = true
     accessibilityTraits = [.staticText]
-    accessibilityLabel = Strings.accessibleAfterpay
+    accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
 
     // SVG Layout
-    svgView = SVGView(svgPair: colorScheme.badgeSVGPair)
+    svgView = SVGView(svgConfiguration: configuration)
 
     addSubview(svgView)
 
