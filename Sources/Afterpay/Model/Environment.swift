@@ -18,7 +18,12 @@ import Foundation
   }
 
   var widgetBootstrapScriptURL: URL {
-    URL(string: "https://afterpay.github.io/sdk-example-server/widget-bootstrap.js")!
+    switch self {
+    case .sandbox:
+      return URL(string: "https://afterpay.github.io/sdk-example-server/widget-bootstrap.js")!
+    case .production:
+      return URL(string: "https://static.afterpay.com/mobile-sdk/bootstrap/widget-bootstrap.js")!
+    }
   }
 
   var afterpayJsURL: String {
