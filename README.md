@@ -15,7 +15,7 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Table of Contents](#table-of-contents)
 - [Integration](#integration)
   - [Requirements](#requirements)
-  - [Swift Package Manager](#swift-package-manager)
+  - [Swift Package Manager](#swift-package-manager-recommended)
   - [Carthage](#carthage)
   - [CocoaPods](#cocoapods)
   - [Manual](#manual)
@@ -23,7 +23,6 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
       - [GitHub Release](#github-release)
       - [Git Submodule](#git-submodule)
       - [Project / Workspace Integration](#project--workspace-integration)
-    - [XCFramework](#xcframework)
 - [Features](#features)
   - [Web Checkout](#web-checkout)
     - [Checkout v1](#checkout-v1)
@@ -60,7 +59,6 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - [Building](#building)
   - [Mint](#mint)
   - [Running](#running)
-  - [XCFramework](#xcframework-1)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -72,24 +70,26 @@ The Afterpay iOS SDK provides conveniences to make your Afterpay integration exp
 - Swift 5.3+
 - Xcode 12.0+
 
-## Swift Package Manager
+## Swift Package Manager (recommended)
+
+This is the recommended integration method.
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "3.0.0"))
 ]
 ```
 
 ## Carthage
 
 ```
-github "afterpay/sdk-ios" ~> 1.0
+github "afterpay/sdk-ios" ~> 3.0
 ```
 
 ## CocoaPods
 
 ```
-pod 'Afterpay', '~> 1.0'
+pod 'Afterpay', '~> 3.0'
 ```
 
 ## Manual
@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 2.0.0
+git checkout 3.0.0
 ```
 
 #### Project / Workspace Integration
@@ -123,12 +123,6 @@ Now that the Afterpay SDK resides in the `Afterpay` directory in the root of you
 5. Select the `Afterpay.framework` for your target platform.
 
 And that's it, the Afterpay SDK is now ready to import and use within your application.
-
-### XCFramework
-
-1. Download the [latest release][latest-release] framework zip from GitHub and unzip it. 
-2. Select your application project in the Project Navigator to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
-3. Drag the `Afterpay.xcframework` under the "Frameworks, Libraries, and Embedded Content" section of your application target in the General tab.
 
 # Features
 
@@ -178,9 +172,6 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 
 ## Widget
 
-> **⚠️ NOTE:** 
-> This is an experimental feature which is not yet enabled by default. Enable it by passing the argument `-com.afterpay.widget-enabled YES` on launch.
-
 The checkout widget displays the consumer's payment schedule, and can be updated as the order total changes. It should be shown if the order value is going to change after the Afterpay Express checkout has finished. For example, the order total may change in response to shipping costs and promo codes. It can also be used to show if there are any barriers to completing the purchase, like if the customer has gone over their Afterpay payment limit.
 
 It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode'). 
@@ -196,6 +187,8 @@ WidgetView.init(amount:)
 ## Security
 
 For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
+
+This technique is supported on both the checkout versions, and the widget.
 
 ### Swift
 
@@ -518,9 +511,6 @@ final class MyViewController: UIViewController {
 
 ## Presenting The Widget
 
-> **⚠️ NOTE:** 
-> This is an experimental feature which is not yet enabled by default. Enable it by passing the argument `-com.afterpay.widget-enabled YES` on launch.
-
 The checkout widget is available via `WidgetView`, which is a `UIView` subclass. There are two initialisers. Which one you'll use depends on if you are showing the widget before or after a checkout.
 
 Internally, the web widget is rendered in `WKWebView` subview. It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which fits the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height.
@@ -658,10 +648,6 @@ The Afterpay SDK uses [Mint][mint] to install and run Swift command line package
 
 Building and running the project is as simple as cloning the repository, opening [`Afterpay.xcworkspace`][afterpay-workspace] and building the `Afterpay` target. The example project can be built and run via the `Example` target.
 
-## XCFramework
-
-A `.xcframework` can be generated by running the included [`create-xcframework`][create-xcframework].
-
 # Contributing
 
 Contributions are welcome! Please read our [contributing guidelines][contributing].
@@ -690,7 +676,6 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [carthage]: https://github.com/Carthage/Carthage
 [ccp]: https://cocoapods.org/pods/Afterpay
 [contributing]: CONTRIBUTING.md
-[create-xcframework]: Scripts/create-xcframework
 [example]: Example
 [example-server]: https://github.com/afterpay/sdk-example-server
 [express-checkout]: https://developers.afterpay.com/afterpay-online/reference#what-is-express-checkout

@@ -115,11 +115,6 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   private func setup() {
-    precondition(
-      AfterpayFeatures.widgetEnabled,
-      "`WidgetView` is experimental. Enable by passing launch argument `-com.afterpay.widget-enabled YES`."
-    )
-
     setupWebView()
     setupWebViewConstraints()
 
