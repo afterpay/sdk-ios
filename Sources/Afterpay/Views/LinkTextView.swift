@@ -30,7 +30,6 @@ final class LinkTextView: UITextView, UITextViewDelegate {
   // Unfortunately implementing UITextViewDelegate textView(_:shouldInteractWith:in:interaction:)
   // for NSTextAttachments isn't enough to prevent drag and drop being initiated
   override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-    // TODO: Test if this is necessary when language is set to an RTL language
     let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
     let direction: UITextLayoutDirection = isRightToLeft ? .right : .left
 
