@@ -27,4 +27,9 @@ import Foundation
 ///   Overriding UserDefaults for improved productivity
 public struct AfterpayFeatures {
 
+  /// Are we using the real widget bootstrap, or a mock one? The mock widget bootstrap is used for end to end testing.
+  static var mockWidgetBootstrap: Bool {
+    UserDefaults.standard.bool(forKey: "com.afterpay.mock-widget-bootstrap")
+  }
+
 }

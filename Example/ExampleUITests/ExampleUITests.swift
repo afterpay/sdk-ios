@@ -6,6 +6,7 @@
 //  Copyright © 2021 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import XCTest
 
 final class ExampleUITests: XCTestCase {
@@ -13,7 +14,7 @@ final class ExampleUITests: XCTestCase {
   private let app = XCUIApplication()
 
   override func setUp() {
-    app.launchArguments = ["-com.afterpay.widget-enabled", "YES"]
+    app.launchArguments = ["-com.afterpay.mock-widget-bootstrap", "YES"]
     app.launch()
   }
 
@@ -35,14 +36,21 @@ final class ExampleUITests: XCTestCase {
     app.buttons["Yes"].tap()
   }
 
-  // Skipped while we come up with a better way to end to end test the bootstrap 
-  func skip_testTokenlessWidgetAppears() throws {
+  func testTokenlessWidgetAppears() throws {
     app.buttons["Tokenless…"].tap()
 
-    XCTAssertTrue(app.staticTexts["Due today"].waitForExistence(timeout: 10))
-    XCTAssertTrue(app.staticTexts["Today"].waitForExistence(timeout: 0.5))
-    XCTAssertTrue(app.staticTexts["In 2 weeks"].waitForExistence(timeout: 0.5))
-    XCTAssertTrue(app.staticTexts["In 4 weeks"].waitForExistence(timeout: 0.5))
+    let webViewText = app.webViews.staticTexts.firstMatch
+
+    XCTAssertTrue(webViewText.label.contains(#"token":null"#))
+    XCTAssertTrue(webViewText.label.contains(#"amount":"200.00"#))
+    XCTAssertTrue(webViewText.label.contains(#"currency":"AUD"#))
+
+    let textField = app.textFields.firstMatch
+    textField.tap()
+    textField.typeText("444")
+    app.buttons["Update"].tap()
+
+    XCTAssertTrue(webViewText.label.contains(#"{"amount":"444","currency":"AUD"}"#))
   }
 
 }
