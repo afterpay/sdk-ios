@@ -20,6 +20,8 @@ In order to [deploy a library to CocoaPods](https://guides.cocoapods.org/making/
 
 The GitHub Action needs a `COCOAPODS_TRUNK_TOKEN` to be set. This is the secret token which authenticates us with CocoaPods. To get this [register with CocoaPods](https://guides.cocoapods.org/making/getting-setup-with-trunk.html#getting-started) and then be [added as a contributor](https://guides.cocoapods.org/making/getting-setup-with-trunk.html#adding-other-people-as-contributors).
 
+[This blog post](https://medium.com/swlh/automated-cocoapod-releases-with-github-actions-8526dd4535c7) outlines a similar procedure.
+
 ### Swift Package Manager & Carthage
 
 Swift Package Manager and Carthage require no additional work. Those package managers will automatically start receiving the new version when they can. 
