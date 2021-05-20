@@ -39,6 +39,8 @@ final class ExampleUITests: XCTestCase {
   func testTokenlessWidgetAppears() throws {
     app.buttons["Tokenless…"].tap()
 
+    _ = app.webViews.staticTexts.firstMatch.waitForExistence(timeout: 10)
+
     let webViewText = app.webViews.staticTexts.firstMatch
 
     XCTAssertTrue(webViewText.label.contains(#"token":null"#))
