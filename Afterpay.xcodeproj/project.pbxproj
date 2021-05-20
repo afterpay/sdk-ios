@@ -22,6 +22,7 @@
 		551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDF725F9B95C00FDF9EE /* WidgetView.swift */; };
 		551BEDFC25F9C56600FDF9EE /* WidgetEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDFB25F9C56600FDF9EE /* WidgetEvent.swift */; };
 		55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5543282F263A61C4005512E4 /* CombineWrapper.swift */; };
+		556DEBFB2653531F00BFC277 /* mock-widget-bootstrap.js in Resources */ = {isa = PBXBuildFile; fileRef = 556DEBF92653531000BFC277 /* mock-widget-bootstrap.js */; };
 		557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BA264259C30040CC51 /* CombineWrapperTests.swift */; };
 		557511BF2644CAA50040CC51 /* WKWebView+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */; };
 		557511C12644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */; };
@@ -87,6 +88,7 @@
 		551BEDF725F9B95C00FDF9EE /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		551BEDFB25F9C56600FDF9EE /* WidgetEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEvent.swift; sourceTree = "<group>"; };
 		5543282F263A61C4005512E4 /* CombineWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWrapper.swift; sourceTree = "<group>"; };
+		556DEBF92653531000BFC277 /* mock-widget-bootstrap.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "mock-widget-bootstrap.js"; sourceTree = "<group>"; };
 		557511BA264259C30040CC51 /* CombineWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWrapperTests.swift; sourceTree = "<group>"; };
 		557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Cache.swift"; sourceTree = "<group>"; };
 		557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+UserAgent.swift"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		665FC5782488766C00A5A93E /* AfterpayTests */ = {
 			isa = PBXGroup;
 			children = (
+				556DEBF92653531000BFC277 /* mock-widget-bootstrap.js */,
 				6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */,
 				66C3F7FA25397A810086DD0A /* CurrencyFormatterTests.swift */,
 				551BEDF025F98FA800FDF9EE /* FeaturesTests.swift */,
@@ -470,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5519DFAC261D38A8000628FF /* README.md in Resources */,
+				556DEBFB2653531F00BFC277 /* mock-widget-bootstrap.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

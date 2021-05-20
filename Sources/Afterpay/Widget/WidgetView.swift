@@ -296,7 +296,10 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
 
     webView.evaluateJavaScript(
       #"createAfterpayWidget(\#(tokenAndMoney), "\#(locale)", \#(styleParameter));"#
-    )
+    ) { _, error in
+      guard let error = error else { return }
+      getWidgetHandler()?.onFailure(error: error)
+    }
   }
 
   public func webView(

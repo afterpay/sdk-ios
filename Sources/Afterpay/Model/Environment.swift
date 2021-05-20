@@ -44,14 +44,24 @@ import Foundation
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <script src="\(afterpayJsURL)"></script>
-        <script src="\(widgetBootstrapScriptURL.absoluteString)"></script>
 
+        \(bootstrapScript)
       </head>
       <body>
         <div id="afterpay-widget-container" style="margin: 16px 0px"></div>
       </body>
     </html>
     """
+  }
+
+  private var bootstrapScript: String {
+    if AfterpayFeatures.mockWidgetBootstrap {
+      let realUrl = Bundle(for: WidgetView.self).url(forResource: "mock-widget-bootstrap", withExtension: "js")!
+      let script = try? String(contentsOf: realUrl)
+      return #"<script>\#(script ?? "")</script>"#
+    }
+
+    return #"<script src="\#(widgetBootstrapScriptURL.absoluteString)"></script>"#
   }
 
 }
