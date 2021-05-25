@@ -513,7 +513,7 @@ final class MyViewController: UIViewController {
 
 The checkout widget is available via `WidgetView`, which is a `UIView` subclass. There are two initialisers. Which one you'll use depends on if you are showing the widget before or after a checkout.
 
-Internally, the web widget is rendered in `WKWebView` subview. It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which fits the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height.
+Internally, the web widget is rendered in `WKWebView` subview. It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which changes to fit the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height. The web widget is responsive and will fit any container with a minimum width of 300 pixels.
 
 ### With Checkout Token
 
