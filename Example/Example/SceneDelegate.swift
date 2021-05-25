@@ -20,6 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, WindowHolder {
     options connectionOptions: UIScene.ConnectionOptions
   ) {
     install(window: UIWindow(windowScene: scene as! UIWindowScene))
+
+    #if DEBUG
+    if CommandLine.arguments.contains("-disableAnimations") {
+      window?.layer.speed = 4.0
+    }
+    #endif
+
   }
 
 }
