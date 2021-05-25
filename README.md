@@ -184,6 +184,9 @@ WidgetView.init(token:)
 WidgetView.init(amount:)
 ```
 
+An example 'tokenless' widget, with four payments of $50 adding to $200:
+![Widget][widget-screenshot]
+
 ## Security
 
 For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
@@ -680,6 +683,7 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [example-server]: https://github.com/afterpay/sdk-example-server
 [express-checkout]: https://developers.afterpay.com/afterpay-online/reference#what-is-express-checkout
 [four-payments]: Images/four-payments.png
+[widget-screenshot]: Images/widget.png
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/afterpay/sdk-ios/releases/latest
 [license]: LICENSE
