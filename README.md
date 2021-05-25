@@ -305,19 +305,19 @@ After setting the total amount the matching breakdown string for the set Afterpa
 
 When the breakdown component is assigned a total amount that is valid for the merchant account, the component will display 4 instalment amounts.
 
-<img src="https://github.com/afterpay/sdk-ios/blob/huwr/readme/Images/breakdown-four-payments.png" width=50% height=50%>
+<img src="https://raw.githubusercontent.com/afterpay/sdk-ios/master/Images/breakdown-four-payments.png" width=50% height=50%>
 
 When the total amount is not within the minimum and maximum payment values for the merchant account, the component will display amounts that are available for Afterpay.
 
-<img src="https://github.com/afterpay/sdk-ios/blob/huwr/readme/Images/breakdown-range.png" width=50% height=50%>
+<img src="https://raw.githubusercontent.com/afterpay/sdk-ios/master/Images/breakdown-range.png" width=50% height=50%>
 
 When no minimum amount is set and the total amount is greater than the maximum payment values for the merchant account, the component will show the maximum amount available for Afterpay.
 
-<img src="https://github.com/afterpay/sdk-ios/blob/huwr/readme/Images/breakdown-up-to.png" width=50% height=50%>
+<img src="https://raw.githubusercontent.com/afterpay/sdk-ios/master/Images/breakdown-up-to.png" width=50% height=50%>
 
 When no payment amount has been set or the merchant account configuration has not been applied to the SDK, the component will default to a message stating Afterpay is available.
 
-<img src="https://github.com/afterpay/sdk-ios/blob/huwr/readme/Images/breakdown-no-configuration.png" width=50% height=50%>
+<img src="https://raw.githubusercontent.com/afterpay/sdk-ios/master/Images/breakdown-no-configuration.png" width=50% height=50%>
 
 The **Info** link at the end of the component will display a window containing more information about Afterpay for the user.
 
