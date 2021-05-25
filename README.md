@@ -185,7 +185,7 @@ WidgetView.init(amount:)
 ```
 
 An example 'tokenless' widget, with four payments of $50 adding to $200:
-![Widget][widget-screenshot]
+<img src="https://github.com/afterpay/sdk-ios/blob/huwr/readme/Images/widget.png" width=50% height=50%>
 
 ## Security
 
