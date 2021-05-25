@@ -184,6 +184,9 @@ WidgetView.init(token:)
 WidgetView.init(amount:)
 ```
 
+An example 'tokenless' widget, with four payments of $50 adding to $200:
+<img src="https://github.com/afterpay/sdk-ios/blob/huwr/readme/Images/widget.png" width=50% height=50%>
+
 ## Security
 
 For added security, a method to hook into the SDKs WKWebView Authentication Challenge Handler is provided. With this you can implement things like SSL Pinning to ensure you can trust your end to end connections. An example of this has been provided in the [example project][example] and in the snippet below using [TrustKit][trust-kit]. In this handler you must return whether or not you have handled the challenge yourself (have called the completionHandler) by returning `true`, or if you wish to fall back to the default handling by returning `false`.
@@ -513,7 +516,7 @@ final class MyViewController: UIViewController {
 
 The checkout widget is available via `WidgetView`, which is a `UIView` subclass. There are two initialisers. Which one you'll use depends on if you are showing the widget before or after a checkout.
 
-Internally, the web widget is rendered in `WKWebView` subview. It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which fits the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height.
+Internally, the web widget is rendered in `WKWebView` subview. It has an [intrinsic content size](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21) which changes to fit the web widget. The `WidgetView` matches its intrinsic content height to the internal web widget's height. The web widget is responsive and will fit any container with a minimum width of 300 pixels.
 
 ### With Checkout Token
 
@@ -680,6 +683,7 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [example-server]: https://github.com/afterpay/sdk-example-server
 [express-checkout]: https://developers.afterpay.com/afterpay-online/reference#what-is-express-checkout
 [four-payments]: Images/four-payments.png
+[widget-screenshot]: Images/widget.png
 [git-submodule]: https://git-scm.com/docs/git-submodule
 [latest-release]: https://github.com/afterpay/sdk-ios/releases/latest
 [license]: LICENSE
