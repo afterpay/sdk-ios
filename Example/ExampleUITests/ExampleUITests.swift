@@ -14,8 +14,11 @@ final class ExampleUITests: XCTestCase {
   private let app = XCUIApplication()
 
   override func setUp() {
-    app.launchArguments = ["-com.afterpay.mock-widget-bootstrap", "YES"]
+    app.launchArguments.append(contentsOf: ["-com.afterpay.mock-widget-bootstrap", "YES"])
+    app.launchArguments.append("-disableAnimations")
     app.launch()
+
+    UIView.setAnimationsEnabled(false)
   }
 
   func testCheckoutShows() throws {
@@ -31,7 +34,7 @@ final class ExampleUITests: XCTestCase {
 
     app.swipeDown()
 
-    XCTAssertTrue(app.staticTexts["Are you sure you want to cancel the payment?"].waitForExistence(timeout: 0.5))
+    XCTAssertTrue(app.staticTexts["Are you sure you want to cancel the payment?"].waitForExistence(timeout: 3))
 
     app.buttons["Yes"].tap()
   }
