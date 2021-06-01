@@ -63,8 +63,8 @@ public final class PriceBreakdownView: UIView {
   private let linkTextView = LinkTextView()
 
   private var infoLink: String {
-    let region = (getConfiguration()?.locale.regionCode ?? "US").lowercased()
-    return "https://static-us.afterpay.com/javascript/modal/\(region)_rebrand_modal.html"
+    let locale = getConfiguration()?.locale.identifier ?? "en_US"
+    return "https://static.afterpay.com/modal/\(locale).html"
   }
 
   public init(badgeColorScheme: ColorScheme = .static(.blackOnMint)) {
