@@ -12,7 +12,7 @@ Before releasing, it is always a good idea to make sure every piece of work in t
 
 3- Push all changes to GitHub.
 
-4- In GitHub, go to `Releases` and click `Draft a new release`. Insert the version number as the tag version. Fill in the rest of details of the release as well with as much detail as you can, particularly noting any breaking changes. GitHub Actions will have already filled in many of the changes for you from pull requests titles, but you will need to make this more human-readable.
+4- In GitHub, go to `Releases` and click `Draft a new release`. Insert the version number as the tag version. Fill in the rest of details of the release as well with as much detail as you can, particularly noting any breaking changes. GitHub Actions will have already filled in many of the changes for you from pull requests titles, but you will need to make this more human-readable. __NB__ This must be done even if you have already made the Git tag — this way, any release-related GitHub actions will also run. It also gives us a nicer history of our releases.
 
 ### Extra notes for CocoaPods
 
