@@ -19,7 +19,7 @@ public final class PaymentButton: UIButton {
     didSet { updateImage() }
   }
 
-  private var configuration: SVGConfiguration {
+  private var svgConfiguration: SVGConfiguration {
     PaymentButtonConfiguration(colorScheme: colorScheme, buttonKind: buttonKind)
   }
 
@@ -40,14 +40,14 @@ public final class PaymentButton: UIButton {
 
   private func sharedInit() {
     let locale = getLocale()
-    let svg = configuration.svg(localizedFor: locale, withTraits: traitCollection)
+    let svg = svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
 
     NSLayoutConstraint.activate([
       heightAnchor.constraint(equalTo: widthAnchor, multiplier: svg.aspectRatio),
       widthAnchor.constraint(greaterThanOrEqualToConstant: svg.minimumWidth),
     ])
 
-    accessibilityLabel = configuration.accessibilityLabel(localizedFor: locale)
+    accessibilityLabel = svgConfiguration.accessibilityLabel(localizedFor: locale)
     translatesAutoresizingMaskIntoConstraints = false
     adjustsImageWhenHighlighted = true
     adjustsImageWhenDisabled = true
@@ -64,8 +64,8 @@ public final class PaymentButton: UIButton {
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
-    let svgForTraits = { [configuration] traitCollection in
-      configuration.svg(localizedFor: getLocale(), withTraits: traitCollection)
+    let svgForTraits = { [svgConfiguration] traitCollection in
+      svgConfiguration.svg(localizedFor: getLocale(), withTraits: traitCollection)
     }
 
     if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {
@@ -74,7 +74,7 @@ public final class PaymentButton: UIButton {
   }
 
   private func updateImage() {
-    let svgView = SVGView(svgConfiguration: configuration)
+    let svgView = SVGView(svgConfiguration: svgConfiguration)
     svgView.frame = bounds
 
     let renderer = UIGraphicsImageRenderer(size: svgView.bounds.size)
