@@ -296,9 +296,9 @@ final class CheckoutV2ViewController:
 
   func userContentController(
     _ userContentController: WKUserContentController,
-    didReceive message: WKScriptMessage
+    didReceive receivedMessage: WKScriptMessage
   ) {
-    let jsonData = (message.body as? String)?.data(using: .utf8)
+    let jsonData = (receivedMessage.body as? String)?.data(using: .utf8)
     let message = jsonData.flatMap { try? decoder.decode(Message.self, from: $0) }
     let completion = jsonData.flatMap { try? decoder.decode(Completion.self, from: $0) }
 
@@ -338,6 +338,9 @@ final class CheckoutV2ViewController:
       case .cancelled:
         dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
       }
+    } else {
+      let message = receivedMessage.body as? String
+      os_log("Unable to parse message received from bootstrap: %@", log: .checkout, type: .error, message ?? "<<empty>>")
     }
   }
 
