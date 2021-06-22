@@ -437,7 +437,7 @@ The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers 
 > **NOTE:** 
 > Two requirements must be met in order to use checkout v2 successfully:
 > - Configuration must always be set before presentation otherwise you will incur an assertionFailure.
-> - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
+> - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. The SDK’s example merchant server sets the parameter [here](https://github.com/afterpay/sdk-example-server/blob/master/src/routes/checkout.ts#L28). See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
 
 ### Debugging
 
