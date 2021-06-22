@@ -340,7 +340,7 @@ final class CheckoutV2ViewController:
       }
     } else {
       let message = receivedMessage.body as? String
-      os_log("Unable to parse message received from bootstrap: %@", log: .checkout, type: .error, message ?? "<<empty>>")
+      os_log("Unable to parse message from bootstrap: %@", log: .checkout, type: .error, message ?? "<<empty>>")
     }
   }
 
