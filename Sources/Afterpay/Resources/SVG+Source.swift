@@ -20,6 +20,8 @@ extension SVG {
 
   static let afterpayBadgeBlackOnMint = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,6 +47,8 @@ extension SVG {
 
   static let clearpayBadgeBlackOnMint = SVG(
     size: CGSize(width: 1620, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1620" height="551" viewBox="0 0 1620 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,6 +68,8 @@ extension SVG {
 
   static let afterpayBadgeMintOnBlack = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,6 +95,8 @@ extension SVG {
 
   static let clearpayBadgeMintOnBlack = SVG(
     size: CGSize(width: 1620, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1620" height="551" viewBox="0 0 1620 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,6 +116,8 @@ extension SVG {
 
   static let afterpayBadgeWhiteOnBlack: SVG = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,6 +143,8 @@ extension SVG {
 
   static let clearpayBadgeWhiteOnBlack = SVG(
     size: CGSize(width: 1620, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1620" height="551" viewBox="0 0 1620 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,6 +164,8 @@ extension SVG {
 
   static let afterpayBadgeBlackOnWhite: SVG = SVG(
     size: CGSize(width: 1582, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1582" height="551" viewBox="0 0 1582 551" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -177,6 +191,8 @@ extension SVG {
 
   static let clearpayBadgeBlackOnWhite = SVG(
     size: CGSize(width: 1620, height: 551),
+    fontHeight: 220.83,
+    baselineOffset: 336.8,
     minimumWidth: 64,
     svgString: """
     <svg width="1620" height="551" viewBox="0 0 1620 551" fill="none" xmlns="http://www.w3.org/2000/svg">

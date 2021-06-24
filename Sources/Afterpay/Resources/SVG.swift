@@ -18,15 +18,36 @@ struct SVG: Equatable {
 
   let size: CGSize
   let minimumWidth: CGFloat
+
+  private let fontHeight: CGFloat
+  private let baselineOffsetFromBottom: CGFloat
   private let svgString: String
 
   var aspectRatio: CGFloat { size.height / size.width }
   var node: Node { (try? SVGParser.parse(text: svgString)) ?? Group() }
 
-  init(size: CGSize, minimumWidth: CGFloat, svgString: String) {
+  init(
+    size: CGSize,
+    fontHeight: CGFloat? = nil,
+    baselineOffset: CGFloat? = nil,
+    minimumWidth: CGFloat,
+    svgString: String
+  ) {
     self.size = size
+    self.fontHeight = fontHeight ?? size.height
+    self.baselineOffsetFromBottom = baselineOffset ?? 0
     self.minimumWidth = minimumWidth
     self.svgString = svgString
+  }
+
+  func height(for fontHeight: CGFloat) -> CGFloat {
+    let fontRatio = size.height / self.fontHeight
+    return fontRatio * fontHeight
+  }
+
+  func baselineOffset(for height: CGFloat) -> CGFloat {
+    let offsetRatio = baselineOffsetFromBottom / size.height
+    return height - (height * offsetRatio)
   }
 
   static func badge(palette: ColorPalette, locale: Locale) -> SVG {
