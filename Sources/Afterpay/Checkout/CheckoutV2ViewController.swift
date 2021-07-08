@@ -11,7 +11,7 @@ import os.log
 import UIKit
 import WebKit
 
-// swiftlint:disable:next colon
+// swiftlint:disable:next colon type_body_length
 final class CheckoutV2ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
