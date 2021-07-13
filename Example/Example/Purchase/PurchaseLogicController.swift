@@ -18,6 +18,7 @@ final class PurchaseLogicController {
     case showAfterpayCheckoutV1(checkoutURL: URL)
 
     case showAfterpayCheckoutV2(CheckoutV2Options)
+    case showAfterpayCheckoutV3(consumer: Consumer, total: Decimal)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
 
@@ -116,6 +117,13 @@ final class PurchaseLogicController {
     }
   }
 
+  func payWithAfterpayV3() {
+    commandHandler(.showAfterpayCheckoutV3(
+      consumer: Consumer(email: email),
+      total: total
+    ))
+  }
+
   func loadCheckoutURL(then command: @escaping (URL) -> Void) {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
@@ -170,7 +178,7 @@ final class PurchaseLogicController {
     let errorMessageToShow: String?
 
     switch reason {
-    case .networkError(let error):
+    case .networkError(let error), .apiError(let error):
       errorMessageToShow = error.localizedDescription
     case .userInitiated:
       errorMessageToShow = nil

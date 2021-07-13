@@ -22,6 +22,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   enum Event {
     case didTapPay
     case optionsChanged(CheckoutOptionsCell.Event)
+    case didTapSingleUseCardButton
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
@@ -71,7 +72,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   // MARK: Actions
 
   @objc private func didTapPay() {
-    eventHandler(.didTapPay)
+    eventHandler(.didTapSingleUseCardButton)
   }
 
   // MARK: UITableViewDataSource

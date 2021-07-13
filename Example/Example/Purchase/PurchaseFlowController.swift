@@ -42,6 +42,15 @@ final class PurchaseFlowController: UIViewController {
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
 
+    // This option object may also be passed directly into calls to `AfterPay.presentCheckoutV3Modally`
+    Afterpay.setV3Options(CheckoutV3Options(
+      shopDirectoryId: "",
+      shopDirectoryMerchantId: "",
+      merchantPublicKey: "",
+      region: .US,
+      environment: .sandbox
+    ))
+
     widgetHandler = WidgetEventHandler()
     Afterpay.setWidgetHandler(widgetHandler)
 
@@ -83,6 +92,8 @@ final class PurchaseFlowController: UIViewController {
           logicController.toggleCheckoutV2Option(\.shippingOptionRequired)
         case .optionsChanged(.expressToggled):
           logicController.toggleExpressCheckout()
+        case .didTapSingleUseCardButton:
+          logicController.payWithAfterpayV3()
         }
       }
 
@@ -94,8 +105,11 @@ final class PurchaseFlowController: UIViewController {
         loading: checkoutURL
       ) { result in
         switch result {
-        case .success(let token):
+        case .success(.token(let token)):
           logicController.success(with: token)
+        // Here for backward compatibility; this case will never be hit
+        case .success(_):
+          break
         case .cancelled(let reason):
           logicController.cancelled(with: reason)
         }
@@ -104,8 +118,33 @@ final class PurchaseFlowController: UIViewController {
     case .showAfterpayCheckoutV2(let options):
       Afterpay.presentCheckoutV2Modally(over: ownedNavigationController, options: options) { result in
         switch result {
-        case .success(let token):
+        case .success(.token(let token)):
           logicController.success(with: token)
+        // Here for backward compatibility; this case will never be hit
+        case .success(_):
+          break
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
+        }
+      }
+
+    case .showAfterpayCheckoutV3(let consumer, let total):
+      Afterpay.presentCheckoutV3Modally(
+        over: ownedNavigationController,
+        consumer: consumer,
+        total: total,
+        requestHandler: APIClient.live.session.dataTask
+      ) { result in
+        switch result {
+        // Here for backward compatibility; this case will never be hit
+        case .success(.token(_)):
+          break
+        case .success(.singleUseCard(_, let validUntil, let cardDetails)):
+          let controller = SingleUseCardResultViewController(
+            details: cardDetails,
+            authorizationExpiration: validUntil
+          )
+          navigationController.pushViewController(controller, animated: true)
         case .cancelled(let reason):
           logicController.cancelled(with: reason)
         }
@@ -135,4 +174,11 @@ final class PurchaseFlowController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
+}
+
+struct Consumer: CheckoutV3Consumer {
+  var email: String
+  var givenNames: String? { nil }
+  var surname: String? { nil }
+  var phoneNumber: String? { nil }
 }
