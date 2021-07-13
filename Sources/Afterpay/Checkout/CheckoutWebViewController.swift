@@ -138,7 +138,7 @@ final class CheckoutWebViewController:
 
     case (false, .success(let token)):
       decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.success(token: token)) }
+      dismiss(animated: true) { self.completion(.success(value: .token(token: token))) }
 
     case (false, .cancelled):
       decisionHandler(.cancel)
