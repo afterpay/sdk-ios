@@ -45,25 +45,25 @@ final class SingleUseCardResultViewController: UIViewController {
   }()
 
   private lazy var explanatoryHeaderLabel: UILabel = {
-      let label = UILabel()
-      label.numberOfLines = 0
-      label.font = .preferredFont(forTextStyle: .headline)
-      label.adjustsFontForContentSizeCategory = true
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.text = "Next steps"
-      return label
+    let label = UILabel()
+    label.numberOfLines = 0
+    label.font = .preferredFont(forTextStyle: .headline)
+    label.adjustsFontForContentSizeCategory = true
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = "Next steps"
+    return label
   }()
 
   private lazy var explanatoryBodyLabel: UILabel = {
-      let label = UILabel()
-      label.numberOfLines = 0
-      label.font = .preferredFont(forTextStyle: .body)
-      label.adjustsFontForContentSizeCategory = true
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.text = "After the user has completed their Afterpay checkout, "
-        + "you will have until the `virtual card expiry` to perform an authorisation on the card. "
-        + "This completes the purchase."
-      return label
+    let label = UILabel()
+    label.numberOfLines = 0
+    label.font = .preferredFont(forTextStyle: .body)
+    label.adjustsFontForContentSizeCategory = true
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = "After the user has completed their Afterpay checkout, "
+      + "you will have until the `virtual card expiry` to perform an authorisation on the card. "
+      + "This completes the purchase."
+    return label
   }()
 
   // MARK: - Initializer
