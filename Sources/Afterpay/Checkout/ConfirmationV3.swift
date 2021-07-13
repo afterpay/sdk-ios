@@ -9,7 +9,8 @@
 import Foundation
 
 // swiftlint:disable nesting
-@frozen enum ConfirmationV3 {
+enum ConfirmationV3 {
+
   struct Request: Encodable {
     let token: String
     let singleUseCardToken: String
@@ -68,4 +69,5 @@ import Foundation
       }
     }
   }
+
 }

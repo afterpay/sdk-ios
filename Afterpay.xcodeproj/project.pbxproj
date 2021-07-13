@@ -364,6 +364,7 @@
 		946388FB24DD05D400A1227A /* Checkout */ = {
 			isa = PBXGroup;
 			children = (
+				83F7DEE6269E2B3600F9FB75 /* ApiV3.swift */,
 				66B5458B256B65B7002B3DD5 /* CheckoutHost.swift */,
 				1535ACB825DCBD0500727818 /* CheckoutV2.swift */,
 				66996F662580A5BE0061C365 /* CheckoutV2Completion.swift */,
@@ -373,7 +374,6 @@
 				838942B6269B8FD50036D1C7 /* CheckoutV3ViewController.swift */,
 				667AD3532497121100BF94E5 /* CheckoutWebViewController.swift */,
 				83F7DEDE269BF43600F9FB75 /* ConfirmationV3.swift */,
-				83F7DEE6269E2B3600F9FB75 /* ApiV3.swift */,
 			);
 			path = Checkout;
 			sourceTree = "<group>";
