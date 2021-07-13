@@ -186,9 +186,13 @@ public struct CheckoutV3Configuration {
 }
 
 public protocol CheckoutV3Consumer {
+  /// The consumer’s email address. Limited to 128 characters.
   var email: String { get }
+  /// The consumer’s first name and any middle names. Limited to 128 characters.
   var givenNames: String? { get }
+  /// The consumer’s last name. Limited to 128 characters.
   var surname: String? { get }
+  /// The consumer’s phone number. Limited to 32 characters.
   var phoneNumber: String? { get }
 }
 
@@ -209,4 +213,6 @@ public protocol CheckoutV3Item {
   /// An array of arrays to accommodate multiple categories that might apply to the item.
   /// Each array contains comma separated strings with the left-most category being the top level category.
   var categories: [[String]]? { get }
+  /// The estimated date when the order will be shipped. YYYY-MM or YYYY-MM-DD format.
+  var estimatedShipmentDate: String? { get }
 }

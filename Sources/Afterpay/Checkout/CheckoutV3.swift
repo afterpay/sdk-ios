@@ -55,6 +55,7 @@ enum CheckoutV3 {
       let pageUrl: URL?
       let imageUrl: URL?
       let categories: [[String]]?
+      let estimatedShipmentDate: String?
 
       init(_ item: CheckoutV3Item, _ region: CheckoutV3Configuration.Region) {
         self.name = item.name
@@ -67,6 +68,7 @@ enum CheckoutV3 {
         self.pageUrl = item.pageUrl
         self.imageUrl = item.imageUrl
         self.categories = item.categories
+        self.estimatedShipmentDate = item.estimatedShipmentDate
       }
     }
 
