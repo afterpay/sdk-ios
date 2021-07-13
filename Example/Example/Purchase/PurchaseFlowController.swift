@@ -42,7 +42,8 @@ final class PurchaseFlowController: UIViewController {
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
 
-    // This configuration object may also be passed directly into calls to `AfterPay.presentCheckoutV3Modally`
+    // This configuration object may also be passed directly into calls to
+    // `Afterpay.presentCheckoutV3Modally` and `Afterpay.fetchMerchantConfiguration`
     Afterpay.setV3Configuration(.init(
       shopDirectoryId: "cd6b7914412b407d80aaf81d855d1105",
       shopDirectoryMerchantId: "822ce7ffc2fa41258904baad1d0fe07351e89375108949e8bd951d387ef0e932",
@@ -67,6 +68,17 @@ final class PurchaseFlowController: UIViewController {
 
     logicController.commandHandler = { [unowned self] command in
       DispatchQueue.main.async { self.execute(command: command) }
+    }
+
+    Afterpay.fetchMerchantConfiguration { result in
+      switch result {
+      case .success(let configuration):
+        // Do something with the configuration object here
+        print(configuration)
+      case .failure(let error):
+        let alert = AlertFactory.alert(for: error.localizedDescription)
+        self.present(alert, animated: true)
+      }
     }
   }
 

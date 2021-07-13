@@ -11,7 +11,38 @@ import UIKit
 
 // MARK: - Checkout
 
-public typealias URLRequestHandler = (URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+/// Returns the merchant configuration object, containing minimum and maximum amounts
+/// - Parameters:
+///   - configuration: A collection of options and values required to interact with the Afterpay API.
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
+///   - completion: The result of the user's completion (a success or cancellation).
+public func fetchMerchantConfiguration(
+  configuration: CheckoutV3Configuration? = getV3Configuration(),
+  requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
+  completion: @escaping (_ result: Result<Configuration, Error>) -> Void
+) {
+  guard let configuration = configuration else {
+    return assertionFailure(
+      "For fetchMerchantConfiguration to function you must set `configuration` via either "
+        + "`Afterpay.fetchMerchantConfiguration` or `Afterpay.setV3Configuration`"
+    )
+  }
+  let request = ApiV3.request(from: configuration.v3ConfigurationUrl)
+  let task = ApiV3.request(requestHandler, request, type: Configuration.Object.self) { result in
+    switch result {
+    case .success(let object):
+      do {
+        let config = try Configuration(object, configuration: configuration)
+        completion(.success(config))
+      } catch {
+        completion(.failure(error))
+      }
+    case .failure(let error):
+      completion(.failure(error))
+    }
+  }
+  task.resume()
+}
 
 /// Present Afterpay Checkout modally over the specified view controller. This method
 /// - Parameters:
@@ -24,7 +55,7 @@ public typealias URLRequestHandler = (URLRequest, @escaping (Data?, URLResponse?
 ///   These are not used as the basis of the order `total`.
 ///   - animated: Pass `true` to animate the presentation; otherwise, pass false.
 ///   - configuration: A collection of options and values required to interact with the Afterpay API.
-///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result,
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
 ///   and returns a `URLSessionDataTask`. Defaults to `URLSession.shared.dataTask`.
 ///   - completion: The result of the user's completion (a success or cancellation).
 public func presentCheckoutV3Modally(
@@ -104,6 +135,25 @@ public struct CheckoutV3Configuration {
     case (.US, .production):
       return URL(string: "https://api-plus.us.afterpay.com/v3/button/confirm")!
     }
+  }
+
+  var v3ConfigurationUrl: URL {
+    var url: URL
+    switch (region, environment) {
+    case (.US, .sandbox):
+      url = URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/merchant/config")!
+    case (.US, .production):
+      url = URL(string: "https://api-plus.us.afterpay.com/v3/button/merchant/config")!
+    }
+    var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+    components?.queryItems = [
+      URLQueryItem(name: "shopDirectoryId", value: shopDirectoryId),
+      URLQueryItem(name: "shopDirectoryMerchantId", value: shopDirectoryMerchantId),
+    ]
+    guard let url = components?.url else {
+      fatalError("Could not create valid URL for `\(Self.self).v3ConfigurationUrl`")
+    }
+    return url
   }
 
   // MARK: - Inner type
