@@ -9,15 +9,16 @@
 import UIKit
 import WebKit
 
-// swiftlint:disable:next colon type_body_length
+// swiftlint:disable:next colon
 final class CheckoutV3ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
   WKNavigationDelegate
 { // swiftlint:disable:this opening_brace
+
   private let checkout: CheckoutV3.Request
   private let configuration: CheckoutV3Configuration
-  private let requester: URLRequestHandler
+  private let requestHandler: URLRequestHandler
   private var currentTask: URLSessionDataTask?
   private let completion: (_ result: CheckoutResult) -> Void
 
@@ -37,10 +38,11 @@ final class CheckoutV3ViewController:
   ) {
     self.checkout = checkout
     self.configuration = configuration
-    self.requester = requestHandler
+    self.requestHandler = requestHandler
     self.completion = completion
 
     super.init(nibName: nil, bundle: nil)
+    self.title = "Afterpay"
   }
 
   override func loadView() {
@@ -87,7 +89,7 @@ final class CheckoutV3ViewController:
     }
 
     performCheckoutRequest { redirectUrl in
-      self.webView.load(self.request(from: redirectUrl))
+      self.webView.load(ApiV3.request(from: redirectUrl))
     }
   }
 
@@ -210,15 +212,12 @@ final class CheckoutV3ViewController:
 
   private func performCheckoutRequest(_ completion: @escaping (URL) -> Void) {
     let request = self.createCheckoutRequest()
-    self.currentTask = self.request(request, type: CheckoutV3.Response.self) { result in
+    self.currentTask = ApiV3.request(self.requestHandler, request, type: CheckoutV3.Response.self) { result in
       switch result {
-      case .success(.success(let response)):
+      case .success(let response):
         self.token = response.token
         self.singleUseCardToken = response.singleUseCardToken
         completion(response.redirectCheckoutUrl)
-      case .success(.error(let error)):
-        self.dismiss(animated: true) { self.completion(.cancelled(reason: .apiError(error))) }
-
       case .failure(let error):
         self.dismiss(animated: true) { self.completion(.cancelled(reason: .networkError(error))) }
       }
@@ -232,7 +231,7 @@ final class CheckoutV3ViewController:
       return
     }
 
-    self.currentTask = self.request(request, type: ConfirmationV3.Response.self) { result in
+    self.currentTask = ApiV3.request(self.requestHandler, request, type: ConfirmationV3.Response.self) { result in
       switch result {
       case .success(let response):
         self.dismiss(animated: true) {
@@ -253,7 +252,7 @@ final class CheckoutV3ViewController:
   private func createCheckoutRequest() -> URLRequest {
     let data = try! JSONEncoder().encode(self.checkout) // swiftlint:disable:this force_try
 
-    var request = self.request(from: configuration.v3CheckoutUrl)
+    var request = ApiV3.request(from: configuration.v3CheckoutUrl)
     request.httpMethod = "POST"
     request.httpBody = data
     request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -281,7 +280,7 @@ final class CheckoutV3ViewController:
       return nil
     }
 
-    var request = self.request(from: configuration.v3CheckoutConfirmationUrl)
+    var request = ApiV3.request(from: configuration.v3CheckoutConfirmationUrl)
     request.httpMethod = "POST"
     request.httpBody = data
     request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -289,70 +288,4 @@ final class CheckoutV3ViewController:
     return request
   }
 
-  // MARK: - Request convenience methods
-
-  private static let decoder: JSONDecoder = {
-    let decoder = JSONDecoder()
-    let formatter = ISO8601DateFormatter()
-
-    formatter.timeZone = TimeZone(abbreviation: "GMT")
-    formatter.formatOptions = [
-      .withInternetDateTime,
-      .withDashSeparatorInDate,
-      .withColonSeparatorInTime,
-      .withTimeZone,
-      .withFractionalSeconds,
-    ]
-    decoder.dateDecodingStrategy = .custom { decoder in
-      let container = try decoder.singleValueContainer()
-      let string = try container.decode(String.self)
-      guard
-        string.isEmpty == false,
-        let date = formatter.date(from: string)
-      else {
-        throw DecodingError.dataCorruptedError(
-          in: container,
-          debugDescription: "Could not create Date from `\(string)`"
-        )
-      }
-      return date
-    }
-    return decoder
-  }()
-
-  private func request(from url: URL) -> URLRequest {
-    var request = URLRequest(url: url)
-    request.setValue(Version.sdkVersion, forHTTPHeaderField: "X-Afterpay-SDK")
-    return request
-  }
-
-  private func request<ReturnType: Decodable>(
-    _ request: URLRequest,
-    type: ReturnType.Type,
-    completion: @escaping (Result<ReturnType, Error>) -> Void
-  ) -> URLSessionDataTask {
-    let completeOnMainThread: (Result<ReturnType, Error>) -> Void = { result in
-      DispatchQueue.main.async {
-        completion(result)
-      }
-    }
-    return self.requester(request) { data, urlResponse, error in
-      if error == nil, let data = data {
-        do {
-          let parsed = try Self.decoder.decode(ReturnType.self, from: data)
-          completeOnMainThread(.success(parsed))
-        } catch {
-          completeOnMainThread(.failure(error))
-        }
-      } else if let error = error {
-        completeOnMainThread(.failure(error))
-      } else {
-        completeOnMainThread(.failure(NetworkError.unknown(urlResponse)))
-      }
-    }
-  }
-
-  public enum NetworkError: Error {
-    case unknown(URLResponse?)
-  }
 }
