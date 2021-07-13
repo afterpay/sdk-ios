@@ -299,6 +299,7 @@
 			children = (
 				66F9767B2499A11A001D38FA /* Afterpay.swift */,
 				83F7DEE0269CDCF900F9FB75 /* AfterpayV3.swift */,
+				83F7DEE6269E2B3600F9FB75 /* ApiV3.swift */,
 				551BEDEA25F983E200FDF9EE /* Features.swift */,
 				946388FB24DD05D400A1227A /* Checkout */,
 				157E88CF25CBCA22007E54C4 /* Helpers */,
@@ -364,7 +365,6 @@
 		946388FB24DD05D400A1227A /* Checkout */ = {
 			isa = PBXGroup;
 			children = (
-				83F7DEE6269E2B3600F9FB75 /* ApiV3.swift */,
 				66B5458B256B65B7002B3DD5 /* CheckoutHost.swift */,
 				1535ACB825DCBD0500727818 /* CheckoutV2.swift */,
 				66996F662580A5BE0061C365 /* CheckoutV2Completion.swift */,
