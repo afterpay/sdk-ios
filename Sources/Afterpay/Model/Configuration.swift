@@ -122,7 +122,7 @@ public struct Configuration {
     try self.init(
       minimumAmount: object.minimumAmount.amount,
       maximumAmount: object.maximumAmount.amount,
-      currencyCode: object.minimumAmount.currency,
+      currencyCode: configuration.region.currencyCode,
       locale: configuration.region.locale,
       environment: configuration.environment
     )
