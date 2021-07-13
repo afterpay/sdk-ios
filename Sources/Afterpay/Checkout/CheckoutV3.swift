@@ -9,7 +9,8 @@
 import Foundation
 
 // swiftlint:disable nesting
-@frozen enum CheckoutV3 {
+enum CheckoutV3 {
+
   struct Request: Encodable {
     let shopDirectoryId: String
     let shopDirectoryMerchantId: String
@@ -45,11 +46,6 @@ import Foundation
     }
 
     // MARK: - Inner types
-
-    struct Amount: Encodable {
-      let amount: String
-      let currency: String
-    }
 
     struct Item: Encodable {
       let name: String
@@ -94,34 +90,11 @@ import Foundation
     }
   }
 
-  enum Response: Decodable {
-    case success(CheckoutResponse)
-    case error(CheckoutError)
-
-    init(from decoder: Decoder) throws {
-      if let error = try? CheckoutError(from: decoder) {
-        self = .error(error)
-        return
-      }
-      self = .success(try CheckoutResponse(from: decoder))
-    }
-  }
-
-  struct CheckoutResponse: Decodable {
+  struct Response: Decodable {
     let token: String
     let confirmMustBeCalledBefore: Date?
     let redirectCheckoutUrl: URL
     let singleUseCardToken: String
   }
 
-  struct CheckoutError: Decodable, LocalizedError {
-    let errorCode: String
-    let errorId: String
-    let message: String
-    let httpStatusCode: Int
-
-    public var failureReason: String? {
-      message
-    }
-  }
 }
