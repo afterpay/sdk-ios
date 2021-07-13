@@ -178,7 +178,7 @@ final class PurchaseLogicController {
     let errorMessageToShow: String?
 
     switch reason {
-    case .networkError(let error), .apiError(let error):
+    case .networkError(let error):
       errorMessageToShow = error.localizedDescription
     case .userInitiated:
       errorMessageToShow = nil

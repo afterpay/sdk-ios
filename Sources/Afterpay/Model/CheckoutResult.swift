@@ -19,7 +19,6 @@ import Foundation
 
   public enum CancellationReason {
     case userInitiated
-    case apiError(Error)
     case networkError(Error)
     case invalidURL(URL)
   }

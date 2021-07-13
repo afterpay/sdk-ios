@@ -61,10 +61,6 @@ public final class ObjcWrapper: NSObject {
       CancellationReasonNetworkError(error)
     }
 
-    static func apiError(error: Error) -> CancellationReasonApiError {
-      CancellationReasonApiError(error)
-    }
-
     static func invalidURL(_ url: URL) -> CancellationReasonInvalidURL {
       CancellationReasonInvalidURL(url)
     }
@@ -78,15 +74,6 @@ public final class ObjcWrapper: NSObject {
 
   @objc(APCancellationReasonNetworkError)
   public class CancellationReasonNetworkError: CancellationReason {
-    @objc public let error: Error
-
-    init(_ error: Error) {
-      self.error = error
-    }
-  }
-
-  @objc(APCancellationReasonApiError)
-  public class CancellationReasonApiError: CancellationReason {
     @objc public let error: Error
 
     init(_ error: Error) {
@@ -131,9 +118,6 @@ public final class ObjcWrapper: NSObject {
 
         case .cancelled(reason: .invalidURL(let url)):
           completion(.cancelled(reason: .invalidURL(url)))
-
-        case .cancelled(reason: .apiError(let error)):
-          completion(.cancelled(reason: .apiError(error: error)))
         }
       }
     )
