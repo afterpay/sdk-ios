@@ -152,6 +152,26 @@ Checkout version 2 allows you to load the checkout token on demand via `didComme
 
 The configuration object *must* be set before calling checkout v2.
 
+### Checkout v3
+
+```swift
+Afterpay.presentCheckoutV3Modally(over:consumer:total:items:animated:configuration:requestHandler:completion:)
+```
+
+Checkout version 3 returns a unique single use card for you to use in your existing checkout flow.
+
+The configuration object may be set using `setV3Configuration`, or passed into the checkout call.
+
+### Configuration v3
+
+```swift
+Afterpay.fetchMerchantConfiguration(configuration:requestHandler:completion:)
+```
+
+As v3 removes the need for merchant integration with the Afterpay API, the `Configuration` — providing information about minimum and maximum order amounts — is now available through the SDK.
+
+The configuration object may be set using `setV3Configuration`, or passed into the checkout call.
+
 ### Clearpay Checkout
 
 Checkout supports Clearpay for v1 this means supplying a correctly formed URL for the Clearpay environment with a token created for a Clearpay checkout. For v2 this means loading a Clearpay token on demand as well as ensuring to set the locale as `en_GB` in Afterpay configuration.
