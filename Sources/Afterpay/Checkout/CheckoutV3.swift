@@ -16,7 +16,7 @@ enum CheckoutV3 {
     let shopDirectoryMerchantId: String
     let merchantPublicKey: String
 
-    let amount: Amount
+    let amount: Money
     let items: [Item]
     let consumer: Consumer
     let merchant: Merchant
@@ -31,7 +31,7 @@ enum CheckoutV3 {
       self.shopDirectoryMerchantId = configuration.shopDirectoryMerchantId
       self.merchantPublicKey = configuration.merchantPublicKey
 
-      self.amount = Amount(
+      self.amount = Money(
         amount: configuration.region.formatted(currency: amount),
         currency: configuration.region.currencyCode
       )
@@ -50,7 +50,7 @@ enum CheckoutV3 {
     struct Item: Encodable {
       let name: String
       let quantity: Int
-      let price: Amount
+      let price: Money
       let sku: String?
       let pageUrl: URL?
       let imageUrl: URL?
@@ -59,7 +59,7 @@ enum CheckoutV3 {
       init(_ item: CheckoutV3Item, _ region: CheckoutV3Configuration.Region) {
         self.name = item.name
         self.quantity = item.quantity
-        self.price = Amount(
+        self.price = Money(
           amount: region.formatted(currency: item.price),
           currency: region.currencyCode
         )

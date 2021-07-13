@@ -64,7 +64,6 @@
 		83F7DEDF269BF43600F9FB75 /* ConfirmationV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEDE269BF43600F9FB75 /* ConfirmationV3.swift */; };
 		83F7DEE1269CDCF900F9FB75 /* AfterpayV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEE0269CDCF900F9FB75 /* AfterpayV3.swift */; };
 		83F7DEE7269E2B3600F9FB75 /* ApiV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEE6269E2B3600F9FB75 /* ApiV3.swift */; };
-		83F7DEE9269E2EB300F9FB75 /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEE8269E2EB300F9FB75 /* Amount.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -150,7 +149,6 @@
 		83F7DEDE269BF43600F9FB75 /* ConfirmationV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationV3.swift; sourceTree = "<group>"; };
 		83F7DEE0269CDCF900F9FB75 /* AfterpayV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayV3.swift; sourceTree = "<group>"; };
 		83F7DEE6269E2B3600F9FB75 /* ApiV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiV3.swift; sourceTree = "<group>"; };
-		83F7DEE8269E2EB300F9FB75 /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -328,7 +326,6 @@
 				661D431E257DC86C00ACCDE1 /* ShippingAddress.swift */,
 				661D4322257DF1CB00ACCDE1 /* ShippingOption.swift */,
 				157C65AE25D23E8F00115149 /* Version.swift */,
-				83F7DEE8269E2EB300F9FB75 /* Amount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -574,7 +571,6 @@
 				66DAAC8B24E0CF0100127460 /* PriceBreakdown.swift in Sources */,
 				83F7DEDF269BF43600F9FB75 /* ConfirmationV3.swift in Sources */,
 				551BEDFC25F9C56600FDF9EE /* WidgetEvent.swift in Sources */,
-				83F7DEE9269E2EB300F9FB75 /* Amount.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
 				83F7DEE1269CDCF900F9FB75 /* AfterpayV3.swift in Sources */,
 				557511C326489F090040CC51 /* SVG+Source.swift in Sources */,

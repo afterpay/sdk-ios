@@ -129,8 +129,8 @@ public struct Configuration {
   }
 
   struct Object: Decodable {
-    let minimumAmount: Amount
-    let maximumAmount: Amount
+    let minimumAmount: Money
+    let maximumAmount: Money
   }
 
 }

@@ -11,7 +11,7 @@ import UIKit
 
 // MARK: - Checkout
 
-/// Returns the merchant configuration object, containing minimum and maximum amounts
+/// Returns the merchant configuration object, representing the merchant's applicable payment limits.
 /// - Parameters:
 ///   - configuration: A collection of options and values required to interact with the Afterpay API.
 ///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
@@ -96,6 +96,8 @@ public func getV3Configuration() -> CheckoutV3Configuration? {
   checkoutV3Configuration
 }
 
+
+/// A collection of options and values required to interact with the Afterpay API.
 public struct CheckoutV3Configuration {
   let shopDirectoryId: String
   let shopDirectoryMerchantId: String
@@ -158,6 +160,7 @@ public struct CheckoutV3Configuration {
 
   // MARK: - Inner type
 
+  /// Regions supporting V3 checkouts
   public enum Region {
     case US
 
@@ -190,11 +193,18 @@ public protocol CheckoutV3Consumer {
 }
 
 public protocol CheckoutV3Item {
+  /// Product name. Limited to 255 characters.
   var name: String { get }
+  /// The quantity of the item, stored as a signed 32-bit integer.
   var quantity: Int { get }
+  /// The unit price of the individual item. Must be a positive value.
   var price: Decimal { get }
+  /// Product SKU. Limited to 128 characters.
   var sku: String? { get }
+  /// The canonical URL for the item's Product Detail Page. Limited to 2048 characters.
   var pageUrl: URL? { get }
+  /// A URL for a web-optimised photo of the item, suitable for use directly as the src attribute of an img tag.
+  /// Limited to 2048 characters.
   var imageUrl: URL? { get }
   /// An array of arrays to accommodate multiple categories that might apply to the item.
   /// Each array contains comma separated strings with the left-most category being the top level category.
