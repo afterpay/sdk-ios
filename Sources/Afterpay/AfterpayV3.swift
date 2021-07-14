@@ -184,10 +184,16 @@ public struct CheckoutV3Configuration {
       }
     }
 
-    private static let formatter = NumberFormatter()
+    private static var formatter: NumberFormatter = {
+      var formatter = NumberFormatter()
+      formatter.numberStyle = .decimal
+      // ISO 4217 specifies 2 decimal points
+      formatter.maximumFractionDigits = 2
+      formatter.roundingMode = .halfEven // Banker's rounding
+      return formatter
+    }()
 
     func formatted(currency: Decimal) -> String {
-      Self.formatter.numberStyle = .decimal
       return Self.formatter.string(from: currency as NSDecimalNumber)!
     }
   }
