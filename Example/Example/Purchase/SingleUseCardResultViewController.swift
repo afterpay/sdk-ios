@@ -24,13 +24,24 @@ final class SingleUseCardResultViewController: UIViewController {
   }()
 
   private lazy var labels: [UILabel] = {
-    let strings = [
-      "Card number: \(data.cardDetails.cardNumber)",
-      "CVC: \(data.cardDetails.cvc)",
-      "Expiration: \(data.cardDetails.expiryMonth)/\(data.cardDetails.expiryYear)",
+    var strings = [
       "Virtual card expiry: \(data.cardValidUntil?.shortDuration ?? "Unavailable")",
       "Merchant reference: <not set>",
     ]
+    switch data.cardDetails {
+    case .card(let card):
+      strings.insert(contentsOf: [
+        "Card number: \(card.cardNumber)",
+        "CVC: \(card.cvc)",
+        "Expiration: \(card.expiryMonth)/\(card.expiryYear)",
+      ], at: 0)
+    case .tokenized(let card):
+      strings.insert(contentsOf: [
+        "Card token: \(card.cardToken)",
+        "CVC: \(card.cvc)",
+        "Expiration: \(card.expiryMonth)/\(card.expiryYear)",
+      ], at: 0)
+    }
 
     return strings.map { string in
       let label = UILabel()

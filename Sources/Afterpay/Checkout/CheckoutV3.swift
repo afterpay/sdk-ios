@@ -153,7 +153,7 @@ enum CheckoutV3 {
   }
 
   struct ResultData: CheckoutV3Data {
-    let cardDetails: CheckoutV3VirtualCard
+    let cardDetails: VirtualCard
     let cardValidUntil: Date?
     let tokens: CheckoutV3Tokens
   }
