@@ -101,4 +101,15 @@ class CurrencyFormatterTests: XCTestCase {
     XCTAssertEqual(usdFormatter.string(from: 120), "$120.00")
   }
 
+  func testOrderTotalDecimalToStringPerformsRounding() {
+    let region = CheckoutV3Configuration.Region.US
+
+    XCTAssertEqual(region.formatted(currency: 9), "9")
+    XCTAssertEqual(region.formatted(currency: 9.9), "9.9")
+    XCTAssertEqual(region.formatted(currency: 9.99), "9.99")
+    XCTAssertEqual(region.formatted(currency: 9.999), "10")
+    XCTAssertEqual(region.formatted(currency: 9.995), "9.99")
+    XCTAssertEqual(region.formatted(currency: 9.996), "10")
+  }
+
 }
