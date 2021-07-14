@@ -50,7 +50,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
     let payButton: UIButton =
-      PaymentButton(colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack), buttonKind: .checkout)
+      PaymentButton(colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack), buttonKind: .payNow)
     payButton.isEnabled = cart.payEnabled
     payButton.accessibilityIdentifier = "payNow"
     payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
@@ -97,9 +97,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       return cart.products.count
     case .total:
       return 1
-    // Disabled for V3 purposes
     case .options:
-      return 0
+      return 1
     }
   }
 
