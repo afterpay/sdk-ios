@@ -334,7 +334,7 @@ final class CheckoutV2ViewController:
     } else if let completion = completion {
       switch completion {
       case .success(let token):
-        dismiss(animated: true) { self.completion(.success(value: .token(token: token))) }
+        dismiss(animated: true) { self.completion(.success(token: token)) }
       case .cancelled:
         dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
       }

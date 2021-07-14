@@ -117,11 +117,8 @@ final class PurchaseFlowController: UIViewController {
         loading: checkoutURL
       ) { result in
         switch result {
-        case .success(.token(let token)):
+        case .success(let token):
           logicController.success(with: token)
-        // Here for backward compatibility; this case will never be hit
-        case .success(_):
-          break
         case .cancelled(let reason):
           logicController.cancelled(with: reason)
         }
@@ -130,11 +127,8 @@ final class PurchaseFlowController: UIViewController {
     case .showAfterpayCheckoutV2(let options):
       Afterpay.presentCheckoutV2Modally(over: ownedNavigationController, options: options) { result in
         switch result {
-        case .success(.token(let token)):
+        case .success(let token):
           logicController.success(with: token)
-        // Here for backward compatibility; this case will never be hit
-        case .success(_):
-          break
         case .cancelled(let reason):
           logicController.cancelled(with: reason)
         }
@@ -148,13 +142,12 @@ final class PurchaseFlowController: UIViewController {
         requestHandler: APIClient.live.session.dataTask
       ) { result in
         switch result {
-        // Here for backward compatibility; this case will never be hit
-        case .success(.token(_)):
-          break
-        case .success(.singleUseCard(_, let validUntil, let cardDetails)):
+        case .success(let data):
           let controller = SingleUseCardResultViewController(
-            details: cardDetails,
-            authorizationExpiration: validUntil
+            details: data.cardDetails,
+            authorizationExpiration: data.cardValidUntil,
+            cancellationClosure: data.cancellation,
+            merchantReferenceUpdateClosure: data.merchantReferenceUpdate
           )
           navigationController.pushViewController(controller, animated: true)
         case .cancelled(let reason):

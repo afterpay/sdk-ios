@@ -14,3 +14,8 @@ public protocol CheckoutV3Data {
   var cardValidUntil: Date? { get }
   var cardDetails: CardDetails { get }
 }
+
+@frozen public enum CheckoutV3Result {
+  case success(data: CheckoutV3Data)
+  case cancelled(reason: CheckoutResult.CancellationReason)
+}

@@ -103,12 +103,8 @@ public final class ObjcWrapper: NSObject {
       animated: animated,
       completion: { result in
         switch result {
-        case .success(.token(let token)):
+        case .success(let token):
           completion(.success(token: token))
-
-        // Here for backward compatibility; this case will never trigger
-        case .success(_):
-          break
 
         case .cancelled(.userInitiated):
           completion(.cancelled(reason: .userInitiated()))
