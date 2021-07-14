@@ -96,7 +96,6 @@ public func getV3Configuration() -> CheckoutV3Configuration? {
   checkoutV3Configuration
 }
 
-
 /// A collection of options and values required to interact with the Afterpay API.
 public struct CheckoutV3Configuration {
   let shopDirectoryId: String
@@ -193,6 +192,32 @@ public protocol CheckoutV3Consumer {
   /// The consumer’s last name. Limited to 128 characters.
   var surname: String? { get }
   /// The consumer’s phone number. Limited to 32 characters.
+  var phoneNumber: String? { get }
+  /// The consumer's shipping information.
+  var shippingInformation: CheckoutV3Contact? { get }
+  /// The consumer's billing information.
+  var billingInformation: CheckoutV3Contact? { get }
+}
+
+public protocol CheckoutV3Contact {
+  /// Full name of contact. Limited to 255 characters
+  var name: String { get }
+  /// First line of the address. Limited to 128 characters
+  var line1: String { get }
+  /// Second line of the address. Limited to 128 characters.
+  var line2: String? { get }
+  /// Australian suburb, U.S. city, New Zealand town or city, U.K. Postal town.
+  /// Maximum length is 128 characters.
+  var area1: String? { get }
+  /// New Zealand suburb, U.K. village or local area. Maximum length is 128 characters.
+  var area2: String? { get }
+  /// U.S. state, Australian state, U.K. county, New Zealand region. Maximum length is 128 characters.
+  var region: String? { get }
+  /// The zip code or equivalent. Maximum length is 128 characters.
+  var postcode: String? { get }
+  /// The two-character ISO 3166-1 country code.
+  var countryCode: String { get }
+  /// The phone number, in E.123 format. Maximum length is 32 characters.
   var phoneNumber: String? { get }
 }
 

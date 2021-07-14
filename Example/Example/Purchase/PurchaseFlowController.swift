@@ -187,10 +187,3 @@ final class PurchaseFlowController: UIViewController {
   }
 
 }
-
-struct Consumer: CheckoutV3Consumer {
-  var email: String
-  var givenNames: String? { nil }
-  var surname: String? { nil }
-  var phoneNumber: String? { nil }
-}

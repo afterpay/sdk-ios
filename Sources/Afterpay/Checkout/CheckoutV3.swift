@@ -20,6 +20,8 @@ enum CheckoutV3 {
     let items: [Item]
     let consumer: Consumer
     let merchant: Merchant
+    let shipping: Contact?
+    let billing: Contact?
 
     init(
       consumer: CheckoutV3Consumer,
@@ -43,6 +45,9 @@ enum CheckoutV3 {
         redirectConfirmUrl: URL(string: "https://www.afterpay.com")!,
         redirectCancelUrl: URL(string: "https://www.afterpay.com")!
       )
+
+      self.shipping = Contact(consumer.shippingInformation)
+      self.billing = Contact(consumer.billingInformation)
     }
 
     // MARK: - Inner types
@@ -88,6 +93,33 @@ enum CheckoutV3 {
         self.givenNames = consumer.givenNames
         self.surname = consumer.surname
         self.phoneNumber = consumer.phoneNumber
+      }
+    }
+
+    struct Contact: Encodable {
+      let name: String
+      let line1: String
+      let line2: String?
+      let area1: String?
+      let area2: String?
+      let region: String?
+      let postcode: String?
+      let countryCode: String
+      let phoneNumber: String?
+
+      init?(_ contact: CheckoutV3Contact?) {
+        guard let contact = contact else {
+          return nil
+        }
+        self.name = contact.name
+        self.line1 = contact.line1
+        self.line2 = contact.line2
+        self.area1 = contact.area1
+        self.area2 = contact.area2
+        self.region = contact.region
+        self.postcode = contact.postcode
+        self.countryCode = contact.countryCode
+        self.phoneNumber = contact.phoneNumber
       }
     }
   }
