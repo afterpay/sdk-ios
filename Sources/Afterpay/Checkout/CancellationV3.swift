@@ -16,12 +16,4 @@ enum CancellationV3 {
     let singleUseCardToken: String
   }
 
-  struct Response: Decodable, CheckoutV3Cancellation {
-    let authToken: String
-  }
-
-}
-
-public protocol CheckoutV3Cancellation {
-
 }
