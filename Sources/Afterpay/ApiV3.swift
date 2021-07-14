@@ -47,6 +47,36 @@ enum ApiV3 {
     return request
   }
 
+  static func request(
+    _ requestHandler: URLRequestHandler,
+    _ request: URLRequest,
+    completion: @escaping (Result<Void, Error>) -> Void
+  ) -> URLSessionDataTask {
+    let completeOnMainThread: (Result<Void, Error>) -> Void = { result in
+      DispatchQueue.main.async {
+        completion(result)
+      }
+    }
+    return requestHandler(request) { data, urlResponse, error in
+      guard let httpResponse = urlResponse as? HTTPURLResponse else {
+        completeOnMainThread(.failure(NetworkError.unknown(urlResponse)))
+        return
+      }
+      switch (error, data) {
+      case (.none, .some(let data)) where data.isEmpty && httpResponse.statusCode == 204:
+        completeOnMainThread(.success(()))
+      case (.none, .some(let data)):
+        if let error = try? Self.decoder.decode(ApiError.self, from: data) {
+          completeOnMainThread(.failure(error))
+        }
+      case (.some(let error), _):
+        completeOnMainThread(.failure(error))
+      default:
+        completeOnMainThread(.failure(NetworkError.unexpectedResponse(urlResponse)))
+      }
+    }
+  }
+
   static func request<ReturnType: Decodable>(
     _ requestHandler: URLRequestHandler,
     _ request: URLRequest,
@@ -80,6 +110,7 @@ enum ApiV3 {
 
   public enum NetworkError: Error {
     case unknown(URLResponse?)
+    case unexpectedResponse(URLResponse?)
   }
 
 }
