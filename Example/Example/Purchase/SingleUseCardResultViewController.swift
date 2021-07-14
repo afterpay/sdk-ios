@@ -13,10 +13,7 @@ import UIKit
 final class SingleUseCardResultViewController: UIViewController {
 
   // MARK: - Properties
-  private let details: CardDetails
-  private let authorizationExpiration: Date?
-  private(set) var cancellationClosure: CancellationClosure?
-  private let merchantReferenceUpdateClosure: MerchantReferenceUpdateClosure
+  private let data: CheckoutV3Data
 
   private let vStack: UIStackView = {
     let stackView = UIStackView()
@@ -28,10 +25,10 @@ final class SingleUseCardResultViewController: UIViewController {
 
   private lazy var labels: [UILabel] = {
     let strings = [
-      "Card number: \(details.cardNumber)",
-      "CVC: \(details.cvc)",
-      "Expiration: \(details.expiryMonth)/\(details.expiryYear)",
-      "Virtual card expiry: \(authorizationExpiration?.shortDuration ?? "Unavailable")",
+      "Card number: \(data.cardDetails.cardNumber)",
+      "CVC: \(data.cardDetails.cvc)",
+      "Expiration: \(data.cardDetails.expiryMonth)/\(data.cardDetails.expiryYear)",
+      "Virtual card expiry: \(data.cardValidUntil?.shortDuration ?? "Unavailable")",
       "Merchant reference: <not set>",
     ]
 
@@ -94,10 +91,7 @@ final class SingleUseCardResultViewController: UIViewController {
   // MARK: - Initializer
 
   init(data: CheckoutV3Data) {
-    self.details = data.cardDetails
-    self.authorizationExpiration = data.cardValidUntil
-    self.cancellationClosure = data.cancellation
-    self.merchantReferenceUpdateClosure = data.merchantReferenceUpdate
+    self.data = data
 
     super.init(nibName: nil, bundle: nil)
 
@@ -125,14 +119,13 @@ final class SingleUseCardResultViewController: UIViewController {
   // MARK: - Actions
 
   @objc func cancel() {
-    self.cancellationClosure? { [weak self] result in
+    Afterpay.cancelVirtualCard(tokens: data.tokens) { [weak self] result in
       switch result {
       case .success:
         UIView.animate(withDuration: 0.3, animations: {
           self?.cancellationButton.isEnabled = false
           self?.cancellationButton.backgroundColor = .systemGray
         })
-        self?.cancellationClosure = nil
       case .failure(let error):
         let alert = AlertFactory.alert(for: error.localizedDescription)
         self?.present(alert, animated: true)
@@ -143,7 +136,7 @@ final class SingleUseCardResultViewController: UIViewController {
   @objc func update() {
     updateButton.setTitle("Updating ...", for: .normal)
     let newId = UUID().uuidString
-    self.merchantReferenceUpdateClosure(newId) { [weak self] result in
+    Afterpay.updateMerchantReference(with: newId, tokens: data.tokens) { [weak self] result in
       switch result {
       case .success: // This endpoint returns a 204, so no response body
         self?.updateButton.setTitle("Merchant reference updated!", for: .normal)

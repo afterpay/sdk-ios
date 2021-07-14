@@ -9,13 +9,94 @@
 import Foundation
 import UIKit
 
-// MARK: - Checkout
+// MARK: - Update merchant reference
+
+/// Updates Afterpay's merchant reference for the transaction represented by the provided `tokens`.
+/// - Parameters:
+///   - merchantReference: A unique ID identifying the transaction.
+///   - tokens: The set of tokens returned after a successful call to `Afterpay.presentCheckoutV3Modally`.
+///   - configuration: A collection of options and values required to interact with the Afterpay API.
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
+///   - completion: The result of the user's completion (a success or cancellation). Returns on the main thread.
+public func updateMerchantReference(
+  with merchantReference: String,
+  tokens: CheckoutV3Tokens,
+  configuration: CheckoutV3Configuration? = getV3Configuration(),
+  requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
+  completion: @escaping (_ result: Result<Void, Error>) -> Void
+) {
+  guard let configuration = configuration else {
+    return assertionFailure(
+      "For updateMerchantReference to function you must provide a `configuration` object via either "
+        + "`Afterpay.updateMerchantReference` or `Afterpay.setV3Configuration`"
+    )
+  }
+  do {
+    var request = ApiV3.request(from: configuration.v3CheckoutUrl)
+    request.httpMethod = "PUT"
+    request.httpBody = try JSONEncoder().encode(
+      CheckoutV3.MerchantReferenceUpdate(
+        token: tokens.token,
+        singleUseCardToken: tokens.singleUseCardToken,
+        ppaConfirmToken: tokens.ppaConfirmToken,
+        merchantReference: merchantReference
+      )
+    )
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let task = ApiV3.request(requestHandler, request, completion: completion)
+    task.resume()
+  } catch {
+    completion(.failure(error))
+  }
+}
+
+// MARK: - Cancel virtual card
+
+/// Cancels the virtual card represented by the provided `tokens`.
+/// - Parameters:
+///   - tokens: The set of tokens returned after a successful call to `Afterpay.presentCheckoutV3Modally`.
+///   - configuration: A collection of options and values required to interact with the Afterpay API.
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
+///   - completion: The result of the user's completion (a success or cancellation). Returns on the main thread.
+public func cancelVirtualCard(
+  tokens: CheckoutV3Tokens,
+  configuration: CheckoutV3Configuration? = getV3Configuration(),
+  requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
+  completion: @escaping (_ result: Result<Void, Error>) -> Void
+) {
+  guard let configuration = configuration else {
+    return assertionFailure(
+      "For cancelVirtualCard to function you must provide a `configuration` object via either "
+        + "`Afterpay.cancelVirtualCard` or `Afterpay.setV3Configuration`"
+    )
+  }
+  do {
+    var request = ApiV3.request(from: configuration.v3CheckoutCancellationUrl)
+    request.httpMethod = "POST"
+    request.httpBody = try JSONEncoder().encode(CancellationV3.Request(
+      token: tokens.token,
+      ppaConfirmToken: tokens.ppaConfirmToken,
+      singleUseCardToken: tokens.singleUseCardToken
+    ))
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let task = ApiV3.request(requestHandler, request, completion: completion)
+    task.resume()
+  } catch {
+    completion(.failure(error))
+  }
+}
+
+// MARK: - Fetch merchant configuration
 
 /// Returns the merchant configuration object, representing the merchant's applicable payment limits.
 /// - Parameters:
 ///   - configuration: A collection of options and values required to interact with the Afterpay API.
 ///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
-///   - completion: The result of the user's completion (a success or cancellation).
+///   - completion: The result of the user's completion (a success or cancellation). Returns on the main thread.
 public func fetchMerchantConfiguration(
   configuration: CheckoutV3Configuration? = getV3Configuration(),
   requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
@@ -23,7 +104,7 @@ public func fetchMerchantConfiguration(
 ) {
   guard let configuration = configuration else {
     return assertionFailure(
-      "For fetchMerchantConfiguration to function you must set `configuration` via either "
+      "For fetchMerchantConfiguration to function you must provide a `configuration` object via either "
         + "`Afterpay.fetchMerchantConfiguration` or `Afterpay.setV3Configuration`"
     )
   }
@@ -44,6 +125,8 @@ public func fetchMerchantConfiguration(
   task.resume()
 }
 
+// MARK: - Checkout
+
 /// Present Afterpay Checkout modally over the specified view controller. This method
 /// - Parameters:
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
@@ -57,7 +140,7 @@ public func fetchMerchantConfiguration(
 ///   - configuration: A collection of options and values required to interact with the Afterpay API.
 ///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result,
 ///   and returns a `URLSessionDataTask`. Defaults to `URLSession.shared.dataTask`.
-///   - completion: The result of the user's completion (a success or cancellation).
+///   - completion: The result of the user's completion (a success or cancellation). Returns on the main thread.
 public func presentCheckoutV3Modally(
   over viewController: UIViewController,
   consumer: CheckoutV3Consumer,
@@ -70,13 +153,18 @@ public func presentCheckoutV3Modally(
 ) {
   guard let configuration = configuration else {
     return assertionFailure(
-      "For checkout to function you must set `configuration` via either "
+      "For presentCheckoutV3Modally to function you must provide a `configuration` object via either "
         + "`Afterpay.presentCheckoutV3Modally` or `Afterpay.setV3Configuration`"
     )
   }
 
   var viewControllerToPresent: UIViewController = CheckoutV3ViewController(
-    checkout: CheckoutV3.Request(consumer: consumer, orderTotal: orderTotal, configuration: configuration),
+    checkout: CheckoutV3.Request(
+      consumer: consumer,
+      orderTotal: orderTotal,
+      items: items,
+      configuration: configuration
+    ),
     configuration: configuration,
     requestHandler: requestHandler,
     completion: completion
@@ -240,7 +328,7 @@ public protocol CheckoutV3Item {
   /// Product name. Limited to 255 characters.
   var name: String { get }
   /// The quantity of the item, stored as a signed 32-bit integer.
-  var quantity: Int { get }
+  var quantity: UInt { get }
   /// The unit price of the individual item. Must be a positive value.
   var price: Decimal { get }
   /// Product SKU. Limited to 128 characters.

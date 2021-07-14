@@ -245,37 +245,22 @@ final class CheckoutV3ViewController:
   }
 
   private func handleConfirmationResponse(_ response: ConfirmationV3.Response) {
-    guard let token = self.token else {
+    guard
+      let token = self.token,
+      let ppaConfirmToken = self.ppaConfirmToken,
+      let singleUseCardToken = self.singleUseCardToken
+    else {
       return
     }
-    let cancellationRequest = self.createCancellationRequest()
-    let updateRequest = self.createMerchantReferenceUpdateRequest()
 
     let result = CheckoutV3.ResultData(
-      cancellation: { [cancellationRequest, requestHandler] cancellationCompletion in
-        let task = ApiV3.request(
-          requestHandler,
-          cancellationRequest,
-          completion: cancellationCompletion
-        )
-        task.resume()
-      },
-      merchantReferenceUpdate: { [updateRequest, requestHandler] merchantReference, updateCompletion in
-        var request = updateRequest
-        // Serialize the merchant reference now that it is known
-        request.httpBody = try? JSONEncoder().encode(
-          CheckoutV3.MerchantReferenceUpdate(
-            authToken: response.authToken,
-            token: token,
-            merchantReference: merchantReference
-          )
-        )
-
-        let task = ApiV3.request(requestHandler, request, completion: updateCompletion)
-        task.resume()
-      },
+      cardDetails: response.paymentDetails.virtualCard,
       cardValidUntil: response.cardValidUntil,
-      cardDetails: response.paymentDetails.virtualCard
+      tokens: CheckoutV3.ResultTokens(
+        token: token,
+        singleUseCardToken: singleUseCardToken,
+        ppaConfirmToken: ppaConfirmToken
+      )
     )
 
     self.completion(.success(data: result))

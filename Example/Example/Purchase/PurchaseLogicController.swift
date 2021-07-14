@@ -18,7 +18,7 @@ final class PurchaseLogicController {
     case showAfterpayCheckoutV1(checkoutURL: URL)
 
     case showAfterpayCheckoutV2(CheckoutV2Options)
-    case showAfterpayCheckoutV3(consumer: Consumer, total: Decimal)
+    case showAfterpayCheckoutV3(consumer: Consumer, cart: CartDisplay)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
 
@@ -97,16 +97,19 @@ final class PurchaseLogicController {
     expressCheckout.toggle()
   }
 
-  func viewCart() {
+  func buildCart() -> CartDisplay {
     let productsInCart = productDisplayModels.filter { (quantities[$0.id] ?? 0) > 0 }
-    let cart = CartDisplay(
+    return CartDisplay(
       products: productsInCart,
       total: total,
       currencyCode: currencyCode,
       expressCheckout: expressCheckout,
       initialCheckoutOptions: checkoutV2Options
     )
-    commandHandler(.showCart(cart))
+  }
+
+  func viewCart() {
+    commandHandler(.showCart(buildCart()))
   }
 
   func payWithAfterpay() {
@@ -120,7 +123,7 @@ final class PurchaseLogicController {
   func payWithAfterpayV3() {
     commandHandler(.showAfterpayCheckoutV3(
       consumer: Consumer(email: email),
-      total: total
+      cart: buildCart()
     ))
   }
 

@@ -134,11 +134,12 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
-    case .showAfterpayCheckoutV3(let consumer, let total):
+    case .showAfterpayCheckoutV3(let consumer, let cart):
       Afterpay.presentCheckoutV3Modally(
         over: ownedNavigationController,
         consumer: consumer,
-        orderTotal: OrderTotal(subtotal: total, shipping: nil, tax: 9.999),
+        orderTotal: OrderTotal(subtotal: cart.total, shipping: nil, tax: 9.999),
+        items: cart.products,
         requestHandler: APIClient.live.session.dataTask
       ) { result in
         switch result {
