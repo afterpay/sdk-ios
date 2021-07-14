@@ -66,7 +66,7 @@ public func presentCheckoutV3Modally(
   animated: Bool = true,
   configuration: CheckoutV3Configuration? = getV3Configuration(),
   requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
-  completion: @escaping (_ result: CheckoutResult) -> Void
+  completion: @escaping (_ result: CheckoutV3Result) -> Void
 ) {
   guard let configuration = configuration else {
     return assertionFailure(
@@ -135,6 +135,15 @@ public struct CheckoutV3Configuration {
       return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/confirm")!
     case (.US, .production):
       return URL(string: "https://api-plus.us.afterpay.com/v3/button/confirm")!
+    }
+  }
+
+  var v3CheckoutCancellationUrl: URL {
+    switch (region, environment) {
+    case (.US, .sandbox):
+      return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/cancel")!
+    case (.US, .production):
+      return URL(string: "https://api-plus.us.afterpay.com/v3/button/cancel")!
     }
   }
 

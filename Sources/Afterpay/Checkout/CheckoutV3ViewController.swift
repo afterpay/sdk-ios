@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-// swiftlint:disable:next colon
+// swiftlint:disable:next colon type_body_length
 final class CheckoutV3ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
@@ -20,7 +20,7 @@ final class CheckoutV3ViewController:
   private let configuration: CheckoutV3Configuration
   private let requestHandler: URLRequestHandler
   private var currentTask: URLSessionDataTask?
-  private let completion: (_ result: CheckoutResult) -> Void
+  private let completion: (_ result: CheckoutV3Result) -> Void
 
   private var token: Token?
   private var singleUseCardToken: Token?
@@ -34,7 +34,7 @@ final class CheckoutV3ViewController:
     checkout: CheckoutV3.Request,
     configuration: CheckoutV3Configuration,
     requestHandler: @escaping URLRequestHandler,
-    completion: @escaping (_ result: CheckoutResult) -> Void
+    completion: @escaping (_ result: CheckoutV3Result) -> Void
   ) {
     self.checkout = checkout
     self.configuration = configuration
@@ -235,18 +235,78 @@ final class CheckoutV3ViewController:
       switch result {
       case .success(let response):
         self.dismiss(animated: true) {
-          self.completion(.success(value: .singleUseCard(
-            authToken: response.authToken,
-            cardValidUntil: response.cardValidUntil,
-            details: response.paymentDetails.virtualCard
-          )))
+          self.handleConfirmationResponse(response)
         }
-
       case .failure(let error):
         self.dismiss(animated: true) { self.completion(.cancelled(reason: .networkError(error))) }
       }
     }
     self.currentTask?.resume()
+  }
+
+  private func handleConfirmationResponse(_ response: ConfirmationV3.Response) {
+    guard let token = self.token else {
+      return
+    }
+    let cancellationRequest = self.createCancellationRequest()
+    let updateRequest = self.createMerchantReferenceUpdateRequest()
+
+    let result = CheckoutV3.ResultData(
+      cancellation: { [cancellationRequest, requestHandler] cancellationCompletion in
+        let task = ApiV3.request(
+          requestHandler,
+          cancellationRequest,
+          completion: cancellationCompletion)
+        task.resume()
+      },
+      merchantReferenceUpdate: { [updateRequest, requestHandler] merchantReference, updateCompletion in
+        var request = updateRequest
+        // Serialize the merchant reference now that it is known
+        request.httpBody = try? JSONEncoder().encode(
+          CheckoutV3.MerchantReferenceUpdate(
+            authToken: response.authToken,
+            token: token,
+            merchantReference: merchantReference
+          )
+        )
+
+        let task = ApiV3.request(requestHandler, request, completion: updateCompletion)
+        task.resume()
+      },
+      cardValidUntil: response.cardValidUntil,
+      cardDetails: response.paymentDetails.virtualCard
+    )
+
+    self.completion(.success(data: result))
+  }
+
+  private func createMerchantReferenceUpdateRequest() -> URLRequest {
+    var request = ApiV3.request(from: configuration.v3CheckoutUrl)
+    request.httpMethod = "PUT"
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    return request
+  }
+
+  private func createCancellationRequest() -> URLRequest {
+    guard
+      let token = self.token,
+      let singleUseCardToken = self.singleUseCardToken,
+      let ppaConfirmToken = self.ppaConfirmToken,
+      let data = try? JSONEncoder().encode(CancellationV3.Request(
+        token: token,
+        ppaConfirmToken: ppaConfirmToken,
+        singleUseCardToken: singleUseCardToken
+      ))
+    else {
+      fatalError("`token` or `singleUseToken` was nil")
+    }
+    var request = ApiV3.request(from: self.configuration.v3CheckoutCancellationUrl)
+    request.httpMethod = "POST"
+    request.httpBody = data
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    return request
   }
 
   private func createCheckoutRequest() -> URLRequest {
