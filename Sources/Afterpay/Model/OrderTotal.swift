@@ -18,6 +18,10 @@ public struct OrderTotal {
   public var shipping: Decimal?
   public var tax: Decimal?
 
+  public var total: Decimal {
+    subtotal + (shipping ?? 0) + (tax ?? 0)
+  }
+
   public init(subtotal: Decimal, shipping: Decimal? = nil, tax: Decimal? = nil) {
     self.subtotal = subtotal
     self.shipping = shipping

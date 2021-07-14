@@ -37,7 +37,7 @@ enum CheckoutV3 {
       self.merchantPublicKey = configuration.merchantPublicKey
 
       self.amount = Money(
-        amount: configuration.region.formatted(currency: orderTotal.subtotal),
+        amount: configuration.region.formatted(currency: orderTotal.total),
         currency: configuration.region.currencyCode
       )
 
