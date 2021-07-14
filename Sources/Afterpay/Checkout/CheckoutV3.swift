@@ -23,6 +23,9 @@ enum CheckoutV3 {
     let merchantPublicKey: String
 
     let amount: Money
+    let shippingAmount: Money
+    let taxAmount: Money
+
     let items: [Item]
     let consumer: Consumer
     let merchant: Merchant
@@ -31,7 +34,7 @@ enum CheckoutV3 {
 
     init(
       consumer: CheckoutV3Consumer,
-      amount: Decimal,
+      orderTotal: OrderTotal,
       items: [CheckoutV3Item] = [],
       configuration: CheckoutV3Configuration
     ) {
@@ -40,7 +43,15 @@ enum CheckoutV3 {
       self.merchantPublicKey = configuration.merchantPublicKey
 
       self.amount = Money(
-        amount: configuration.region.formatted(currency: amount),
+        amount: configuration.region.formatted(currency: orderTotal.subtotal),
+        currency: configuration.region.currencyCode
+      )
+      self.shippingAmount = Money(
+        amount: configuration.region.formatted(currency: orderTotal.shipping),
+        currency: configuration.region.currencyCode
+      )
+      self.taxAmount = Money(
+        amount: configuration.region.formatted(currency: orderTotal.tax),
         currency: configuration.region.currencyCode
       )
       self.items = items.map { Item($0, configuration.region) }

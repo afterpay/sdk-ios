@@ -138,7 +138,7 @@ final class PurchaseFlowController: UIViewController {
       Afterpay.presentCheckoutV3Modally(
         over: ownedNavigationController,
         consumer: consumer,
-        total: total,
+        orderTotal: OrderTotal(shipping: 24.99, tax: 9.999, subtotal: total),
         requestHandler: APIClient.live.session.dataTask
       ) { result in
         switch result {

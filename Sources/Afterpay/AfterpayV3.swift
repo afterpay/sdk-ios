@@ -50,7 +50,7 @@ public func fetchMerchantConfiguration(
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
 ///   - consumer: The personal details of the customer.
-///   - total: The order total, represented as an unrounded `Decimal`.
+///   - orderTotal: The order total: `Decimal`s representing the subtotal, tax and shipping.
 ///   - items: An optional array of items that will be added to the checkout.
 ///   These are not used as the basis of the order `total`.
 ///   - animated: Pass `true` to animate the presentation; otherwise, pass false.
@@ -61,7 +61,7 @@ public func fetchMerchantConfiguration(
 public func presentCheckoutV3Modally(
   over viewController: UIViewController,
   consumer: CheckoutV3Consumer,
-  total: Decimal,
+  orderTotal: OrderTotal,
   items: [CheckoutV3Item] = [],
   animated: Bool = true,
   configuration: CheckoutV3Configuration? = getV3Configuration(),
@@ -76,7 +76,7 @@ public func presentCheckoutV3Modally(
   }
 
   var viewControllerToPresent: UIViewController = CheckoutV3ViewController(
-    checkout: CheckoutV3.Request(consumer: consumer, amount: total, configuration: configuration),
+    checkout: CheckoutV3.Request(consumer: consumer, orderTotal: orderTotal, configuration: configuration),
     configuration: configuration,
     requestHandler: requestHandler,
     completion: completion

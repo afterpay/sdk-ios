@@ -67,6 +67,7 @@
 		83F7DEEC269E62DA00F9FB75 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEEA269E624600F9FB75 /* Consumer.swift */; };
 		83F7DEF4269E94CE00F9FB75 /* CancellationV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEF3269E94CE00F9FB75 /* CancellationV3.swift */; };
 		83F7DEF6269EB4CA00F9FB75 /* CheckoutV3Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEF5269EB4CA00F9FB75 /* CheckoutV3Result.swift */; };
+		83F7DEF8269EC4DB00F9FB75 /* OrderTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEF7269EC4DB00F9FB75 /* OrderTotal.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +156,7 @@
 		83F7DEEA269E624600F9FB75 /* Consumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consumer.swift; sourceTree = "<group>"; };
 		83F7DEF3269E94CE00F9FB75 /* CancellationV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationV3.swift; sourceTree = "<group>"; };
 		83F7DEF5269EB4CA00F9FB75 /* CheckoutV3Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV3Result.swift; sourceTree = "<group>"; };
+		83F7DEF7269EC4DB00F9FB75 /* OrderTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTotal.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -333,6 +335,7 @@
 				661D4322257DF1CB00ACCDE1 /* ShippingOption.swift */,
 				157C65AE25D23E8F00115149 /* Version.swift */,
 				83F7DEEA269E624600F9FB75 /* Consumer.swift */,
+				83F7DEF7269EC4DB00F9FB75 /* OrderTotal.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				557511C326489F090040CC51 /* SVG+Source.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */,
+				83F7DEF8269EC4DB00F9FB75 /* OrderTotal.swift in Sources */,
 				1522246025C925E5004B9CE5 /* Environment.swift in Sources */,
 				66996F672580A5BE0061C365 /* CheckoutV2Completion.swift in Sources */,
 				157C65AF25D23E8F00115149 /* Version.swift in Sources */,
