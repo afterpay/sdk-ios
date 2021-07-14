@@ -121,7 +121,7 @@ final class SingleUseCardResultViewController: UIViewController {
   @objc func cancel() {
     Afterpay.cancelVirtualCard(tokens: data.tokens) { [weak self] result in
       switch result {
-      case .success:
+      case .success: // This endpoint returns a 204, so no response body
         UIView.animate(withDuration: 0.3, animations: {
           self?.cancellationButton.isEnabled = false
           self?.cancellationButton.backgroundColor = .systemGray
@@ -142,6 +142,8 @@ final class SingleUseCardResultViewController: UIViewController {
         self?.updateButton.setTitle("Merchant reference updated!", for: .normal)
         self?.labels.last?.text = "Merchant reference: \(newId)"
       case .failure(let error):
+        self?.updateButton.setTitle("Merchant reference updated!", for: .normal)
+        self?.labels.last?.text = "Merchant reference update failed!"
         let alert = AlertFactory.alert(for: error.localizedDescription)
         self?.present(alert, animated: true)
       }

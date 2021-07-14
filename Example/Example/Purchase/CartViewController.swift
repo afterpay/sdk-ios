@@ -97,8 +97,9 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       return cart.products.count
     case .total:
       return 1
+    // Temporarily disabled for v3
     case .options:
-      return 1
+      return 0
     }
   }
 

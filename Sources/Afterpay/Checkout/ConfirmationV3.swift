@@ -26,7 +26,7 @@ enum ConfirmationV3 {
       let virtualCard: VirtualCard
     }
 
-    struct VirtualCard: Decodable, CardDetails {
+    struct VirtualCard: Decodable, CheckoutV3VirtualCard {
       let cardNumber: String
       let cvc: String
       let expiryMonth: Int
