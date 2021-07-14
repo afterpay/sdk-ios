@@ -49,13 +49,13 @@ public func fetchMerchantConfiguration(
 ///   - viewController: The viewController on which `UIViewController.present` will be called.
 ///   The Afterpay Checkout View Controller will be presented modally over this view controller
 ///   or it's closest parent that is able to handle the presentation.
-///   - consumer: The personal details of the customer.
+///   - consumer: The personal details of the customer, including shipping and billing addresses.
 ///   - orderTotal: The order total: `Decimal`s representing the subtotal, tax and shipping.
 ///   - items: An optional array of items that will be added to the checkout.
-///   These are not used as the basis of the order `total`.
+///   These are not used to calculate the total amount due.
 ///   - animated: Pass `true` to animate the presentation; otherwise, pass false.
 ///   - configuration: A collection of options and values required to interact with the Afterpay API.
-///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result,
 ///   and returns a `URLSessionDataTask`. Defaults to `URLSession.shared.dataTask`.
 ///   - completion: The result of the user's completion (a success or cancellation).
 public func presentCheckoutV3Modally(
@@ -174,7 +174,7 @@ public struct CheckoutV3Configuration {
 
     var locale: Locale {
       switch self {
-      case .US: return Locale(identifier: "en_US")
+      case .US: return Locales.unitedStates
       }
     }
 

@@ -256,7 +256,8 @@ final class CheckoutV3ViewController:
         let task = ApiV3.request(
           requestHandler,
           cancellationRequest,
-          completion: cancellationCompletion)
+          completion: cancellationCompletion
+        )
         task.resume()
       },
       merchantReferenceUpdate: { [updateRequest, requestHandler] merchantReference, updateCompletion in
