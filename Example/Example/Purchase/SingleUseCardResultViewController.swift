@@ -148,9 +148,9 @@ final class SingleUseCardResultViewController: UIViewController {
   @objc func update() {
     updateButton.setTitle("Updating ...", for: .normal)
     let newId = UUID().uuidString
-    self.merchantReferenceUpdateClosure(UUID().uuidString) { [weak self] result in
+    self.merchantReferenceUpdateClosure(newId) { [weak self] result in
       switch result {
-      case .success:
+      case .success: // This endpoint returns a 204, so no response body
         self?.updateButton.setTitle("Merchant reference updated!", for: .normal)
         self?.labels.last?.text = "Merchant reference: \(newId)"
       case .failure(let error):
