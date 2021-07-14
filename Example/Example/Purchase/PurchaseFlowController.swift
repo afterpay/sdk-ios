@@ -138,17 +138,12 @@ final class PurchaseFlowController: UIViewController {
       Afterpay.presentCheckoutV3Modally(
         over: ownedNavigationController,
         consumer: consumer,
-        orderTotal: OrderTotal(shipping: 24.99, tax: 9.999, subtotal: total),
+        orderTotal: OrderTotal(subtotal: total, shipping: nil, tax: 9.999),
         requestHandler: APIClient.live.session.dataTask
       ) { result in
         switch result {
         case .success(let data):
-          let controller = SingleUseCardResultViewController(
-            details: data.cardDetails,
-            authorizationExpiration: data.cardValidUntil,
-            cancellationClosure: data.cancellation,
-            merchantReferenceUpdateClosure: data.merchantReferenceUpdate
-          )
+          let controller = SingleUseCardResultViewController(data: data)
           navigationController.pushViewController(controller, animated: true)
         case .cancelled(let reason):
           logicController.cancelled(with: reason)

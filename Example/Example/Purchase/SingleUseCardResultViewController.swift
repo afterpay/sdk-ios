@@ -93,16 +93,11 @@ final class SingleUseCardResultViewController: UIViewController {
 
   // MARK: - Initializer
 
-  init(
-    details: CardDetails,
-    authorizationExpiration: Date?,
-    cancellationClosure: @escaping CancellationClosure,
-    merchantReferenceUpdateClosure: @escaping MerchantReferenceUpdateClosure
-  ) {
-    self.details = details
-    self.authorizationExpiration = authorizationExpiration
-    self.cancellationClosure = cancellationClosure
-    self.merchantReferenceUpdateClosure = merchantReferenceUpdateClosure
+  init(data: CheckoutV3Data) {
+    self.details = data.cardDetails
+    self.authorizationExpiration = data.cardValidUntil
+    self.cancellationClosure = data.cancellation
+    self.merchantReferenceUpdateClosure = data.merchantReferenceUpdate
 
     super.init(nibName: nil, bundle: nil)
 
