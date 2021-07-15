@@ -146,6 +146,7 @@ public func presentCheckoutV3Modally(
   consumer: CheckoutV3Consumer,
   orderTotal: OrderTotal,
   items: [CheckoutV3Item] = [],
+  buyNow: Bool,
   animated: Bool = true,
   configuration: CheckoutV3Configuration? = getV3Configuration(),
   requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
@@ -165,6 +166,7 @@ public func presentCheckoutV3Modally(
       items: items,
       configuration: configuration
     ),
+    buyNow: buyNow,
     configuration: configuration,
     requestHandler: requestHandler,
     completion: completion

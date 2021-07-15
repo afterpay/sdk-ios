@@ -140,6 +140,7 @@ final class PurchaseFlowController: UIViewController {
         consumer: consumer,
         orderTotal: OrderTotal(subtotal: cart.total, shipping: nil, tax: 9.999),
         items: cart.products,
+        buyNow: cart.checkoutV2Options.buyNow ?? false,
         requestHandler: APIClient.live.session.dataTask
       ) { result in
         switch result {

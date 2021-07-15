@@ -17,6 +17,7 @@ final class CheckoutV3ViewController:
 { // swiftlint:disable:this opening_brace
 
   private let checkout: CheckoutV3.Request
+  private let buyNow: Bool
   private let configuration: CheckoutV3Configuration
   private let requestHandler: URLRequestHandler
   private var currentTask: URLSessionDataTask?
@@ -32,11 +33,13 @@ final class CheckoutV3ViewController:
 
   init(
     checkout: CheckoutV3.Request,
+    buyNow: Bool,
     configuration: CheckoutV3Configuration,
     requestHandler: @escaping URLRequestHandler,
     completion: @escaping (_ result: CheckoutV3Result) -> Void
   ) {
     self.checkout = checkout
+    self.buyNow = buyNow
     self.configuration = configuration
     self.requestHandler = requestHandler
     self.completion = completion
@@ -88,8 +91,17 @@ final class CheckoutV3ViewController:
       }
     }
 
-    performCheckoutRequest { redirectUrl in
-      self.webView.load(ApiV3.request(from: redirectUrl))
+    performCheckoutRequest { [weak self] redirectCheckoutUrl in
+      guard
+        var components = URLComponents(url: redirectCheckoutUrl, resolvingAgainstBaseURL: false)
+      else {
+        self?.webView.load(ApiV3.request(from: redirectCheckoutUrl))
+        return
+      }
+      var queryItems = components.queryItems ?? []
+      queryItems.append(URLQueryItem(name: "buyNow", value: (self?.buyNow ?? false) ? "true" : "false"))
+      components.queryItems = queryItems
+      self?.webView.load(ApiV3.request(from: components.url!))
     }
   }
 
