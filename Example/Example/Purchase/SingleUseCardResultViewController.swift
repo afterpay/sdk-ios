@@ -77,18 +77,6 @@ final class SingleUseCardResultViewController: UIViewController {
     return label
   }()
 
-  private lazy var cancellationButton: UIButton = {
-    let button = UIButton(type: .roundedRect)
-    button.setTitle("Cancel card", for: .normal)
-    button.setTitle("Card cancelled", for: .disabled)
-    button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-    button.backgroundColor = .systemRed
-    button.setTitleColor(.white, for: .normal)
-    button.setTitleColor(.darkText, for: .disabled)
-    button.layer.cornerRadius = 8
-    return button
-  }()
-
   private lazy var updateButton: UIButton = {
     let button = UIButton(type: .roundedRect)
     button.setTitle("Update merchant reference", for: .normal)
@@ -119,30 +107,14 @@ final class SingleUseCardResultViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(vStack)
-    (labels + [explanatoryHeaderLabel, explanatoryBodyLabel, cancellationButton, updateButton])
+    (labels + [explanatoryHeaderLabel, explanatoryBodyLabel, updateButton])
       .forEach(vStack.addArrangedSubview)
     vStack.setCustomSpacing(24, after: labels.last!)
     vStack.setCustomSpacing(24, after: explanatoryBodyLabel)
-    vStack.setCustomSpacing(16, after: cancellationButton)
     setConstraints()
   }
 
   // MARK: - Actions
-
-  @objc func cancel() {
-    Afterpay.cancelVirtualCard(tokens: data.tokens) { [weak self] result in
-      switch result {
-      case .success: // This endpoint returns a 204, so no response body
-        UIView.animate(withDuration: 0.3, animations: {
-          self?.cancellationButton.isEnabled = false
-          self?.cancellationButton.backgroundColor = .systemGray
-        })
-      case .failure(let error):
-        let alert = AlertFactory.alert(for: error.localizedDescription)
-        self?.present(alert, animated: true)
-      }
-    }
-  }
 
   @objc func update() {
     updateButton.setTitle("Updating ...", for: .normal)
@@ -185,7 +157,6 @@ final class SingleUseCardResultViewController: UIViewController {
       scrollView.contentLayoutGuide.widthAnchor.constraint(
         equalTo: scrollView.frameLayoutGuide.widthAnchor
       ),
-      cancellationButton.heightAnchor.constraint(equalToConstant: 44),
       updateButton.heightAnchor.constraint(equalToConstant: 44),
     ])
   }
