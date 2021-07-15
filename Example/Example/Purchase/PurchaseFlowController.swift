@@ -71,8 +71,7 @@ final class PurchaseFlowController: UIViewController {
     Afterpay.fetchMerchantConfiguration { result in
       switch result {
       case .success(let configuration):
-        // Do something with the configuration object here
-        print(configuration)
+        Afterpay.setConfiguration(configuration)
       case .failure(let error):
         let alert = AlertFactory.alert(for: error.localizedDescription)
         self.present(alert, animated: true)
