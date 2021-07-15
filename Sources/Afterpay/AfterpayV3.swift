@@ -52,44 +52,6 @@ public func updateMerchantReference(
   }
 }
 
-// MARK: - Cancel virtual card
-
-/// Cancels the virtual card represented by the provided `tokens`.
-/// - Parameters:
-///   - tokens: The set of tokens returned after a successful call to `Afterpay.presentCheckoutV3Modally`.
-///   - configuration: A collection of options and values required to interact with the Afterpay API.
-///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
-///   - completion: The result of the user's completion (a success or cancellation). Returns on the main thread.
-public func cancelVirtualCard(
-  tokens: CheckoutV3Tokens,
-  configuration: CheckoutV3Configuration? = getV3Configuration(),
-  requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
-  completion: @escaping (_ result: Result<Void, Error>) -> Void
-) {
-  guard let configuration = configuration else {
-    return assertionFailure(
-      "For cancelVirtualCard to function you must provide a `configuration` object via either "
-        + "`Afterpay.cancelVirtualCard` or `Afterpay.setV3Configuration`"
-    )
-  }
-  do {
-    var request = ApiV3.request(from: configuration.v3CheckoutCancellationUrl)
-    request.httpMethod = "POST"
-    request.httpBody = try JSONEncoder().encode(CancellationV3.Request(
-      token: tokens.token,
-      ppaConfirmToken: tokens.ppaConfirmToken,
-      singleUseCardToken: tokens.singleUseCardToken
-    ))
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    let task = ApiV3.request(requestHandler, request, completion: completion)
-    task.resume()
-  } catch {
-    completion(.failure(error))
-  }
-}
-
 // MARK: - Fetch merchant configuration
 
 /// Returns the merchant configuration object, representing the merchant's applicable payment limits.
@@ -225,15 +187,6 @@ public struct CheckoutV3Configuration {
       return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/confirm")!
     case (.US, .production):
       return URL(string: "https://api-plus.us.afterpay.com/v3/button/confirm")!
-    }
-  }
-
-  var v3CheckoutCancellationUrl: URL {
-    switch (region, environment) {
-    case (.US, .sandbox):
-      return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/cancel")!
-    case (.US, .production):
-      return URL(string: "https://api-plus.us.afterpay.com/v3/button/cancel")!
     }
   }
 

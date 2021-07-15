@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-// swiftlint:disable:next colon type_body_length
+// swiftlint:disable:next colon
 final class CheckoutV3ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
@@ -276,35 +276,6 @@ final class CheckoutV3ViewController:
     )
 
     self.completion(.success(data: result))
-  }
-
-  private func createMerchantReferenceUpdateRequest() -> URLRequest {
-    var request = ApiV3.request(from: configuration.v3CheckoutUrl)
-    request.httpMethod = "PUT"
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    return request
-  }
-
-  private func createCancellationRequest() -> URLRequest {
-    guard
-      let token = self.token,
-      let singleUseCardToken = self.singleUseCardToken,
-      let ppaConfirmToken = self.ppaConfirmToken,
-      let data = try? JSONEncoder().encode(CancellationV3.Request(
-        token: token,
-        ppaConfirmToken: ppaConfirmToken,
-        singleUseCardToken: singleUseCardToken
-      ))
-    else {
-      fatalError("`token` or `singleUseToken` was nil")
-    }
-    var request = ApiV3.request(from: self.configuration.v3CheckoutCancellationUrl)
-    request.httpMethod = "POST"
-    request.httpBody = data
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    return request
   }
 
   private func createCheckoutRequest() -> URLRequest {
