@@ -135,7 +135,7 @@ final class PurchaseFlowController: UIViewController {
       Afterpay.presentCheckoutV3Modally(
         over: ownedNavigationController,
         consumer: consumer,
-        orderTotal: OrderTotal(subtotal: cart.total, shipping: nil, tax: 9.999),
+        orderTotal: OrderTotal(total: cart.total, shipping: 0, tax: 0),
         items: cart.products,
         buyNow: cart.checkoutV2Options.buyNow ?? false,
         requestHandler: APIClient.live.session.dataTask

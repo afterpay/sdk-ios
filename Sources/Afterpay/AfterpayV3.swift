@@ -154,6 +154,10 @@ public struct CheckoutV3Configuration {
   let region: Region
   let environment: Environment
 
+  /// - Parameters:
+  ///   - shopDirectoryMerchantId: A unique merchant identifier
+  ///   - region: The region serviced by the merchant
+  ///   - environment: The environment. Use `sandbox` for development purposes.
   public init(
     shopDirectoryMerchantId: String,
     region: Region,

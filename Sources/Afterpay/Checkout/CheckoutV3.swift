@@ -39,22 +39,15 @@ enum CheckoutV3 {
         currency: configuration.region.currencyCode
       )
 
-      if let shipping = orderTotal.shipping {
-        self.shippingAmount = Money(
-          amount: configuration.region.formatted(currency: shipping),
-          currency: configuration.region.currencyCode
-        )
-      } else {
-        self.shippingAmount = nil
-      }
-      if let tax = orderTotal.tax {
-        self.taxAmount = Money(
-          amount: configuration.region.formatted(currency: tax),
-          currency: configuration.region.currencyCode
-        )
-      } else {
-        self.taxAmount = nil
-      }
+      self.shippingAmount = Money(
+        amount: configuration.region.formatted(currency: orderTotal.shipping),
+        currency: configuration.region.currencyCode
+      )
+
+      self.taxAmount = Money(
+        amount: configuration.region.formatted(currency: orderTotal.tax),
+        currency: configuration.region.currencyCode
+      )
 
       self.items = items.map { Item($0, configuration.region) }
 

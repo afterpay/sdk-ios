@@ -14,16 +14,19 @@ import Foundation
 /// - Including the currency code as provided by `CheckoutV3Configuration.Region`.
 public struct OrderTotal {
 
-  public var subtotal: Decimal
-  public var shipping: Decimal?
-  public var tax: Decimal?
+  /// Amount to be charged to consumer, inclusive of `shipping` and `tax`.
+  public var total: Decimal
+  /// The shipping amount, included for fraud detection purposes.
+  public var shipping: Decimal
+  /// The tax amount, included for fraud detection purposes.
+  public var tax: Decimal
 
-  public var total: Decimal {
-    subtotal + (shipping ?? 0) + (tax ?? 0)
-  }
-
-  public init(subtotal: Decimal, shipping: Decimal? = nil, tax: Decimal? = nil) {
-    self.subtotal = subtotal
+  /// - Parameters:
+  ///   - total: Amount to be charged to consumer, inclusive of `shipping` and `tax`.
+  ///   - shipping: The shipping amount, included for fraud detection purposes.
+  ///   - tax: The tax amount, included for fraud detection purposes.
+  public init(total: Decimal, shipping: Decimal, tax: Decimal) {
+    self.total = total
     self.shipping = shipping
     self.tax = tax
   }
