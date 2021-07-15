@@ -119,7 +119,7 @@ final class SingleUseCardResultViewController: UIViewController {
   @objc func update() {
     updateButton.setTitle("Updating ...", for: .normal)
     let newId = UUID().uuidString
-    Afterpay.updateMerchantReference(with: newId, tokens: data.tokens) { [weak self] result in
+    Afterpay.updateMerchantReferenceV3(with: newId, tokens: data.tokens) { [weak self] result in
       switch result {
       case .success: // This endpoint returns a 204, so no response body
         self?.updateButton.setTitle("Merchant reference updated!", for: .normal)

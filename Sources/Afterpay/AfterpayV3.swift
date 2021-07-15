@@ -18,7 +18,7 @@ import UIKit
 ///   - configuration: A collection of options and values required to interact with the Afterpay API.
 ///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result.
 ///   - completion: The result of the user's completion (a success or cancellation). Returns on the main thread.
-public func updateMerchantReference(
+public func updateMerchantReferenceV3(
   with merchantReference: String,
   tokens: CheckoutV3Tokens,
   configuration: CheckoutV3Configuration? = getV3Configuration(),
@@ -27,8 +27,8 @@ public func updateMerchantReference(
 ) {
   guard let configuration = configuration else {
     return assertionFailure(
-      "For updateMerchantReference to function you must provide a `configuration` object via either "
-        + "`Afterpay.updateMerchantReference` or `Afterpay.setV3Configuration`"
+      "For updateMerchantReferenceV3 to function you must provide a `configuration` object via either "
+        + "`Afterpay.updateMerchantReferenceV3` or `Afterpay.setV3Configuration`"
     )
   }
   do {
@@ -154,9 +154,10 @@ public struct CheckoutV3Configuration {
   let region: Region
   let environment: Environment
 
+  /// Creates a collection of options and values required to interact with the Afterpay API.
   /// - Parameters:
-  ///   - shopDirectoryMerchantId: A unique merchant identifier
-  ///   - region: The region serviced by the merchant
+  ///   - shopDirectoryMerchantId: A unique merchant identifier.
+  ///   - region: The region serviced by the merchant.
   ///   - environment: The environment. Use `sandbox` for development purposes.
   public init(
     shopDirectoryMerchantId: String,
