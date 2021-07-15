@@ -47,7 +47,6 @@ final class PurchaseFlowController: UIViewController {
     Afterpay.setV3Configuration(.init(
       shopDirectoryId: "cd6b7914412b407d80aaf81d855d1105",
       shopDirectoryMerchantId: "822ce7ffc2fa41258904baad1d0fe07351e89375108949e8bd951d387ef0e932",
-      merchantPublicKey: "",
       region: .US,
       environment: .sandbox
     ))

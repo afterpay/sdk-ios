@@ -14,7 +14,6 @@ enum CheckoutV3 {
   struct Request: Encodable {
     let shopDirectoryId: String
     let shopDirectoryMerchantId: String
-    let merchantPublicKey: String
 
     let amount: Money
     let shippingAmount: Money?
@@ -34,7 +33,6 @@ enum CheckoutV3 {
     ) {
       self.shopDirectoryId = configuration.shopDirectoryId
       self.shopDirectoryMerchantId = configuration.shopDirectoryMerchantId
-      self.merchantPublicKey = configuration.merchantPublicKey
 
       self.amount = Money(
         amount: configuration.region.formatted(currency: orderTotal.total),

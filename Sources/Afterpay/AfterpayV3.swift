@@ -152,20 +152,17 @@ public func getV3Configuration() -> CheckoutV3Configuration? {
 public struct CheckoutV3Configuration {
   let shopDirectoryId: String
   let shopDirectoryMerchantId: String
-  let merchantPublicKey: String
   let region: Region
   let environment: Environment
 
   public init(
     shopDirectoryId: String,
     shopDirectoryMerchantId: String,
-    merchantPublicKey: String,
     region: Region,
     environment: Environment
   ) {
     self.shopDirectoryId = shopDirectoryId
     self.shopDirectoryMerchantId = shopDirectoryMerchantId
-    self.merchantPublicKey = merchantPublicKey
     self.region = region
     self.environment = environment
   }
