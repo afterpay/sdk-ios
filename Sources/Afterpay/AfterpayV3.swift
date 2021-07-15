@@ -150,24 +150,30 @@ public func getV3Configuration() -> CheckoutV3Configuration? {
 
 /// A collection of options and values required to interact with the Afterpay API.
 public struct CheckoutV3Configuration {
-  let shopDirectoryId: String
   let shopDirectoryMerchantId: String
   let region: Region
   let environment: Environment
 
   public init(
-    shopDirectoryId: String,
     shopDirectoryMerchantId: String,
     region: Region,
     environment: Environment
   ) {
-    self.shopDirectoryId = shopDirectoryId
     self.shopDirectoryMerchantId = shopDirectoryMerchantId
     self.region = region
     self.environment = environment
   }
 
   // MARK: - Computed properties
+
+  var shopDirectoryId: String {
+    switch (region, environment) {
+    case (.US, .sandbox):
+      return "cd6b7914412b407d80aaf81d855d1105"
+    case (.US, .production):
+      return "e1e5632bebe64cee8e5daff8588e8f2f05ca4ed6ac524c76824c04e09033badc"
+    }
+  }
 
   var v3CheckoutUrl: URL {
     switch (region, environment) {
