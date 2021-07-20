@@ -74,6 +74,8 @@ final class SingleUseCardResultViewController: UIViewController {
     label.text = "After the user has completed their Afterpay checkout, "
       + "you will have until the `virtual card expiry` to perform an authorisation on the card. "
       + "This completes the purchase."
+      + "\nOnce a stable, unique id has been generated for the transaction, "
+      + "the Afterpay merchant reference must be updated."
     return label
   }()
 
