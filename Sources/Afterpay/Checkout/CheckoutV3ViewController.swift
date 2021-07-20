@@ -188,7 +188,7 @@ final class CheckoutV3ViewController:
     withError error: Error
   ) {
     let alert = Alerts.failedToLoad(
-      retry: { [url = configuration.environment.checkoutBootstrapURL] in
+      retry: { [url = configuration.v3CheckoutUrl] in
         webView.load(URLRequest(url: url))
       },
       cancel: {
@@ -300,8 +300,7 @@ final class CheckoutV3ViewController:
 
     let confirmation = ConfirmationV3.Request(
       token: token,
-      singleUseCardToken:
-      singleUseCardToken,
+      singleUseCardToken: singleUseCardToken,
       ppaConfirmToken: ppaConfirmToken
     )
 
