@@ -44,11 +44,11 @@ final class CheckoutOptionsCell: UITableViewCell {
 
     let verticalStack = UIStackView(
       arrangedSubviews: [
-        UIStackView(arrangedSubviews: [expressLabel, expressSwitch]),
-        checkoutOptionsTitle,
+//        UIStackView(arrangedSubviews: [expressLabel, expressSwitch]),
+//        checkoutOptionsTitle,
         UIStackView(arrangedSubviews: [buyNowLabel, buyNowSwitch]),
-        UIStackView(arrangedSubviews: [pickupLabel, pickupSwitch]),
-        UIStackView(arrangedSubviews: [shippingOptionRequiredLabel, shippingOptionRequiredSwitch]),
+//        UIStackView(arrangedSubviews: [pickupLabel, pickupSwitch]),
+//        UIStackView(arrangedSubviews: [shippingOptionRequiredLabel, shippingOptionRequiredSwitch]),
       ]
     )
 
