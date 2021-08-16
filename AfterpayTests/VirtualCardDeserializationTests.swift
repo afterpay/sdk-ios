@@ -27,9 +27,8 @@ final class VirtualCardDeserializationTests: XCTestCase {
   func testTokenizedCardIsDeserializedProperly() throws {
     let json = """
 {
-"cardType": "VISA",
+"paymentGateway": "Braintree",
 "cardToken": "magical string",
-"cvc": "999",
 "expiry": "2024-02"
 }
 """.data(using: .utf8)!

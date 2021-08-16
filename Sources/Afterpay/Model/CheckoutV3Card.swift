@@ -91,14 +91,13 @@ public struct Card: Decodable {
 }
 
 public struct TokenizedCard: Decodable {
-  public let cardType: String
+  public let paymentGateway: String
   public let cardToken: String
-  public let cvc: String
   public let expiryMonth: Int
   public let expiryYear: Int
 
   private enum CodingKeys: String, CodingKey {
-    case cardType, cardToken, cvc, expiry
+    case paymentGateway, cardToken, expiry
   }
 
   public init(from decoder: Decoder) throws {
@@ -129,7 +128,6 @@ public struct TokenizedCard: Decodable {
     self.expiryYear = year
     self.expiryMonth = month
     self.cardToken = try container.decode(String.self, forKey: .cardToken)
-    self.cvc = try container.decode(String.self, forKey: .cvc)
-    self.cardType = try container.decode(String.self, forKey: .cardType)
+    self.paymentGateway = try container.decode(String.self, forKey: .paymentGateway)
   }
 }

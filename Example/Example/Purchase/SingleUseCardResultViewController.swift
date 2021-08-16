@@ -37,8 +37,8 @@ final class SingleUseCardResultViewController: UIViewController {
       ], at: 0)
     case .tokenized(let card):
       strings.insert(contentsOf: [
+        "Payment gateway: \(card.paymentGateway)",
         "Card token: \(card.cardToken)",
-        "CVC: \(card.cvc)",
         "Expiration: \(card.expiryMonth)/\(card.expiryYear)",
       ], at: 0)
     }
