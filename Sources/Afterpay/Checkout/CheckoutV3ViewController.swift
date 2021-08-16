@@ -260,13 +260,14 @@ final class CheckoutV3ViewController:
     guard
       let token = self.token,
       let ppaConfirmToken = self.ppaConfirmToken,
-      let singleUseCardToken = self.singleUseCardToken
+      let singleUseCardToken = self.singleUseCardToken,
+      let cardDetails = VirtualCard(paymentDetails: response.paymentDetails)
     else {
       return
     }
 
     let result = CheckoutV3.ResultData(
-      cardDetails: response.paymentDetails.virtualCard,
+      cardDetails: cardDetails,
       cardValidUntil: response.cardValidUntil,
       tokens: CheckoutV3.ResultTokens(
         token: token,

@@ -68,7 +68,6 @@
 		83F7DEF6269EB4CA00F9FB75 /* CheckoutV3Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEF5269EB4CA00F9FB75 /* CheckoutV3Protocols.swift */; };
 		83F7DEF8269EC4DB00F9FB75 /* OrderTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEF7269EC4DB00F9FB75 /* OrderTotal.swift */; };
 		83F7DEFA269FA8C400F9FB75 /* CheckoutV3Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEF9269FA8C400F9FB75 /* CheckoutV3Card.swift */; };
-		83F7DEFC269FAA3A00F9FB75 /* VirtualCardDeserializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DEFB269FAA3A00F9FB75 /* VirtualCardDeserializationTests.swift */; };
 		946388FE24DD077F00A1227A /* InfoWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946388FD24DD077F00A1227A /* InfoWebViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,7 +157,6 @@
 		83F7DEF5269EB4CA00F9FB75 /* CheckoutV3Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV3Protocols.swift; sourceTree = "<group>"; };
 		83F7DEF7269EC4DB00F9FB75 /* OrderTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTotal.swift; sourceTree = "<group>"; };
 		83F7DEF9269FA8C400F9FB75 /* CheckoutV3Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV3Card.swift; sourceTree = "<group>"; };
-		83F7DEFB269FAA3A00F9FB75 /* VirtualCardDeserializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualCardDeserializationTests.swift; sourceTree = "<group>"; };
 		946388FD24DD077F00A1227A /* InfoWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -255,7 +253,6 @@
 				550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */,
 				550D48142625539900C0B0C6 /* WidgetStatusTests.swift */,
 				557511BA264259C30040CC51 /* CombineWrapperTests.swift */,
-				83F7DEFB269FAA3A00F9FB75 /* VirtualCardDeserializationTests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -559,7 +556,6 @@
 				551BEDF125F98FA800FDF9EE /* FeaturesTests.swift in Sources */,
 				6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */,
 				66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */,
-				83F7DEFC269FAA3A00F9FB75 /* VirtualCardDeserializationTests.swift in Sources */,
 				550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */,
 				550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */,
 				557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */,

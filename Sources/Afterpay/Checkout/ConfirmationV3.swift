@@ -23,7 +23,8 @@ enum ConfirmationV3 {
     let authToken: String
 
     struct PaymentDetails: Decodable {
-      let virtualCard: VirtualCard
+      let virtualCard: Card?
+      let virtualCardToken: TokenizedCard?
     }
   }
 

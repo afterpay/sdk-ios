@@ -8,41 +8,18 @@
 
 import Foundation
 
-public enum VirtualCard: Decodable {
+public enum VirtualCard {
   case card(Card)
   case tokenized(TokenizedCard)
 
-  public init(from decoder: Decoder) throws {
-    if let card = try? Card(from: decoder) {
+  init?(paymentDetails: ConfirmationV3.Response.PaymentDetails) {
+    if let card = paymentDetails.virtualCard {
       self = .card(card)
       return
+    } else if let tokenized = paymentDetails.virtualCardToken {
+      self = .tokenized(tokenized)
     }
-    do {
-      let tokenizedCard = try TokenizedCard(from: decoder)
-      self = .tokenized(tokenizedCard)
-    } catch {
-      guard error is DecodingError else {
-        throw error
-      }
-      throw Error(message:
-        "Could not parse expected `\(VirtualCard.self)` as `\(Card.self)` or `\(TokenizedCard.self)`"
-      )
-    }
-  }
-
-  public struct Error: LocalizedError {
-    let message: String
-
-    public var failureReason: String? {
-      NSLocalizedString(message, comment: "Failure reason")
-    }
-
-    public var recoverySuggestion: String? {
-      NSLocalizedString(
-        "Please contact Afterpay",
-        comment: "Recovery suggestion for a `VirtualCard` parsing error"
-      )
-    }
+    return nil
   }
 }
 
