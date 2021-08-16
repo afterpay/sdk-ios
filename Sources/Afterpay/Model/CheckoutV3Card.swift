@@ -18,6 +18,7 @@ public enum VirtualCard {
       return
     } else if let tokenized = paymentDetails.virtualCardToken {
       self = .tokenized(tokenized)
+      return
     }
     return nil
   }
