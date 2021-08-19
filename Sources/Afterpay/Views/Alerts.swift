@@ -38,7 +38,7 @@ enum Alerts {
     let actionSheet = UIAlertController(
       title: "Are you sure you want to cancel the payment?",
       message: nil,
-      preferredStyle: .actionSheet
+      preferredStyle: UIDevice.current.userInterfaceIdiom == .phone ? .actionSheet : .alert
     )
 
     let cancelHandler: (UIAlertAction) -> Void = { _ in cancel() }
