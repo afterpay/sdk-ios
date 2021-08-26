@@ -173,40 +173,40 @@ public struct CheckoutV3Configuration {
 
   var shopDirectoryId: String {
     switch (region, environment) {
-    case (.US, .sandbox):
+    case (_, .sandbox):
       return "cd6b7914412b407d80aaf81d855d1105"
-    case (.US, .production):
+    case (_, .production):
       return "e1e5632bebe64cee8e5daff8588e8f2f05ca4ed6ac524c76824c04e09033badc"
     }
   }
 
-  var v3CheckoutUrl: URL {
+  var v3BaseUrl: URL {
     switch (region, environment) {
     case (.US, .sandbox):
       return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button")!
     case (.US, .production):
       return URL(string: "https://api-plus.us.afterpay.com/v3/button")!
+    // Currently the same URL as the US region
+    case (.CA, .sandbox):
+      return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button")!
+    case (.CA, .production):
+      return URL(string: "https://api-plus.us.afterpay.com/v3/button")!
     }
+  }
+
+  var v3CheckoutUrl: URL {
+    self.v3BaseUrl
   }
 
   var v3CheckoutConfirmationUrl: URL {
-    switch (region, environment) {
-    case (.US, .sandbox):
-      return URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/confirm")!
-    case (.US, .production):
-      return URL(string: "https://api-plus.us.afterpay.com/v3/button/confirm")!
-    }
+    v3BaseUrl.appendingPathComponent("confirm")
   }
 
   var v3ConfigurationUrl: URL {
-    var url: URL
-    switch (region, environment) {
-    case (.US, .sandbox):
-      url = URL(string: "https://api-plus.us-sandbox.afterpay.com/v3/button/merchant/config")!
-    case (.US, .production):
-      url = URL(string: "https://api-plus.us.afterpay.com/v3/button/merchant/config")!
-    }
-    var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+    var components = URLComponents(
+      url: v3BaseUrl.appendingPathComponent("merchant/config"),
+      resolvingAgainstBaseURL: false
+    )
     components?.queryItems = [
       URLQueryItem(name: "shopDirectoryId", value: shopDirectoryId),
       URLQueryItem(name: "shopDirectoryMerchantId", value: shopDirectoryMerchantId),
@@ -222,17 +222,23 @@ public struct CheckoutV3Configuration {
   /// Regions supporting V3 checkouts
   public enum Region {
     case US
+    case CA
 
     var locale: Locale {
       switch self {
       case .US: return Locales.unitedStates
+      case .CA: return Locales.canada
       }
     }
 
     var currencyCode: String {
-      switch self {
-      case .US: return "USD"
+      guard let currencyCode = self.locale.currencyCode else {
+        switch self {
+        case .US: return "USD"
+        case .CA: return "CAD"
+        }
       }
+      return currencyCode
     }
 
     private static var formatter: NumberFormatter = {
