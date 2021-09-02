@@ -18,7 +18,10 @@ struct PriceBreakdown {
   let string: String
   let badgePlacement: BadgePlacement
 
-  init(totalAmount: Decimal, introText: AfterpayIntroText) {
+  init(
+    totalAmount: Decimal,
+    introText: AfterpayIntroText = AfterpayIntroText.or
+  ) {
     let configuration = getConfiguration()
     let formatter = configuration
       .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode) }
