@@ -158,6 +158,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     stack.addArrangedSubview(badgeStack)
 
     let priceBreakdown1 = PriceBreakdownView()
+    priceBreakdown1.introText = AfterpayIntroText.payInTitle
     priceBreakdown1.totalAmount = 100
     priceBreakdown1.delegate = self
     stack.addArrangedSubview(priceBreakdown1)

@@ -174,7 +174,7 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 
 The checkout widget displays the consumer's payment schedule, and can be updated as the order total changes. It should be shown if the order value is going to change after the Afterpay Express checkout has finished. For example, the order total may change in response to shipping costs and promo codes. It can also be used to show if there are any barriers to completing the purchase, like if the customer has gone over their Afterpay payment limit.
 
-It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode'). 
+It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode').
 
 ```swift
 // With token:
@@ -240,7 +240,7 @@ The Afterpay badge is a simple `UIView` that can be scaled to suit the needs of 
 let badgeView = BadgeView()
 ```
 
-Below are examples of the badge in each of the color schemes:  
+Below are examples of the badge in each of the color schemes:
 ![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
 
 ### Payment Button
@@ -250,7 +250,7 @@ The Afterpay `PaymentButton` is a subclass of `UIButton` that can be scaled to s
 Below are examples of the button in each of the color schemes:
 | Mint and Black | Black and White |
 | -- | -- |
-| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] | 
+| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] |
 | ![Mint on Black button][button-mint-on-black] | ![Black on White button][button-black-on-white] |
 
 There are also a few other kinds of payment available, with different wording:
@@ -296,10 +296,24 @@ A total payment amount (represented as a Swift Decimal) must be programatically 
 let totalAmount = Decimal(string: price) ?? .zero
 
 let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.introText = AfterpayIntroText.payInTitle
 priceBreakdownView.totalAmount = totalAmount
 ```
 
 After setting the total amount the matching breakdown string for the set Afterpay configuration will be displayed.
+
+### Intro Text
+Setting `introText` is optional, will default to `or` and must be of type `AfterpayIntroText`.
+
+Can be any of `or`, `orTitle`, `pay`, `payTitle`, `make`, `makeTitle`, `payIn`, `payInTitle`, `in`, `inTitle` or `NONE` (no intro text).
+Intro text will be rendered lowercase unless using an option suffixed with `Title` in which case title case will be rendered.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.introText = AfterpayIntroText.makeTitle
+```
+
+Given the above, the price breakdown text will be rendered `Make 4 interest-free payments of $##.##`
 
 ### Examples
 
@@ -434,7 +448,7 @@ You may also choose to send the desired locale and/or environment data back from
 
 The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers have not been provided at this time for v2. Please raise an issue if you would like to see them implemented.
 
-> **NOTE:** 
+> **NOTE:**
 > Two requirements must be met in order to use checkout v2 successfully:
 > - Configuration must always be set before presentation otherwise you will incur an assertionFailure.
 > - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. The SDK’s example merchant server sets the parameter [here](https://github.com/afterpay/sdk-example-server/blob/master/src/routes/checkout.ts#L28). See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
@@ -554,7 +568,7 @@ WidgetView.init(amount:)
 
 ### Widget Options
 
-The widget has appearance options. You can provide these when you initialise the `WidgetView`. 
+The widget has appearance options. You can provide these when you initialise the `WidgetView`.
 
 Both initialisers take an optional second parameter: a `WidgetView.Style`. The style type contains the appearance options for the widget. At the moment, the only options for `Style` are booleans for the `logo` and the `header`. By default, they are `true`.
 
@@ -576,7 +590,7 @@ widgetView.layer.borderColor = UIColor.someOtherColor
 
 ### Updating the Widget
 
-The order total will change due to circumstances like promo codes, shipping options, _et cetera_. When the it has changed, you should inform the widget so that it can update what it is displaying. 
+The order total will change due to circumstances like promo codes, shipping options, _et cetera_. When the it has changed, you should inform the widget so that it can update what it is displaying.
 
 You may send updates to the widget via its `sendUpdate(amount:)` function. The `amount` parameter is the total amount of the order. It must be in the same currency that was sent to `Afterpay.setConfiguration`.  The configuration object *must* be set before calling this method, or it will throw.
 
@@ -591,12 +605,12 @@ You can also enquire about the current status of the widget. This is an asynchro
 (If you wish to be informed when the status has changed, consider setting a `WidgetHandler`)
 
 ```swift
-widgetView.getStatus { result in 
+widgetView.getStatus { result in
   // handle result
 }
 ```
 
-The `result` returned, if successful, is a `WidgetStatus`. This tells you if the widget is either in a valid or invalid state. `WidgetStatus` is an enum with two cases: `valid` and `invalid`. Each case has associated values appropriate for their circumstances. 
+The `result` returned, if successful, is a `WidgetStatus`. This tells you if the widget is either in a valid or invalid state. `WidgetStatus` is an enum with two cases: `valid` and `invalid`. Each case has associated values appropriate for their circumstances.
 
 `valid` has the amount of money due today and the payment schedule checksum. The checksum is a unique value representing the payment schedule that must be provided when capturing the order. `invalid` has the error code and error message. The error code and message are optional.
 
@@ -614,7 +628,7 @@ final class ExampleWidgetHandler: WidgetHandler {
   }
 
   func onChanged(status: WidgetStatus) {
-    // The widget has had an update. 
+    // The widget has had an update.
   }
 
   func onError(errorCode: String?, message: String?) {
@@ -633,7 +647,7 @@ final class MyViewController: UIViewController {
 
   init() {
     // ... snip ...
-  
+
     // Do this some time before displaying the widget. Doesn't have to be in init()
     Afterpay.setWidgetHandler(widgetHandler)
   }
