@@ -21,7 +21,7 @@ enum Strings {
 
   static let availableBetweenFormat = "available for orders between %@ - %@"
   static let availableUpToFormat = "available for orders up to %@"
-  static let fourPaymentsFormat = "%@4 interest-free payments of %@ with"
+  static let fourPaymentsFormat = "%@ 4 interest-free payments of %@ with"
 
   // MARK: - Accessible Strings
 

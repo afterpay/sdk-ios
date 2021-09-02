@@ -305,7 +305,7 @@ After setting the total amount the matching breakdown string for the set Afterpa
 ### Intro Text
 Setting `introText` is optional, will default to `or` and must be of type `AfterpayIntroText`.
 
-Can be any of `or`, `orTitle`, `pay`, `payTitle`, `make`, `makeTitle`, `payIn`, `payInTitle`, `in`, `inTitle` or `NONE` (no intro text).
+Can be any of `or`, `orTitle`, `pay`, `payTitle`, `make`, `makeTitle`, `payIn`, `payInTitle`, `in`, `inTitle` or `empty` (no intro text).
 Intro text will be rendered lowercase unless using an option suffixed with `Title` in which case title case will be rendered.
 
 ```swift
