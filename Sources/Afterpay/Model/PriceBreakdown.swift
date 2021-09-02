@@ -38,7 +38,8 @@ struct PriceBreakdown {
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end
-      string = String(format: Strings.fourPaymentsFormat, introText.rawValue, formattedPayment).trimmingCharacters(in: .whitespaces)
+      string = String(format: Strings.fourPaymentsFormat, introText.rawValue, formattedPayment)
+        .trimmingCharacters(in: .whitespaces)
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
       string = String(format: Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
