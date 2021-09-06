@@ -36,6 +36,12 @@ public final class PriceBreakdownView: UIView {
     }
   }
 
+  public var introText: AfterpayIntroText = AfterpayIntroText.or {
+    didSet {
+      updateAttributedText()
+    }
+  }
+
   public var textColor: UIColor = {
     if #available(iOS 13.0, *) {
       return .label
@@ -153,7 +159,7 @@ public final class PriceBreakdownView: UIView {
 
     let space = NSAttributedString(string: " ", attributes: textAttributes)
 
-    let priceBreakdown = PriceBreakdown(totalAmount: totalAmount)
+    let priceBreakdown = PriceBreakdown(totalAmount: totalAmount, introText: introText)
     let breakdown = NSAttributedString(string: priceBreakdown.string, attributes: textAttributes)
 
     let badgePlacement = priceBreakdown.badgePlacement

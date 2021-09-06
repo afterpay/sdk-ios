@@ -18,7 +18,10 @@ struct PriceBreakdown {
   let string: String
   let badgePlacement: BadgePlacement
 
-  init(totalAmount: Decimal) {
+  init(
+    totalAmount: Decimal,
+    introText: AfterpayIntroText = AfterpayIntroText.or
+  ) {
     let configuration = getConfiguration()
     let formatter = configuration
       .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode) }
@@ -35,7 +38,8 @@ struct PriceBreakdown {
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end
-      string = String(format: Strings.fourPaymentsFormat, formattedPayment)
+      string = String(format: Strings.fourPaymentsFormat, introText.rawValue, formattedPayment)
+        .trimmingCharacters(in: .whitespaces)
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
       string = String(format: Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)

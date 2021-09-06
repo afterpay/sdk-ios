@@ -14,6 +14,7 @@
 		157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E88D025CBCA49007E54C4 /* Result+Fold.swift */; };
 		15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
+		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
 		550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D48142625539900C0B0C6 /* WidgetStatusTests.swift */; };
 		550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */; };
 		5519DFAC261D38A8000628FF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5519DFAB261D38A8000628FF /* README.md */; };
@@ -80,6 +81,7 @@
 		15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Afterpay.swift"; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		15FAC56625DCCEDF00DE7792 /* Afterpay.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.podspec; sourceTree = "<group>"; };
+		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
 		550D48142625539900C0B0C6 /* WidgetStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStatusTests.swift; sourceTree = "<group>"; };
 		550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEventTests.swift; sourceTree = "<group>"; };
 		5519DFAB261D38A8000628FF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				6615F99A24D14620005036F1 /* SVG.swift */,
 				557511C226489F090040CC51 /* SVG+Source.swift */,
 				6672982925357D80001D1C5A /* SVGConfiguration.swift */,
+				42DA4F9726E0740500204E75 /* IntroText.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				66D685B224BD3FB900C7287C /* SwiftUIWrapper.swift in Sources */,
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 				55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */,
+				42DA4F9826E0740500204E75 /* IntroText.swift in Sources */,
 				157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */,
 				55A2D307261BB36C00D8E23A /* Money.swift in Sources */,
 				661D4323257DF1CB00ACCDE1 /* ShippingOption.swift in Sources */,
