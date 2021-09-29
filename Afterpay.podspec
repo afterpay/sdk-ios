@@ -16,4 +16,5 @@ Pod::Spec.new do |spec|
   spec.framework     = "UIKit"
 
   spec.dependency "Macaw", "0.9.7"
+  spec.dependency "SWXMLHash", "5.0.1"
 end
