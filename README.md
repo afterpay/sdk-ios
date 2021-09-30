@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 5
+git checkout 3.0.5
 ```
 
 #### Project / Workspace Integration
