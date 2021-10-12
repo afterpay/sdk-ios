@@ -10,12 +10,12 @@ import Foundation
 
 public struct ShippingOption: Codable {
 
-  var id: String
-  var name: String
-  var description: String
-  var shippingAmount: Money
-  var orderAmount: Money
-  var taxAmount: Money?
+  public var id: String
+  public var name: String
+  public var description: String
+  public var shippingAmount: Money
+  public var orderAmount: Money
+  public var taxAmount: Money?
 
   public init(
     id: String,
