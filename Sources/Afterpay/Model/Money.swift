@@ -10,8 +10,8 @@ import Foundation
 
 public struct Money: Codable, Equatable {
 
-  var amount: String
-  var currency: String
+  public var amount: String
+  public var currency: String
 
   public init(amount: String, currency: String) {
     self.amount = amount
