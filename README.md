@@ -512,7 +512,7 @@ final class CheckoutHandler: CheckoutV2Handler {
     // Load the token passing the result to completion
   }
 
-  func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion) {
+  func shippingAddressDidChange(address: ShippingAddress, completion: @escaping ShippingOptionsCompletion) {
     // Use the address to form a shipping options result and pass to completion
   }
 
