@@ -17,6 +17,7 @@ struct CheckoutV2: Encodable {
   var pickup: Bool?
   var buyNow: Bool?
   var shippingOptionRequired: Bool?
+  var checkoutRedesignForced: Bool?
 
   init(token: Token, configuration: Configuration, options: CheckoutV2Options) {
     self.token = token
@@ -26,5 +27,6 @@ struct CheckoutV2: Encodable {
     self.pickup = options.pickup
     self.buyNow = options.buyNow
     self.shippingOptionRequired = options.shippingOptionRequired
+    self.checkoutRedesignForced = options.checkoutRedesignForced
   }
 }

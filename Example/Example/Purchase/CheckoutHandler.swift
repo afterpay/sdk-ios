@@ -10,19 +10,22 @@ import Afterpay
 import Foundation
 
 final class CheckoutHandler: CheckoutV2Handler {
-
   private let didCommenceCheckoutClosure: () -> Void
   private let onShippingAddressDidChangeClosure: (ShippingAddress) -> Void
+  private let onShippingOptionClosure: (ShippingOption) -> Void
 
   private var checkoutTokenResultCompletion: TokenResultCompletion?
   private var shippingOptionsCompletion: ShippingOptionsCompletion?
+  private var shippingOptionCompletion: ShippingOptionCompletion?
 
   init(
     didCommenceCheckout: @escaping () -> Void,
-    onShippingAddressDidChange: @escaping (ShippingAddress) -> Void
+    onShippingAddressDidChange: @escaping (ShippingAddress) -> Void,
+    onShippingOptionChange: @escaping (ShippingOption) -> Void
   ) {
     didCommenceCheckoutClosure = didCommenceCheckout
     onShippingAddressDidChangeClosure = onShippingAddressDidChange
+    onShippingOptionClosure = onShippingOptionChange
   }
 
   func didCommenceCheckout(completion: @escaping TokenResultCompletion) {
@@ -48,6 +51,14 @@ final class CheckoutHandler: CheckoutV2Handler {
     shippingOptionsCompletion = nil
   }
 
-  func shippingOptionDidChange(shippingOption: ShippingOption) {}
+  func shippingOptionDidChange(shippingOption: ShippingOption, completion: @escaping ShippingOptionCompletion) {
+    shippingOptionCompletion = completion
+    onShippingOptionClosure(shippingOption)
+  }
+
+  func provideShippingOptionResult(result shippingOptionResult: ShippingOptionUpdateResult) {
+    shippingOptionCompletion?(shippingOptionResult)
+    shippingOptionCompletion = nil
+  }
 
 }
