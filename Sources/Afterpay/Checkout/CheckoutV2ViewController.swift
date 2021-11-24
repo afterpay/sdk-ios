@@ -28,7 +28,7 @@ final class CheckoutV2ViewController:
 
   private let didCommenceCheckoutClosure: DidCommenceCheckoutClosure?
   private let shippingAddressDidChangeClosure: ShippingAddressDidChangeClosure?
-  private let shippingOptionDidChangeClosure: ShippingOptionsDidChangeClosure?
+  private let shippingOptionDidChangeClosure: ShippingOptionDidChangeClosure?
   private let completion: (_ result: CheckoutResult) -> Void
 
   private var didCommenceCheckout: DidCommenceCheckoutClosure? {
@@ -39,7 +39,7 @@ final class CheckoutV2ViewController:
     shippingAddressDidChangeClosure ?? getCheckoutV2Handler()?.shippingAddressDidChange
   }
 
-  private var shippingOptionDidChange: ShippingOptionsDidChangeClosure? {
+  private var shippingOptionDidChange: ShippingOptionDidChangeClosure? {
     shippingOptionDidChangeClosure ?? getCheckoutV2Handler()?.shippingOptionDidChange
   }
 
@@ -60,7 +60,7 @@ final class CheckoutV2ViewController:
     options: CheckoutV2Options,
     didCommenceCheckout: DidCommenceCheckoutClosure?,
     shippingAddressDidChange: ShippingAddressDidChangeClosure?,
-    shippingOptionDidChange: ShippingOptionsDidChangeClosure?,
+    shippingOptionDidChange: ShippingOptionDidChangeClosure?,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.configuration = configuration

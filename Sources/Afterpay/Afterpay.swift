@@ -123,7 +123,7 @@ public typealias ShippingAddressDidChangeClosure = (
   _ completion: @escaping ShippingOptionsCompletion
 ) -> Void
 
-public typealias ShippingOptionsDidChangeClosure = (
+public typealias ShippingOptionDidChangeClosure = (
   _ shippingOption: ShippingOption,
   _ complete: @escaping ShippingOptionCompletion
 ) -> Void
@@ -153,7 +153,7 @@ public func presentCheckoutV2Modally(
   options: CheckoutV2Options = .init(),
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
   shippingAddressDidChange: ShippingAddressDidChangeClosure? = nil,
-  shippingOptionDidChange: ShippingOptionsDidChangeClosure? = nil,
+  shippingOptionDidChange: ShippingOptionDidChangeClosure? = nil,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
