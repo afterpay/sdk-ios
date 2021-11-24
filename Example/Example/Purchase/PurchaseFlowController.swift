@@ -38,7 +38,7 @@ final class PurchaseFlowController: UIViewController {
     checkoutHandler = CheckoutHandler(
       didCommenceCheckout: logicController.loadCheckoutToken,
       onShippingAddressDidChange: logicController.selectAddress,
-      onShippingOptionChange: logicController.selectShipping
+      onShippingOptionDidChange: logicController.selectShipping
     )
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
