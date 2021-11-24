@@ -108,7 +108,7 @@ public typealias DidCommenceCheckoutClosure = (
 
 public typealias ShippingOptionsResult = Result<[ShippingOption], ShippingOptionsError>
 
-public typealias ShippingOptionUpdateResult = Result<ShippingOptionUpdate, ShippingOptionsError>
+public typealias ShippingOptionUpdateResult = Result<ShippingOptionUpdate, ShippingOptionsError>?
 
 public typealias ShippingOptionsCompletion = (
   _ shippingOptionsResult: ShippingOptionsResult

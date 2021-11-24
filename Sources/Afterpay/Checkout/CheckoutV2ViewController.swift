@@ -329,11 +329,12 @@ final class CheckoutV2ViewController:
       case .shippingOption(let shippingOption):
         shippingOptionDidChange?(shippingOption) { updatedShippingOption in
           let requestId = message.requestId
-          let responseMessage = updatedShippingOption.fold(
+
+          let responseMessage = updatedShippingOption?.fold(
             successTransform: { Message(requestId: requestId, payload: .shippingOptionUpdate($0)) },
             errorTransform: { Message(requestId: requestId, payload: .errorMessage($0.rawValue)) }
           )
-          postMessage(responseMessage)
+          postMessage(responseMessage ?? Message(requestId: requestId, payload: nil))
         }
       case .shippingOptions:
         break
