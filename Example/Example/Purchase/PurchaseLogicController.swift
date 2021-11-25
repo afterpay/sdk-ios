@@ -165,8 +165,7 @@ final class PurchaseLogicController {
   }
 
   func selectShipping(shippingOption: ShippingOption) {
-    switch shippingOption.id {
-    case "standard":
+    if shippingOption.id == "standard" {
       let updatedShippingOption = ShippingOptionUpdate(
         id: shippingOption.id,
         shippingAmount: Money(amount: "0.00", currency: currencyCode),
@@ -176,7 +175,7 @@ final class PurchaseLogicController {
 
       let result: ShippingOptionUpdateResult = .success(updatedShippingOption)
       commandHandler(.provideShippingOptionResult(result))
-    default:
+    } else {
       commandHandler(.provideShippingOptionResult(nil))
     }
   }
