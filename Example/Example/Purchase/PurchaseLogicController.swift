@@ -20,6 +20,7 @@ final class PurchaseLogicController {
     case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
+    case provideShippingOptionResult(ShippingOptionUpdateResult)
 
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
@@ -49,7 +50,8 @@ final class PurchaseLogicController {
   private var checkoutV2Options = CheckoutV2Options(
     pickup: false,
     buyNow: false,
-    shippingOptionRequired: true
+    shippingOptionRequired: true,
+    enableSingleShippingOptionUpdate: true
   )
 
   private var expressCheckout: Bool = true
@@ -145,19 +147,37 @@ final class PurchaseLogicController {
         name: "Standard",
         description: "3 - 5 days",
         shippingAmount: Money(amount: "0.00", currency: currencyCode),
-        orderAmount: Money(amount: "50.00", currency: currencyCode)
+        orderAmount: Money(amount: "50.00", currency: currencyCode),
+        taxAmount: Money(amount: "2.00", currency: currencyCode)
       ),
       ShippingOption(
         id: "priority",
         name: "Priority",
         description: "Next business day",
         shippingAmount: Money(amount: "10.00", currency: currencyCode),
-        orderAmount: Money(amount: "60.00", currency: currencyCode)
+        orderAmount: Money(amount: "60.00", currency: currencyCode),
+        taxAmount: Money(amount: "2.00", currency: currencyCode)
       ),
     ]
 
     let result: ShippingOptionsResult = .success(shippingOptions)
     commandHandler(.provideShippingOptionsResult(result))
+  }
+
+  func selectShipping(shippingOption: ShippingOption) {
+    if shippingOption.id == "standard" {
+      let updatedShippingOption = ShippingOptionUpdate(
+        id: shippingOption.id,
+        shippingAmount: Money(amount: "0.00", currency: currencyCode),
+        orderAmount: Money(amount: "42.00", currency: currencyCode),
+        taxAmount: Money(amount: "8.00", currency: currencyCode)
+      )
+
+      let result: ShippingOptionUpdateResult = .success(updatedShippingOption)
+      commandHandler(.provideShippingOptionResult(result))
+    } else {
+      commandHandler(.provideShippingOptionResult(nil))
+    }
   }
 
   func success(with token: String) {

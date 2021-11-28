@@ -490,7 +490,7 @@ Afterpay.presentCheckoutV2Modally(
   shippingAddressDidChange: { address, completion in
     // Use the address to form a shipping options result and pass to completion
   },
-  shippingOptionDidChange: { shippingOption in
+  shippingOptionDidChange: { shippingOption, completion in
     // Optionally update your application model with the selected shipping option
   },
   completion: { result in
@@ -516,7 +516,7 @@ final class CheckoutHandler: CheckoutV2Handler {
     // Use the address to form a shipping options result and pass to completion
   }
 
-  func shippingOptionDidChange(shippingOption: ShippingOption) {
+  func shippingOptionDidChange(shippingOption: ShippingOption, completion: @escaping ShippingOptionCompletion) {
     // Optionally update your application model with the selected shipping option
   }
 }

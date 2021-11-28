@@ -37,7 +37,8 @@ final class PurchaseFlowController: UIViewController {
 
     checkoutHandler = CheckoutHandler(
       didCommenceCheckout: logicController.loadCheckoutToken,
-      onShippingAddressDidChange: logicController.selectAddress
+      onShippingAddressDidChange: logicController.selectAddress,
+      onShippingOptionDidChange: logicController.selectShipping
     )
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
@@ -116,6 +117,9 @@ final class PurchaseFlowController: UIViewController {
 
     case .provideShippingOptionsResult(let shippingOptionsResult):
       checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)
+
+    case .provideShippingOptionResult(let shippingOptionResult):
+      checkoutHandler.provideShippingOptionResult(result: shippingOptionResult)
 
     case .showAlertForErrorMessage(let errorMessage):
       let alert = AlertFactory.alert(for: errorMessage)

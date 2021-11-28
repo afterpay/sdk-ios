@@ -62,10 +62,20 @@ public struct CheckoutV2Options: Equatable {
   /// the user from selecting shipping options within checkout.
   public var shippingOptionRequired: Bool?
 
-  public init(pickup: Bool? = nil, buyNow: Bool? = nil, shippingOptionRequired: Bool? = nil) {
+  /// Setting `checkoutRedesignForced` to `true` when working with an express order will
+  /// force the redesigned checkout
+  internal var checkoutRedesignForced: Bool?
+
+  public init(
+    pickup: Bool? = nil,
+    buyNow: Bool? = nil,
+    shippingOptionRequired: Bool? = nil,
+    enableSingleShippingOptionUpdate: Bool? = nil
+  ) {
     self.pickup = pickup
     self.buyNow = buyNow
     self.shippingOptionRequired = shippingOptionRequired
+    self.checkoutRedesignForced = enableSingleShippingOptionUpdate
   }
 }
 
@@ -98,8 +108,14 @@ public typealias DidCommenceCheckoutClosure = (
 
 public typealias ShippingOptionsResult = Result<[ShippingOption], ShippingOptionsError>
 
+public typealias ShippingOptionUpdateResult = Result<ShippingOptionUpdate, ShippingOptionsError>?
+
 public typealias ShippingOptionsCompletion = (
   _ shippingOptionsResult: ShippingOptionsResult
+) -> Void
+
+public typealias ShippingOptionCompletion = (
+  _ shippingOptionsResult: ShippingOptionUpdateResult
 ) -> Void
 
 public typealias ShippingAddressDidChangeClosure = (
@@ -107,7 +123,10 @@ public typealias ShippingAddressDidChangeClosure = (
   _ completion: @escaping ShippingOptionsCompletion
 ) -> Void
 
-public typealias ShippingOptionsDidChangeClosure = (_ shippingOption: ShippingOption) -> Void
+public typealias ShippingOptionDidChangeClosure = (
+  _ shippingOption: ShippingOption,
+  _ complete: @escaping ShippingOptionCompletion
+) -> Void
 
 /// Present Afterpay Checkout modally over the specified view controller. This method calls the
 /// passed closures to facilitate loading the checkoutURL on demand falling back to the
@@ -134,7 +153,7 @@ public func presentCheckoutV2Modally(
   options: CheckoutV2Options = .init(),
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
   shippingAddressDidChange: ShippingAddressDidChangeClosure? = nil,
-  shippingOptionDidChange: ShippingOptionsDidChangeClosure? = nil,
+  shippingOptionDidChange: ShippingOptionDidChangeClosure? = nil,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
@@ -190,7 +209,7 @@ public protocol CheckoutV2Handler: AnyObject {
   /// Called after the user selects one of the shipping options provided by the `completion` of
   /// `shippingAddressDidChange`.
   /// - Parameter shippingOption: The selected shipping option.
-  func shippingOptionDidChange(shippingOption: ShippingOption)
+  func shippingOptionDidChange(shippingOption: ShippingOption, completion: @escaping ShippingOptionCompletion)
 }
 
 private weak var checkoutV2Handler: CheckoutV2Handler?

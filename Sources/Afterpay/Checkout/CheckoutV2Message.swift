@@ -17,6 +17,7 @@ struct CheckoutV2Message: Codable {
     case address(ShippingAddress)
     case errorMessage(String)
     case shippingOption(ShippingOption)
+    case shippingOptionUpdate(ShippingOptionUpdate)
     case shippingOptions([ShippingOption])
   }
 
@@ -76,6 +77,10 @@ struct CheckoutV2Message: Codable {
     switch payload {
     case .shippingOptions(let shippingOptions):
       try container.encode(shippingOptions, forKey: .payload)
+    case .shippingOption(let shippingOption):
+      try container.encode(shippingOption, forKey: .payload)
+    case .shippingOptionUpdate(let shippingOptionUpdate):
+      try container.encode(shippingOptionUpdate, forKey: .payload)
     case .errorMessage(let errorMessage):
       // This is asymmetric with decode, errors are encoded as their own key/value pair when sent
       // not as the payload
