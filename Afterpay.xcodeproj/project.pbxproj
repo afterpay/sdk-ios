@@ -15,6 +15,7 @@
 		15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
 		42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42927C38274209B600B26435 /* ShippingOptionUpdate.swift */; };
+		42D10C9F2761B1190028D6D9 /* OptionalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D10C9E2761B1190028D6D9 /* OptionalText.swift */; };
 		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
 		550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D48142625539900C0B0C6 /* WidgetStatusTests.swift */; };
 		550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */; };
@@ -83,6 +84,7 @@
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		15FAC56625DCCEDF00DE7792 /* Afterpay.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.podspec; sourceTree = "<group>"; };
 		42927C38274209B600B26435 /* ShippingOptionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingOptionUpdate.swift; sourceTree = "<group>"; };
+		42D10C9E2761B1190028D6D9 /* OptionalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalText.swift; sourceTree = "<group>"; };
 		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
 		550D48142625539900C0B0C6 /* WidgetStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStatusTests.swift; sourceTree = "<group>"; };
 		550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEventTests.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 				557511C226489F090040CC51 /* SVG+Source.swift */,
 				6672982925357D80001D1C5A /* SVGConfiguration.swift */,
 				42DA4F9726E0740500204E75 /* IntroText.swift */,
+				42D10C9E2761B1190028D6D9 /* OptionalText.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
 				15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */,
 				551BEDEB25F983E200FDF9EE /* Features.swift in Sources */,
+				42D10C9F2761B1190028D6D9 /* OptionalText.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,
 				151A4FEB258C1F8A0046CEEE /* StaticContent.swift in Sources */,
 				66EE378724D39FC50029BF42 /* BadgeView.swift in Sources */,

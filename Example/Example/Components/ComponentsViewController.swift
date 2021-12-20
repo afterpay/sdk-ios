@@ -164,9 +164,16 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     stack.addArrangedSubview(priceBreakdown1)
 
     let priceBreakdown2 = PriceBreakdownView()
-    priceBreakdown2.totalAmount = 3000
+    priceBreakdown2.totalAmount = 100
     priceBreakdown2.delegate = self
+    priceBreakdown2.showWithText = false
+    priceBreakdown2.showInterestFreeText = false
     stack.addArrangedSubview(priceBreakdown2)
+
+    let priceBreakdown3 = PriceBreakdownView()
+    priceBreakdown3.totalAmount = 3000
+    priceBreakdown3.delegate = self
+    stack.addArrangedSubview(priceBreakdown3)
 
     let stackConstraints = [
       stack.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),

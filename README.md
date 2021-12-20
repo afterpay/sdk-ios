@@ -313,7 +313,21 @@ let priceBreakdownView = PriceBreakdownView()
 priceBreakdownView.introText = AfterpayIntroText.makeTitle
 ```
 
-Given the above, the price breakdown text will be rendered `Make 4 interest-free payments of $##.##`
+Given the above, the price breakdown text will be rendered `Make 4 interest-free payments of $##.## with`
+
+### Optional Text
+Setting `showInterestFreeText` and / or `showWithText` is optional and is of type `Bool`.
+
+Both default to `true`. This will show the text `pay in 4 interest-free payments of $#.## with`.
+Setting `showInterestFreeText` to `false` will remove "interest-free" from the sentence.
+Setting `showWithText` to `false` will remove the word "with" from the sentence.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.showInterestFreeText = false
+```
+
+Given the above, the price breakdown text will be rendered `or 4 payments of $##.## with`
 
 ### Examples
 
