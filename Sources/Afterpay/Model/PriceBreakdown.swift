@@ -38,27 +38,27 @@ struct PriceBreakdown {
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    let template: AfterpayOptionalText
-    if showInterestFreeText && showWithText {
-      template = .interestFreeAndWith
-    } else if showInterestFreeText {
-      template = .interestFree
-    } else if showWithText {
-      template = .with
-    } else {
-      template = .none
-    }
+    let interestFreeText = showInterestFreeText ?
+      NSLocalizedString("interest-free ", comment: "Interest-free words for price breakdown") : ""
+    let withText = showWithText ?
+      NSLocalizedString("with", comment: "With word (suffix) in pricebreakdown") : ""
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end
-      string = String(format: template.stringValue, introText.rawValue, formattedPayment)
-        .trimmingCharacters(in: .whitespaces)
+
+      string = String.localizedStringWithFormat(
+        Strings.availableTemplate,
+        introText.rawValue,
+        interestFreeText,
+        formattedPayment,
+        withText
+      ).trimmingCharacters(in: .whitespaces)
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
-      string = String(format: Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
+      string = String.localizedStringWithFormat(Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
     } else if let formattedMaximum = formattedMaximum {
       badgePlacement = .start
-      string = String(format: Strings.availableUpToFormat, formattedMaximum)
+      string = String.localizedStringWithFormat(Strings.availableBetweenFormat, "$1.00", formattedMaximum)
     } else {
       badgePlacement = .end
       string = Strings.orPayWith

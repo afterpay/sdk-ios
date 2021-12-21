@@ -14,17 +14,20 @@ enum Strings {
 
   // MARK: - Static Strings
 
-  static let info = "Info"
-  static let orPayWith = "or pay with"
+  static let info = NSLocalizedString("Info", comment: "Modal link text")
+  static let orPayWith = NSLocalizedString("or pay with", comment: "Price breakdown message when no config set")
 
   // MARK: - String Formats
 
-  static let availableBetweenFormat = "available for orders between %@ - %@"
-  static let availableUpToFormat = "available for orders up to %@"
-  static let fourPaymentsFormatNoOptional = "%@ 4 payments of %@"
-  static let fourPaymentsFormatWith = "%@ 4 payments of %@ with"
-  static let fourPaymentsFormatInterest = "%@ 4 interest-free payments of %@"
-  static let fourPaymentsFormatInterestAndWith = "%@ 4 interest-free payments of %@ with"
+  static let availableBetweenFormat = NSLocalizedString(
+    "available for orders between %@ - %@",
+    comment: "Price breakdown when value is outside limits"
+  )
+
+  static let availableTemplate = NSLocalizedString(
+    "%1$@ 4 %2$@payments of %3$@ %4$@",
+    comment: "Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix)"
+  )
 
   // MARK: - Accessible Strings
 
