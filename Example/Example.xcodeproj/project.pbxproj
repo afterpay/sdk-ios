@@ -11,10 +11,12 @@
 		1535ACB725DBA8AD00727818 /* CheckoutHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1535ACB625DBA8AD00727818 /* CheckoutHandler.swift */; };
 		155AD17124AB2464000013B4 /* PurchaseFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155AD17024AB2464000013B4 /* PurchaseFlowController.swift */; };
 		157C65AD25D0F19900115149 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C65AC25D0F19900115149 /* Result+Fold.swift */; };
+		42C9DE6C2771946500DD3C18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42C9DE6A2771946500DD3C18 /* InfoPlist.strings */; };
+		42C9DE6F2771946500DD3C18 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42C9DE6D2771946500DD3C18 /* Localizable.strings */; };
 		5539D82C25EDE97E0088BC97 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5539D82B25EDE97E0088BC97 /* ControlCell.swift */; };
 		5539D83025F068F90088BC97 /* CheckoutOptionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5539D82F25F068F90088BC97 /* CheckoutOptionsCell.swift */; };
-		55719BA926363ED800634B27 /* SwiftUIWidgetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55719BA826363ED800634B27 /* SwiftUIWidgetExample.swift */; };
 		55432838263B7EC2005512E4 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55432837263B7EC2005512E4 /* ExampleUITests.swift */; };
+		55719BA926363ED800634B27 /* SwiftUIWidgetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55719BA826363ED800634B27 /* SwiftUIWidgetExample.swift */; };
 		55FA7270260025DC0006EFCB /* WidgetHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FA726F260025DC0006EFCB /* WidgetHandler.swift */; };
 		660072B724A1B55E00E9A2BC /* TextSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660072B624A1B55E00E9A2BC /* TextSettingCell.swift */; };
 		6620B5D224934FB3004162BC /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620B5D124934FB3004162BC /* AppFlowController.swift */; };
@@ -84,12 +86,15 @@
 		1535ACB625DBA8AD00727818 /* CheckoutHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutHandler.swift; sourceTree = "<group>"; };
 		155AD17024AB2464000013B4 /* PurchaseFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseFlowController.swift; sourceTree = "<group>"; };
 		157C65AC25D0F19900115149 /* Result+Fold.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Fold.swift"; sourceTree = "<group>"; };
+		42C9DE69277193B900DD3C18 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		42C9DE6B2771946500DD3C18 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		42C9DE6E2771946500DD3C18 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5539D82B25EDE97E0088BC97 /* ControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		5539D82F25F068F90088BC97 /* CheckoutOptionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOptionsCell.swift; sourceTree = "<group>"; };
 		55432835263B7EC2005512E4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		55719BA826363ED800634B27 /* SwiftUIWidgetExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWidgetExample.swift; sourceTree = "<group>"; };
 		55432837263B7EC2005512E4 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		55432839263B7EC2005512E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55719BA826363ED800634B27 /* SwiftUIWidgetExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWidgetExample.swift; sourceTree = "<group>"; };
 		55FA726F260025DC0006EFCB /* WidgetHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetHandler.swift; sourceTree = "<group>"; };
 		660072B624A1B55E00E9A2BC /* TextSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSettingCell.swift; sourceTree = "<group>"; };
 		6620B5D124934FB3004162BC /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
@@ -233,6 +238,8 @@
 				668F162724877F980040345C /* Assets.xcassets */,
 				668F162C24877F980040345C /* LaunchScreen.storyboard */,
 				668F162F24877F980040345C /* Info.plist */,
+				42C9DE6D2771946500DD3C18 /* Localizable.strings */,
+				42C9DE6A2771946500DD3C18 /* InfoPlist.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -385,6 +392,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"fr-CA",
 			);
 			mainGroup = 668F161524877F950040345C;
 			packageReferences = (
@@ -412,7 +420,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42C9DE6F2771946500DD3C18 /* Localizable.strings in Resources */,
 				668F162E24877F980040345C /* LaunchScreen.storyboard in Resources */,
+				42C9DE6C2771946500DD3C18 /* InfoPlist.strings in Resources */,
 				668F162B24877F980040345C /* Preview Assets.xcassets in Resources */,
 				668F162824877F980040345C /* Assets.xcassets in Resources */,
 			);
@@ -523,10 +533,27 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		42C9DE6A2771946500DD3C18 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42C9DE6B2771946500DD3C18 /* fr-CA */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		42C9DE6D2771946500DD3C18 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42C9DE6E2771946500DD3C18 /* fr-CA */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		668F162C24877F980040345C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				668F162D24877F980040345C /* Base */,
+				42C9DE69277193B900DD3C18 /* fr-CA */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -576,6 +603,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -637,6 +665,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
