@@ -1,11 +1,41 @@
 /* Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix) */
 "AVAILABLE_TEMPLATE" = "%1$@ 4 pagos %2$@de %3$@ %4$@";
 
+/* Intro text for breakdown placement: 'in' */
+"IN" = "en";
+
+/* Intro text for breakdown placement: 'In' */
+"IN_TITLE" = "En";
+
 /* Interest-free words for price breakdown */
 "INTEREST_FREE" = "sin coste ";
 
+/* Intro text for breakdown placement: 'make' */
+"MAKE" = "haga";
+
+/* Intro text for breakdown placement: 'Make' */
+"MAKE_TITLE" = "Haga";
+
+/* Intro text for breakdown placement: 'or' */
+"OR" = "o";
+
+/* Intro text for breakdown placement: 'Or' */
+"OR_TITLE" = "O";
+
 /* Price breakdown when value is outside limits */
-"OUTSIDE_LIMITS" = "disponible para importes entre %1$s – %2$s";
+"OUTSIDE_LIMITS" = "disponible para importes entre %1$@ – %2$@";
+
+/* Intro text for breakdown placement: 'pay' */
+"PAY" = "paga";
+
+/* Intro text for breakdown placement: 'pay in' */
+"PAY_IN" = "paga en";
+
+/* Intro text for breakdown placement: 'Pay in' */
+"PAY_IN_TITLE" = "Paga en";
+
+/* Intro text for breakdown placement: 'Pay' */
+"PAY_TITLE" = "Paga";
 
 /* With word (suffix) in pricebreakdown */
 "WITH" = "con";

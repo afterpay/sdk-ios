@@ -46,7 +46,7 @@ struct PriceBreakdown {
 
       string = String.localizedStringWithFormat(
         Strings.availableTemplate,
-        introText.rawValue,
+        introText.localizedText,
         interestFreeText,
         formattedPayment,
         withText

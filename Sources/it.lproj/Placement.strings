@@ -1,17 +1,47 @@
 /* Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix) */
 "AVAILABLE_TEMPLATE" = "%1$@ 4 rate %2$@da %3$@ %4$@";
 
+/* Intro text for breakdown placement: 'in' */
+"IN" = "in";
+
+/* Intro text for breakdown placement: 'In' */
+"IN_TITLE" = "In";
+
 /* Link in price breakdown message */
 "INFO" = "Informazione";
 
 /* Interest-free words for price breakdown */
 "INTEREST_FREE" = "senza interessi ";
 
+/* Intro text for breakdown placement: 'make' */
+"MAKE" = "scegli";
+
+/* Intro text for breakdown placement: 'Make' */
+"MAKE_TITLE" = "Scegli";
+
+/* Intro text for breakdown placement: 'or' */
+"OR" = "o";
+
 /* Price breakdown message when no config set */
 "OR_PAY_WITH" = "o paga con";
 
+/* Intro text for breakdown placement: 'Or' */
+"OR_TITLE" = "O";
+
 /* Price breakdown when value is outside limits */
-"OUTSIDE_LIMITS" = "disponibile per importi fra %1$s – %2$s";
+"OUTSIDE_LIMITS" = "disponibile per importi fra %1$@ – %2$@";
+
+/* Intro text for breakdown placement: 'pay' */
+"PAY" = "paga";
+
+/* Intro text for breakdown placement: 'pay in' */
+"PAY_IN" = "paga in";
+
+/* Intro text for breakdown placement: 'Pay in' */
+"PAY_IN_TITLE" = "Paga in";
+
+/* Intro text for breakdown placement: 'Pay' */
+"PAY_TITLE" = "Paga";
 
 /* With word (suffix) in pricebreakdown */
 "WITH" = "con";

@@ -36,7 +36,7 @@ enum Strings {
     "OUTSIDE_LIMITS",
     tableName: "Placement",
     bundle: Afterpay.bundle,
-    value: "available for orders between %@ - %@",
+    value: "available for orders between %1$@ – %2$@",
     comment: "Price breakdown when value is outside limits"
   )
 
