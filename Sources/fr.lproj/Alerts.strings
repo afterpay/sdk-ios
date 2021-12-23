@@ -1,0 +1,12 @@
+/* Error dialog response: Cancel */
+"CANCEL_ACTION" = "Annuler";
+
+/* Error dialog title */
+"ERROR_TITLE" = "Erreur";
+
+/* Error dialog for checkout not loaded */
+"FAILED_TO_LOAD_MESAGE" = "Échec du chargement de la page de paiement %@";
+
+/* Error dialog response: Retry */
+"RETRY_ACTION" = "Réessayer";
+

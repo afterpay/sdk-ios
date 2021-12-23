@@ -14,8 +14,9 @@
 		157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E88D025CBCA49007E54C4 /* Result+Fold.swift */; };
 		15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */; };
 		15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */; };
-		426BC842277170D400442F66 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 426BC840277170D400442F66 /* Localizable.strings */; };
 		42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42927C38274209B600B26435 /* ShippingOptionUpdate.swift */; };
+		42A91049277525F800D5EF46 /* Placement.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42A91047277525F800D5EF46 /* Placement.strings */; };
+		42A9104C2775261400D5EF46 /* Alerts.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42A9104A2775261400D5EF46 /* Alerts.strings */; };
 		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
 		550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D48142625539900C0B0C6 /* WidgetStatusTests.swift */; };
 		550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */; };
@@ -83,11 +84,14 @@
 		15EC67D125E6217F007DFEA8 /* OSLog+Afterpay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Afterpay.swift"; sourceTree = "<group>"; };
 		15F7DDB625393BD30011EC25 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		15FAC56625DCCEDF00DE7792 /* Afterpay.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.podspec; sourceTree = "<group>"; };
-		426BC841277170D400442F66 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		426BC8432771715F00442F66 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		426BC8442771718300442F66 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		426BC8452771719E00442F66 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		42927C38274209B600B26435 /* ShippingOptionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingOptionUpdate.swift; sourceTree = "<group>"; };
+		42A91048277525F800D5EF46 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Placement.strings; sourceTree = "<group>"; };
+		42A9104B2775261400D5EF46 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Alerts.strings"; sourceTree = "<group>"; };
+		42A9104D2775261400D5EF46 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Placement.strings"; sourceTree = "<group>"; };
+		42A9104E2775263600D5EF46 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Alerts.strings; sourceTree = "<group>"; };
+		42A9104F2775263600D5EF46 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Placement.strings; sourceTree = "<group>"; };
+		42A910502775264900D5EF46 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Alerts.strings; sourceTree = "<group>"; };
+		42A910512775264900D5EF46 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Placement.strings; sourceTree = "<group>"; };
 		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
 		550D48142625539900C0B0C6 /* WidgetStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStatusTests.swift; sourceTree = "<group>"; };
 		550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEventTests.swift; sourceTree = "<group>"; };
@@ -283,7 +287,8 @@
 			isa = PBXGroup;
 			children = (
 				668F160B2487653A0040345C /* Info.plist */,
-				426BC840277170D400442F66 /* Localizable.strings */,
+				42A9104A2775261400D5EF46 /* Alerts.strings */,
+				42A91047277525F800D5EF46 /* Placement.strings */,
 				668F16122487793B0040345C /* Sources */,
 			);
 			name = Afterpay;
@@ -489,7 +494,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5519DFAC261D38A8000628FF /* README.md in Resources */,
-				426BC842277170D400442F66 /* Localizable.strings in Resources */,
+				42A9104C2775261400D5EF46 /* Alerts.strings in Resources */,
+				42A91049277525F800D5EF46 /* Placement.strings in Resources */,
 				556DEBFB2653531F00BFC277 /* mock-widget-bootstrap.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,15 +616,25 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		426BC840277170D400442F66 /* Localizable.strings */ = {
+		42A91047277525F800D5EF46 /* Placement.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				426BC841277170D400442F66 /* es */,
-				426BC8432771715F00442F66 /* it */,
-				426BC8442771718300442F66 /* fr-CA */,
-				426BC8452771719E00442F66 /* fr */,
+				42A91048277525F800D5EF46 /* es */,
+				42A9104D2775261400D5EF46 /* fr-CA */,
+				42A9104F2775263600D5EF46 /* fr */,
+				42A910512775264900D5EF46 /* it */,
 			);
-			name = Localizable.strings;
+			name = Placement.strings;
+			sourceTree = "<group>";
+		};
+		42A9104A2775261400D5EF46 /* Alerts.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42A9104B2775261400D5EF46 /* fr-CA */,
+				42A9104E2775263600D5EF46 /* fr */,
+				42A910502775264900D5EF46 /* it */,
+			);
+			name = Alerts.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

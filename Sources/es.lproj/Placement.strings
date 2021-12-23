@@ -1,0 +1,12 @@
+/* Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix) */
+"AVAILABLE_TEMPLATE" = "%1$@ 4 pagos %2$@de %3$@ %4$@";
+
+/* Interest-free words for price breakdown */
+"INTEREST_FREE" = "sin coste ";
+
+/* Price breakdown when value is outside limits */
+"OUTSIDE_LIMITS" = "disponible para importes entre %1$s – %2$s";
+
+/* With word (suffix) in pricebreakdown */
+"WITH" = "con";
+

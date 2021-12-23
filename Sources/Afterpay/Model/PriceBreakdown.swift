@@ -38,10 +38,8 @@ struct PriceBreakdown {
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    let interestFreeText = showInterestFreeText ?
-      NSLocalizedString("interest-free ", comment: "Interest-free words for price breakdown") : ""
-    let withText = showWithText ?
-      NSLocalizedString("with", comment: "With word (suffix) in pricebreakdown") : ""
+    let interestFreeText = showInterestFreeText ? Strings.interestFree : ""
+    let withText = showWithText ? Strings.with : ""
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end

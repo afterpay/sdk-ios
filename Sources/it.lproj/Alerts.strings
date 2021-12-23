@@ -1,0 +1,12 @@
+/* Error dialog response: Cancel */
+"CANCEL_ACTION" = "Annulla";
+
+/* Error dialog title */
+"ERROR_TITLE" = "Errore";
+
+/* Error dialog for checkout not loaded */
+"FAILED_TO_LOAD_MESAGE" = "Impossibile caricare il cassa di %@";
+
+/* Error dialog response: Retry */
+"RETRY_ACTION" = "Riprovare";
+
