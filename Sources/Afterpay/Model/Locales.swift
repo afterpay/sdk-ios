@@ -10,19 +10,27 @@ import Foundation
 
 enum Locales {
 
-  static let australia = Locale(identifier: "en_AU")
-  static let canada = Locale(identifier: "en_CA")
-  static let greatBritain = Locale(identifier: "en_GB")
-  static let newZealand = Locale(identifier: "en_NZ")
-  static let posix = Locale(identifier: "en_US_POSIX")
-  static let unitedStates = Locale(identifier: "en_US")
+  static let enAU = Locale(identifier: "en_AU")
+  static let enCA = Locale(identifier: "en_CA")
+  static let frCA = Locale(identifier: "fr_CA")
+  static let enGB = Locale(identifier: "en_GB")
+  static let enNZ = Locale(identifier: "en_NZ")
+  static let enUS = Locale(identifier: "en_US")
+  static let frFR = Locale(identifier: "fr_FR")
+  static let itIT = Locale(identifier: "it_IT")
+  static let esES = Locale(identifier: "es_ES")
+  static let enUSposix = Locale(identifier: "en_US_POSIX")
 
   static let validSet: Set<Locale> = [
-    australia,
-    canada,
-    greatBritain,
-    newZealand,
-    unitedStates,
+    enAU,
+    enCA,
+    frCA,
+    enGB,
+    enNZ,
+    enUS,
+    frFR,
+    itIT,
+    esES,
   ]
 
 }

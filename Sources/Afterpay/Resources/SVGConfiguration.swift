@@ -34,7 +34,7 @@ struct BadgeConfiguration: SVGConfiguration {
   }
 
   func accessibilityLabel(localizedFor locale: Locale) -> String {
-    locale == Locales.greatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
+    locale == Locales.enGB ? Strings.accessibleClearpay : Strings.accessibleAfterpay
   }
 
 }
@@ -73,7 +73,7 @@ struct PaymentButtonConfiguration: SVGConfiguration {
   }
 
   func accessibilityLabel(localizedFor locale: Locale) -> String {
-    let accessiblePaymentMethod = locale == Locales.greatBritain
+    let accessiblePaymentMethod = locale == Locales.enGB
       ? Strings.accessibleClearpay
       : Strings.accessibleAfterpay
 

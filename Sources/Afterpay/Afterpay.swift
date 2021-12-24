@@ -336,5 +336,5 @@ public func setConfiguration(_ configuration: Configuration?) {
 }
 
 func getLocale() -> Locale {
-  getConfiguration()?.locale ?? Locales.unitedStates
+  getConfiguration()?.locale ?? Locales.enUS
 }

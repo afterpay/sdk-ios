@@ -31,13 +31,13 @@ struct SVG: Equatable {
 
   static func badge(palette: ColorPalette, locale: Locale) -> SVG {
     switch (palette, locale) {
-    case (.blackOnMint, Locales.greatBritain):
+    case (.blackOnMint, Locales.enGB):
       return .clearpayBadgeBlackOnMint
-    case (.mintOnBlack, Locales.greatBritain):
+    case (.mintOnBlack, Locales.enGB):
       return .clearpayBadgeMintOnBlack
-    case (.whiteOnBlack, Locales.greatBritain):
+    case (.whiteOnBlack, Locales.enGB):
       return .clearpayBadgeWhiteOnBlack
-    case (.blackOnWhite, Locales.greatBritain):
+    case (.blackOnWhite, Locales.enGB):
       return .clearpayBadgeBlackOnWhite
     case (.blackOnMint, _):
       return .afterpayBadgeBlackOnMint
@@ -52,9 +52,9 @@ struct SVG: Equatable {
 
   static func buyNow(palette: ColorPalette, locale: Locale) -> SVG {
     switch (palette, locale) {
-    case (.blackOnMint, Locales.greatBritain), (.blackOnWhite, Locales.greatBritain):
+    case (.blackOnMint, Locales.enGB), (.blackOnWhite, Locales.enGB):
       return .clearpayBuyNowBlackOnMint
-    case (.whiteOnBlack, Locales.greatBritain), (.mintOnBlack, Locales.greatBritain):
+    case (.whiteOnBlack, Locales.enGB), (.mintOnBlack, Locales.enGB):
       return .clearpayBuyNowWhiteOnBlack
     case (.blackOnMint, _), (.blackOnWhite, _):
       return .afterpayBuyNowBlackOnMint
@@ -65,9 +65,9 @@ struct SVG: Equatable {
 
   static func checkout(palette: ColorPalette, locale: Locale) -> SVG {
     switch (palette, locale) {
-    case (.blackOnMint, Locales.greatBritain), (.blackOnWhite, Locales.greatBritain):
+    case (.blackOnMint, Locales.enGB), (.blackOnWhite, Locales.enGB):
       return .clearpayCheckoutBlackOnMint
-    case (.whiteOnBlack, Locales.greatBritain), (.mintOnBlack, Locales.greatBritain):
+    case (.whiteOnBlack, Locales.enGB), (.mintOnBlack, Locales.enGB):
       return .clearpayCheckoutWhiteOnBlack
     case (.blackOnMint, _), (.blackOnWhite, _):
       return .afterpayCheckoutBlackOnMint
@@ -78,9 +78,9 @@ struct SVG: Equatable {
 
   static func payNow(palette: ColorPalette, locale: Locale) -> SVG {
     switch (palette, locale) {
-    case (.blackOnMint, Locales.greatBritain), (.blackOnWhite, Locales.greatBritain):
+    case (.blackOnMint, Locales.enGB), (.blackOnWhite, Locales.enGB):
       return .clearpayPayNowBlackOnMint
-    case (.whiteOnBlack, Locales.greatBritain), (.mintOnBlack, Locales.greatBritain):
+    case (.whiteOnBlack, Locales.enGB), (.mintOnBlack, Locales.enGB):
       return .clearpayPayNowWhiteOnBlack
     case (.blackOnMint, _), (.blackOnWhite, _):
       return .afterpayPayNowBlackOnMint
@@ -91,9 +91,9 @@ struct SVG: Equatable {
 
   static func placeOrder(palette: ColorPalette, locale: Locale) -> SVG {
     switch (palette, locale) {
-    case (.blackOnMint, Locales.greatBritain), (.blackOnWhite, Locales.greatBritain):
+    case (.blackOnMint, Locales.enGB), (.blackOnWhite, Locales.enGB):
       return .clearpayPlaceOrderBlackOnMint
-    case (.whiteOnBlack, Locales.greatBritain), (.mintOnBlack, Locales.greatBritain):
+    case (.whiteOnBlack, Locales.enGB), (.mintOnBlack, Locales.enGB):
       return .clearpayPlaceOrderWhiteOnBlack
     case (.blackOnMint, _), (.blackOnWhite, _):
       return .afterpayPlaceOrderBlackOnMint
