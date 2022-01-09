@@ -1,0 +1,20 @@
+/* Error dialog response: Cancel */
+"CANCEL_ACTION" = "Cancel";
+
+/* Error dialog title */
+"ERROR_TITLE" = "Error";
+
+/* Error dialog for checkout not loaded */
+"FAILED_TO_LOAD_MESAGE" = "Failed to load %@ checkout";
+
+/* Error dialog response: Retry */
+"RETRY_ACTION" = "Retry";
+
+/* Question for dialog: are you sure? */
+"CANCEL_PAYMENT_TITLE" = "Are you sure you want to cancel the payment?";
+
+/* Alert action (button): yes */
+"YES_ACTION" = "Yes";
+
+/* Alert action (button): no */
+"NO_ACTION" = "No";
