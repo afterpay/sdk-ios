@@ -47,6 +47,10 @@ final class InfoWebViewController: UIViewController, WKNavigationDelegate {
         action: #selector(dismissViewController)
       )
     }
+
+    // addresse a ui issue when the app globally sets the nav bar style. ie:
+    // UINavigationBar.appearance().isTranslucent = false
+    navigationController?.navigationBar.isTranslucent = true
   }
 
   override func viewDidAppear(_ animated: Bool) {
