@@ -21,7 +21,7 @@ enum Locales {
   static let esES = Locale(identifier: "es_ES")
   static let enUSposix = Locale(identifier: "en_US_POSIX")
 
-  static let validSet: Set<Locale> = [
+  static let validArray: [Locale] = [
     enAU,
     enCA,
     frCA,

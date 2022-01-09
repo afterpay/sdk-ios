@@ -103,11 +103,11 @@ public struct Configuration {
       throw ConfigurationError.invalidOrdering(minimum: minimumAmount!, maximum: maximumAmount)
     }
 
-    guard Locales.validSet.map(\.currencyCode).contains(currencyCode) else {
+    guard Locales.validArray.map(\.currencyCode).contains(currencyCode) else {
       throw ConfigurationError.invalidCurrencyCode(currencyCode)
     }
 
-    guard Locales.validSet.contains(locale) else {
+    guard Locales.validArray.contains(locale) else {
       throw ConfigurationError.invalidLocale(locale)
     }
 

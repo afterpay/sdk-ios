@@ -26,7 +26,7 @@ struct PriceBreakdown {
   ) {
     let configuration = getConfiguration()
     let formatter = configuration
-      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode) }
+      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode, clientLocale: Locale.current) }
     let format = { formatter?.string(from: $0) }
 
     let formattedMinimum = configuration?.minimumAmount.flatMap(format)

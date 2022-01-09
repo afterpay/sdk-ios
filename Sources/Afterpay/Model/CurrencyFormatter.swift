@@ -8,40 +8,61 @@
 
 import Foundation
 
-private let formatter: NumberFormatter = {
-  let formatter = NumberFormatter()
-  formatter.numberStyle = .currency
-  return formatter
-}()
-
 struct CurrencyFormatter {
 
   let locale: Locale
   let currencyCode: String
+  let clientLocale: Locale
+
+  private let formatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    return formatter
+  }()
 
   func string(from decimal: Decimal) -> String? {
-    if Locale.current == Locales.enUS || Locale.current.currencyCode == currencyCode {
-      formatter.locale = locale
-      formatter.currencyCode = currencyCode
-      return formatter.string(from: decimal as NSDecimalNumber)
-    } else {
-      let currencyLocales = Locales.validSet.filter { $0.currencyCode == currencyCode }
-      let currencyLocale: Locale?
-      if currencyLocales.count == 1 {
-        currencyLocale = currencyLocales.first
-      } else if currencyLocales.contains(locale) {
-        currencyLocale = locale
-      } else {
-        currencyLocale = Locales.validSet.first { $0.currencyCode == currencyCode }
-      }
+    formatter.locale = clientLocale
 
-      formatter.locale = currencyLocale
-      formatter.currencyCode = currencyCode
-      let formattedString = formatter.string(from: decimal as NSDecimalNumber)
-      return currencyLocale?.currencySymbol == Locales.enUS.currencySymbol
-        ? formattedString?.appending(" \(currencyCode)")
-        : formattedString
+    let currencyLocales = Locales.validArray.filter { $0.currencyCode == currencyCode }
+    let currencyLocale: Locale?
+
+    if currencyLocales.count == 1 {
+      currencyLocale = currencyLocales.first
+    } else if currencyLocales.contains(locale) {
+      currencyLocale = locale
+    } else {
+      currencyLocale = Locales.validArray.first { $0.currencyCode == currencyCode }
     }
+
+    formatter.currencyCode = currencyCode
+
+    let currencySymbol = currencyLocale?.currencySymbol
+
+    let usCurrencySymbol = Locales.enUS.currencySymbol
+    let gbCurrencySymbol = Locales.enGB.currencySymbol
+    let euCurrencySymbol = Locales.frFR.currencySymbol
+
+    if clientLocale == Locales.enUS {
+      if currencySymbol == euCurrencySymbol {
+        formatter.positiveFormat = "#,##0.00¤"
+      }
+    } else if clientLocale.currencyCode != locale.currencyCode {
+      formatter.currencySymbol = currencySymbol
+
+      switch currencySymbol {
+      case usCurrencySymbol:
+        formatter.positivePrefix = currencySymbol
+        formatter.positiveFormat = "¤#,##0.00 ¤¤"
+      case gbCurrencySymbol:
+        formatter.positiveFormat = "¤#,##0.00"
+      case euCurrencySymbol:
+        formatter.positiveFormat = "#,##0.00¤"
+      default:
+        formatter.positiveFormat = formatter.positiveFormat
+      }
+    }
+
+    return formatter.string(from: decimal as NSDecimalNumber)
   }
 
 }
