@@ -12,14 +12,14 @@ public enum AfterpayIntroText: String {
   case empty
   case make
   case makeTitle
-  case pay = "pay"
-  case payTitle = "Pay"
-  case `in` = "in"
-  case inTitle = "In"
-  case or = "or"
-  case orTitle = "Or"
-  case payIn = "pay in"
-  case payInTitle = "Pay in"
+  case pay
+  case payTitle
+  case `in`
+  case inTitle
+  case or
+  case orTitle
+  case payIn
+  case payInTitle
 
   public var localizedText: String {
     switch self {
