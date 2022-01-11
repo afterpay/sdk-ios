@@ -7,6 +7,9 @@
 /* Intro text for breakdown placement: 'In' */
 "IN_TITLE" = "En";
 
+/* Link in price breakdown message */
+"INFO" = "Información";
+
 /* Interest-free words for price breakdown */
 "INTEREST_FREE" = "sin coste ";
 
@@ -18,6 +21,9 @@
 
 /* Intro text for breakdown placement: 'or' */
 "OR" = "o";
+
+/* Price breakdown message when no config set */
+"OR_PAY_WITH" = "o pagar con";
 
 /* Intro text for breakdown placement: 'Or' */
 "OR_TITLE" = "O";
