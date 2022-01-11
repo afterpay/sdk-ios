@@ -11,67 +11,95 @@ import XCTest
 
 class CurrencyFormatterTests: XCTestCase {
 
-  func testAustraliaLocale() {
-    let localeFormatter = createLocaleFormatters(clientLocale: Locales.enAU)
+  func testEnAuLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.enAU)
 
-    XCTAssertEqual(localeFormatter.aud.string(from: 120), "$120.00")
-    XCTAssertEqual(localeFormatter.cad.string(from: 120), "$120.00 CAD")
-    XCTAssertEqual(localeFormatter.gbp.string(from: 120), "£120.00")
-    XCTAssertEqual(localeFormatter.nzd.string(from: 120), "$120.00 NZD")
-    XCTAssertEqual(localeFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120.00")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "$120.00 CAD")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120.00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120.00 NZD")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120.00€")
   }
 
-  func testCanadaLocale() {
-    let localeFormatter = createLocaleFormatters(clientLocale: Locales.enCA)
+  func testEnCaLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.enCA)
 
-    XCTAssertEqual(localeFormatter.aud.string(from: 120), "$120.00 AUD")
-    XCTAssertEqual(localeFormatter.cad.string(from: 120), "$120.00")
-    XCTAssertEqual(localeFormatter.gbp.string(from: 120), "£120.00")
-    XCTAssertEqual(localeFormatter.nzd.string(from: 120), "$120.00 NZD")
-    XCTAssertEqual(localeFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120.00 AUD")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "$120.00")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120.00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120.00 NZD")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120.00€")
   }
 
-  func testFrenchCanadaLocale() {
-    let localeFormatter = createLocaleFormatters(clientLocale: Locales.frCA)
+  func testFrCaLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.frCA)
 
-    XCTAssertEqual(localeFormatter.aud.string(from: 120), "$120,00 AUD")
-    XCTAssertEqual(localeFormatter.cad.string(from: 120), "120,00 $")
-    XCTAssertEqual(localeFormatter.gbp.string(from: 120), "£120,00")
-    XCTAssertEqual(localeFormatter.nzd.string(from: 120), "$120,00 NZD")
-    XCTAssertEqual(localeFormatter.usd.string(from: 120), "$120,00 USD")
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120,00 AUD")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "120,00 $")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120,00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120,00 NZD")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120,00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120,00€")
   }
 
-  func testGreatBritainLocale() {
-    let localeFormatter = createLocaleFormatters(clientLocale: Locales.enGB)
+  func testEnGbLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.enGB)
 
-    XCTAssertEqual(localeFormatter.aud.string(from: 120), "$120.00 AUD")
-    XCTAssertEqual(localeFormatter.cad.string(from: 120), "$120.00 CAD")
-    XCTAssertEqual(localeFormatter.gbp.string(from: 120), "£120.00")
-    XCTAssertEqual(localeFormatter.nzd.string(from: 120), "$120.00 NZD")
-    XCTAssertEqual(localeFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120.00 AUD")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "$120.00 CAD")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120.00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120.00 NZD")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120.00€")
   }
 
-  func testNewZealandLocale() {
-    let localeFormatter = createLocaleFormatters(clientLocale: Locales.enNZ)
+  func testEnNzLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.enNZ)
 
-    XCTAssertEqual(localeFormatter.aud.string(from: 120), "$120.00 AUD")
-    XCTAssertEqual(localeFormatter.cad.string(from: 120), "$120.00 CAD")
-    XCTAssertEqual(localeFormatter.gbp.string(from: 120), "£120.00")
-    XCTAssertEqual(localeFormatter.nzd.string(from: 120), "$120.00")
-    XCTAssertEqual(localeFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120.00 AUD")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "$120.00 CAD")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120.00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120.00")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120.00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120.00€")
   }
 
-  func testUnitedStatesLocale() {
-    let localeFormatter = createLocaleFormatters(clientLocale: Locales.enUS)
+  func testEnUSLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.enUS)
 
-    XCTAssertEqual(localeFormatter.aud.string(from: 120), "A$120.00")
-    XCTAssertEqual(localeFormatter.cad.string(from: 120), "CA$120.00")
-    XCTAssertEqual(localeFormatter.gbp.string(from: 120), "£120.00")
-    XCTAssertEqual(localeFormatter.nzd.string(from: 120), "NZ$120.00")
-    XCTAssertEqual(localeFormatter.usd.string(from: 120), "$120.00")
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "A$120.00")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "CA$120.00")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120.00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "NZ$120.00")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120.00")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120.00€")
   }
 
-  func createLocaleFormatters(clientLocale: Locale) -> AllFormatters {
+  func testItItLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.itIT)
+
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120,00 AUD")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "$120,00 CAD")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120,00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120,00 NZD")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120,00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120,00 €")
+  }
+
+  func testEsEsLocale() {
+    let currencyFormatter = createCurrencyFormatters(clientLocale: Locales.esES)
+
+    XCTAssertEqual(currencyFormatter.aud.string(from: 120), "$120,00 AUD")
+    XCTAssertEqual(currencyFormatter.cad.string(from: 120), "$120,00 CAD")
+    XCTAssertEqual(currencyFormatter.gbp.string(from: 120), "£120,00")
+    XCTAssertEqual(currencyFormatter.nzd.string(from: 120), "$120,00 NZD")
+    XCTAssertEqual(currencyFormatter.usd.string(from: 120), "$120,00 USD")
+    XCTAssertEqual(currencyFormatter.eur.string(from: 120), "120,00 €")
+  }
+
+  func createCurrencyFormatters(clientLocale: Locale) -> AllFormatters {
     let formatter: (Locale) -> CurrencyFormatter = { configLocale in
       CurrencyFormatter(locale: configLocale, currencyCode: configLocale.currencyCode!, clientLocale: clientLocale)
     }
@@ -81,7 +109,8 @@ class CurrencyFormatterTests: XCTestCase {
       cad: formatter(Locales.enCA),
       gbp: formatter(Locales.enGB),
       nzd: formatter(Locales.enNZ),
-      usd: formatter(Locales.enUS)
+      usd: formatter(Locales.enUS),
+      eur: formatter(Locales.esES)
     )
   }
 
@@ -91,6 +120,7 @@ class CurrencyFormatterTests: XCTestCase {
     let gbp: CurrencyFormatter
     let nzd: CurrencyFormatter
     let usd: CurrencyFormatter
+    let eur: CurrencyFormatter
   }
 
 }
