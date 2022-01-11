@@ -29,7 +29,7 @@ struct PriceBreakdown {
       .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode, clientLocale: Locale.current) }
     let format = { formatter?.string(from: $0) }
 
-    let formattedMinimum = configuration?.minimumAmount.flatMap(format)
+    let formattedMinimum = configuration?.minimumAmount.flatMap(format) ?? formatter?.string(from: 1)
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
     let formattedPayment = format(totalAmount / 4)
 
@@ -54,9 +54,6 @@ struct PriceBreakdown {
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
       string = String.localizedStringWithFormat(Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
-    } else if let formattedMaximum = formattedMaximum {
-      badgePlacement = .start
-      string = String.localizedStringWithFormat(Strings.availableBetweenFormat, "$1.00", formattedMaximum)
     } else {
       badgePlacement = .end
       string = Strings.orPayWith
