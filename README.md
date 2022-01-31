@@ -329,7 +329,7 @@ priceBreakdownView.showInterestFreeText = false
 
 Given the above, the price breakdown text will be rendered `or 4 payments of $##.## with`
 
-##### More Info Options
+### More Info Options
 Setting `moreInfoOptions` is optional and of type `AfterpayMoreInfoOptions`. This struct has two constructors.
 The first takes a single parameter:
 - `modalId`: a `string` that is the filename of a modal hosted on Afterpay static.
