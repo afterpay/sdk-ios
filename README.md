@@ -338,6 +338,9 @@ The second takes two parameters:
 - `modalTheme`: an enum of type `AfterpayModalTheme` with the following options: `mint` (default) and `white`.
 - `isCbtEnabled`: a `boolean` to indicate if the modal should show the Cross Border Trade details in the modal
 
+**Note**
+Not all combinations of Locales and CBT are available.
+
 ```swift
 let priceBreakdownView = PriceBreakdownView()
 priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
