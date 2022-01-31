@@ -329,6 +329,21 @@ priceBreakdownView.showInterestFreeText = false
 
 Given the above, the price breakdown text will be rendered `or 4 payments of $##.## with`
 
+##### More Info Options
+Setting `moreInfoOptions` is optional and of type `AfterpayMoreInfoOptions`. This struct has two constructors.
+The first takes a single parameter:
+- `modalId`: a `string` that is the filename of a modal hosted on Afterpay static.
+
+The second takes two parameters:
+- `modalTheme`: an enum of type `AfterpayModalTheme` with the following options: `mint` (default) and `white`.
+- `isCbtEnabled`: a `boolean` to indicate if the modal should show the Cross Border Trade details in the modal
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
+```
+Given the above, when clicking the more info "link", the modal that opens will be white in the current locale as set in configuration.
+
 ### Examples
 
 When the breakdown component is assigned a total amount that is valid for the merchant account, the component will display 4 instalment amounts.

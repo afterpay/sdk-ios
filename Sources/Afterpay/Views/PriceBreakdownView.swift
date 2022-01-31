@@ -78,11 +78,14 @@ public final class PriceBreakdownView: UIView {
     .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
   }
 
+  public var moreInfoOptions: MoreInfoOptions = MoreInfoOptions() {
+    didSet { updateAttributedText() }
+  }
+
   private let linkTextView = LinkTextView()
 
   private var infoLink: String {
-    let locale = getConfiguration()?.locale.identifier ?? "en_US"
-    return "https://static.afterpay.com/modal/\(locale).html"
+    return "https://static.afterpay.com/modal/\(self.moreInfoOptions.modalFile())"
   }
 
   public init(badgeColorScheme: ColorScheme = .static(.blackOnMint)) {
