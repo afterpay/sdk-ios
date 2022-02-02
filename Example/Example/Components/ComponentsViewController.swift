@@ -161,6 +161,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     priceBreakdown1.introText = AfterpayIntroText.payInTitle
     priceBreakdown1.totalAmount = 100
     priceBreakdown1.delegate = self
+    priceBreakdown1.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
     stack.addArrangedSubview(priceBreakdown1)
 
     let priceBreakdown2 = PriceBreakdownView()
