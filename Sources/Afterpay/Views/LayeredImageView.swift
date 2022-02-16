@@ -16,6 +16,9 @@ public class LayeredImageView: UIView {
 
   internal var backgroundImageView: UIImageView = UIImageView(frame: .zero)
   internal var foregroundImageView: UIImageView = UIImageView(frame: .zero)
+  internal var layers: (background: String?, foreground: String?) = (background: nil, foreground: nil) {
+    didSet { updateImages() }
+  }
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
     self.colorScheme = colorScheme
@@ -32,29 +35,14 @@ public class LayeredImageView: UIView {
   }
 
   internal func sharedInit() {
-    let backgroundImage = UIImage(named: "badge-background", in: Afterpay.bundle, compatibleWith: nil)
-    backgroundImageView.image = backgroundImage
-
-    let foregroundImage = UIImage(named: "badge-foreground-afterpay", in: Afterpay.bundle, compatibleWith: nil)
-    foregroundImageView.image = foregroundImage
-
     addSubview(backgroundImageView)
     addSubview(foregroundImageView)
 
     updateColors(withTraits: traitCollection)
 
-    let ratio = backgroundImage!.size.height / backgroundImage!.size.width
-
-    backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-    foregroundImageView.translatesAutoresizingMaskIntoConstraints = false
-
-    setConstraints(imageView: backgroundImageView)
-    setConstraints(imageView: foregroundImageView)
-
-    NSLayoutConstraint.activate([
-      heightAnchor.constraint(equalTo: widthAnchor, multiplier: ratio),
-      widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor),
-    ])
+    let selector = #selector(configurationDidChange)
+    let name: NSNotification.Name = .configurationUpdated
+    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
   }
 
   override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -62,7 +50,7 @@ public class LayeredImageView: UIView {
     updateColors(withTraits: traitCollection)
   }
 
-  internal func setConstraints(imageView: UIImageView) {
+  internal func setImageViewConstraints(imageView: UIImageView) {
     imageView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
     imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
     imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
@@ -79,6 +67,58 @@ public class LayeredImageView: UIView {
     @unknown default:
       backgroundImageView.tintColor = colorScheme.lightPalette.uiColors.background
       foregroundImageView.tintColor = colorScheme.lightPalette.uiColors.foreground
+    }
+  }
+
+  private var aspectRatioConstraint: NSLayoutConstraint!
+  private var minimumWidthConstraint: NSLayoutConstraint!
+
+  private func deactivateConstraints() {
+    if aspectRatioConstraint != nil {
+      aspectRatioConstraint.isActive = true
+    }
+
+    if minimumWidthConstraint != nil {
+      minimumWidthConstraint.isActive = true
+    }
+  }
+
+  private func setupConstraints(ratio: CGFloat) {
+    if aspectRatioConstraint != nil {
+      NSLayoutConstraint.deactivate([ aspectRatioConstraint ])
+    }
+    aspectRatioConstraint = heightAnchor.constraint(equalTo: widthAnchor, multiplier: ratio)
+    minimumWidthConstraint = widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor)
+
+    NSLayoutConstraint.activate([ aspectRatioConstraint, minimumWidthConstraint ])
+  }
+
+  internal func updateImages() {
+    if let background = layers.background, let foreground = layers.foreground {
+      deactivateConstraints()
+
+      let backgroundImage = UIImage(named: background, in: Afterpay.bundle, compatibleWith: nil)
+      let foregroundImage = UIImage(named: foreground, in: Afterpay.bundle, compatibleWith: nil)
+
+      let ratio = backgroundImage!.size.height / backgroundImage!.size.width
+
+      backgroundImageView.image = backgroundImage
+      foregroundImageView.image = foregroundImage
+      backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+      foregroundImageView.translatesAutoresizingMaskIntoConstraints = false
+
+      setImageViewConstraints(imageView: backgroundImageView)
+      setImageViewConstraints(imageView: foregroundImageView)
+
+      setupConstraints(ratio: ratio)
+    }
+  }
+
+  internal func setForeground() {}
+
+  @objc private func configurationDidChange(_ notification: NSNotification) {
+    DispatchQueue.main.async {
+      self.setForeground()
     }
   }
 }

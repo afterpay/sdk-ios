@@ -11,12 +11,17 @@ import UIKit
 
 public final class BadgeView: LayeredImageView {
   override internal func sharedInit() {
-    let backgroundImage = UIImage(named: "badge-background", in: Afterpay.bundle, compatibleWith: nil)
-    backgroundImageView.image = backgroundImage
-
-    let foregroundImage = UIImage(named: "badge-foreground-afterpay", in: Afterpay.bundle, compatibleWith: nil)
-    foregroundImageView.image = foregroundImage
-
     super.sharedInit()
+
+    layers.background = "badge-background"
+    setForeground()
+  }
+
+  override internal func setForeground() {
+    if getLocale() == Locales.greatBritain {
+      layers.foreground = "badge-foreground-clearpay"
+    } else {
+      layers.foreground = "badge-foreground-afterpay"
+    }
   }
 }
