@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum ColorScheme {
   case `static`(ColorPalette)
@@ -37,6 +38,31 @@ public enum ColorPalette {
   case mintOnBlack
   case whiteOnBlack
   case blackOnWhite
+
+  var uiColors: (foreground: UIColor?, background: UIColor?) {
+    switch self {
+    case .blackOnMint:
+      return (
+        foreground: UIColor.black,
+        background: UIColor(named: "BondiMint", in: Afterpay.bundle, compatibleWith: nil)!
+      )
+    case .mintOnBlack:
+      return (
+        foreground: UIColor(named: "BondiMint", in: Afterpay.bundle, compatibleWith: nil)!,
+        background: UIColor.black
+      )
+    case .whiteOnBlack:
+      return (
+        foreground: UIColor.white,
+        background: UIColor.black
+      )
+    case .blackOnWhite:
+      return (
+        foreground: UIColor.black,
+        background: UIColor.white
+      )
+    }
+  }
 }
 
 public enum ButtonKind {

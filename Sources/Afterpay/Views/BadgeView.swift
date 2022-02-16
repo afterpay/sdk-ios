@@ -9,47 +9,14 @@
 import Foundation
 import UIKit
 
-public final class BadgeView: UIView {
+public final class BadgeView: LayeredImageView {
+  override internal func sharedInit() {
+    let backgroundImage = UIImage(named: "badge-background", in: Afterpay.bundle, compatibleWith: nil)
+    backgroundImageView.image = backgroundImage
 
-  public var colorScheme: ColorScheme = .static(.blackOnMint) {
-    didSet { svgView.svgConfiguration.colorScheme = colorScheme }
+    let foregroundImage = UIImage(named: "badge-foreground-afterpay", in: Afterpay.bundle, compatibleWith: nil)
+    foregroundImageView.image = foregroundImage
+
+    super.sharedInit()
   }
-
-  private var svgView: SVGView!
-
-  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
-    self.colorScheme = colorScheme
-
-    super.init(frame: .zero)
-
-    sharedInit()
-  }
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-
-    sharedInit()
-  }
-
-  private func sharedInit() {
-    let configuration = BadgeConfiguration(colorScheme: colorScheme)
-
-    // Accessibility
-    isAccessibilityElement = true
-    accessibilityTraits = [.staticText]
-    accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
-
-    // SVG Layout
-    svgView = SVGView(svgConfiguration: configuration)
-
-    addSubview(svgView)
-
-    NSLayoutConstraint.activate([
-      svgView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      svgView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      svgView.topAnchor.constraint(equalTo: topAnchor),
-      svgView.bottomAnchor.constraint(equalTo: bottomAnchor),
-    ])
-  }
-
 }
