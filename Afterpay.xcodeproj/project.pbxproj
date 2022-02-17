@@ -18,6 +18,7 @@
 		42270B6F27A3B24200C9BCBF /* ModalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42270B6E27A3B24200C9BCBF /* ModalTheme.swift */; };
 		4288AB7427BC8B60009C9B69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4288AB7327BC8B60009C9B69 /* Assets.xcassets */; };
 		4288AB7627BC8C84009C9B69 /* LayeredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */; };
+		4288AB7827BCB578009C9B69 /* PaymentButtonUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */; };
 		42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42927C38274209B600B26435 /* ShippingOptionUpdate.swift */; };
 		42D10C9F2761B1190028D6D9 /* OptionalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D10C9E2761B1190028D6D9 /* OptionalText.swift */; };
 		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
@@ -91,6 +92,7 @@
 		42270B6E27A3B24200C9BCBF /* ModalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTheme.swift; sourceTree = "<group>"; };
 		4288AB7327BC8B60009C9B69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayeredImageView.swift; sourceTree = "<group>"; };
+		4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonUIView.swift; sourceTree = "<group>"; };
 		42927C38274209B600B26435 /* ShippingOptionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingOptionUpdate.swift; sourceTree = "<group>"; };
 		42D10C9E2761B1190028D6D9 /* OptionalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalText.swift; sourceTree = "<group>"; };
 		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				66483F3A24D7A164000BE6B5 /* PriceBreakdownView.swift */,
 				66639B5324D2619200C68558 /* SVGView.swift */,
 				4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */,
+				4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				66B54588256B3FD9002B3DD5 /* CheckoutV2ViewController.swift in Sources */,
 				667AD3542497121200BF94E5 /* CheckoutWebViewController.swift in Sources */,
 				15EC67D225E6217F007DFEA8 /* OSLog+Afterpay.swift in Sources */,
+				4288AB7827BCB578009C9B69 /* PaymentButtonUIView.swift in Sources */,
 				551BEDEB25F983E200FDF9EE /* Features.swift in Sources */,
 				42D10C9F2761B1190028D6D9 /* OptionalText.swift in Sources */,
 				66F9767C2499A11A001D38FA /* Afterpay.swift in Sources */,

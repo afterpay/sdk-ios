@@ -11,21 +11,20 @@ import UIKit
 
 public final class PaymentButton: UIButton {
 
+  private var paymentButtonView: PaymentButtonUIView = PaymentButtonUIView()
+
   public var colorScheme: ColorScheme = .static(.blackOnMint) {
-    didSet { updateImage() }
+    didSet { paymentButtonView.colorScheme = colorScheme }
   }
 
   public var buttonKind: ButtonKind = .buyNow {
-    didSet { updateImage() }
-  }
-
-  private var svgConfiguration: SVGConfiguration {
-    PaymentButtonConfiguration(colorScheme: colorScheme, buttonKind: buttonKind)
+    didSet { print("change button kind") } // TODO: change button kind
   }
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint), buttonKind: ButtonKind = .payNow) {
     self.colorScheme = colorScheme
     self.buttonKind = buttonKind
+    self.paymentButtonView = PaymentButtonUIView(colorScheme: colorScheme)
 
     super.init(frame: .zero)
 
@@ -39,50 +38,23 @@ public final class PaymentButton: UIButton {
   }
 
   private func sharedInit() {
-    let locale = getLocale()
-    let svg = svgConfiguration.svg(localizedFor: locale, withTraits: traitCollection)
-
-    NSLayoutConstraint.activate([
-      heightAnchor.constraint(equalTo: widthAnchor, multiplier: svg.aspectRatio),
-      widthAnchor.constraint(greaterThanOrEqualToConstant: svg.minimumWidth),
-    ])
-
-    accessibilityLabel = svgConfiguration.accessibilityLabel(localizedFor: locale)
     translatesAutoresizingMaskIntoConstraints = false
     adjustsImageWhenHighlighted = true
     adjustsImageWhenDisabled = true
-  }
 
-  public override func layoutSubviews() {
-    super.layoutSubviews()
+    addSubview(paymentButtonView)
 
-    if image(for: .normal)?.size != bounds.size {
-      updateImage()
+    if paymentButtonView.ratio != nil {
+      NSLayoutConstraint.activate([
+        heightAnchor.constraint(equalToConstant: 64),
+        widthAnchor.constraint(greaterThanOrEqualToConstant: 256),
+      ])
     }
   }
 
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
-    let svgForTraits = { [svgConfiguration] traitCollection in
-      svgConfiguration.svg(localizedFor: getLocale(), withTraits: traitCollection)
-    }
-
-    if previousTraitCollection.map(svgForTraits) != svgForTraits(traitCollection) {
-      updateImage()
-    }
+    paymentButtonView.updateColors(withTraits: traitCollection)
   }
-
-  private func updateImage() {
-    let svgView = SVGView(svgConfiguration: svgConfiguration)
-    svgView.frame = bounds
-
-    let renderer = UIGraphicsImageRenderer(size: svgView.bounds.size)
-    let image = renderer.image { rendererContext in
-      svgView.layer.render(in: rendererContext.cgContext)
-    }
-
-    setImage(image, for: .normal)
-  }
-
 }
