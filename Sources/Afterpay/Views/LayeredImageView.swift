@@ -14,6 +14,8 @@ public class LayeredImageView: UIView {
     didSet { updateColors(withTraits: traitCollection) }
   }
 
+  public var ratio: CGFloat?
+
   internal var backgroundImageView: UIImageView = UIImageView(frame: .zero)
   internal var foregroundImageView: UIImageView = UIImageView(frame: .zero)
   internal var layers: (background: String?, foreground: String?) = (background: nil, foreground: nil) {
@@ -50,11 +52,13 @@ public class LayeredImageView: UIView {
     updateColors(withTraits: traitCollection)
   }
 
-  internal func setImageViewConstraints(imageView: UIImageView) {
-    imageView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-    imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-    imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-    imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+  internal func setImageViewConstraints() {
+    NSLayoutConstraint.activate([
+      backgroundImageView.widthAnchor.constraint(equalTo: widthAnchor),
+      backgroundImageView.heightAnchor.constraint(equalTo: heightAnchor),
+      foregroundImageView.widthAnchor.constraint(equalTo: widthAnchor),
+      foregroundImageView.heightAnchor.constraint(equalTo: heightAnchor),
+    ])
   }
 
   internal func updateColors(withTraits traitCollection: UITraitCollection) {
@@ -83,11 +87,8 @@ public class LayeredImageView: UIView {
     }
   }
 
-  private func setupConstraints(ratio: CGFloat) {
-    if aspectRatioConstraint != nil {
-      NSLayoutConstraint.deactivate([ aspectRatioConstraint ])
-    }
-    aspectRatioConstraint = heightAnchor.constraint(equalTo: widthAnchor, multiplier: ratio)
+  private func setupConstraints() {
+    aspectRatioConstraint = heightAnchor.constraint(equalTo: widthAnchor, multiplier: ratio!)
     minimumWidthConstraint = widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor)
 
     NSLayoutConstraint.activate([ aspectRatioConstraint, minimumWidthConstraint ])
@@ -100,17 +101,15 @@ public class LayeredImageView: UIView {
       let backgroundImage = UIImage(named: background, in: Afterpay.bundle, compatibleWith: nil)
       let foregroundImage = UIImage(named: foreground, in: Afterpay.bundle, compatibleWith: nil)
 
-      let ratio = backgroundImage!.size.height / backgroundImage!.size.width
+      ratio = backgroundImage!.size.height / backgroundImage!.size.width
 
       backgroundImageView.image = backgroundImage
       foregroundImageView.image = foregroundImage
       backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
       foregroundImageView.translatesAutoresizingMaskIntoConstraints = false
 
-      setImageViewConstraints(imageView: backgroundImageView)
-      setImageViewConstraints(imageView: foregroundImageView)
-
-      setupConstraints(ratio: ratio)
+      setImageViewConstraints()
+      setupConstraints()
     }
   }
 
