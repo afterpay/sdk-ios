@@ -43,11 +43,14 @@ public final class PaymentButton: UIButton {
     adjustsImageWhenDisabled = true
 
     addSubview(paymentButtonView)
+    paymentButtonView.translatesAutoresizingMaskIntoConstraints = false
+    paymentButtonView.isUserInteractionEnabled = false
 
     if paymentButtonView.ratio != nil {
       NSLayoutConstraint.activate([
-        heightAnchor.constraint(equalToConstant: 64),
+        heightAnchor.constraint(equalTo: widthAnchor, multiplier: paymentButtonView.ratio!),
         widthAnchor.constraint(greaterThanOrEqualToConstant: 256),
+        paymentButtonView.widthAnchor.constraint(equalTo: widthAnchor),
       ])
     }
   }

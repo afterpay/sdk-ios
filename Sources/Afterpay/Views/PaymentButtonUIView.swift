@@ -13,7 +13,7 @@ public final class PaymentButtonUIView: LayeredImageView {
   override internal func sharedInit() {
     super.sharedInit()
 
-    layers.background = "badge-background"
+    layers.background = "button-background"
     setForeground()
   }
 
