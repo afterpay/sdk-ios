@@ -18,10 +18,10 @@ public final class PaymentButton: UIButton {
   }
 
   public var buttonKind: ButtonKind = .buyNow {
-    didSet { print("change button kind") } // TODO: change button kind
+    didSet { paymentButtonView.buttonKind = buttonKind }
   }
 
-  public init(colorScheme: ColorScheme = .static(.blackOnMint), buttonKind: ButtonKind = .payNow) {
+  public init(colorScheme: ColorScheme = .static(.blackOnMint), buttonKind: ButtonKind = .buyNow) {
     self.colorScheme = colorScheme
     self.buttonKind = buttonKind
     self.paymentButtonView = PaymentButtonUIView(colorScheme: colorScheme)
@@ -45,6 +45,7 @@ public final class PaymentButton: UIButton {
     addSubview(paymentButtonView)
     paymentButtonView.translatesAutoresizingMaskIntoConstraints = false
     paymentButtonView.isUserInteractionEnabled = false
+    paymentButtonView.buttonKind = buttonKind
 
     if paymentButtonView.ratio != nil {
       NSLayoutConstraint.activate([

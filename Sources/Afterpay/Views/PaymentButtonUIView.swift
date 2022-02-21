@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 
 public final class PaymentButtonUIView: LayeredImageView {
+  public var buttonKind: ButtonKind = .buyNow {
+    didSet { setForeground() }
+  }
+
   override internal func sharedInit() {
     super.sharedInit()
 
@@ -18,10 +22,40 @@ public final class PaymentButtonUIView: LayeredImageView {
   }
 
   override internal func setForeground() {
-    if getLocale() == Locales.greatBritain {
-      layers.foreground = "button-foreground-pay-now-clearpay"
-    } else {
-      layers.foreground = "button-foreground-pay-now-afterpay"
+    let brand = getLocale() == Locales.greatBritain ? "clearpay" : "afterpay"
+    layers.foreground = "button-foreground-\(buttonKind.slug)-\(brand)"
+  }
+}
+
+public enum ButtonKind {
+  case buyNow
+  case checkout
+  case payNow
+  case placeOrder
+
+  var slug: String {
+    switch self {
+    case .buyNow:
+      return "buy-now"
+    case .checkout:
+      return "checkout"
+    case .payNow:
+      return "pay-now"
+    case .placeOrder:
+      return "place-order"
+    }
+  }
+
+  var accessibilityLabel: String {
+    switch self {
+    case .buyNow:
+      return "buy now with"
+    case .checkout:
+      return "checkout with"
+    case .payNow:
+      return "pay now with"
+    case .placeOrder:
+      return "place order with"
     }
   }
 }

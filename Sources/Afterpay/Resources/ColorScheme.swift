@@ -64,23 +64,3 @@ public enum ColorPalette {
     }
   }
 }
-
-public enum ButtonKind {
-  case buyNow
-  case checkout
-  case payNow
-  case placeOrder
-
-  var accessibilityLabel: String {
-    switch self {
-    case .buyNow:
-      return "buy now with"
-    case .checkout:
-      return "checkout with"
-    case .payNow:
-      return "pay now with"
-    case .placeOrder:
-      return "place order with"
-    }
-  }
-}
