@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 public final class PaymentButtonUIView: LayeredImageView {
+  internal var minimumWidth: CGFloat = 256
+
   public var buttonKind: ButtonKind = .buyNow {
     didSet { setForeground() }
   }

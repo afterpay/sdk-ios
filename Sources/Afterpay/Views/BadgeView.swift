@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 public final class BadgeView: LayeredImageView {
+  internal var minimumWidth: CGFloat = 64
+
   override internal func sharedInit() {
     super.sharedInit()
 
@@ -18,10 +20,7 @@ public final class BadgeView: LayeredImageView {
   }
 
   override internal func setForeground() {
-    if getLocale() == Locales.greatBritain {
-      layers.foreground = "badge-foreground-clearpay"
-    } else {
-      layers.foreground = "badge-foreground-afterpay"
-    }
+    let brand = getLocale() == Locales.greatBritain ? "clearpay" : "afterpay"
+    layers.foreground = "badge-foreground-\(brand)"
   }
 }

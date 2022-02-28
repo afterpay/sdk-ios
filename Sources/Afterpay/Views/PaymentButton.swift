@@ -11,7 +11,7 @@ import UIKit
 
 public final class PaymentButton: UIButton {
 
-  private var paymentButtonView: PaymentButtonUIView = PaymentButtonUIView()
+  internal var paymentButtonView: PaymentButtonUIView = PaymentButtonUIView()
 
   public var colorScheme: ColorScheme = .static(.blackOnMint) {
     didSet { paymentButtonView.colorScheme = colorScheme }
@@ -50,7 +50,7 @@ public final class PaymentButton: UIButton {
     if paymentButtonView.ratio != nil {
       NSLayoutConstraint.activate([
         heightAnchor.constraint(equalTo: widthAnchor, multiplier: paymentButtonView.ratio!),
-        widthAnchor.constraint(greaterThanOrEqualToConstant: 256),
+        widthAnchor.constraint(greaterThanOrEqualToConstant: paymentButtonView.minimumWidth),
         paymentButtonView.widthAnchor.constraint(equalTo: widthAnchor),
       ])
     }
