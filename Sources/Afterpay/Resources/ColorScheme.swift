@@ -63,4 +63,17 @@ public enum ColorPalette {
       )
     }
   }
+
+  var slug: String {
+    switch self {
+    case .blackOnMint:
+      return "black-on-mint"
+    case .mintOnBlack:
+      return "mint-on-black"
+    case .whiteOnBlack:
+      return "white-on-black"
+    case .blackOnWhite:
+      return "black-on-white"
+    }
+  }
 }

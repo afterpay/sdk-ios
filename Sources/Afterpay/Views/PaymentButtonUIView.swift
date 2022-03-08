@@ -19,13 +19,13 @@ public final class PaymentButtonUIView: LayeredImageView {
   override internal func sharedInit() {
     super.sharedInit()
 
-    layers.background = "button-background"
+    imageLayers.background = "button-background"
     setForeground()
   }
 
   override internal func setForeground() {
     let brand = getLocale() == Locales.greatBritain ? "clearpay" : "afterpay"
-    layers.foreground = "button-foreground-\(buttonKind.slug)-\(brand)"
+    imageLayers.foreground = "button-foreground-\(buttonKind.slug)-\(brand)"
   }
 }
 

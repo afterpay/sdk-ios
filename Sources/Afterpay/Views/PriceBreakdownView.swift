@@ -135,7 +135,7 @@ public final class PriceBreakdownView: UIView {
 
   private func updateAttributedText() {
     let configuration = BadgeConfiguration(colorScheme: badgeColorScheme)
-    let badgeView = BadgeView(colorScheme: .static(.blackOnMint))
+    let badgeView = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnWhite))
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
@@ -148,10 +148,7 @@ public final class PriceBreakdownView: UIView {
 
     badgeView.frame = CGRect(origin: .zero, size: size)
 
-    let renderer = UIGraphicsImageRenderer(size: badgeView.bounds.size)
-    let image = renderer.image { _ in
-      badgeView.drawHierarchy(in: badgeView.frame, afterScreenUpdates: true)
-    }
+    let image = badgeView.image
 
     let textAttributes: [NSAttributedString.Key: Any] = [
       .font: font,
@@ -168,7 +165,7 @@ public final class PriceBreakdownView: UIView {
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
       attachment.image = image
-      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
+      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: badgeView.bounds.size)
       attachment.accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
       return .init(attachment: attachment)
     }()

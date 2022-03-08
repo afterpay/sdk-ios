@@ -18,7 +18,7 @@ public class LayeredImageView: UIView {
 
   internal var backgroundImageView: UIImageView = UIImageView(frame: .zero)
   internal var foregroundImageView: UIImageView = UIImageView(frame: .zero)
-  internal var layers: (background: String?, foreground: String?) = (background: nil, foreground: nil) {
+  internal var imageLayers: (background: String?, foreground: String?) = (background: nil, foreground: nil) {
     didSet { updateImages() }
   }
 
@@ -79,11 +79,11 @@ public class LayeredImageView: UIView {
 
   private func deactivateConstraints() {
     if aspectRatioConstraint != nil {
-      aspectRatioConstraint.isActive = true
+      aspectRatioConstraint.isActive = false
     }
 
     if minimumWidthConstraint != nil {
-      minimumWidthConstraint.isActive = true
+      minimumWidthConstraint.isActive = false
     }
   }
 
@@ -95,7 +95,7 @@ public class LayeredImageView: UIView {
   }
 
   internal func updateImages() {
-    if let background = layers.background, let foreground = layers.foreground {
+    if let background = imageLayers.background, let foreground = imageLayers.foreground {
       deactivateConstraints()
 
       let backgroundImage = UIImage(named: background, in: Afterpay.bundle, compatibleWith: nil)
