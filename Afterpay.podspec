@@ -14,6 +14,4 @@ Pod::Spec.new do |spec|
   spec.source_files  = "Sources/Afterpay/**/*"
   spec.swift_version = "5.2"
   spec.framework     = "UIKit"
-
-  spec.dependency "SWXMLHash", "5.0.1"
 end
