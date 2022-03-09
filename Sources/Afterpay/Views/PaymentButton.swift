@@ -18,7 +18,7 @@ public final class PaymentButton: UIButton {
   }
 
   public var buttonKind: ButtonKind = .buyNow {
-    didSet { paymentButtonView.buttonKind = buttonKind }
+    didSet { updatePaymentButtonView() }
   }
 
   public init(colorScheme: ColorScheme = .static(.blackOnMint), buttonKind: ButtonKind = .buyNow) {
@@ -45,7 +45,7 @@ public final class PaymentButton: UIButton {
     addSubview(paymentButtonView)
     paymentButtonView.translatesAutoresizingMaskIntoConstraints = false
     paymentButtonView.isUserInteractionEnabled = false
-    paymentButtonView.buttonKind = buttonKind
+    updatePaymentButtonView()
 
     if paymentButtonView.ratio != nil {
       NSLayoutConstraint.activate([
@@ -54,11 +54,30 @@ public final class PaymentButton: UIButton {
         paymentButtonView.widthAnchor.constraint(equalTo: widthAnchor),
       ])
     }
+
+    let selector = #selector(configurationDidChange)
+    let name: NSNotification.Name = .configurationUpdated
+    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
+  }
+
+  private func updatePaymentButtonView() {
+    paymentButtonView.buttonKind = buttonKind
+
+    let isLocaleGreatBritain = getLocale() == Locales.greatBritain
+    let brand = isLocaleGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
+    accessibilityLabel = "\(buttonKind.accessibilityLabel) \(brand)"
   }
 
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
 
     paymentButtonView.updateColors(withTraits: traitCollection)
+  }
+
+  @objc private func configurationDidChange(_ notification: NSNotification) {
+    DispatchQueue.main.async {
+      self.updatePaymentButtonView()
+      self.paymentButtonView.setForeground()
+    }
   }
 }

@@ -41,10 +41,6 @@ public class LayeredImageView: UIView {
     addSubview(foregroundImageView)
 
     updateColors(withTraits: traitCollection)
-
-    let selector = #selector(configurationDidChange)
-    let name: NSNotification.Name = .configurationUpdated
-    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
   }
 
   override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -114,10 +110,4 @@ public class LayeredImageView: UIView {
   }
 
   internal func setForeground() {}
-
-  @objc private func configurationDidChange(_ notification: NSNotification) {
-    DispatchQueue.main.async {
-      self.setForeground()
-    }
-  }
 }

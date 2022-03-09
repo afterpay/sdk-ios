@@ -50,9 +50,9 @@ public class BadgeView: UIView {
   }
 
   internal func updateImage(withTraits traitCollection: UITraitCollection) {
-    let localeIsGreatBritain = getLocale() == Locales.greatBritain
-    let brand = localeIsGreatBritain ? "clearpay" : "afterpay"
-    accessibilityLabel = localeIsGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
+    let isLocaleGreatBritain = getLocale() == Locales.greatBritain
+    let brand = isLocaleGreatBritain ? "clearpay" : "afterpay"
+    accessibilityLabel = isLocaleGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
 
     var colors = colorScheme.lightPalette.slug
     if traitCollection.userInterfaceStyle == .dark {
