@@ -36,6 +36,7 @@ public class BadgeView: UIView {
   }
 
   internal func sharedInit() {
+    isAccessibilityElement = true
     updateImage(withTraits: traitCollection)
 
     let selector = #selector(configurationDidChange)
@@ -49,7 +50,9 @@ public class BadgeView: UIView {
   }
 
   internal func updateImage(withTraits traitCollection: UITraitCollection) {
-    let brand = getLocale() == Locales.greatBritain ? "clearpay" : "afterpay"
+    let localeIsGreatBritain = getLocale() == Locales.greatBritain
+    let brand = localeIsGreatBritain ? "clearpay" : "afterpay"
+    accessibilityLabel = localeIsGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
 
     var colors = colorScheme.lightPalette.slug
     if traitCollection.userInterfaceStyle == .dark {

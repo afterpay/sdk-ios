@@ -134,7 +134,6 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let configuration = BadgeConfiguration(colorScheme: badgeColorScheme)
     let badgeView = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnWhite))
 
     let font: UIFont = fontProvider(traitCollection)
@@ -147,8 +146,6 @@ public final class PriceBreakdownView: UIView {
     let size = CGSize(width: width, height: width * badgeRatio)
 
     badgeView.frame = CGRect(origin: .zero, size: size)
-
-    let image = badgeView.image
 
     let textAttributes: [NSAttributedString.Key: Any] = [
       .font: font,
@@ -164,9 +161,10 @@ public final class PriceBreakdownView: UIView {
 
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
-      attachment.image = image
+      attachment.image = badgeView.image
       attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: badgeView.bounds.size)
-      attachment.accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
+      attachment.isAccessibilityElement = true
+      attachment.accessibilityLabel = badgeView.accessibilityLabel
       return .init(attachment: attachment)
     }()
 
