@@ -10,7 +10,6 @@ Pod::Spec.new do |spec|
   spec.author        = "Afterpay"
   spec.platform      = :ios, "12.0"
   spec.ios.deployment_target  = "12.0"
-  spec.info_plist    = { 'CFBundleIdentifier' => 'com.afterpay.Afterpay' }
   spec.pod_target_xcconfig = { 'PRODUCT_BUNDLE_IDENTIFIER': 'com.afterpay.Afterpay' }
   spec.source        = { :git => "https://github.com/afterpay/sdk-ios.git", :tag => "#{spec.version}" }
   spec.resources     = "Sources/Afterpay/**/*.{pdf,png,jpeg,jpg,storyboard,xib,xcassets,json}"
