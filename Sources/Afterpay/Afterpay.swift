@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+internal let bundle: Bundle = Bundle(identifier: "com.afterpay.Afterpay") ?? Bundle.main
+
 // MARK: - Checkout
 
 /// Present Afterpay Checkout modally over the specified view controller loading your
