@@ -182,9 +182,36 @@ public final class PriceBreakdownView: UIView {
     var badgeAndBreakdown = [badge, space, breakdown]
     badgeAndBreakdown = badgePlacement == .start ? badgeAndBreakdown : badgeAndBreakdown.reversed()
 
-    let linkAttributes = textAttributes.merging([.link: infoLink]) { $1 }
-    let link = NSAttributedString(string: Strings.info, attributes: linkAttributes)
-    let strings = badgeAndBreakdown + [space, link]
+    let linkConfig = moreInfoOptions.modalLinkStyle.styleConfig
+    let linkStyleAttributes = textAttributes.merging(linkConfig.attributes) { $1 }
+    let linkAttributes = linkStyleAttributes.merging([.link: infoLink]) { $1 }
+
+    let link: NSMutableAttributedString? = {
+      if linkConfig.customContent != nil {
+        return linkConfig.customContent! as? NSMutableAttributedString
+      } else if linkConfig.text != nil {
+        return .init(string: linkConfig.text!)
+      } else if let image = linkConfig.image, let renderMode = linkConfig.imageRenderingMode {
+        let attachment = NSTextAttachment()
+        let imageRatio = image.size.width / image.size.height
+        let attachmentHeight = fontHeight * 0.8
+
+        attachment.image = image.withRenderingMode(renderMode)
+        attachment.bounds = CGRect(
+          origin: .init(x: 0, y: font.descender * 0.6),
+          size: CGSize(width: attachmentHeight * imageRatio, height: attachmentHeight)
+        )
+        return .init(attachment: attachment)
+      }
+
+      return nil
+    }()
+
+    if link != nil {
+      link?.addAttributes(linkAttributes, range: NSRange(location: 0, length: link!.length))
+    }
+
+    let strings = (link != nil) ? badgeAndBreakdown + [space, link!] : badgeAndBreakdown
 
     strings.forEach(attributedString.append)
 

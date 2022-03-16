@@ -9,17 +9,22 @@
 import Foundation
 
 public struct MoreInfoOptions {
+  public var modalLinkStyle: ModalLinkStyle = .circledInfoIcon
   public var modalTheme: ModalTheme = .mint
-  public var modalId: String?
   public var isCbtEnabled: Bool = false
+  public var modalId: String?
 
   /**
   Set up options for the more info link in AfterpayPriceBreakdown
 
   - Parameter modalId: the filename of a modal hosted on Afterpay static
   */
-  public init(modalId: String? = nil) {
+  public init(
+    modalId: String? = nil,
+    modalLinkStyle: ModalLinkStyle = .circledInfoIcon
+  ) {
     self.modalId = modalId
+    self.modalLinkStyle = modalLinkStyle
   }
 
   /**
@@ -31,9 +36,14 @@ public struct MoreInfoOptions {
   - Parameter modalTheme: the color theme used when displaying the modal
   - Parameter isCbtEnabled: whether to show the Cross Border Trade details in the modal
   */
-  public init(modalTheme: ModalTheme = .mint, isCbtEnabled: Bool = false) {
+  public init(
+    modalTheme: ModalTheme = .mint,
+    isCbtEnabled: Bool = false,
+    modalLinkStyle: ModalLinkStyle = .circledInfoIcon
+  ) {
     self.modalTheme = modalTheme
     self.isCbtEnabled = isCbtEnabled
+    self.modalLinkStyle = modalLinkStyle
   }
 
   func modalFile() -> String {
