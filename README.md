@@ -350,7 +350,7 @@ priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
 Given the above, when clicking the more info "link", the modal that opens will be white in the current locale as set in configuration.
 
 #### Modal Link Style Options
-An value that can be set on `moreInfoOptions` either when initialised or as a setter. Setting this is optional and is of type `ModalLinkStyle`.
+A value that can be set on `moreInfoOptions` either when initialised or as a setter. Setting this is optional and is of type `ModalLinkStyle`.
 
 Available values are `circledInfoIcon`, `moreInfoText`, `learnMoreText` `circledQuestionIcon` `circledLogo` `custom` `none`.
 `circledInfoIcon` is the default & `none` will remove the link all together.
