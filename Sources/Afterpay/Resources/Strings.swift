@@ -14,7 +14,9 @@ enum Strings {
 
   // MARK: - Static Strings
 
-  static let info = "Info"
+  static let circledInfoIcon = "\u{24D8}"
+  static let moreInfo = "More Info"
+  static let learnMore = "Learn More"
   static let orPayWith = "or pay with"
 
   // MARK: - String Formats
