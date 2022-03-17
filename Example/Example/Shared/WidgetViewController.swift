@@ -18,7 +18,7 @@ final class WidgetViewController: UIViewController {
     text: "Total Amount:",
     placeholder: "0.00",
     keyboardType: .decimalPad,
-    target: WidgetViewController.self,
+    target: self,
     action: #selector(updateAmountTapped)
   )
 

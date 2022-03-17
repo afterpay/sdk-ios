@@ -335,7 +335,7 @@ The first takes a two parameters:
 - `modalId`: an optional `string` that is the filename of a modal hosted on Afterpay static. If not set, the default modal for the locale will be used.
 - `modalLinkStyle`: an optional value of type `ModalLinkStyle`. See [Modal Link Style Options](#modal-link-style-options) for more details.
 
-The second takes two parameters:
+The second takes three parameters:
 - `modalTheme`: an enum of type `AfterpayModalTheme` with the following options: `mint` (default) and `white`.
 - `isCbtEnabled`: an optional `boolean` to indicate if the modal should show the Cross Border Trade details in the modal. Defaults to `false`
 - `modalLinkStyle`: an optional value of type `ModalLinkStyle`. See [Modal Link Style Options](#modal-link-style-options) for more details.
