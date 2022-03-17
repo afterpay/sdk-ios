@@ -10,10 +10,13 @@ import Foundation
 
 public struct ShippingAddress: Decodable {
 
-  var countryCode: String?
-  var postcode: String?
-  var phoneNumber: String?
-  var state: String?
-  var suburb: String?
+  public var name: String?
+  public var address1: String?
+  public var address2: String?
+  public var countryCode: String?
+  public var postcode: String?
+  public var phoneNumber: String?
+  public var state: String?
+  public var suburb: String?
 
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum ColorScheme {
   case `static`(ColorPalette)
@@ -37,24 +38,42 @@ public enum ColorPalette {
   case mintOnBlack
   case whiteOnBlack
   case blackOnWhite
-}
 
-public enum ButtonKind {
-  case buyNow
-  case checkout
-  case payNow
-  case placeOrder
-
-  var accessibilityLabel: String {
+  var uiColors: (foreground: UIColor?, background: UIColor?) {
     switch self {
-    case .buyNow:
-      return "buy now with"
-    case .checkout:
-      return "checkout with"
-    case .payNow:
-      return "pay now with"
-    case .placeOrder:
-      return "place order with"
+    case .blackOnMint:
+      return (
+        foreground: UIColor.black,
+        background: UIColor(named: "BondiMint", in: Afterpay.bundle, compatibleWith: nil)!
+      )
+    case .mintOnBlack:
+      return (
+        foreground: UIColor(named: "BondiMint", in: Afterpay.bundle, compatibleWith: nil)!,
+        background: UIColor.black
+      )
+    case .whiteOnBlack:
+      return (
+        foreground: UIColor.white,
+        background: UIColor.black
+      )
+    case .blackOnWhite:
+      return (
+        foreground: UIColor.black,
+        background: UIColor.white
+      )
+    }
+  }
+
+  var slug: String {
+    switch self {
+    case .blackOnMint:
+      return "black-on-mint"
+    case .mintOnBlack:
+      return "mint-on-black"
+    case .whiteOnBlack:
+      return "white-on-black"
+    case .blackOnWhite:
+      return "black-on-white"
     }
   }
 }

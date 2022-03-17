@@ -14,14 +14,19 @@ enum Strings {
 
   // MARK: - Static Strings
 
-  static let info = "Info"
+  static let circledInfoIcon = "\u{24D8}"
+  static let moreInfo = "More Info"
+  static let learnMore = "Learn More"
   static let orPayWith = "or pay with"
 
   // MARK: - String Formats
 
   static let availableBetweenFormat = "available for orders between %@ - %@"
   static let availableUpToFormat = "available for orders up to %@"
-  static let fourPaymentsFormat = "or 4 interest-free payments of %@ with"
+  static let fourPaymentsFormatNoOptional = "%@ 4 payments of %@"
+  static let fourPaymentsFormatWith = "%@ 4 payments of %@ with"
+  static let fourPaymentsFormatInterest = "%@ 4 interest-free payments of %@"
+  static let fourPaymentsFormatInterestAndWith = "%@ 4 interest-free payments of %@ with"
 
   // MARK: - Accessible Strings
 
