@@ -76,7 +76,7 @@ This is the recommended integration method.
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "3.0.5"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.4.0"))
 ]
 ```
 
@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 3.0.5
+git checkout 4.4.0
 ```
 
 #### Project / Workspace Integration
@@ -194,7 +194,7 @@ dataStore.fetchDataRecords(ofTypes: dataTypes) { records in
 
 The checkout widget displays the consumer's payment schedule, and can be updated as the order total changes. It should be shown if the order value is going to change after the Afterpay Express checkout has finished. For example, the order total may change in response to shipping costs and promo codes. It can also be used to show if there are any barriers to completing the purchase, like if the customer has gone over their Afterpay payment limit.
 
-It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode'). 
+It can be used in two ways: with a checkout token (from checkout v2) or with a monetary amount (also known as 'tokenless mode').
 
 ```swift
 // With token:
@@ -260,7 +260,7 @@ The Afterpay badge is a simple `UIView` that can be scaled to suit the needs of 
 let badgeView = BadgeView()
 ```
 
-Below are examples of the badge in each of the color schemes:  
+Below are examples of the badge in each of the color schemes:
 ![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
 
 ### Payment Button
@@ -270,7 +270,7 @@ The Afterpay `PaymentButton` is a subclass of `UIButton` that can be scaled to s
 Below are examples of the button in each of the color schemes:
 | Mint and Black | Black and White |
 | -- | -- |
-| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] | 
+| ![Black on Mint button][button-black-on-mint] | ![White on Black button][button-white-on-black] |
 | ![Mint on Black button][button-mint-on-black] | ![Black on White button][button-black-on-white] |
 
 There are also a few other kinds of payment available, with different wording:
@@ -316,10 +316,81 @@ A total payment amount (represented as a Swift Decimal) must be programatically 
 let totalAmount = Decimal(string: price) ?? .zero
 
 let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.introText = AfterpayIntroText.payInTitle
 priceBreakdownView.totalAmount = totalAmount
 ```
 
 After setting the total amount the matching breakdown string for the set Afterpay configuration will be displayed.
+
+### Intro Text
+Setting `introText` is optional, will default to `or` and must be of type `AfterpayIntroText`.
+
+Can be any of `or`, `orTitle`, `pay`, `payTitle`, `make`, `makeTitle`, `payIn`, `payInTitle`, `in`, `inTitle` or `empty` (no intro text).
+Intro text will be rendered lowercase unless using an option suffixed with `Title` in which case title case will be rendered.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.introText = AfterpayIntroText.makeTitle
+```
+
+Given the above, the price breakdown text will be rendered `Make 4 interest-free payments of $##.## with`
+
+### Optional Text
+Setting `showInterestFreeText` and / or `showWithText` is optional and is of type `Bool`.
+
+Both default to `true`. This will show the text `pay in 4 interest-free payments of $#.## with`.
+Setting `showInterestFreeText` to `false` will remove "interest-free" from the sentence.
+Setting `showWithText` to `false` will remove the word "with" from the sentence.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.showInterestFreeText = false
+```
+
+Given the above, the price breakdown text will be rendered `or 4 payments of $##.## with`
+
+### More Info Options
+Setting `moreInfoOptions` is optional and of type `AfterpayMoreInfoOptions`. This struct has two constructors.
+The first takes a two parameters:
+- `modalId`: an optional `string` that is the filename of a modal hosted on Afterpay static. If not set, the default modal for the locale will be used.
+- `modalLinkStyle`: an optional value of type `ModalLinkStyle`. See [Modal Link Style Options](#modal-link-style-options) for more details.
+
+The second takes three parameters:
+- `modalTheme`: an enum of type `AfterpayModalTheme` with the following options: `mint` (default) and `white`.
+- `isCbtEnabled`: an optional `boolean` to indicate if the modal should show the Cross Border Trade details in the modal. Defaults to `false`
+- `modalLinkStyle`: an optional value of type `ModalLinkStyle`. See [Modal Link Style Options](#modal-link-style-options) for more details.
+
+**Note**
+Not all combinations of Locales and CBT are available.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
+```
+Given the above, when clicking the more info "link", the modal that opens will be white in the current locale as set in configuration.
+
+#### Modal Link Style Options
+A value that can be set on `moreInfoOptions` either when initialised or as a setter. Setting this is optional and is of type `ModalLinkStyle`.
+
+Available values are `circledInfoIcon`, `moreInfoText`, `learnMoreText` `circledQuestionIcon` `circledLogo` `custom` `none`.
+`circledInfoIcon` is the default & `none` will remove the link all together.
+
+When using `custom` an `NSMutableAttributedString` must be passed in (see second example below).
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .circledQuestionIcon)
+```
+
+Given the above, the price breakdown modal link will be a circle containing a question mark.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+let customString = NSMutableAttributedString(string: "Click Here")
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .custom(customString))
+```
+
+Given the above, the price breakdown modal link will be a circle containing a question mark.
 
 ### Examples
 
@@ -454,7 +525,7 @@ You may also choose to send the desired locale and/or environment data back from
 
 The following examples are in Swift and UIKit. Objective-C and SwiftUI wrappers have not been provided at this time for v2. Please raise an issue if you would like to see them implemented.
 
-> **NOTE:** 
+> **NOTE:**
 > Two requirements must be met in order to use checkout v2 successfully:
 > - Configuration must always be set before presentation otherwise you will incur an assertionFailure.
 > - When creating a checkout token `popupOriginUrl` must be set to `https://static.afterpay.com`. The SDK’s example merchant server sets the parameter [here](https://github.com/afterpay/sdk-example-server/blob/master/src/routes/checkout.ts#L28). See more at by checking the [api reference][express-checkout]. Failing to do so will cause undefined behavior.
@@ -496,7 +567,7 @@ Afterpay.presentCheckoutV2Modally(
   shippingAddressDidChange: { address, completion in
     // Use the address to form a shipping options result and pass to completion
   },
-  shippingOptionDidChange: { shippingOption in
+  shippingOptionDidChange: { shippingOption, completion in
     // Optionally update your application model with the selected shipping option
   },
   completion: { result in
@@ -518,11 +589,11 @@ final class CheckoutHandler: CheckoutV2Handler {
     // Load the token passing the result to completion
   }
 
-  func shippingAddressDidChange(address: Address, completion: @escaping ShippingOptionsCompletion) {
+  func shippingAddressDidChange(address: ShippingAddress, completion: @escaping ShippingOptionsCompletion) {
     // Use the address to form a shipping options result and pass to completion
   }
 
-  func shippingOptionDidChange(shippingOption: ShippingOption) {
+  func shippingOptionDidChange(shippingOption: ShippingOption, completion: @escaping ShippingOptionCompletion) {
     // Optionally update your application model with the selected shipping option
   }
 }
@@ -574,7 +645,7 @@ WidgetView.init(amount:)
 
 ### Widget Options
 
-The widget has appearance options. You can provide these when you initialise the `WidgetView`. 
+The widget has appearance options. You can provide these when you initialise the `WidgetView`.
 
 Both initialisers take an optional second parameter: a `WidgetView.Style`. The style type contains the appearance options for the widget. At the moment, the only options for `Style` are booleans for the `logo` and the `header`. By default, they are `true`.
 
@@ -596,7 +667,7 @@ widgetView.layer.borderColor = UIColor.someOtherColor
 
 ### Updating the Widget
 
-The order total will change due to circumstances like promo codes, shipping options, _et cetera_. When the it has changed, you should inform the widget so that it can update what it is displaying. 
+The order total will change due to circumstances like promo codes, shipping options, _et cetera_. When the it has changed, you should inform the widget so that it can update what it is displaying.
 
 You may send updates to the widget via its `sendUpdate(amount:)` function. The `amount` parameter is the total amount of the order. It must be in the same currency that was sent to `Afterpay.setConfiguration`.  The configuration object *must* be set before calling this method, or it will throw.
 
@@ -611,12 +682,12 @@ You can also enquire about the current status of the widget. This is an asynchro
 (If you wish to be informed when the status has changed, consider setting a `WidgetHandler`)
 
 ```swift
-widgetView.getStatus { result in 
+widgetView.getStatus { result in
   // handle result
 }
 ```
 
-The `result` returned, if successful, is a `WidgetStatus`. This tells you if the widget is either in a valid or invalid state. `WidgetStatus` is an enum with two cases: `valid` and `invalid`. Each case has associated values appropriate for their circumstances. 
+The `result` returned, if successful, is a `WidgetStatus`. This tells you if the widget is either in a valid or invalid state. `WidgetStatus` is an enum with two cases: `valid` and `invalid`. Each case has associated values appropriate for their circumstances.
 
 `valid` has the amount of money due today and the payment schedule checksum. The checksum is a unique value representing the payment schedule that must be provided when capturing the order. `invalid` has the error code and error message. The error code and message are optional.
 
@@ -634,7 +705,7 @@ final class ExampleWidgetHandler: WidgetHandler {
   }
 
   func onChanged(status: WidgetStatus) {
-    // The widget has had an update. 
+    // The widget has had an update.
   }
 
   func onError(errorCode: String?, message: String?) {
@@ -653,7 +724,7 @@ final class MyViewController: UIViewController {
 
   init() {
     // ... snip ...
-  
+
     // Do this some time before displaying the widget. Doesn't have to be in init()
     Afterpay.setWidgetHandler(widgetHandler)
   }

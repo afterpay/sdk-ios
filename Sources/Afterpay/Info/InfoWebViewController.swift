@@ -32,6 +32,8 @@ final class InfoWebViewController: UIViewController, WKNavigationDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    self.extendedLayoutIncludesOpaqueBars = true
+
     if #available(iOS 13.0, *) {
       overrideUserInterfaceStyle = .light
       navigationItem.rightBarButtonItem = UIBarButtonItem(

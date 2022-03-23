@@ -28,7 +28,7 @@ final class CheckoutV2ViewController:
 
   private let didCommenceCheckoutClosure: DidCommenceCheckoutClosure?
   private let shippingAddressDidChangeClosure: ShippingAddressDidChangeClosure?
-  private let shippingOptionDidChangeClosure: ShippingOptionsDidChangeClosure?
+  private let shippingOptionDidChangeClosure: ShippingOptionDidChangeClosure?
   private let completion: (_ result: CheckoutResult) -> Void
 
   private var didCommenceCheckout: DidCommenceCheckoutClosure? {
@@ -39,7 +39,7 @@ final class CheckoutV2ViewController:
     shippingAddressDidChangeClosure ?? getCheckoutV2Handler()?.shippingAddressDidChange
   }
 
-  private var shippingOptionDidChange: ShippingOptionsDidChangeClosure? {
+  private var shippingOptionDidChange: ShippingOptionDidChangeClosure? {
     shippingOptionDidChangeClosure ?? getCheckoutV2Handler()?.shippingOptionDidChange
   }
 
@@ -60,7 +60,7 @@ final class CheckoutV2ViewController:
     options: CheckoutV2Options,
     didCommenceCheckout: DidCommenceCheckoutClosure?,
     shippingAddressDidChange: ShippingAddressDidChangeClosure?,
-    shippingOptionDidChange: ShippingOptionsDidChangeClosure?,
+    shippingOptionDidChange: ShippingOptionDidChangeClosure?,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.configuration = configuration
@@ -143,9 +143,7 @@ final class CheckoutV2ViewController:
 
     webView.removeCache(
       for: configuration.environment.bootstrapCacheDisplayName
-    ) {
-      [bootstrapURL] in webView.load(URLRequest(url: bootstrapURL))
-    }
+    ) { [bootstrapURL] in webView.load(URLRequest(url: bootstrapURL)) }
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate
@@ -327,8 +325,18 @@ final class CheckoutV2ViewController:
         // Error messages raised in the webview are logged when in Debug for ease of debugging
         os_log("%@", log: .checkout, type: .debug, errorMessage)
       case .shippingOption(let shippingOption):
-        shippingOptionDidChange?(shippingOption)
+        shippingOptionDidChange?(shippingOption) { updatedShippingOption in
+          let requestId = message.requestId
+
+          let responseMessage = updatedShippingOption?.fold(
+            successTransform: { Message(requestId: requestId, payload: .shippingOptionUpdate($0)) },
+            errorTransform: { Message(requestId: requestId, payload: .errorMessage($0.rawValue)) }
+          )
+          postMessage(responseMessage ?? Message(requestId: requestId, payload: nil))
+        }
       case .shippingOptions:
+        break
+      case .shippingOptionUpdate:
         break
       }
     } else if let completion = completion {
