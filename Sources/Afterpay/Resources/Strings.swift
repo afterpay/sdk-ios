@@ -30,6 +30,11 @@ enum Strings {
     comment: "Price breakdown message when no config set"
   )
 
+  static let circledInfoIcon = "\u{24D8}"
+  static let moreInfo = "More Info"
+  static let learnMore = "Learn More"
+  static let orPayWith = "or pay with"
+
   // MARK: - String Formats
 
   static let availableBetweenFormat = NSLocalizedString(

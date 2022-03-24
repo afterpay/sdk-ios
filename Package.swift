@@ -12,11 +12,8 @@ let package = Package(
   products: [
     .library(name: "Afterpay", targets: ["Afterpay"]),
   ],
-  dependencies: [
-    .package(url: "https://github.com/exyte/Macaw.git", from: "0.9.7"),
-  ],
   targets: [
-    .target(name: "Afterpay", dependencies: ["Macaw"]),
+    .target(name: "Afterpay"),
     .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
   ]
 )

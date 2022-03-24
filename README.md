@@ -76,7 +76,7 @@ This is the recommended integration method.
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.1.0"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.4.0"))
 ]
 ```
 
@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 4.1.0
+git checkout 4.4.0
 ```
 
 #### Project / Workspace Integration
@@ -328,6 +328,49 @@ priceBreakdownView.showInterestFreeText = false
 ```
 
 Given the above, the price breakdown text will be rendered `or 4 payments of $##.## with`
+
+### More Info Options
+Setting `moreInfoOptions` is optional and of type `AfterpayMoreInfoOptions`. This struct has two constructors.
+The first takes a two parameters:
+- `modalId`: an optional `string` that is the filename of a modal hosted on Afterpay static. If not set, the default modal for the locale will be used.
+- `modalLinkStyle`: an optional value of type `ModalLinkStyle`. See [Modal Link Style Options](#modal-link-style-options) for more details.
+
+The second takes three parameters:
+- `modalTheme`: an enum of type `AfterpayModalTheme` with the following options: `mint` (default) and `white`.
+- `isCbtEnabled`: an optional `boolean` to indicate if the modal should show the Cross Border Trade details in the modal. Defaults to `false`
+- `modalLinkStyle`: an optional value of type `ModalLinkStyle`. See [Modal Link Style Options](#modal-link-style-options) for more details.
+
+**Note**
+Not all combinations of Locales and CBT are available.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
+```
+Given the above, when clicking the more info "link", the modal that opens will be white in the current locale as set in configuration.
+
+#### Modal Link Style Options
+A value that can be set on `moreInfoOptions` either when initialised or as a setter. Setting this is optional and is of type `ModalLinkStyle`.
+
+Available values are `circledInfoIcon`, `moreInfoText`, `learnMoreText` `circledQuestionIcon` `circledLogo` `custom` `none`.
+`circledInfoIcon` is the default & `none` will remove the link all together.
+
+When using `custom` an `NSMutableAttributedString` must be passed in (see second example below).
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .circledQuestionIcon)
+```
+
+Given the above, the price breakdown modal link will be a circle containing a question mark.
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+let customString = NSMutableAttributedString(string: "Click Here")
+priceBreakdownView.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .custom(customString))
+```
+
+Given the above, the price breakdown modal link will be a circle containing a question mark.
 
 ### Examples
 

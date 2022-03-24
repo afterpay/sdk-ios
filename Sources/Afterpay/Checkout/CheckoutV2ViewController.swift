@@ -143,9 +143,7 @@ final class CheckoutV2ViewController:
 
     webView.removeCache(
       for: configuration.environment.bootstrapCacheDisplayName
-    ) {
-      [bootstrapURL] in webView.load(URLRequest(url: bootstrapURL))
-    }
+    ) { [bootstrapURL] in webView.load(URLRequest(url: bootstrapURL)) }
   }
 
   // MARK: UIAdaptivePresentationControllerDelegate

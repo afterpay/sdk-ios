@@ -78,11 +78,14 @@ public final class PriceBreakdownView: UIView {
     .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
   }
 
+  public var moreInfoOptions: MoreInfoOptions = MoreInfoOptions() {
+    didSet { updateAttributedText() }
+  }
+
   private let linkTextView = LinkTextView()
 
   private var infoLink: String {
-    let locale = getConfiguration()?.locale.identifier ?? "en_US"
-    return "https://static.afterpay.com/modal/\(locale).html"
+    return "https://static.afterpay.com/modal/\(self.moreInfoOptions.modalFile())"
   }
 
   public init(badgeColorScheme: ColorScheme = .static(.blackOnMint)) {
@@ -131,23 +134,18 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let configuration = BadgeConfiguration(colorScheme: badgeColorScheme)
-    let badgeSVGView = SVGView(svgConfiguration: configuration)
-    let svg = badgeSVGView.svg
+    let badgeView = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnWhite))
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
 
-    let widthFittingFont = fontHeight / svg.aspectRatio
-    let width = widthFittingFont > svg.minimumWidth ? widthFittingFont : svg.minimumWidth
-    let size = CGSize(width: width, height: width * svg.aspectRatio)
+    let badgeRatio = badgeView.ratio ?? 1
 
-    badgeSVGView.frame = CGRect(origin: .zero, size: size)
+    let widthFittingFont = fontHeight / badgeRatio
+    let width = widthFittingFont > badgeView.minimumWidth ? widthFittingFont : badgeView.minimumWidth
+    let size = CGSize(width: width, height: width * badgeRatio)
 
-    let renderer = UIGraphicsImageRenderer(size: badgeSVGView.bounds.size)
-    let image = renderer.image { rendererContext in
-      badgeSVGView.layer.render(in: rendererContext.cgContext)
-    }
+    badgeView.frame = CGRect(origin: .zero, size: size)
 
     let textAttributes: [NSAttributedString.Key: Any] = [
       .font: font,
@@ -163,9 +161,10 @@ public final class PriceBreakdownView: UIView {
 
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
-      attachment.image = image
-      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: image.size)
-      attachment.accessibilityLabel = configuration.accessibilityLabel(localizedFor: getLocale())
+      attachment.image = badgeView.image
+      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: badgeView.bounds.size)
+      attachment.isAccessibilityElement = true
+      attachment.accessibilityLabel = badgeView.accessibilityLabel
       return .init(attachment: attachment)
     }()
 
@@ -183,9 +182,36 @@ public final class PriceBreakdownView: UIView {
     var badgeAndBreakdown = [badge, space, breakdown]
     badgeAndBreakdown = badgePlacement == .start ? badgeAndBreakdown : badgeAndBreakdown.reversed()
 
-    let linkAttributes = textAttributes.merging([.link: infoLink]) { $1 }
-    let link = NSAttributedString(string: Strings.info, attributes: linkAttributes)
-    let strings = badgeAndBreakdown + [space, link]
+    let linkConfig = moreInfoOptions.modalLinkStyle.styleConfig
+    let linkStyleAttributes = textAttributes.merging(linkConfig.attributes) { $1 }
+    let linkAttributes = linkStyleAttributes.merging([.link: infoLink]) { $1 }
+
+    let link: NSMutableAttributedString? = {
+      if linkConfig.customContent != nil {
+        return linkConfig.customContent! as? NSMutableAttributedString
+      } else if linkConfig.text != nil {
+        return .init(string: linkConfig.text!)
+      } else if let image = linkConfig.image, let renderMode = linkConfig.imageRenderingMode {
+        let attachment = NSTextAttachment()
+        let imageRatio = image.size.width / image.size.height
+        let attachmentHeight = fontHeight * 0.8
+
+        attachment.image = image.withRenderingMode(renderMode)
+        attachment.bounds = CGRect(
+          origin: .init(x: 0, y: font.descender * 0.6),
+          size: CGSize(width: attachmentHeight * imageRatio, height: attachmentHeight)
+        )
+        return .init(attachment: attachment)
+      }
+
+      return nil
+    }()
+
+    if link != nil {
+      link?.addAttributes(linkAttributes, range: NSRange(location: 0, length: link!.length))
+    }
+
+    let strings = (link != nil) ? badgeAndBreakdown + [space, link!] : badgeAndBreakdown
 
     strings.forEach(attributedString.append)
 
