@@ -8,7 +8,10 @@
 "IN_TITLE" = "En";
 
 /* Link in price breakdown message */
-"INFO" = "Información";
+"MORE_INFO" = "Más infos";
+
+/* Link in price breakdown message */
+"LEARN_MORE" = "Saber más";
 
 /* Interest-free words for price breakdown */
 "INTEREST_FREE" = "sin coste ";

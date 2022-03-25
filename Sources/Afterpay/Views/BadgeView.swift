@@ -50,16 +50,14 @@ public class BadgeView: UIView {
   }
 
   internal func updateImage(withTraits traitCollection: UITraitCollection) {
-    let isLocaleGreatBritain = getLocale() == Locales.greatBritain
-    let brand = isLocaleGreatBritain ? "clearpay" : "afterpay"
-    accessibilityLabel = isLocaleGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
+    accessibilityLabel = Afterpay.brand.details.accessibleName
 
     var colors = colorScheme.lightPalette.slug
     if traitCollection.userInterfaceStyle == .dark {
       colors = colorScheme.darkPalette.slug
     }
 
-    let imageName = "badge-\(brand)-\(colors)"
+    let imageName = "badge-\(Afterpay.brand.details.lowerCaseName)-\(colors)"
 
     deactivateConstraints()
     image = UIImage(named: imageName, in: Afterpay.bundle, compatibleWith: nil)

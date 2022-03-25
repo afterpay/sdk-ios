@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Locales {
+enum Locales: Hashable {
 
   static let enAU = Locale(identifier: "en_AU")
   static let enCA = Locale(identifier: "en_CA")

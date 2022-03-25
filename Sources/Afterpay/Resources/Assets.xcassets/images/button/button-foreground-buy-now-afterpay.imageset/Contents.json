@@ -3,6 +3,22 @@
     {
       "filename" : "button-foreground-buy-now-afterpay.pdf",
       "idiom" : "universal"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "fr-CA"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "it"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "es"
     }
   ],
   "info" : {
@@ -10,6 +26,7 @@
     "version" : 1
   },
   "properties" : {
+    "localizable" : true,
     "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }
