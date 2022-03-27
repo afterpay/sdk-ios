@@ -14,11 +14,11 @@ enum Strings {
 
   // MARK: - Static Strings
 
-  static let info = NSLocalizedString(
-    "INFO",
+  static let moreInfo = NSLocalizedString(
+    "MORE_INFO",
     tableName: "Placement",
     bundle: Afterpay.bundle,
-    value: "Info",
+    value: "More Info",
     comment: "Link in price breakdown message"
   )
 
@@ -29,6 +29,16 @@ enum Strings {
     value: "or pay with",
     comment: "Price breakdown message when no config set"
   )
+
+  static let learnMore = NSLocalizedString(
+    "LEARN_MORE",
+    tableName: "Placement",
+    bundle: Afterpay.bundle,
+    value: "Learn More",
+    comment: "Link in price breakdown message"
+  )
+
+  static let circledInfoIcon = "\u{24D8}"
 
   // MARK: - String Formats
 

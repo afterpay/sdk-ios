@@ -338,3 +338,7 @@ public func setConfiguration(_ configuration: Configuration?) {
 func getLocale() -> Locale {
   getConfiguration()?.locale ?? Locales.enUS
 }
+
+internal var brand: Brand {
+  return Brand.forLocale(locale: getLocale())
+}

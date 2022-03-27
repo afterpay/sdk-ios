@@ -151,7 +151,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     titleLabel.adjustsFontForContentSizeCategory = true
     stack.addArrangedSubview(titleLabel)
 
-    let badge = BadgeView()
+    let badge = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnMint))
     badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
     let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
@@ -161,6 +161,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     priceBreakdown1.introText = AfterpayIntroText.payInTitle
     priceBreakdown1.totalAmount = 100
     priceBreakdown1.delegate = self
+    priceBreakdown1.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
     stack.addArrangedSubview(priceBreakdown1)
 
     let priceBreakdown2 = PriceBreakdownView()
@@ -168,6 +169,8 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     priceBreakdown2.delegate = self
     priceBreakdown2.showWithText = false
     priceBreakdown2.showInterestFreeText = false
+    priceBreakdown2.badgeColorScheme = .dynamic(lightPalette: .whiteOnBlack, darkPalette: .blackOnWhite)
+    priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .moreInfoText)
     stack.addArrangedSubview(priceBreakdown2)
 
     let priceBreakdown3 = PriceBreakdownView()
