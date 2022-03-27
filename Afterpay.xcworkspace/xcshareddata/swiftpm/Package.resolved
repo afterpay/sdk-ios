@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Macaw",
-        "repositoryURL": "https://github.com/exyte/Macaw",
-        "state": {
-          "branch": null,
-          "revision": "7cb4f5876423435e1a41628417230accc37284c6",
-          "version": "0.9.7"
-        }
-      },
-      {
-        "package": "SWXMLHash",
-        "repositoryURL": "https://github.com/drmohundro/SWXMLHash",
-        "state": {
-          "branch": null,
-          "revision": "9183170d20857753d4f331b0ca63f73c60764bf3",
-          "version": "5.0.2"
-        }
-      },
-      {
-        "package": "TrustKit",
-        "repositoryURL": "https://github.com/datatheorem/TrustKit",
-        "state": {
-          "branch": null,
-          "revision": "3c953558d61fdd9b136d981764e3242bd92b2648",
-          "version": "1.7.0"
-        }
+  "pins" : [
+    {
+      "identity" : "macaw",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/Macaw",
+      "state" : {
+        "revision" : "d50834811182a86333da721fd3c6731ebd66ad6c",
+        "version" : "0.9.9"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swxmlhash",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/drmohundro/SWXMLHash",
+      "state" : {
+        "revision" : "6469881a3f30417c5bb02404ea4b69207f297592",
+        "version" : "6.0.0"
+      }
+    },
+    {
+      "identity" : "trustkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/datatheorem/TrustKit",
+      "state" : {
+        "revision" : "3c953558d61fdd9b136d981764e3242bd92b2648",
+        "version" : "1.7.0"
+      }
+    }
+  ],
+  "version" : 2
 }
