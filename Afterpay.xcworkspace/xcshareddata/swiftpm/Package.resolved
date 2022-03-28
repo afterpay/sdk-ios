@@ -1,24 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "macaw",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/Macaw",
-      "state" : {
-        "revision" : "7cb4f5876423435e1a41628417230accc37284c6",
-        "version" : "0.9.7"
-      }
-    },
-    {
-      "identity" : "swxmlhash",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/drmohundro/SWXMLHash",
-      "state" : {
-        "revision" : "a4931e5c3bafbedeb1601d3bb76bbe835c6d475a",
-        "version" : "5.0.1"
-      }
-    },
-    {
       "identity" : "trustkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/datatheorem/TrustKit",
