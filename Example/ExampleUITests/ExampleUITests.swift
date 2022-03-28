@@ -48,14 +48,14 @@ final class ExampleUITests: XCTestCase {
 
     XCTAssertTrue(webViewText.label.contains(#"token":null"#))
     XCTAssertTrue(webViewText.label.contains(#"amount":"200.00"#))
-    XCTAssertTrue(webViewText.label.contains(#"currency":"AUD"#))
+    XCTAssertTrue(webViewText.label.contains(#"currency":"USD"#))
 
     let textField = app.textFields.firstMatch
     textField.tap()
     textField.typeText("444")
     app.buttons["Update"].tap()
 
-    XCTAssertTrue(webViewText.label.contains(#"{"amount":"444","currency":"AUD"}"#))
+    XCTAssertTrue(webViewText.label.contains(#"{"amount":"444","currency":"USD"}"#))
   }
 
 }
