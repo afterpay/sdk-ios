@@ -5,18 +5,22 @@
       "idiom" : "universal"
     },
     {
+      "filename" : "buy now with_french.pdf",
       "idiom" : "universal",
       "locale" : "fr"
     },
     {
+      "filename" : "buy now with_french canadian.pdf",
       "idiom" : "universal",
       "locale" : "fr-CA"
     },
     {
+      "filename" : "buy now with_italian.pdf",
       "idiom" : "universal",
       "locale" : "it"
     },
     {
+      "filename" : "buy now with_spanish.pdf",
       "idiom" : "universal",
       "locale" : "es"
     }

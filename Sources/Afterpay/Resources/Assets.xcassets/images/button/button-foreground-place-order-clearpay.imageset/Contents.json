@@ -3,6 +3,26 @@
     {
       "filename" : "button-foreground-place-order-clearpay.pdf",
       "idiom" : "universal"
+    },
+    {
+      "filename" : "place order with_french.pdf",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "place order with_french canadian.pdf",
+      "idiom" : "universal",
+      "locale" : "fr-CA"
+    },
+    {
+      "filename" : "place-order-with_italian.pdf",
+      "idiom" : "universal",
+      "locale" : "it"
+    },
+    {
+      "filename" : "place order with_spanish.pdf",
+      "idiom" : "universal",
+      "locale" : "es"
     }
   ],
   "info" : {
@@ -10,6 +30,7 @@
     "version" : 1
   },
   "properties" : {
+    "localizable" : true,
     "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }

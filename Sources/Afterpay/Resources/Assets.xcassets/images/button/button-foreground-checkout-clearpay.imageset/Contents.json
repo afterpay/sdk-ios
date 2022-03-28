@@ -3,6 +3,26 @@
     {
       "filename" : "button-foreground-checkout-clearpay.pdf",
       "idiom" : "universal"
+    },
+    {
+      "filename" : "checkout with_french.pdf",
+      "idiom" : "universal",
+      "locale" : "fr"
+    },
+    {
+      "filename" : "checkout with_french canadian.pdf",
+      "idiom" : "universal",
+      "locale" : "fr-CA"
+    },
+    {
+      "filename" : "checkout with_italian.pdf",
+      "idiom" : "universal",
+      "locale" : "it"
+    },
+    {
+      "filename" : "checkout with_spanish.pdf",
+      "idiom" : "universal",
+      "locale" : "es"
     }
   ],
   "info" : {
@@ -10,6 +30,7 @@
     "version" : 1
   },
   "properties" : {
+    "localizable" : true,
     "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }
