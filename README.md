@@ -144,6 +144,8 @@ Checkout version 1 requires you to manage the loading of a checkout URL yourself
 
 ### Checkout v2
 
+**Note:** Checkout v2 is not available at this time for the following regions: France, Italy, Spain.
+
 ```swift
 Afterpay.presentCheckoutV2Modally(over:animated:options:didCommenceCheckout:shippingAddressDidChange:shippingOptionDidChange:completion:)
 ```
