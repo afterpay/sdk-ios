@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "lockup-clearpay-mint.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

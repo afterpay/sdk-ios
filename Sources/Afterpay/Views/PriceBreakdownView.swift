@@ -70,8 +70,20 @@ public final class PriceBreakdownView: UIView {
     }
   }()
 
-  public var badgeColorScheme: ColorScheme = .static(.blackOnMint) {
+  @available(*, deprecated, renamed: "logoColorScheme")
+  public var badgeColorScheme: ColorScheme = .static(.blackOnMint)
+
+  public var logoColorScheme: ColorScheme = .static(.blackOnMint) {
     didSet { updateAttributedText() }
+  }
+
+  public enum LogoType {
+    case badge
+    case lockup
+  }
+
+  public var logoType: LogoType {
+    return .badge
   }
 
   public var fontProvider: (UITraitCollection) -> UIFont = { traitCollection in
@@ -88,8 +100,17 @@ public final class PriceBreakdownView: UIView {
     return "https://static.afterpay.com/modal/\(self.moreInfoOptions.modalFile())"
   }
 
-  public init(badgeColorScheme: ColorScheme = .static(.blackOnMint)) {
-    self.badgeColorScheme = badgeColorScheme
+  @available(*, deprecated, renamed: "init(logoColorScheme:)")
+  public init(badgeColorScheme: ColorScheme) {
+    self.logoColorScheme = badgeColorScheme
+
+    super.init(frame: .zero)
+
+    sharedInit()
+  }
+
+  public init(logoColorScheme: ColorScheme = .static(.blackOnMint)) {
+    self.logoColorScheme = logoColorScheme
 
     super.init(frame: .zero)
 
@@ -134,18 +155,18 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let badgeView = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnWhite))
+    let logoView = BadgeView(colorScheme: logoColorScheme)
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
 
-    let badgeRatio = badgeView.ratio ?? 1
+    let badgeRatio = logoView.ratio ?? 1
 
     let widthFittingFont = fontHeight / badgeRatio
-    let width = widthFittingFont > badgeView.minimumWidth ? widthFittingFont : badgeView.minimumWidth
+    let width = widthFittingFont > logoView.minimumWidth ? widthFittingFont : logoView.minimumWidth
     let size = CGSize(width: width, height: width * badgeRatio)
 
-    badgeView.frame = CGRect(origin: .zero, size: size)
+    logoView.frame = CGRect(origin: .zero, size: size)
 
     let textAttributes: [NSAttributedString.Key: Any] = [
       .font: font,
@@ -161,10 +182,10 @@ public final class PriceBreakdownView: UIView {
 
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
-      attachment.image = badgeView.image
-      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: badgeView.bounds.size)
+      attachment.image = logoView.image
+      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: logoView.bounds.size)
       attachment.isAccessibilityElement = true
-      attachment.accessibilityLabel = badgeView.accessibilityLabel
+      attachment.accessibilityLabel = logoView.accessibilityLabel
       return .init(attachment: attachment)
     }()
 

@@ -76,4 +76,17 @@ public enum ColorPalette {
       return "black-on-white"
     }
   }
+
+  var foreground: String {
+    switch self {
+    case .blackOnMint:
+      return "black"
+    case .mintOnBlack:
+      return "mint"
+    case .whiteOnBlack:
+      return "white"
+    case .blackOnWhite:
+      return "black"
+    }
+  }
 }
