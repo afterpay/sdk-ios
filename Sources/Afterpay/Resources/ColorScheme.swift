@@ -44,11 +44,11 @@ public enum ColorPalette {
     case .blackOnMint:
       return (
         foreground: UIColor.black,
-        background: UIColor(named: "BondiMint", in: Afterpay.bundle, compatibleWith: nil)!
+        background: AfterpayAssetProvider.color(named: "BondiMint")
       )
     case .mintOnBlack:
       return (
-        foreground: UIColor(named: "BondiMint", in: Afterpay.bundle, compatibleWith: nil)!,
+        foreground: AfterpayAssetProvider.color(named: "BondiMint"),
         background: UIColor.black
       )
     case .whiteOnBlack:
