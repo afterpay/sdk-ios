@@ -134,7 +134,7 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let badgeView = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnWhite))
+    let badgeView = BadgeView(colorScheme: badgeColorScheme)
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
