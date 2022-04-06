@@ -94,8 +94,8 @@ public class LayeredImageView: UIView {
     if let background = imageLayers.background, let foreground = imageLayers.foreground {
       deactivateConstraints()
 
-      let backgroundImage = UIImage(named: background, in: Afterpay.bundle, compatibleWith: nil)
-      let foregroundImage = UIImage(named: foreground, in: Afterpay.bundle, compatibleWith: nil)
+      let backgroundImage = AfterpayAssetProvider.image(named: background)
+      let foregroundImage = AfterpayAssetProvider.image(named: foreground)
 
       ratio = backgroundImage!.size.height / backgroundImage!.size.width
 
