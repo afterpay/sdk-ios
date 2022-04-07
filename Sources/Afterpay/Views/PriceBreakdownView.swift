@@ -182,7 +182,7 @@ public final class PriceBreakdownView: UIView {
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
-    let logoHeight = fontHeight * logoType.heightMultiplier
+    let logoHeight = fontHeight * CGFloat(logoType.heightMultiplier)
 
     let logoRatio = logoView.ratio ?? 1
 
@@ -209,7 +209,7 @@ public final class PriceBreakdownView: UIView {
       attachment.image = logoView.image
 
       let centerY = fontHeight / 2
-      let yPos = centerY - (logoView.frame.height / 2) + (font.descender * logoType.descenderMultiplier)
+      let yPos = centerY - (logoView.frame.height / 2) + (font.descender * CGFloat(logoType.descenderMultiplier))
 
       attachment.bounds = CGRect(origin: .init(x: 0, y: yPos), size: logoView.bounds.size)
       attachment.isAccessibilityElement = true
