@@ -164,7 +164,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     stack.addArrangedSubview(lockupStack)
 
     let priceBreakdown1 = PriceBreakdownView()
-    priceBreakdown1.introText = AfterpayIntroText.payInTitle
+    priceBreakdown1.introText = .payInTitle
     priceBreakdown1.totalAmount = 100
     priceBreakdown1.delegate = self
     priceBreakdown1.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
@@ -175,8 +175,9 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     priceBreakdown2.delegate = self
     priceBreakdown2.showWithText = false
     priceBreakdown2.showInterestFreeText = false
-    priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .whiteOnBlack, darkPalette: .blackOnWhite)
+    priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .blackOnMint, darkPalette: .whiteOnBlack)
     priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .circledQuestionIcon)
+    priceBreakdown2.logoType = .lockup
     stack.addArrangedSubview(priceBreakdown2)
 
     let priceBreakdown3 = PriceBreakdownView()

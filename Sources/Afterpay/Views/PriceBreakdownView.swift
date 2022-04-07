@@ -80,10 +80,28 @@ public final class PriceBreakdownView: UIView {
   public enum LogoType {
     case badge
     case lockup
+
+    var heightMultiplier: Double {
+      switch self {
+      case .badge:
+        return 1.8
+      case .lockup:
+        return 1
+      }
+    }
+
+    var descenderMultiplier: Double {
+      switch self {
+      case .badge:
+        return 1
+      case .lockup:
+        return 1.2
+      }
+    }
   }
 
-  public var logoType: LogoType {
-    return .badge
+  public var logoType: LogoType = .badge {
+    didSet { updateAttributedText() }
   }
 
   public var fontProvider: (UITraitCollection) -> UIFont = { traitCollection in
@@ -155,16 +173,22 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let logoView = BadgeView(colorScheme: logoColorScheme)
+    let logoView: AfterpayLogo
+    if logoType == .lockup {
+      logoView = LockupView(colorScheme: logoColorScheme)
+    } else {
+      logoView = BadgeView(colorScheme: logoColorScheme)
+    }
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
+    let logoHeight = fontHeight * logoType.heightMultiplier
 
-    let badgeRatio = logoView.ratio ?? 1
+    let logoRatio = logoView.ratio ?? 1
 
-    let widthFittingFont = fontHeight / badgeRatio
+    let widthFittingFont = logoHeight / logoRatio
     let width = widthFittingFont > logoView.minimumWidth ? widthFittingFont : logoView.minimumWidth
-    let size = CGSize(width: width, height: width * badgeRatio)
+    let size = CGSize(width: width, height: width * logoRatio)
 
     logoView.frame = CGRect(origin: .zero, size: size)
 
@@ -183,7 +207,11 @@ public final class PriceBreakdownView: UIView {
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
       attachment.image = logoView.image
-      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: logoView.bounds.size)
+
+      let centerY = fontHeight / 2
+      let yPos = centerY - (logoView.frame.height / 2) + (font.descender * logoType.descenderMultiplier)
+
+      attachment.bounds = CGRect(origin: .init(x: 0, y: yPos), size: logoView.bounds.size)
       attachment.isAccessibilityElement = true
       attachment.accessibilityLabel = logoView.accessibilityLabel
       return .init(attachment: attachment)
