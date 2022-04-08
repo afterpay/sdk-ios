@@ -28,7 +28,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "MAKE",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "make",
         comment: "Intro text for breakdown placement: 'make'"
       )
@@ -36,7 +36,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "MAKE_TITLE",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "Make",
         comment: "Intro text for breakdown placement: 'Make'"
       )
@@ -44,7 +44,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "PAY",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "pay",
         comment: "Intro text for breakdown placement: 'pay'"
       )
@@ -52,7 +52,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "PAY_TITLE",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "Pay",
         comment: "Intro text for breakdown placement: 'Pay'"
       )
@@ -60,7 +60,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "IN",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "in",
         comment: "Intro text for breakdown placement: 'in'"
       )
@@ -68,7 +68,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "IN_TITLE",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "In",
         comment: "Intro text for breakdown placement: 'In'"
       )
@@ -76,7 +76,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "OR",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "or",
         comment: "Intro text for breakdown placement: 'or'"
       )
@@ -84,7 +84,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "OR_TITLE",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "Or",
         comment: "Intro text for breakdown placement: 'Or'"
       )
@@ -92,7 +92,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "PAY_IN",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "pay in",
         comment: "Intro text for breakdown placement: 'pay in'"
       )
@@ -100,7 +100,7 @@ public enum AfterpayIntroText: String {
       return NSLocalizedString(
         "PAY_IN_TITLE",
         tableName: "Placement",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "Pay in",
         comment: "Intro text for breakdown placement: 'Pay in'"
       )

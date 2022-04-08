@@ -17,7 +17,7 @@ enum Strings {
   static let moreInfo = NSLocalizedString(
     "MORE_INFO",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "More Info",
     comment: "Link in price breakdown message"
   )
@@ -25,7 +25,7 @@ enum Strings {
   static let orPayWith = NSLocalizedString(
     "OR_PAY_WITH",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "or pay with",
     comment: "Price breakdown message when no config set"
   )
@@ -33,7 +33,7 @@ enum Strings {
   static let learnMore = NSLocalizedString(
     "LEARN_MORE",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "Learn More",
     comment: "Link in price breakdown message"
   )
@@ -45,7 +45,7 @@ enum Strings {
   static let availableBetweenFormat = NSLocalizedString(
     "OUTSIDE_LIMITS",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "available for orders between %1$@ – %2$@",
     comment: "Price breakdown when value is outside limits"
   )
@@ -53,7 +53,7 @@ enum Strings {
   static let availableTemplate = NSLocalizedString(
     "AVAILABLE_TEMPLATE",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "%1$@ 4 %2$@payments of %3$@ %4$@",
     comment: "Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix)"
   )
@@ -61,7 +61,7 @@ enum Strings {
   static let interestFree = NSLocalizedString(
     "INTEREST_FREE",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "interest-free ",
     comment: "Interest-free words for price breakdown"
   )
@@ -69,7 +69,7 @@ enum Strings {
   static let with = NSLocalizedString(
     "WITH",
     tableName: "Placement",
-    bundle: Afterpay.bundle,
+    bundle: Bundle.apResource,
     value: "with",
     comment: "With word (suffix) in pricebreakdown"
   )

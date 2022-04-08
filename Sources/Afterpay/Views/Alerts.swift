@@ -18,7 +18,7 @@ enum Alerts {
     let localisedMessage = NSLocalizedString(
       "FAILED_TO_LOAD_MESAGE",
       tableName: "Alerts",
-      bundle: Afterpay.bundle,
+      bundle: Bundle.apResource,
       value: "Failed to load %@ checkout",
       comment: "Error dialog for checkout not loaded"
     )
@@ -27,7 +27,7 @@ enum Alerts {
       title: NSLocalizedString(
         "ERROR_TITLE",
         tableName: "Alerts",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "Error",
         comment: "Error dialog title"
       ),
@@ -43,7 +43,7 @@ enum Alerts {
         title: NSLocalizedString(
           "RETRY_ACTION",
           tableName: "Alerts",
-          bundle: Afterpay.bundle,
+          bundle: Bundle.apResource,
           value: "Retry",
           comment: "Error dialog response: Retry"
         ),
@@ -54,7 +54,7 @@ enum Alerts {
         title: NSLocalizedString(
           "CANCEL_ACTION",
           tableName: "Alerts",
-          bundle: Afterpay.bundle,
+          bundle: Bundle.apResource,
           value: "Cancel",
           comment: "Error dialog response: Cancel"
         ),
@@ -73,7 +73,7 @@ enum Alerts {
       title: NSLocalizedString(
         "CANCEL_PAYMENT_TITLE",
         tableName: "Alerts",
-        bundle: Afterpay.bundle,
+        bundle: Bundle.apResource,
         value: "Are you sure you want to cancel the payment?",
         comment: "Question for dialog: are you sure?"
       ),
@@ -88,7 +88,7 @@ enum Alerts {
         title: NSLocalizedString(
           "YES_ACTION",
           tableName: "Alerts",
-          bundle: Afterpay.bundle,
+          bundle: Bundle.apResource,
           value: "Yes",
           comment: "Alert action (button): yes"
         ),
@@ -99,7 +99,7 @@ enum Alerts {
         title: NSLocalizedString(
           "NO_ACTION",
           tableName: "Alerts",
-          bundle: Afterpay.bundle,
+          bundle: Bundle.apResource,
           value: "No",
           comment: "Alert action (button): no"
         ),
