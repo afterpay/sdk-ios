@@ -251,7 +251,7 @@ The Afterpay lockup is a simple `UIView` that can be scaled to suit the needs of
 let lockupView = LockupView()
 ```
 
-Below are examples of the badge in each of the color schemes:
+Below are examples of the lockup in each of the colors:
 ![Black Lockup][lockup-black] ![White Lockup][lockup-white] ![Mint Lockup][lockup-mint]
 
 ### Payment Button
