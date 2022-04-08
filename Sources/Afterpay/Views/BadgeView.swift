@@ -57,10 +57,8 @@ public class BadgeView: UIView {
       colors = colorScheme.darkPalette.slug
     }
 
-    let imageName = "badge-\(Afterpay.brand.details.lowerCaseName)-\(colors)"
-
     deactivateConstraints()
-    image = UIImage(named: imageName, in: Afterpay.bundle, compatibleWith: nil)
+    image = AfterpayAssetProvider.image(named: "badge-\(brand)-\(colors)")
 
     ratio = image!.size.height / image!.size.width
 

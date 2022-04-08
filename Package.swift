@@ -14,6 +14,12 @@ let package = Package(
   ],
   targets: [
     .target(name: "Afterpay"),
-    .testTarget(name: "AfterpayTests", dependencies: ["Afterpay"], path: "AfterpayTests"),
+    .testTarget(
+      name: "AfterpayTests",
+      dependencies: ["Afterpay"],
+      path: "AfterpayTests",
+      exclude: [ "Info.plist" ],
+      resources: [ .copy("mock-widget-bootstrap.js") ]
+    ),
   ]
 )

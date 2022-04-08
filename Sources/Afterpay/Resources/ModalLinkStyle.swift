@@ -39,13 +39,13 @@ public enum ModalLinkStyle {
       return ModalLinkConfig(text: Strings.learnMore)
     case .circledQuestionIcon:
       return ModalLinkConfig(
-        image: UIImage(named: "circled-question-icon", in: Afterpay.bundle, compatibleWith: nil),
+        image: AfterpayAssetProvider.image(named: "circled-question-icon"),
         imageRenderingMode: .alwaysTemplate,
         attributes: [NSAttributedString.Key.underlineColor: UIColor.clear]
       )
     case .circledLogo:
       return ModalLinkConfig(
-        image: UIImage(named: "afterpay-logo-circle", in: Afterpay.bundle, compatibleWith: nil),
+        image: AfterpayAssetProvider.image(named: "afterpay-logo-circle"),
         imageRenderingMode: .alwaysOriginal,
         attributes: [NSAttributedString.Key.underlineColor: UIColor.clear]
       )
