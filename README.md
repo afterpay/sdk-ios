@@ -343,7 +343,7 @@ Given the above, the price breakdown text will be rendered `or 4 payments of $##
 ### Logo Type
 Setting `logoType` is optional, will default to `.badge` and must be of type `LogoType`.
 
-Can be either of `.badge` of `.lockup`.
+Can be either of `.badge` or `.lockup`.
 When setting color scheme on logo type of `.lockup`, only the foreground color will be applied. (See example)
 
 ```swift
@@ -352,7 +352,7 @@ priceBreakdownView.logoType = .lockup
 priceBreakdownView.colorScheme = .dynamic(lightPalette: .blackOnWhite, darkPalette: .whiteOnBlack)
 ```
 
-Given the above, the price breakdown will contain the lockup logo and will be be colored black when the theme is white and white when the theme is dark.
+Given the above, the price breakdown will contain the lockup logo and will be colored black when the theme is white and white when the theme is dark.
 
 ### More Info Options
 Setting `moreInfoOptions` is optional and of type `AfterpayMoreInfoOptions`. This struct has two constructors.
