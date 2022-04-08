@@ -50,7 +50,6 @@ public class AfterpayLogo: UIView {
   }
 
   internal func getImageName(brand: String, color: String) -> String {
-    print("is getting: LogoView")
     return "\(brand)-\(color)"
   }
 
