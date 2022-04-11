@@ -22,9 +22,11 @@
 		42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42927C38274209B600B26435 /* ShippingOptionUpdate.swift */; };
 		42D10C9F2761B1190028D6D9 /* OptionalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D10C9E2761B1190028D6D9 /* OptionalText.swift */; };
 		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
+		45144E7027FCEFA30061EBE8 /* LockupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E6F27FCEFA30061EBE8 /* LockupView.swift */; };
 		45144E7227FD10E00061EBE8 /* AfterpayAssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */; };
 		45144E7427FD11470061EBE8 /* AfterpayBundleFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E7327FD11470061EBE8 /* AfterpayBundleFinder.swift */; };
 		4559422027E04DDB00DF1956 /* ModalLinkStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */; };
+		45D406D127FE4B67009AA4EE /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D406D027FE4B67009AA4EE /* LogoView.swift */; };
 		550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D48142625539900C0B0C6 /* WidgetStatusTests.swift */; };
 		550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */; };
 		5519DFAC261D38A8000628FF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5519DFAB261D38A8000628FF /* README.md */; };
@@ -104,9 +106,11 @@
 		42927C38274209B600B26435 /* ShippingOptionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingOptionUpdate.swift; sourceTree = "<group>"; };
 		42D10C9E2761B1190028D6D9 /* OptionalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalText.swift; sourceTree = "<group>"; };
 		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
+		45144E6F27FCEFA30061EBE8 /* LockupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockupView.swift; sourceTree = "<group>"; };
 		45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayAssetProvider.swift; sourceTree = "<group>"; };
 		45144E7327FD11470061EBE8 /* AfterpayBundleFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayBundleFinder.swift; sourceTree = "<group>"; };
 		4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalLinkStyle.swift; sourceTree = "<group>"; };
+		45D406D027FE4B67009AA4EE /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		550D48142625539900C0B0C6 /* WidgetStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStatusTests.swift; sourceTree = "<group>"; };
 		550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEventTests.swift; sourceTree = "<group>"; };
 		5519DFAB261D38A8000628FF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 				66483F3A24D7A164000BE6B5 /* PriceBreakdownView.swift */,
 				4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */,
 				4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */,
+				45144E6F27FCEFA30061EBE8 /* LockupView.swift */,
+				45D406D027FE4B67009AA4EE /* LogoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -596,6 +602,7 @@
 				66169312257A06B200DF6CF4 /* CheckoutV2Message.swift in Sources */,
 				45144E7427FD11470061EBE8 /* AfterpayBundleFinder.swift in Sources */,
 				666818202591CB9800A2003E /* Alerts.swift in Sources */,
+				45144E7027FCEFA30061EBE8 /* LockupView.swift in Sources */,
 				6689536C24C96CB5005090B4 /* Configuration.swift in Sources */,
 				42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */,
 				15F7DDB725393BD30011EC25 /* CurrencyFormatter.swift in Sources */,
@@ -626,6 +633,7 @@
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 				55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */,
 				42DA4F9826E0740500204E75 /* IntroText.swift in Sources */,
+				45D406D127FE4B67009AA4EE /* LogoView.swift in Sources */,
 				157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */,
 				55A2D307261BB36C00D8E23A /* Money.swift in Sources */,
 				83F7DEF4269E94CE00F9FB75 /* CancellationV3.swift in Sources */,

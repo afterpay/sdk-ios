@@ -70,7 +70,37 @@ public final class PriceBreakdownView: UIView {
     }
   }()
 
-  public var badgeColorScheme: ColorScheme = .static(.blackOnMint) {
+  @available(*, deprecated, renamed: "logoColorScheme")
+  public var badgeColorScheme: ColorScheme = .static(.blackOnMint)
+
+  public var logoColorScheme: ColorScheme = .static(.blackOnMint) {
+    didSet { updateAttributedText() }
+  }
+
+  public enum LogoType {
+    case badge
+    case lockup
+
+    var heightMultiplier: Double {
+      switch self {
+      case .badge:
+        return 1.8
+      case .lockup:
+        return 1
+      }
+    }
+
+    var descenderMultiplier: Double {
+      switch self {
+      case .badge:
+        return 1
+      case .lockup:
+        return 1.2
+      }
+    }
+  }
+
+  public var logoType: LogoType = .badge {
     didSet { updateAttributedText() }
   }
 
@@ -88,8 +118,17 @@ public final class PriceBreakdownView: UIView {
     return "https://static.afterpay.com/modal/\(self.moreInfoOptions.modalFile())"
   }
 
-  public init(badgeColorScheme: ColorScheme = .static(.blackOnMint)) {
-    self.badgeColorScheme = badgeColorScheme
+  @available(*, deprecated, renamed: "init(logoColorScheme:)")
+  public init(badgeColorScheme: ColorScheme) {
+    self.logoColorScheme = badgeColorScheme
+
+    super.init(frame: .zero)
+
+    sharedInit()
+  }
+
+  public init(logoColorScheme: ColorScheme = .static(.blackOnMint)) {
+    self.logoColorScheme = logoColorScheme
 
     super.init(frame: .zero)
 
@@ -134,18 +173,24 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    let badgeView = BadgeView(colorScheme: badgeColorScheme)
+    let logoView: AfterpayLogo
+    if logoType == .lockup {
+      logoView = LockupView(colorScheme: logoColorScheme)
+    } else {
+      logoView = BadgeView(colorScheme: logoColorScheme)
+    }
 
     let font: UIFont = fontProvider(traitCollection)
     let fontHeight = font.ascender - font.descender
+    let logoHeight = fontHeight * CGFloat(logoType.heightMultiplier)
 
-    let badgeRatio = badgeView.ratio ?? 1
+    let logoRatio = logoView.ratio ?? 1
 
-    let widthFittingFont = fontHeight / badgeRatio
-    let width = widthFittingFont > badgeView.minimumWidth ? widthFittingFont : badgeView.minimumWidth
-    let size = CGSize(width: width, height: width * badgeRatio)
+    let widthFittingFont = logoHeight / logoRatio
+    let width = widthFittingFont > logoView.minimumWidth ? widthFittingFont : logoView.minimumWidth
+    let size = CGSize(width: width, height: width * logoRatio)
 
-    badgeView.frame = CGRect(origin: .zero, size: size)
+    logoView.frame = CGRect(origin: .zero, size: size)
 
     let textAttributes: [NSAttributedString.Key: Any] = [
       .font: font,
@@ -161,10 +206,14 @@ public final class PriceBreakdownView: UIView {
 
     let badge: NSAttributedString = {
       let attachment = NSTextAttachment()
-      attachment.image = badgeView.image
-      attachment.bounds = CGRect(origin: .init(x: 0, y: font.descender), size: badgeView.bounds.size)
+      attachment.image = logoView.image
+
+      let centerY = fontHeight / 2
+      let yPos = centerY - (logoView.frame.height / 2) + (font.descender * CGFloat(logoType.descenderMultiplier))
+
+      attachment.bounds = CGRect(origin: .init(x: 0, y: yPos), size: logoView.bounds.size)
       attachment.isAccessibilityElement = true
-      attachment.accessibilityLabel = badgeView.accessibilityLabel
+      attachment.accessibilityLabel = logoView.accessibilityLabel
       return .init(attachment: attachment)
     }()
 
