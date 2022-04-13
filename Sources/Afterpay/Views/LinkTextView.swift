@@ -30,13 +30,13 @@ final class LinkTextView: UITextView, UITextViewDelegate {
   // Unfortunately implementing UITextViewDelegate textView(_:shouldInteractWith:in:interaction:)
   // for NSTextAttachments isn't enough to prevent drag and drop being initiated
   override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-    let characterIndex = layoutManager.characterIndex(
+    let index = layoutManager.characterIndex(
       for: point,
       in: textContainer,
       fractionOfDistanceBetweenInsertionPoints: nil
     )
 
-    let attribute = attributedText.attribute(.link, at: characterIndex, effectiveRange: nil)
+    let attribute = attributedText.attribute(.link, at: index, effectiveRange: nil)
 
     return attribute != nil
   }
