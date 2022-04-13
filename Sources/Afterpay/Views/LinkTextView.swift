@@ -30,21 +30,12 @@ final class LinkTextView: UITextView, UITextViewDelegate {
   // Unfortunately implementing UITextViewDelegate textView(_:shouldInteractWith:in:interaction:)
   // for NSTextAttachments isn't enough to prevent drag and drop being initiated
   override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-    let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
-    let direction: UITextLayoutDirection = isRightToLeft ? .right : .left
+    let index = layoutManager.characterIndex(
+      for: point,
+      in: textContainer,
+      fractionOfDistanceBetweenInsertionPoints: nil
+    )
 
-    guard
-      let position = closestPosition(to: point),
-      let range = tokenizer.rangeEnclosingPosition(
-        position,
-        with: .character,
-        inDirection: .layout(direction)
-      )
-    else {
-      return false
-    }
-
-    let index = offset(from: beginningOfDocument, to: range.start)
     let attribute = attributedText.attribute(.link, at: index, effectiveRange: nil)
 
     return attribute != nil
