@@ -247,6 +247,7 @@ public struct CheckoutV3Configuration {
       // ISO 4217 specifies 2 decimal points
       formatter.maximumFractionDigits = 2
       formatter.roundingMode = .halfEven // Banker's rounding
+      formatter.groupingSeparator = ""
       return formatter
     }()
 
