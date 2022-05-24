@@ -46,6 +46,18 @@ class PriceBreakdownTests: XCTestCase {
     )
   }
 
+  private let setEuroConfiguration = {
+    Afterpay.setConfiguration(
+      try? Configuration(
+        minimumAmount: nil,
+        maximumAmount: "200.00",
+        currencyCode: "EUR",
+        locale: Locale(identifier: "it_IT"),
+        environment: .sandbox
+      )
+    )
+  }
+
   func testInstalments() {
     setMinumumMaximumConfiguration()
 
@@ -60,6 +72,22 @@ class PriceBreakdownTests: XCTestCase {
     let twoHundredDollarBreakdown = PriceBreakdown(totalAmount: 200)
     XCTAssertEqual(twoHundredDollarBreakdown.badgePlacement, .end)
     XCTAssertEqual(twoHundredDollarBreakdown.string, "or 4 interest-free payments of $50.00 with")
+  }
+
+  func testInstalmentsInEuro() {
+    setEuroConfiguration()
+
+    let fiftyDollarBreakdown = PriceBreakdown(totalAmount: 50)
+    XCTAssertEqual(fiftyDollarBreakdown.badgePlacement, .end)
+    XCTAssertEqual(fiftyDollarBreakdown.string, "or 3 interest-free payments of 16.67€ with")
+
+    let oneHundredDollarBreakdown = PriceBreakdown(totalAmount: 100)
+    XCTAssertEqual(oneHundredDollarBreakdown.badgePlacement, .end)
+    XCTAssertEqual(oneHundredDollarBreakdown.string, "or 3 interest-free payments of 33.33€ with")
+
+    let twoHundredDollarBreakdown = PriceBreakdown(totalAmount: 200)
+    XCTAssertEqual(twoHundredDollarBreakdown.badgePlacement, .end)
+    XCTAssertEqual(twoHundredDollarBreakdown.string, "or 3 interest-free payments of 66.67€ with")
   }
 
   func testOutOfRangeWithMinimum() {
