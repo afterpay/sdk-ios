@@ -48,7 +48,7 @@ struct PriceBreakdown {
       string = String.localizedStringWithFormat(
         Strings.availableTemplate,
         introText.localizedText,
-        "\(numberOfInstalments)",
+        String(describing: numberOfInstalments),
         interestFreeText,
         formattedPayment,
         withText
