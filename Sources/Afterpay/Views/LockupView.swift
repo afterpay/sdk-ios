@@ -1,15 +1,15 @@
 //
-//  BadgeView.swift
+//  LockupView.swift
 //  Afterpay
 //
-//  Created by Adam Campbell on 31/7/20.
-//  Copyright © 2020 Afterpay. All rights reserved.
+//  Created by Scott Antonac on 6/4/2022.
+//  Copyright © 2022 Afterpay. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-public class BadgeView: AfterpayLogo {
+public class LockupView: AfterpayLogo {
   override public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
     super.init(colorScheme: colorScheme)
   }
@@ -19,13 +19,13 @@ public class BadgeView: AfterpayLogo {
   }
 
   override internal func getImageName(brand: String, color: String) -> String {
-    return "badge-\(brand)-\(color)"
+    return "lockup-\(brand)-\(color)"
   }
 
   override internal func getImageColor() -> String {
-    var color = colorScheme.lightPalette.slug
+    var color = colorScheme.lightPalette.foreground
     if traitCollection.userInterfaceStyle == .dark {
-      color = colorScheme.darkPalette.slug
+      color = colorScheme.darkPalette.foreground
     }
 
     return color

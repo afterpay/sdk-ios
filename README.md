@@ -76,20 +76,20 @@ This is the recommended integration method.
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.4.1"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.5.2"))
 ]
 ```
 
 ## Carthage
 
 ```
-github "afterpay/sdk-ios" ~> 3.0
+github "afterpay/sdk-ios" ~> 4.5
 ```
 
 ## CocoaPods
 
 ```
-pod 'Afterpay', '~> 3.0'
+pod 'Afterpay', '~> 4.5'
 ```
 
 ## Manual
@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 4.4.1
+git checkout 4.5.2
 ```
 
 #### Project / Workspace Integration
@@ -245,6 +245,17 @@ let badgeView = BadgeView()
 Below are examples of the badge in each of the color schemes:
 ![Black on Mint badge][badge-black-on-mint] ![Mint on Black badge][badge-mint-on-black] ![White on Black badge][badge-white-on-black] ![Black on White badge][badge-black-on-white]
 
+### Lockup
+
+The Afterpay lockup is a simple `UIView` that can be scaled to suit the needs of your app. As per branding guidelines it has a minimum width constraint of 64 points.
+
+```swift
+let lockupView = LockupView()
+```
+
+Below are examples of the lockup in each of the colors:
+![Black Lockup][lockup-black] ![White Lockup][lockup-white] ![Mint Lockup][lockup-mint]
+
 ### Payment Button
 
 The Afterpay `PaymentButton` is a subclass of `UIButton` that can be scaled to suit your layout, to guarantee legibility it has a maximum width constraint of 256 points.
@@ -330,6 +341,20 @@ priceBreakdownView.showInterestFreeText = false
 ```
 
 Given the above, the price breakdown text will be rendered `or 4 payments of $##.## with`
+
+### Logo Type
+Setting `logoType` is optional, will default to `.badge` and must be of type `LogoType`.
+
+Can be either of `.badge` or `.lockup`.
+When setting color scheme on logo type of `.lockup`, only the foreground color will be applied. (See example)
+
+```swift
+let priceBreakdownView = PriceBreakdownView()
+priceBreakdownView.logoType = .lockup
+priceBreakdownView.colorScheme = .dynamic(lightPalette: .blackOnWhite, darkPalette: .whiteOnBlack)
+```
+
+Given the above, the price breakdown will contain the lockup logo and will be colored black when the theme is white and white when the theme is dark.
 
 ### More Info Options
 Setting `moreInfoOptions` is optional and of type `AfterpayMoreInfoOptions`. This struct has two constructors.
@@ -762,6 +787,9 @@ This project is licensed under the terms of the Apache 2.0 license. See the [LIC
 [badge-mint-on-black]: Images/badge_mint_on_black.png
 [badge-white-on-black]: Images/badge_white_on_black.png
 [badge-black-on-white]: Images/badge_black_on_white.png
+[lockup-black]: Images/lockup-black.png
+[lockup-white]: Images/lockup-white.png
+[lockup-mint]: Images/lockup-mint.png
 [button-black-on-mint]: Images/button_black_on_mint.png
 [button-mint-on-black]: Images/button_mint_on_black.png
 [button-white-on-black]: Images/button_white_on_black.png

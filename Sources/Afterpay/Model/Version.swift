@@ -9,8 +9,6 @@
 import Foundation
 
 final class Version {
-  private static let bundle = Bundle.apResource
-
-  static let shortVersion = bundle.infoDictionary!["CFBundleShortVersionString"] as! String
-  static let sdkVersion = shortVersion + "-ios"
+  static let shortVersion = "4.5.2"
+  static let sdkVersion = "\(shortVersion)-ios"
 }
