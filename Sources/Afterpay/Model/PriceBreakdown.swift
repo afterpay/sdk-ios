@@ -31,7 +31,8 @@ struct PriceBreakdown {
 
     let formattedMinimum = configuration?.minimumAmount.flatMap(format) ?? formatter?.string(from: 1)
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
-    let formattedPayment = format(totalAmount / 4)
+    let numberOfInstalments = getNumberOfInstalments(currencyCode: configuration?.currencyCode)
+    let formattedPayment = format(totalAmount / numberOfInstalments)
 
     let greaterThanZero = totalAmount > .zero
     let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)
@@ -47,6 +48,7 @@ struct PriceBreakdown {
       string = String.localizedStringWithFormat(
         Strings.availableTemplate,
         introText.localizedText,
+        "\(numberOfInstalments)",
         interestFreeText,
         formattedPayment,
         withText
@@ -59,5 +61,8 @@ struct PriceBreakdown {
       string = Strings.orPayWith
     }
   }
+}
 
+internal func getNumberOfInstalments(currencyCode: String?) -> Decimal {
+  return currencyCode == "EUR" && currencyCode != nil ? 3 : 4
 }

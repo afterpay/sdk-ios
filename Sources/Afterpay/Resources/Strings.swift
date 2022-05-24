@@ -54,8 +54,8 @@ enum Strings {
     "AVAILABLE_TEMPLATE",
     tableName: "Placement",
     bundle: Bundle.apResource,
-    value: "%1$@ 4 %2$@payments of %3$@ %4$@",
-    comment: "Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix)"
+    value: "%1$@ %2$@ %3$@payments of %4$@ %5$@",
+    comment: "Price breakdown text: 1. intro text 2. number of instalments 3. interest-free 4. instalment 5. with (suffix)"
   )
 
   static let interestFree = NSLocalizedString(

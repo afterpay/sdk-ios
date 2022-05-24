@@ -1,5 +1,5 @@
-/* Price breakdown text: 1. intro text 2. interest-free 3. instalment 4. with (suffix) */
-"AVAILABLE_TEMPLATE" = "%1$@ 4 pagos %2$@de %3$@ %4$@";
+/* Price breakdown text: 1. intro text 2. number of instalments 3. interest-free 4. instalment 5. with (suffix) */
+"AVAILABLE_TEMPLATE" = "%1$@ %2$@ pagos %3$@de %4$@ %5$@";
 
 /* Intro text for breakdown placement: 'in' */
 "IN" = "en";
