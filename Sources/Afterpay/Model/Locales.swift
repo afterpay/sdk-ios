@@ -32,5 +32,21 @@ enum Locales: Hashable {
     itIT,
     esES,
   ]
+}
 
+private let validRegionLanguages = [
+  Locales.enAU.regionCode!: [Locales.enAU],
+  Locales.enCA.regionCode!: [Locales.enCA, Locales.frCA],
+  Locales.enGB.regionCode!: [Locales.enGB],
+  Locales.enNZ.regionCode!: [Locales.enNZ],
+  Locales.enUS.regionCode!: [Locales.enUS],
+  Locales.frFR.regionCode!: [Locales.frFR, Locales.enGB],
+  Locales.itIT.regionCode!: [Locales.itIT, Locales.enGB],
+  Locales.esES.regionCode!: [Locales.esES, Locales.enGB],
+]
+
+internal func getRegionLanguage(merchantLocale: Locale, clientLocale: Locale) -> Locale? {
+  return validRegionLanguages[merchantLocale.regionCode!]!.first {
+    $0.languageCode == clientLocale.languageCode
+  }
 }

@@ -176,7 +176,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     priceBreakdown2.showWithText = false
     priceBreakdown2.showInterestFreeText = false
     priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .blackOnMint, darkPalette: .whiteOnBlack)
-    priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .circledQuestionIcon)
+    priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .moreInfoText)
     priceBreakdown2.logoType = .lockup
     stack.addArrangedSubview(priceBreakdown2)
 

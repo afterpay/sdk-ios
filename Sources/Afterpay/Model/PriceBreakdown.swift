@@ -46,7 +46,7 @@ struct PriceBreakdown {
       badgePlacement = .end
 
       string = String.localizedStringWithFormat(
-        Strings.availableTemplate,
+        Afterpay.string.localised.availableTemplate,
         introText.localizedText,
         String(describing: numberOfInstalments),
         interestFreeText,
@@ -55,10 +55,13 @@ struct PriceBreakdown {
       ).trimmingCharacters(in: .whitespaces)
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
-      string = String.localizedStringWithFormat(Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
+      string = String.localizedStringWithFormat(
+        Afterpay.string.localised.outsideLimitsTemplate,
+        formattedMinimum, formattedMaximum
+      )
     } else {
       badgePlacement = .end
-      string = Strings.orPayWith
+      string = Afterpay.string.localised.orPayWith
     }
   }
 }

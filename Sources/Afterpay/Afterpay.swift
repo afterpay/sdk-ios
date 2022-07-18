@@ -337,6 +337,14 @@ func getLocale() -> Locale {
   getConfiguration()?.locale ?? Locales.enUS
 }
 
+internal var language: Locale? {
+  getRegionLanguage(merchantLocale: getLocale(), clientLocale: Locale.current)
+}
+
+internal var string: Strings {
+  Strings.forLocale()
+}
+
 internal var brand: Brand {
-  return Brand.forLocale(locale: getLocale())
+  Brand.forLocale(locale: getLocale())
 }
