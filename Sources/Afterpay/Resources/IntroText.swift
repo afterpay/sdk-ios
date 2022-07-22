@@ -25,85 +25,25 @@ public enum AfterpayIntroText: String {
     switch self {
     case .empty: return ""
     case .make:
-      return NSLocalizedString(
-        "MAKE",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "make",
-        comment: "Intro text for breakdown placement: 'make'"
-      )
+      return Afterpay.string.localised.intro.make
     case .makeTitle:
-      return NSLocalizedString(
-        "MAKE_TITLE",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "Make",
-        comment: "Intro text for breakdown placement: 'Make'"
-      )
+      return Afterpay.string.localised.intro.makeTitle
     case .pay:
-      return NSLocalizedString(
-        "PAY",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "pay",
-        comment: "Intro text for breakdown placement: 'pay'"
-      )
+      return Afterpay.string.localised.intro.pay
     case .payTitle:
-      return NSLocalizedString(
-        "PAY_TITLE",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "Pay",
-        comment: "Intro text for breakdown placement: 'Pay'"
-      )
+      return Afterpay.string.localised.intro.payTitle
     case .in:
-      return NSLocalizedString(
-        "IN",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "in",
-        comment: "Intro text for breakdown placement: 'in'"
-      )
+      return Afterpay.string.localised.intro.in
     case .inTitle:
-      return NSLocalizedString(
-        "IN_TITLE",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "In",
-        comment: "Intro text for breakdown placement: 'In'"
-      )
+      return Afterpay.string.localised.intro.inTitle
     case .or:
-      return NSLocalizedString(
-        "OR",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "or",
-        comment: "Intro text for breakdown placement: 'or'"
-      )
+      return Afterpay.string.localised.intro.or
     case .orTitle:
-      return NSLocalizedString(
-        "OR_TITLE",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "Or",
-        comment: "Intro text for breakdown placement: 'Or'"
-      )
+      return Afterpay.string.localised.intro.orTitle
     case .payIn:
-      return NSLocalizedString(
-        "PAY_IN",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "pay in",
-        comment: "Intro text for breakdown placement: 'pay in'"
-      )
+      return Afterpay.string.localised.intro.payIn
     case .payInTitle:
-      return NSLocalizedString(
-        "PAY_IN_TITLE",
-        tableName: "Placement",
-        bundle: Bundle.apResource,
-        value: "Pay in",
-        comment: "Intro text for breakdown placement: 'Pay in'"
-      )
+      return Afterpay.string.localised.intro.payInTitle
     }
   }
 }

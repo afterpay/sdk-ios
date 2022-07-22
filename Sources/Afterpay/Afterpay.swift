@@ -348,3 +348,7 @@ internal var string: Strings {
 internal var brand: Brand {
   Brand.forLocale(locale: getLocale())
 }
+
+internal var enabled: Bool {
+  language != nil
+}

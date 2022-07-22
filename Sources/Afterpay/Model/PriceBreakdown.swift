@@ -39,8 +39,8 @@ struct PriceBreakdown {
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    let interestFreeText = showInterestFreeText ? Strings.interestFree : ""
-    let withText = showWithText ? Strings.with : ""
+    let interestFreeText = showInterestFreeText ? Afterpay.string.localised.interestFree : ""
+    let withText = showWithText ? Afterpay.string.localised.with : ""
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end

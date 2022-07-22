@@ -15,22 +15,10 @@ enum Alerts {
     retry: @escaping () -> Void,
     cancel: @escaping () -> Void
   ) -> UIAlertController {
-    let localisedMessage = NSLocalizedString(
-      "FAILED_TO_LOAD_MESAGE",
-      tableName: "Alerts",
-      bundle: Bundle.apResource,
-      value: "Failed to load %@ checkout",
-      comment: "Error dialog for checkout not loaded"
-    )
+    let localisedMessage = Afterpay.string.localised.alert.failedToLoadMessage
 
     let alert = UIAlertController(
-      title: NSLocalizedString(
-        "ERROR_TITLE",
-        tableName: "Alerts",
-        bundle: Bundle.apResource,
-        value: "Error",
-        comment: "Error dialog title"
-      ),
+      title: Afterpay.string.localised.alert.errorTitle,
       message: String.localizedStringWithFormat(localisedMessage, "Afterpay"),
       preferredStyle: .alert
     )
@@ -40,24 +28,12 @@ enum Alerts {
 
     let actions = [
       UIAlertAction(
-        title: NSLocalizedString(
-          "RETRY_ACTION",
-          tableName: "Alerts",
-          bundle: Bundle.apResource,
-          value: "Retry",
-          comment: "Error dialog response: Retry"
-        ),
+        title: Afterpay.string.localised.alert.retryAction,
         style: .default,
         handler: retryHandler
       ),
       UIAlertAction(
-        title: NSLocalizedString(
-          "CANCEL_ACTION",
-          tableName: "Alerts",
-          bundle: Bundle.apResource,
-          value: "Cancel",
-          comment: "Error dialog response: Cancel"
-        ),
+        title: Afterpay.string.localised.alert.cancelAction,
         style: .destructive,
         handler: cancelHandler
       ),
@@ -70,13 +46,7 @@ enum Alerts {
 
   static func areYouSureYouWantToCancel(cancel: @escaping () -> Void) -> UIAlertController {
     let actionSheet = UIAlertController(
-      title: NSLocalizedString(
-        "CANCEL_PAYMENT_TITLE",
-        tableName: "Alerts",
-        bundle: Bundle.apResource,
-        value: "Are you sure you want to cancel the payment?",
-        comment: "Question for dialog: are you sure?"
-      ),
+      title: Afterpay.string.localised.alert.cancelPaymentTitle,
       message: nil,
       preferredStyle: UIDevice.current.userInterfaceIdiom == .phone ? .actionSheet : .alert
     )
@@ -85,24 +55,12 @@ enum Alerts {
 
     let actions = [
       UIAlertAction(
-        title: NSLocalizedString(
-          "YES_ACTION",
-          tableName: "Alerts",
-          bundle: Bundle.apResource,
-          value: "Yes",
-          comment: "Alert action (button): yes"
-        ),
+        title: Afterpay.string.localised.alert.yesAction,
         style: .destructive,
         handler: cancelHandler
       ),
       UIAlertAction(
-        title: NSLocalizedString(
-          "NO_ACTION",
-          tableName: "Alerts",
-          bundle: Bundle.apResource,
-          value: "No",
-          comment: "Alert action (button): no"
-        ),
+        title: Afterpay.string.localised.alert.noAction,
         style: .cancel,
         handler: nil
       ),

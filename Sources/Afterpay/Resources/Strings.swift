@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let localeLanguages: [Locale:Strings] = [
+private let localeLanguages: [Locale: Strings] = [
   Locales.enAU: .en,
   Locales.enGB: .en,
   Locales.enNZ: .en,
@@ -23,17 +23,17 @@ private let localeLanguages: [Locale:Strings] = [
 // These should be transitioned to a `.strings` file once resource support is available for
 // swift packages
 enum Strings {
-  
+
   case en
   case frCA
   case fr
   case it
   case es
-  
+
   internal static func forLocale() -> Strings {
     return localeLanguages[Afterpay.language ?? Locales.enAU] ?? .en
   }
-  
+
   internal var localised: LocalisedString {
     switch self {
     case .en:
@@ -100,95 +100,95 @@ enum Strings {
       )
     case .fr:
       return LocalisedString(
-        moreInfo: "",
-        orPayWith: "",
-        learnMore: "",
-        outsideLimitsTemplate: "",
-        availableTemplate: "",
-        interestFree: "",
-        with: "",
+        moreInfo: "Plus d'infos",
+        orPayWith: "ou payer avec",
+        learnMore: "En savoir plus",
+        outsideLimitsTemplate: "disponible pour les montants entre %1$@ – %2$@",
+        availableTemplate: "%1$@ %2$@ paiements %3$@de %4$@ %5$@",
+        interestFree: "sans frais ",
+        with: "avec",
         intro: LocalisedIntroString(
-          make: "",
-          makeTitle: "",
-          pay: "",
-          payTitle: "",
-          in: "",
-          inTitle: "",
-          or: "",
-          orTitle: "",
-          payIn: "",
-          payInTitle: ""
+          make: "effectuez",
+          makeTitle: "Effectuez",
+          pay: "payez",
+          payTitle: "Payez",
+          in: "en",
+          inTitle: "En",
+          or: "ou",
+          orTitle: "Ou",
+          payIn: "payez en",
+          payInTitle: "Payez en"
         ),
         alert: LocalisedAlertString(
-          cancelAction: "",
-          yesAction: "",
-          noAction: "",
-          retryAction: "",
-          errorTitle: "",
-          cancelPaymentTitle: "",
-          failedToLoadMessage: ""
+          cancelAction: "Annuler",
+          yesAction: "Oui",
+          noAction: "Non",
+          retryAction: "Réessayer",
+          errorTitle: "Erreur",
+          cancelPaymentTitle: "Êtes-vous sûr de vouloir annuler le paiement ?",
+          failedToLoadMessage: "Échec du chargement de la page de paiement %@"
         )
       )
     case .it:
       return LocalisedString(
-        moreInfo: "",
-        orPayWith: "",
-        learnMore: "",
-        outsideLimitsTemplate: "",
-        availableTemplate: "",
-        interestFree: "",
-        with: "",
+        moreInfo: "Maggiori info",
+        orPayWith: "o paga con",
+        learnMore: "Scopri di piú",
+        outsideLimitsTemplate: "disponibile per importi fra %1$@ – %2$@",
+        availableTemplate: "%1$@ %2$@ rate %3$@da %4$@ %5$@",
+        interestFree: "senza interessi ",
+        with: "con",
         intro: LocalisedIntroString(
-          make: "",
-          makeTitle: "",
-          pay: "",
-          payTitle: "",
-          in: "",
-          inTitle: "",
-          or: "",
-          orTitle: "",
-          payIn: "",
-          payInTitle: ""
+          make: "scegli",
+          makeTitle: "Scegli",
+          pay: "paga",
+          payTitle: "Paga",
+          in: "in",
+          inTitle: "In",
+          or: "o",
+          orTitle: "O",
+          payIn: "paga in",
+          payInTitle: "Paga in"
         ),
         alert: LocalisedAlertString(
-          cancelAction: "",
-          yesAction: "",
-          noAction: "",
-          retryAction: "",
-          errorTitle: "",
-          cancelPaymentTitle: "",
-          failedToLoadMessage: ""
+          cancelAction: "Annulla",
+          yesAction: "Si",
+          noAction: "No",
+          retryAction: "Riprovare",
+          errorTitle: "Errore",
+          cancelPaymentTitle: "Sei sicuro di voler annullare il pagamento?",
+          failedToLoadMessage: "Impossibile caricare il cassa di %@"
         )
       )
     case .es:
       return LocalisedString(
-        moreInfo: "",
-        orPayWith: "",
-        learnMore: "",
-        outsideLimitsTemplate: "",
-        availableTemplate: "",
-        interestFree: "",
-        with: "",
+        moreInfo: "Más infos",
+        orPayWith: "o pagar con",
+        learnMore: "Saber más",
+        outsideLimitsTemplate: "disponible para importes entre %1$@ – %2$@",
+        availableTemplate: "%1$@ %2$@ pagos %3$@de %4$@ %5$@",
+        interestFree: "sin coste ",
+        with: "con",
         intro: LocalisedIntroString(
-          make: "",
-          makeTitle: "",
-          pay: "",
-          payTitle: "",
-          in: "",
-          inTitle: "",
-          or: "",
-          orTitle: "",
-          payIn: "",
-          payInTitle: ""
+          make: "haga",
+          makeTitle: "Haga",
+          pay: "paga",
+          payTitle: "Paga",
+          in: "en",
+          inTitle: "En",
+          or: "o",
+          orTitle: "O",
+          payIn: "paga en",
+          payInTitle: "Paga en"
         ),
         alert: LocalisedAlertString(
-          cancelAction: "",
-          yesAction: "",
-          noAction: "",
-          retryAction: "",
-          errorTitle: "",
-          cancelPaymentTitle: "",
-          failedToLoadMessage: ""
+          cancelAction: "Cancelar",
+          yesAction: "Sí",
+          noAction: "No",
+          retryAction: "Volver a intentar",
+          errorTitle: "Error",
+          cancelPaymentTitle: "¿Estás seguro de que quieres anular el pago?",
+          failedToLoadMessage: "Imposible cargar la página de pago de %@"
         )
       )
     }
@@ -197,24 +197,6 @@ enum Strings {
   // MARK: - Static Strings
 
   static let circledInfoIcon = "\u{24D8}"
-
-  // MARK: - String Formats
-
-  static let interestFree = NSLocalizedString(
-    "INTEREST_FREE",
-    tableName: "Placement",
-    bundle: Bundle.apResource,
-    value: "interest-free ",
-    comment: "Interest-free words for price breakdown"
-  )
-
-  static let with = NSLocalizedString(
-    "WITH",
-    tableName: "Placement",
-    bundle: Bundle.apResource,
-    value: "with",
-    comment: "With word (suffix) in pricebreakdown"
-  )
 
   // MARK: - Accessible Strings
 

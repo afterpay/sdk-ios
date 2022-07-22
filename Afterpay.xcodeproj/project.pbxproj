@@ -20,8 +20,6 @@
 		4288AB7627BC8C84009C9B69 /* LayeredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */; };
 		4288AB7827BCB578009C9B69 /* PaymentButtonUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */; };
 		42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42927C38274209B600B26435 /* ShippingOptionUpdate.swift */; };
-		42A91049277525F800D5EF46 /* Placement.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42A91047277525F800D5EF46 /* Placement.strings */; };
-		42A9104C2775261400D5EF46 /* Alerts.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42A9104A2775261400D5EF46 /* Alerts.strings */; };
 		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
 		45144E7027FCEFA30061EBE8 /* LockupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E6F27FCEFA30061EBE8 /* LockupView.swift */; };
 		45144E7227FD10E00061EBE8 /* AfterpayAssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */; };
@@ -92,20 +90,10 @@
 		15FAC56625DCCEDF00DE7792 /* Afterpay.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Afterpay.podspec; sourceTree = "<group>"; };
 		42087EE627A746F700BE5442 /* MoreInfoOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOptions.swift; sourceTree = "<group>"; };
 		42270B6E27A3B24200C9BCBF /* ModalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTheme.swift; sourceTree = "<group>"; };
-		424E05D227756892000BE697 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Alerts.strings; sourceTree = "<group>"; };
-		424E05D3277568B1000BE697 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Placement.strings; sourceTree = "<group>"; };
 		4288AB7327BC8B60009C9B69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayeredImageView.swift; sourceTree = "<group>"; };
 		4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonUIView.swift; sourceTree = "<group>"; };
 		42927C38274209B600B26435 /* ShippingOptionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingOptionUpdate.swift; sourceTree = "<group>"; };
-		42A91048277525F800D5EF46 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Placement.strings; sourceTree = "<group>"; };
-		42A9104B2775261400D5EF46 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Alerts.strings"; sourceTree = "<group>"; };
-		42A9104D2775261400D5EF46 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Placement.strings"; sourceTree = "<group>"; };
-		42A9104E2775263600D5EF46 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Alerts.strings; sourceTree = "<group>"; };
-		42A9104F2775263600D5EF46 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Placement.strings; sourceTree = "<group>"; };
-		42A910502775264900D5EF46 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Alerts.strings; sourceTree = "<group>"; };
-		42A910512775264900D5EF46 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Placement.strings; sourceTree = "<group>"; };
-		42D1DDB4278D28D000E5526A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Alerts.strings; sourceTree = "<group>"; };
 		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
 		45144E6F27FCEFA30061EBE8 /* LockupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockupView.swift; sourceTree = "<group>"; };
 		45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayAssetProvider.swift; sourceTree = "<group>"; };
@@ -307,8 +295,6 @@
 			isa = PBXGroup;
 			children = (
 				668F160B2487653A0040345C /* Info.plist */,
-				42A9104A2775261400D5EF46 /* Alerts.strings */,
-				42A91047277525F800D5EF46 /* Placement.strings */,
 				668F16122487793B0040345C /* Sources */,
 			);
 			name = Afterpay;
@@ -482,10 +468,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				fr,
-				"fr-CA",
-				it,
-				es,
 				Base,
 			);
 			mainGroup = 668F15FD2487653A0040345C;
@@ -514,8 +496,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5519DFAC261D38A8000628FF /* README.md in Resources */,
-				42A9104C2775261400D5EF46 /* Alerts.strings in Resources */,
-				42A91049277525F800D5EF46 /* Placement.strings in Resources */,
 				4288AB7427BC8B60009C9B69 /* Assets.xcassets in Resources */,
 				556DEBFB2653531F00BFC277 /* mock-widget-bootstrap.js in Resources */,
 			);
@@ -641,33 +621,6 @@
 			targetProxy = 665FC57D2488766C00A5A93E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		42A91047277525F800D5EF46 /* Placement.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				42A91048277525F800D5EF46 /* es */,
-				42A9104D2775261400D5EF46 /* fr-CA */,
-				42A9104F2775263600D5EF46 /* fr */,
-				42A910512775264900D5EF46 /* it */,
-				424E05D3277568B1000BE697 /* en */,
-			);
-			name = Placement.strings;
-			sourceTree = "<group>";
-		};
-		42A9104A2775261400D5EF46 /* Alerts.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				42A9104B2775261400D5EF46 /* fr-CA */,
-				42A9104E2775263600D5EF46 /* fr */,
-				42A910502775264900D5EF46 /* it */,
-				424E05D227756892000BE697 /* en */,
-				42D1DDB4278D28D000E5526A /* es */,
-			);
-			name = Alerts.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		665FC57F2488766C00A5A93E /* Debug */ = {
