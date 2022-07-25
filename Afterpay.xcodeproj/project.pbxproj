@@ -27,6 +27,7 @@
 		4559422027E04DDB00DF1956 /* ModalLinkStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */; };
 		45BFEB9827ED27EF00A4AE48 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BFEB9727ED27EF00A4AE48 /* Brand.swift */; };
 		45D406D127FE4B67009AA4EE /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D406D027FE4B67009AA4EE /* LogoView.swift */; };
+		45E66FD0288E0CC20020A41F /* Drawables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E66FCF288E0CC20020A41F /* Drawables.swift */; };
 		550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D48142625539900C0B0C6 /* WidgetStatusTests.swift */; };
 		550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */; };
 		5519DFAC261D38A8000628FF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5519DFAB261D38A8000628FF /* README.md */; };
@@ -101,6 +102,7 @@
 		4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalLinkStyle.swift; sourceTree = "<group>"; };
 		45BFEB9727ED27EF00A4AE48 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		45D406D027FE4B67009AA4EE /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		45E66FCF288E0CC20020A41F /* Drawables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawables.swift; sourceTree = "<group>"; };
 		550D48142625539900C0B0C6 /* WidgetStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStatusTests.swift; sourceTree = "<group>"; };
 		550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEventTests.swift; sourceTree = "<group>"; };
 		5519DFAB261D38A8000628FF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				42270B6E27A3B24200C9BCBF /* ModalTheme.swift */,
 				4288AB7327BC8B60009C9B69 /* Assets.xcassets */,
 				4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */,
+				45E66FCF288E0CC20020A41F /* Drawables.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				45BFEB9827ED27EF00A4AE48 /* Brand.swift in Sources */,
 				551BEDFC25F9C56600FDF9EE /* WidgetEvent.swift in Sources */,
 				42270B6F27A3B24200C9BCBF /* ModalTheme.swift in Sources */,
+				45E66FD0288E0CC20020A41F /* Drawables.swift in Sources */,
 				661CFDB62570E7F000D8A1E8 /* PaymentButton.swift in Sources */,
 				662A3AED24A999A500EFD826 /* CheckoutResult.swift in Sources */,
 				551BEDF825F9B95C00FDF9EE /* WidgetView.swift in Sources */,

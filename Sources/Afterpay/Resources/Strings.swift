@@ -20,8 +20,6 @@ private let localeLanguages: [Locale: Strings] = [
   Locales.esES: .es,
 ]
 
-// These should be transitioned to a `.strings` file once resource support is available for
-// swift packages
 enum Strings {
 
   case en

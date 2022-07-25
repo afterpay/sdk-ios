@@ -1,0 +1,13 @@
+{
+  "images" : [
+    {
+      "filename" : "place-order-with_italian.pdf",
+      "idiom" : "universal",
+      "locale" : "it"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
