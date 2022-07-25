@@ -62,10 +62,7 @@ public final class PaymentButton: UIButton {
 
   private func updatePaymentButtonView() {
     paymentButtonView.buttonKind = buttonKind
-
-    let isLocaleGreatBritain = getLocale() == Locales.greatBritain
-    let brand = isLocaleGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
-    accessibilityLabel = "\(buttonKind.accessibilityLabel) \(brand)"
+    accessibilityLabel = "\(buttonKind.accessibilityLabel) \(Afterpay.brand.details.accessibleName)"
   }
 
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

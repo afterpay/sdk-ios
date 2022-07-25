@@ -34,9 +34,9 @@ public enum ModalLinkStyle {
         attributes: [NSAttributedString.Key.underlineColor: UIColor.clear]
       )
     case .moreInfoText:
-      return ModalLinkConfig(text: Strings.moreInfo)
+      return ModalLinkConfig(text: Afterpay.string.localized.moreInfo)
     case .learnMoreText:
-      return ModalLinkConfig(text: Strings.learnMore)
+      return ModalLinkConfig(text: Afterpay.string.localized.learnMore)
     case .circledQuestionIcon:
       return ModalLinkConfig(
         image: AfterpayAssetProvider.image(named: "circled-question-icon"),

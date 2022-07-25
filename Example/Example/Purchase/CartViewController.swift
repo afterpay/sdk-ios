@@ -48,23 +48,35 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     tableView.register(CheckoutOptionsCell.self, forCellReuseIdentifier: checkoutOptionsCellIdentifier)
     tableView.register(TitleSubtitleCell.self, forCellReuseIdentifier: titleSubtitleCellIdentifier)
 
-    let payButton: UIButton =
-      PaymentButton(colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack), buttonKind: .checkout)
-    payButton.isEnabled = cart.payEnabled
-    payButton.accessibilityIdentifier = "payNow"
-    payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
-
     view.addSubview(tableView)
-    view.addSubview(payButton)
+
+    var tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+
+    if Afterpay.enabled {
+      let payButton: UIButton = PaymentButton(
+        colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack),
+        buttonKind: .checkout
+      )
+      payButton.isEnabled = cart.payEnabled
+      payButton.accessibilityIdentifier = "payNow"
+      payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
+
+      view.addSubview(payButton)
+
+      NSLayoutConstraint.activate([
+        payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
+      ])
+
+      tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor)
+    }
 
     NSLayoutConstraint.activate([
       tableView.topAnchor.constraint(equalTo: view.topAnchor),
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor),
-      payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-      payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-      payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
+      tableViewBottomAnchor,
     ])
   }
 

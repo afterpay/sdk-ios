@@ -15,9 +15,11 @@ enum Alerts {
     retry: @escaping () -> Void,
     cancel: @escaping () -> Void
   ) -> UIAlertController {
+    let localizedMessage = Afterpay.string.localized.alert.failedToLoadMessage
+
     let alert = UIAlertController(
-      title: "Error",
-      message: "Failed to load Afterpay checkout",
+      title: Afterpay.string.localized.alert.errorTitle,
+      message: String.localizedStringWithFormat(localizedMessage, "Afterpay"),
       preferredStyle: .alert
     )
 
@@ -25,8 +27,16 @@ enum Alerts {
     let cancelHandler: (UIAlertAction) -> Void = { _ in cancel() }
 
     let actions = [
-      UIAlertAction(title: "Retry", style: .default, handler: retryHandler),
-      UIAlertAction(title: "Cancel", style: .destructive, handler: cancelHandler),
+      UIAlertAction(
+        title: Afterpay.string.localized.alert.retryAction,
+        style: .default,
+        handler: retryHandler
+      ),
+      UIAlertAction(
+        title: Afterpay.string.localized.alert.cancelAction,
+        style: .destructive,
+        handler: cancelHandler
+      ),
     ]
 
     actions.forEach(alert.addAction)
@@ -36,7 +46,7 @@ enum Alerts {
 
   static func areYouSureYouWantToCancel(cancel: @escaping () -> Void) -> UIAlertController {
     let actionSheet = UIAlertController(
-      title: "Are you sure you want to cancel the payment?",
+      title: Afterpay.string.localized.alert.cancelPaymentTitle,
       message: nil,
       preferredStyle: UIDevice.current.userInterfaceIdiom == .phone ? .actionSheet : .alert
     )
@@ -44,8 +54,16 @@ enum Alerts {
     let cancelHandler: (UIAlertAction) -> Void = { _ in cancel() }
 
     let actions = [
-      UIAlertAction(title: "Yes", style: .destructive, handler: cancelHandler),
-      UIAlertAction(title: "No", style: .cancel, handler: nil),
+      UIAlertAction(
+        title: Afterpay.string.localized.alert.yesAction,
+        style: .destructive,
+        handler: cancelHandler
+      ),
+      UIAlertAction(
+        title: Afterpay.string.localized.alert.noAction,
+        style: .cancel,
+        handler: nil
+      ),
     ]
 
     actions.forEach(actionSheet.addAction)

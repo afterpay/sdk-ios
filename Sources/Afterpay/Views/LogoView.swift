@@ -63,14 +63,16 @@ public class AfterpayLogo: UIView {
   }
 
   internal func updateImage(withTraits traitCollection: UITraitCollection) {
-    let isLocaleGreatBritain = getLocale() == Locales.greatBritain
-    let brand = isLocaleGreatBritain ? "clearpay" : "afterpay"
-    accessibilityLabel = isLocaleGreatBritain ? Strings.accessibleClearpay : Strings.accessibleAfterpay
+    self.isHidden = !Afterpay.enabled
+
+    let brand = Brand.forLocale(locale: getLocale())
+
+    accessibilityLabel = brand.details.accessibleName
 
     deactivateConstraints()
 
     let color = getImageColor()
-    image = AfterpayAssetProvider.image(named: getImageName(brand: brand, color: color))
+    image = AfterpayAssetProvider.image(named: getImageName(brand: brand.details.lowerCaseName, color: color))
 
     ratio = image!.size.height / image!.size.width
 
