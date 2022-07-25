@@ -26,43 +26,57 @@ struct PriceBreakdown {
   ) {
     let configuration = getConfiguration()
     let formatter = configuration
-      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode) }
+      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode, clientLocale: Locale.current) }
     let format = { formatter?.string(from: $0) }
 
-    let formattedMinimum = configuration?.minimumAmount.flatMap(format)
+    let formattedMinimum = configuration?.minimumAmount.flatMap(format) ?? formatter?.string(from: 1)
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
-    let formattedPayment = format(totalAmount / 4)
+    let numberOfInstalments = getNumberOfInstalments(currencyCode: configuration?.currencyCode)
+    let formattedPayment = format(totalAmount / numberOfInstalments)
 
     let greaterThanZero = totalAmount > .zero
     let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    let template: AfterpayOptionalText
-    if showInterestFreeText && showWithText {
-      template = .interestFreeAndWith
+    let isUkLocale = configuration?.locale == Locales.enGB
+    let isGBP = configuration?.currencyCode == "GBP"
+
+    let interestFreeText: String
+    if isUkLocale || isGBP {
+      interestFreeText = ""
     } else if showInterestFreeText {
-      template = .interestFree
-    } else if showWithText {
-      template = .with
+      interestFreeText = Afterpay.string.localized.interestFree
     } else {
-      template = .none
+      interestFreeText = ""
     }
+
+    let withText = showWithText ? Afterpay.string.localized.with : ""
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end
-      string = String(format: template.stringValue, introText.rawValue, formattedPayment)
-        .trimmingCharacters(in: .whitespaces)
+
+      string = String.localizedStringWithFormat(
+        Afterpay.string.localized.availableTemplate,
+        introText.localizedText,
+        String(describing: numberOfInstalments),
+        interestFreeText,
+        formattedPayment,
+        withText
+      ).trimmingCharacters(in: .whitespaces)
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
-      string = String(format: Strings.availableBetweenFormat, formattedMinimum, formattedMaximum)
-    } else if let formattedMaximum = formattedMaximum {
-      badgePlacement = .start
-      string = String(format: Strings.availableUpToFormat, formattedMaximum)
+      string = String.localizedStringWithFormat(
+        Afterpay.string.localized.outsideLimitsTemplate,
+        formattedMinimum, formattedMaximum
+      )
     } else {
       badgePlacement = .end
-      string = Strings.orPayWith
+      string = Afterpay.string.localized.orPayWith
     }
   }
+}
 
+internal func getNumberOfInstalments(currencyCode: String?) -> Decimal {
+  return currencyCode == "EUR" && currencyCode != nil ? 3 : 4
 }

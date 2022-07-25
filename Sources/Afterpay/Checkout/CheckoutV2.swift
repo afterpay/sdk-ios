@@ -19,6 +19,8 @@ struct CheckoutV2: Encodable {
   var shippingOptionRequired: Bool?
   var checkoutRedesignForced: Bool?
 
+  var consumerLocale: String
+
   init(token: Token, configuration: Configuration, options: CheckoutV2Options) {
     self.token = token
     self.locale = configuration.locale.identifier
@@ -28,5 +30,6 @@ struct CheckoutV2: Encodable {
     self.buyNow = options.buyNow
     self.shippingOptionRequired = options.shippingOptionRequired
     self.checkoutRedesignForced = options.checkoutRedesignForced
+    self.consumerLocale = Afterpay.language?.identifier ?? "en_US"
   }
 }

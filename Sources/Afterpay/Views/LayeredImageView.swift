@@ -41,6 +41,16 @@ public class LayeredImageView: UIView {
     addSubview(foregroundImageView)
 
     updateColors(withTraits: traitCollection)
+
+    let selector = #selector(configurationDidChange)
+    let name: NSNotification.Name = .configurationUpdated
+    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
+  }
+
+  @objc private func configurationDidChange(_ notification: NSNotification) {
+    DispatchQueue.main.async {
+      self.updateImages()
+    }
   }
 
   override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -91,6 +101,8 @@ public class LayeredImageView: UIView {
   }
 
   internal func updateImages() {
+    self.isHidden = !Afterpay.enabled
+
     if let background = imageLayers.background, let foreground = imageLayers.foreground {
       deactivateConstraints()
 

@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
   name: "Afterpay",
+  defaultLocalization: "en",
   platforms: [
     .iOS(.v12),
   ],
