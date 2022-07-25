@@ -13,6 +13,7 @@ private let localeLanguages: [Locale: Strings] = [
   Locales.enGB: .en,
   Locales.enNZ: .en,
   Locales.enUS: .en,
+  Locales.enUSposix: .en,
   Locales.enCA: .en,
   Locales.frCA: .frCA,
   Locales.frFR: .fr,
