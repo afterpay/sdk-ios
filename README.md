@@ -222,7 +222,7 @@ BOOL (^challengeHandler)(NSURLAuthenticationChallenge *, CompletionHandler) = ^B
 
 ## Views
 
-**Note:** The Afterpay SDK contains a list of valid consumer locales that are availble for each Configuration locale. If this is not matched then the checkouts will not work. As such a public read-only property is available at `Afterpay.enabled` which will return `false` when a locale match is not found. This should be used to conditionally show or hide any related views. A simple version of this can be seen in the example app, specifically in the `CartViewController`, `ComponentsViewController` and `WidgetViewController`.
+**Note:** The Afterpay SDK contains a list of valid consumer locales that are available for each Configuration locale. If none are matched then the checkouts will not work. Therefore, in such a situation, all presentation elements will be hidden. Furthermore, a public read-only property is available at `Afterpay.enabled`, and this will be set to `false`. This property should be used to conditionally show or hide any related views to avoid a scenario where empty views take up unnecessary space. A simple implementation of this can be seen in the example app, specifically in the `CartViewController`, `ComponentsViewController` and `WidgetViewController`.
 
 ### Color Schemes
 
