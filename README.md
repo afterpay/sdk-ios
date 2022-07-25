@@ -222,6 +222,8 @@ BOOL (^challengeHandler)(NSURLAuthenticationChallenge *, CompletionHandler) = ^B
 
 ## Views
 
+**Note:** The Afterpay SDK contains a list of valid consumer locales that are availble for each Configuration locale. If this is not matched then the checkouts will not work. As such a public read-only property is available at `Afterpay.enabled` which will return `false` when a locale match is not found. This should be used to conditionally show or hide any related views. A simple version of this can be seen in the example app, specifically in the `CartViewController`, `ComponentsViewController` and `WidgetViewController`.
+
 ### Color Schemes
 
 Color schemes can be set on the badge view or payment button to either have a single style in both light and dark mode or to change automatically.

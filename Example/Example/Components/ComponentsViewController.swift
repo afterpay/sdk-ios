@@ -151,39 +151,41 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     titleLabel.adjustsFontForContentSizeCategory = true
     stack.addArrangedSubview(titleLabel)
 
-    let badge = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnMint))
-    badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
+    if Afterpay.enabled {
+      let badge = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnMint))
+      badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
-    let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
-    stack.addArrangedSubview(badgeStack)
+      let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
+      stack.addArrangedSubview(badgeStack)
 
-    let lockup = LockupView(colorScheme: .dynamic(lightPalette: .blackOnWhite, darkPalette: .whiteOnBlack))
-    lockup.widthAnchor.constraint(equalToConstant: 64).isActive = true
+      let lockup = LockupView(colorScheme: .dynamic(lightPalette: .blackOnWhite, darkPalette: .whiteOnBlack))
+      lockup.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
-    let lockupStack = UIStackView(arrangedSubviews: [lockup, UIView()])
-    stack.addArrangedSubview(lockupStack)
+      let lockupStack = UIStackView(arrangedSubviews: [lockup, UIView()])
+      stack.addArrangedSubview(lockupStack)
 
-    let priceBreakdown1 = PriceBreakdownView()
-    priceBreakdown1.introText = .payInTitle
-    priceBreakdown1.totalAmount = 100
-    priceBreakdown1.delegate = self
-    priceBreakdown1.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
-    stack.addArrangedSubview(priceBreakdown1)
+      let priceBreakdown1 = PriceBreakdownView()
+      priceBreakdown1.introText = .payInTitle
+      priceBreakdown1.totalAmount = 100
+      priceBreakdown1.delegate = self
+      priceBreakdown1.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
+      stack.addArrangedSubview(priceBreakdown1)
 
-    let priceBreakdown2 = PriceBreakdownView()
-    priceBreakdown2.totalAmount = 100
-    priceBreakdown2.delegate = self
-    priceBreakdown2.showWithText = false
-    priceBreakdown2.showInterestFreeText = false
-    priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .blackOnMint, darkPalette: .whiteOnBlack)
-    priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .moreInfoText)
-    priceBreakdown2.logoType = .lockup
-    stack.addArrangedSubview(priceBreakdown2)
+      let priceBreakdown2 = PriceBreakdownView()
+      priceBreakdown2.totalAmount = 100
+      priceBreakdown2.delegate = self
+      priceBreakdown2.showWithText = false
+      priceBreakdown2.showInterestFreeText = false
+      priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .blackOnMint, darkPalette: .whiteOnBlack)
+      priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .moreInfoText)
+      priceBreakdown2.logoType = .lockup
+      stack.addArrangedSubview(priceBreakdown2)
 
-    let priceBreakdown3 = PriceBreakdownView()
-    priceBreakdown3.totalAmount = 3000
-    priceBreakdown3.delegate = self
-    stack.addArrangedSubview(priceBreakdown3)
+      let priceBreakdown3 = PriceBreakdownView()
+      priceBreakdown3.totalAmount = 3000
+      priceBreakdown3.delegate = self
+      stack.addArrangedSubview(priceBreakdown3)
+    }
 
     let stackConstraints = [
       stack.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
