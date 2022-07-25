@@ -25,25 +25,25 @@ public enum AfterpayIntroText: String {
     switch self {
     case .empty: return ""
     case .make:
-      return Afterpay.string.localised.intro.make
+      return Afterpay.string.localized.intro.make
     case .makeTitle:
-      return Afterpay.string.localised.intro.makeTitle
+      return Afterpay.string.localized.intro.makeTitle
     case .pay:
-      return Afterpay.string.localised.intro.pay
+      return Afterpay.string.localized.intro.pay
     case .payTitle:
-      return Afterpay.string.localised.intro.payTitle
+      return Afterpay.string.localized.intro.payTitle
     case .in:
-      return Afterpay.string.localised.intro.in
+      return Afterpay.string.localized.intro.in
     case .inTitle:
-      return Afterpay.string.localised.intro.inTitle
+      return Afterpay.string.localized.intro.inTitle
     case .or:
-      return Afterpay.string.localised.intro.or
+      return Afterpay.string.localized.intro.or
     case .orTitle:
-      return Afterpay.string.localised.intro.orTitle
+      return Afterpay.string.localized.intro.orTitle
     case .payIn:
-      return Afterpay.string.localised.intro.payIn
+      return Afterpay.string.localized.intro.payIn
     case .payInTitle:
-      return Afterpay.string.localised.intro.payInTitle
+      return Afterpay.string.localized.intro.payInTitle
     }
   }
 }

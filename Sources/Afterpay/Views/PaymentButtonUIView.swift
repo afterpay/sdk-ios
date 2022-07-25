@@ -37,13 +37,13 @@ public enum ButtonKind {
   var foregroundString: String {
     switch self {
     case .buyNow:
-      return Afterpay.drawable.localised.buttonBuyNowForeground
+      return Afterpay.drawable.localized.buttonBuyNowForeground
     case .checkout:
-      return Afterpay.drawable.localised.buttonCheckoutForeground
+      return Afterpay.drawable.localized.buttonCheckoutForeground
     case .payNow:
-      return Afterpay.drawable.localised.buttonPayNowForeground
+      return Afterpay.drawable.localized.buttonPayNowForeground
     case .placeOrder:
-      return Afterpay.drawable.localised.buttonPlaceOrderForeground
+      return Afterpay.drawable.localized.buttonPlaceOrderForeground
     }
   }
 

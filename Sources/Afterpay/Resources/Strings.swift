@@ -32,10 +32,10 @@ enum Strings {
     return localeLanguages[Afterpay.language ?? Locales.enAU] ?? .en
   }
 
-  internal var localised: LocalisedString {
+  internal var localized: LocalizedString {
     switch self {
     case .en:
-      return LocalisedString(
+      return LocalizedString(
         moreInfo: "More Info",
         orPayWith: "or pay with",
         learnMore: "Learn More",
@@ -43,7 +43,7 @@ enum Strings {
         availableTemplate: "%1$@ %2$@ %3$@payments of %4$@ %5$@",
         interestFree: "interest-free ",
         with: "with",
-        intro: LocalisedIntroString(
+        intro: LocalizedIntroString(
           make: "make",
           makeTitle: "Make",
           pay: "pay",
@@ -55,7 +55,7 @@ enum Strings {
           payIn: "pay in",
           payInTitle: "Pay in"
         ),
-        alert: LocalisedAlertString(
+        alert: LocalizedAlertString(
           cancelAction: "Cancel",
           yesAction: "Yes",
           noAction: "No",
@@ -66,7 +66,7 @@ enum Strings {
         )
       )
     case .frCA:
-      return LocalisedString(
+      return LocalizedString(
         moreInfo: "Plus d'infos",
         orPayWith: "ou payer avec",
         learnMore: "En savoir plus",
@@ -74,7 +74,7 @@ enum Strings {
         availableTemplate: "%1$@ %2$@ paiements %3$@de %4$@ %5$@",
         interestFree: "sans intérêts ",
         with: "avec",
-        intro: LocalisedIntroString(
+        intro: LocalizedIntroString(
           make: "effectuez",
           makeTitle: "Effectuez",
           pay: "payez",
@@ -86,7 +86,7 @@ enum Strings {
           payIn: "payez en",
           payInTitle: "Payez en"
         ),
-        alert: LocalisedAlertString(
+        alert: LocalizedAlertString(
           cancelAction: "Annuler",
           yesAction: "Oui",
           noAction: "Non",
@@ -97,7 +97,7 @@ enum Strings {
         )
       )
     case .fr:
-      return LocalisedString(
+      return LocalizedString(
         moreInfo: "Plus d'infos",
         orPayWith: "ou payer avec",
         learnMore: "En savoir plus",
@@ -105,7 +105,7 @@ enum Strings {
         availableTemplate: "%1$@ %2$@ paiements %3$@de %4$@ %5$@",
         interestFree: "sans frais ",
         with: "avec",
-        intro: LocalisedIntroString(
+        intro: LocalizedIntroString(
           make: "effectuez",
           makeTitle: "Effectuez",
           pay: "payez",
@@ -117,7 +117,7 @@ enum Strings {
           payIn: "payez en",
           payInTitle: "Payez en"
         ),
-        alert: LocalisedAlertString(
+        alert: LocalizedAlertString(
           cancelAction: "Annuler",
           yesAction: "Oui",
           noAction: "Non",
@@ -128,7 +128,7 @@ enum Strings {
         )
       )
     case .it:
-      return LocalisedString(
+      return LocalizedString(
         moreInfo: "Maggiori info",
         orPayWith: "o paga con",
         learnMore: "Scopri di piú",
@@ -136,7 +136,7 @@ enum Strings {
         availableTemplate: "%1$@ %2$@ rate %3$@da %4$@ %5$@",
         interestFree: "senza interessi ",
         with: "con",
-        intro: LocalisedIntroString(
+        intro: LocalizedIntroString(
           make: "scegli",
           makeTitle: "Scegli",
           pay: "paga",
@@ -148,7 +148,7 @@ enum Strings {
           payIn: "paga in",
           payInTitle: "Paga in"
         ),
-        alert: LocalisedAlertString(
+        alert: LocalizedAlertString(
           cancelAction: "Annulla",
           yesAction: "Si",
           noAction: "No",
@@ -159,7 +159,7 @@ enum Strings {
         )
       )
     case .es:
-      return LocalisedString(
+      return LocalizedString(
         moreInfo: "Más infos",
         orPayWith: "o pagar con",
         learnMore: "Saber más",
@@ -167,7 +167,7 @@ enum Strings {
         availableTemplate: "%1$@ %2$@ pagos %3$@de %4$@ %5$@",
         interestFree: "sin coste ",
         with: "con",
-        intro: LocalisedIntroString(
+        intro: LocalizedIntroString(
           make: "haga",
           makeTitle: "Haga",
           pay: "paga",
@@ -179,7 +179,7 @@ enum Strings {
           payIn: "paga en",
           payInTitle: "Paga en"
         ),
-        alert: LocalisedAlertString(
+        alert: LocalizedAlertString(
           cancelAction: "Cancelar",
           yesAction: "Sí",
           noAction: "No",
@@ -203,7 +203,7 @@ enum Strings {
 
 }
 
-internal struct LocalisedIntroString {
+internal struct LocalizedIntroString {
   let make: String
   let makeTitle: String
   let pay: String
@@ -216,7 +216,7 @@ internal struct LocalisedIntroString {
   let payInTitle: String
 }
 
-internal struct LocalisedAlertString {
+internal struct LocalizedAlertString {
   let cancelAction: String
   let yesAction: String
   let noAction: String
@@ -226,7 +226,7 @@ internal struct LocalisedAlertString {
   let failedToLoadMessage: String
 }
 
-internal struct LocalisedString {
+internal struct LocalizedString {
   let moreInfo: String
   let orPayWith: String
   let learnMore: String
@@ -234,6 +234,6 @@ internal struct LocalisedString {
   let availableTemplate: String
   let interestFree: String
   let with: String
-  let intro: LocalisedIntroString
-  let alert: LocalisedAlertString
+  let intro: LocalizedIntroString
+  let alert: LocalizedAlertString
 }

@@ -46,18 +46,18 @@ struct PriceBreakdown {
     if isUkLocale || isGBP {
       interestFreeText = ""
     } else if showInterestFreeText {
-      interestFreeText = Afterpay.string.localised.interestFree
+      interestFreeText = Afterpay.string.localized.interestFree
     } else {
       interestFreeText = ""
     }
 
-    let withText = showWithText ? Afterpay.string.localised.with : ""
+    let withText = showWithText ? Afterpay.string.localized.with : ""
 
     if let formattedPayment = formattedPayment, inRange {
       badgePlacement = .end
 
       string = String.localizedStringWithFormat(
-        Afterpay.string.localised.availableTemplate,
+        Afterpay.string.localized.availableTemplate,
         introText.localizedText,
         String(describing: numberOfInstalments),
         interestFreeText,
@@ -67,12 +67,12 @@ struct PriceBreakdown {
     } else if let formattedMinimum = formattedMinimum, let formattedMaximum = formattedMaximum {
       badgePlacement = .start
       string = String.localizedStringWithFormat(
-        Afterpay.string.localised.outsideLimitsTemplate,
+        Afterpay.string.localized.outsideLimitsTemplate,
         formattedMinimum, formattedMaximum
       )
     } else {
       badgePlacement = .end
-      string = Afterpay.string.localised.orPayWith
+      string = Afterpay.string.localized.orPayWith
     }
   }
 }

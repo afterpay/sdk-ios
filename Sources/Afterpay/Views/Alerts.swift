@@ -15,11 +15,11 @@ enum Alerts {
     retry: @escaping () -> Void,
     cancel: @escaping () -> Void
   ) -> UIAlertController {
-    let localisedMessage = Afterpay.string.localised.alert.failedToLoadMessage
+    let localizedMessage = Afterpay.string.localized.alert.failedToLoadMessage
 
     let alert = UIAlertController(
-      title: Afterpay.string.localised.alert.errorTitle,
-      message: String.localizedStringWithFormat(localisedMessage, "Afterpay"),
+      title: Afterpay.string.localized.alert.errorTitle,
+      message: String.localizedStringWithFormat(localizedMessage, "Afterpay"),
       preferredStyle: .alert
     )
 
@@ -28,12 +28,12 @@ enum Alerts {
 
     let actions = [
       UIAlertAction(
-        title: Afterpay.string.localised.alert.retryAction,
+        title: Afterpay.string.localized.alert.retryAction,
         style: .default,
         handler: retryHandler
       ),
       UIAlertAction(
-        title: Afterpay.string.localised.alert.cancelAction,
+        title: Afterpay.string.localized.alert.cancelAction,
         style: .destructive,
         handler: cancelHandler
       ),
@@ -46,7 +46,7 @@ enum Alerts {
 
   static func areYouSureYouWantToCancel(cancel: @escaping () -> Void) -> UIAlertController {
     let actionSheet = UIAlertController(
-      title: Afterpay.string.localised.alert.cancelPaymentTitle,
+      title: Afterpay.string.localized.alert.cancelPaymentTitle,
       message: nil,
       preferredStyle: UIDevice.current.userInterfaceIdiom == .phone ? .actionSheet : .alert
     )
@@ -55,12 +55,12 @@ enum Alerts {
 
     let actions = [
       UIAlertAction(
-        title: Afterpay.string.localised.alert.yesAction,
+        title: Afterpay.string.localized.alert.yesAction,
         style: .destructive,
         handler: cancelHandler
       ),
       UIAlertAction(
-        title: Afterpay.string.localised.alert.noAction,
+        title: Afterpay.string.localized.alert.noAction,
         style: .cancel,
         handler: nil
       ),
