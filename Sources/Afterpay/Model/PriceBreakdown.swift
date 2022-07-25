@@ -39,7 +39,18 @@ struct PriceBreakdown {
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
 
-    let interestFreeText = showInterestFreeText ? Afterpay.string.localised.interestFree : ""
+    let isUkLocale = configuration?.locale == Locales.enGB
+    let isGBP = configuration?.currencyCode == "GBP"
+
+    let interestFreeText: String
+    if isUkLocale || isGBP {
+      interestFreeText = ""
+    } else if showInterestFreeText {
+      interestFreeText = Afterpay.string.localised.interestFree
+    } else {
+      interestFreeText = ""
+    }
+
     let withText = showWithText ? Afterpay.string.localised.with : ""
 
     if let formattedPayment = formattedPayment, inRange {
