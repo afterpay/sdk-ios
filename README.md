@@ -76,7 +76,7 @@ This is the recommended integration method.
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.5.2"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "5.0.0"))
 ]
 ```
 
@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 4.5.2
+git checkout 5.0.0
 ```
 
 #### Project / Workspace Integration
