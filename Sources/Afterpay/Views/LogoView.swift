@@ -63,6 +63,8 @@ public class AfterpayLogo: UIView {
   }
 
   internal func updateImage(withTraits traitCollection: UITraitCollection) {
+    self.isHidden = !Afterpay.enabled
+
     let brand = Brand.forLocale(locale: getLocale())
 
     accessibilityLabel = brand.details.accessibleName

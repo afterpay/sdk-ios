@@ -101,6 +101,8 @@ public class LayeredImageView: UIView {
   }
 
   internal func updateImages() {
+    self.isHidden = !Afterpay.enabled
+
     if let background = imageLayers.background, let foreground = imageLayers.foreground {
       deactivateConstraints()
 
