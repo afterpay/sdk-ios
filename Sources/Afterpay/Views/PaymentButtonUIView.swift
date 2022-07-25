@@ -24,8 +24,7 @@ public final class PaymentButtonUIView: LayeredImageView {
   }
 
   override internal func setForeground() {
-    let brand = getLocale() == Locales.greatBritain ? "clearpay" : "afterpay"
-    imageLayers.foreground = "button-foreground-\(buttonKind.slug)-\(brand)"
+    imageLayers.foreground = buttonKind.foregroundString
   }
 }
 
@@ -35,16 +34,16 @@ public enum ButtonKind {
   case payNow
   case placeOrder
 
-  var slug: String {
+  var foregroundString: String {
     switch self {
     case .buyNow:
-      return "buy-now"
+      return Afterpay.drawable.localized.buttonBuyNowForeground
     case .checkout:
-      return "checkout"
+      return Afterpay.drawable.localized.buttonCheckoutForeground
     case .payNow:
-      return "pay-now"
+      return Afterpay.drawable.localized.buttonPayNowForeground
     case .placeOrder:
-      return "place-order"
+      return Afterpay.drawable.localized.buttonPlaceOrderForeground
     }
   }
 

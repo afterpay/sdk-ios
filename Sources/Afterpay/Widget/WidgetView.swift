@@ -115,11 +115,27 @@ public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHand
   }
 
   private func setup() {
+    setVisibility()
+
     setupWebView()
     setupWebViewConstraints()
 
     setupActivityView()
     setupBorder()
+
+    let selector = #selector(configurationDidChange)
+    let name: NSNotification.Name = .configurationUpdated
+    notificationCenter.addObserver(self, selector: selector, name: name, object: nil)
+  }
+
+  @objc private func configurationDidChange(_ notification: NSNotification) {
+    DispatchQueue.main.async {
+      self.setVisibility()
+    }
+  }
+
+  private func setVisibility() {
+    self.isHidden = !Afterpay.enabled
   }
 
   // MARK: Subviews

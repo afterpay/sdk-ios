@@ -476,3 +476,8 @@ VERSION_INFO_PREFIX =
 VERSIONING_SYSTEM = apple-generic
 
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES
+
+// Warn when a nonlocalized string is passed to a user interface method expecting a
+// localized string.
+
+CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES

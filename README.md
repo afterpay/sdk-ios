@@ -76,7 +76,7 @@ This is the recommended integration method.
 
 ```
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "4.5.2"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "5.0.0"))
 ]
 ```
 
@@ -109,7 +109,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule] by navigating to the ro
 ```
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 4.5.2
+git checkout 5.0.0
 ```
 
 #### Project / Workspace Integration
@@ -143,6 +143,8 @@ Afterpay.presentCheckoutModally(over:loading:animated:completion:)
 Checkout version 1 requires you to manage the loading of a checkout URL yourself and provide it to the SDK. This version of checkout only supports `standard` mode and completes on receiving a redirect.
 
 ### Checkout v2
+
+**Note:** Checkout v2 is not available at this time for the following regions: France, Italy, Spain.
 
 ```swift
 Afterpay.presentCheckoutV2Modally(over:animated:options:didCommenceCheckout:shippingAddressDidChange:shippingOptionDidChange:completion:)
@@ -239,6 +241,8 @@ BOOL (^challengeHandler)(NSURLAuthenticationChallenge *, CompletionHandler) = ^B
 ```
 
 ## Views
+
+**Note:** The Afterpay SDK contains a list of valid consumer locales that are available for each Configuration locale. If none are matched then the checkouts will not work. Therefore, in such a situation, all presentation elements will be hidden. Furthermore, a public read-only property is available at `Afterpay.enabled`, and this will be set to `false`. This property should be used to conditionally show or hide any related views to avoid a scenario where empty views take up unnecessary space. A simple implementation of this can be seen in the example app, specifically in the `CartViewController`, `ComponentsViewController` and `WidgetViewController`.
 
 ### Color Schemes
 

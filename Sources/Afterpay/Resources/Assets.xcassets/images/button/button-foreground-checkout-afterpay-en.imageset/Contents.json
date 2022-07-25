@@ -1,0 +1,17 @@
+{
+  "images" : [
+    {
+      "filename" : "button-foreground-checkout-afterpay.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true,
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "template"
+  }
+}

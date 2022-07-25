@@ -226,8 +226,8 @@ public struct CheckoutV3Configuration {
 
     var locale: Locale {
       switch self {
-      case .US: return Locales.unitedStates
-      case .CA: return Locales.canada
+      case .US: return Locales.enUS
+      case .CA: return Locales.enCA
       }
     }
 

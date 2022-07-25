@@ -28,6 +28,10 @@ public func presentCheckoutModally(
   animated: Bool = true,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
+  if !enabled {
+    return
+  }
+
   var viewControllerToPresent: UIViewController = CheckoutWebViewController(
     checkoutUrl: checkoutURL,
     completion: completion
@@ -160,6 +164,10 @@ public func presentCheckoutV2Modally(
     return assertionFailure(
       "Configuration must be provided before using `presentCheckoutV2Modally`"
     )
+  }
+
+  if !enabled {
+    return
   }
 
   var viewControllerToPresent: UIViewController = CheckoutV2ViewController(
@@ -334,5 +342,25 @@ public func setConfiguration(_ configuration: Configuration?) {
 }
 
 func getLocale() -> Locale {
-  getConfiguration()?.locale ?? Locales.unitedStates
+  getConfiguration()?.locale ?? Locales.enUS
+}
+
+internal var language: Locale? {
+  getRegionLanguage(merchantLocale: getLocale(), clientLocale: Locale.current)
+}
+
+internal var string: Strings {
+  Strings.forLocale()
+}
+
+internal var drawable: Drawables {
+  Drawables.forLocale()
+}
+
+internal var brand: Brand {
+  Brand.forLocale(locale: getLocale())
+}
+
+public var enabled: Bool {
+  language != nil
 }

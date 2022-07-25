@@ -8,21 +8,45 @@
 
 import Foundation
 
-enum Locales {
+enum Locales: Hashable {
 
-  static let australia = Locale(identifier: "en_AU")
-  static let canada = Locale(identifier: "en_CA")
-  static let greatBritain = Locale(identifier: "en_GB")
-  static let newZealand = Locale(identifier: "en_NZ")
-  static let posix = Locale(identifier: "en_US_POSIX")
-  static let unitedStates = Locale(identifier: "en_US")
+  static let enAU = Locale(identifier: "en_AU")
+  static let enCA = Locale(identifier: "en_CA")
+  static let frCA = Locale(identifier: "fr_CA")
+  static let enGB = Locale(identifier: "en_GB")
+  static let enNZ = Locale(identifier: "en_NZ")
+  static let enUS = Locale(identifier: "en_US")
+  static let frFR = Locale(identifier: "fr_FR")
+  static let itIT = Locale(identifier: "it_IT")
+  static let esES = Locale(identifier: "es_ES")
+  static let enUSposix = Locale(identifier: "en_US_POSIX")
 
-  static let validSet: Set<Locale> = [
-    australia,
-    canada,
-    greatBritain,
-    newZealand,
-    unitedStates,
+  static let validArray: [Locale] = [
+    enAU,
+    enCA,
+    frCA,
+    enGB,
+    enNZ,
+    enUS,
+    frFR,
+    itIT,
+    esES,
   ]
+}
 
+private let validRegionLanguages = [
+  Locales.enAU.regionCode!: [Locales.enAU],
+  Locales.enCA.regionCode!: [Locales.enCA, Locales.frCA],
+  Locales.enGB.regionCode!: [Locales.enGB],
+  Locales.enNZ.regionCode!: [Locales.enNZ],
+  Locales.enUS.regionCode!: [Locales.enUS],
+  Locales.frFR.regionCode!: [Locales.frFR, Locales.enGB],
+  Locales.itIT.regionCode!: [Locales.itIT, Locales.enGB],
+  Locales.esES.regionCode!: [Locales.esES, Locales.enGB],
+]
+
+internal func getRegionLanguage(merchantLocale: Locale, clientLocale: Locale) -> Locale? {
+  return validRegionLanguages[merchantLocale.regionCode!]!.first {
+    $0.languageCode == clientLocale.languageCode
+  }
 }
