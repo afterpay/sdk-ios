@@ -173,8 +173,6 @@ public final class PriceBreakdownView: UIView {
   }
 
   private func updateAttributedText() {
-    self.isHidden = !Afterpay.enabled
-
     let logoView: AfterpayLogo
     if logoType == .lockup {
       logoView = LockupView(colorScheme: logoColorScheme)
