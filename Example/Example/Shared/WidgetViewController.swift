@@ -59,12 +59,12 @@ final class WidgetViewController: UIViewController {
       view.backgroundColor = .white
     }
 
-//    if Afterpay.enabled {
+    if Afterpay.enabled {
       setupMessageLabel()
       try? setupWidget()
       setupUpdateAmountField()
       setupGetStatusButton()
-//    }
+    }
   }
 
   private func setupMessageLabel() {
