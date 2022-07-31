@@ -51,7 +51,9 @@ public struct MoreInfoOptions {
       return "\(self.modalId!).html"
     }
 
-    let locale = getConfiguration()?.locale.identifier ?? "en_US"
+    let languageLocale: Locale = Afterpay.language ?? Locales.enGB
+    let locale = "\(languageLocale.languageCode ?? "en")_\(Afterpay.getLocale().regionCode ?? "US")"
+
     let cbt = self.isCbtEnabled ? "-cbt":""
     let theme = self.modalTheme
 
