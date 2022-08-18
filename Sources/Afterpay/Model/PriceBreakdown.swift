@@ -25,19 +25,21 @@ struct PriceBreakdown {
     showWithText: Bool = true
   ) {
     let configuration = getConfiguration()
-    let formatter = configuration
-      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode, clientLocale: Locale.current) }
-    let format = { formatter?.string(from: $0) }
-
-    let formattedMinimum = configuration?.minimumAmount.flatMap(format) ?? formatter?.string(from: 1)
-    let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
-    let numberOfInstalments = getNumberOfInstalments(currencyCode: configuration?.currencyCode)
-    let formattedPayment = format(totalAmount / numberOfInstalments)
 
     let greaterThanZero = totalAmount > .zero
     let greaterThanOrEqualToMinimum = totalAmount >= (configuration?.minimumAmount ?? .zero)
     let lessThanOrEqualToMaximum = totalAmount <= (configuration?.maximumAmount ?? .zero)
     let inRange = greaterThanZero && greaterThanOrEqualToMinimum && lessThanOrEqualToMaximum
+    let maxFractionDigits = !inRange ? 0 : nil
+
+    let formatter = configuration
+      .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode, clientLocale: Locale.current) }
+    let format = { formatter?.string(from: $0, maxDecimals: maxFractionDigits) }
+
+    let formattedMinimum = configuration?.minimumAmount.flatMap(format) ?? formatter?.string(from: 1, maxDecimals: maxFractionDigits)
+    let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
+    let numberOfInstalments = getNumberOfInstalments(currencyCode: configuration?.currencyCode)
+    let formattedPayment = format(totalAmount / numberOfInstalments)
 
     let isUkLocale = configuration?.locale == Locales.enGB
     let isGBP = configuration?.currencyCode == "GBP"
