@@ -36,7 +36,8 @@ struct PriceBreakdown {
       .map { CurrencyFormatter(locale: $0.locale, currencyCode: $0.currencyCode, clientLocale: Locale.current) }
     let format = { formatter?.string(from: $0, maxDecimals: maxFractionDigits) }
 
-    let formattedMinimum = configuration?.minimumAmount.flatMap(format) ?? formatter?.string(from: 1, maxDecimals: maxFractionDigits)
+    let formattedMinimum = configuration?.minimumAmount.flatMap(format) ??
+      formatter?.string(from: 1, maxDecimals: maxFractionDigits)
     let formattedMaximum = (configuration?.maximumAmount).flatMap(format)
     let numberOfInstalments = getNumberOfInstalments(currencyCode: configuration?.currencyCode)
     let formattedPayment = format(totalAmount / numberOfInstalments)
