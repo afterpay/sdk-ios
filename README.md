@@ -434,6 +434,9 @@ We provide options for integrating the SDK in Swift and Objective-C.
 
 The Web Login is a `UIViewController` that can be presented modally over the view controller of your choosing.
 
+> **NOTE:**
+> When creating a checkout token, both `redirectConfirmUrl` and `redirectCancelUrl` must be set. Failing to do so will cause undefined behavior. The SDK’s example merchant server sets the parameters [here](https://github.com/afterpay/sdk-example-server/blob/5781eadb25d7f5c5d872e754fdbb7214a8068008/src/routes/checkout.ts#L26-L27). See more by checking the [api reference](https://developers.afterpay.com/afterpay-online/reference/javascript-afterpayjs#redirect-method).
+
 ### Swift (UIKit)
 
 ```swift
@@ -578,6 +581,8 @@ Afterpay.presentCheckoutV2Modally(
   },
   shippingOptionDidChange: { shippingOption, completion in
     // Optionally update your application model with the selected shipping option
+    // To update the shipping method, pass in a shippingOptionUpdate object to
+    // completion, otherwise pass nil
   },
   completion: { result in
     switch result {
