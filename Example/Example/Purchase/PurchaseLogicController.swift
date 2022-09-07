@@ -165,6 +165,8 @@ final class PurchaseLogicController {
   }
 
   func selectShipping(shippingOption: ShippingOption) {
+    // if standard shipping was selected, update the amounts
+    // otherwise leave as is by passing nil
     if shippingOption.id == "standard" {
       let updatedShippingOption = ShippingOptionUpdate(
         id: shippingOption.id,

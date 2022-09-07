@@ -8,7 +8,6 @@
 ![License][badge-license]
 
 
-
 # Documentation
 Documentation for usage can be found [here][docs], including the [getting started][docs-getting-started] guide and [UI component][docs-ui] docs.
 
