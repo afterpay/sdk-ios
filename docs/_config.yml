@@ -1,0 +1,30 @@
+remote_theme: just-the-docs/just-the-docs
+color_scheme: afterpay
+
+baseurl: "/sdk-ios"
+
+source: ./src
+
+title: Afterpay iOS SDK
+permalink: pretty
+
+aux_links:
+  "View on GitHub":
+    - "//github.com/afterpay/sdk-ios"
+
+aux_links_new_tab: true
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+callouts:
+  note:
+    title: Note
+    color: yellow
+  alert:
+    title: Alert
+    color: red
+  info:
+    title: Info
+    color: blue

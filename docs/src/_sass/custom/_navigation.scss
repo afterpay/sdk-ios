@@ -1,0 +1,22 @@
+// Main nav, breadcrumb, etc...
+// stylelint-disable selector-no-type, max-nesting-depth, selector-max-compound-selectors, selector-max-type, selector-max-specificity
+
+.site-nav {
+    & > .nav-list {
+        & > .nav-list-item {
+            margin-right: 8px;
+        }
+
+        .nav-list-item {
+            .nav-list-link {
+                border-radius: 20px 4px 4px 20px;
+
+                &:hover,
+                &.active {
+                    background-image: none;
+                    background-color: $feedback-color;
+                }
+            }
+        }
+    }
+}
