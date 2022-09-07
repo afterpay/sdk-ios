@@ -35,13 +35,13 @@ dependencies: [
 ## Carthage
 
 ``` swift
-github "afterpay/sdk-ios" ~> 4.5
+github "afterpay/sdk-ios" ~> 5.0
 ```
 
 ## CocoaPods
 
 ``` swift
-pod 'Afterpay', '~> 4.5'
+pod 'Afterpay', '~> 5.0'
 ```
 ## Manual
 
