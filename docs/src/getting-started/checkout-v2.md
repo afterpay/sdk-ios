@@ -68,6 +68,8 @@ Afterpay.presentCheckoutV2Modally(
   },
   shippingOptionDidChange: { shippingOption, completion in
     // Optionally update your application model with the selected shipping option
+    // To update the shipping method, pass in a shippingOptionUpdate object to
+    // completion, otherwise pass nil
   },
   completion: { result in
     switch result {
