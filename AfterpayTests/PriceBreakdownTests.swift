@@ -103,7 +103,7 @@ class PriceBreakdownTests: XCTestCase {
 
     for breakdown in outOfRangeBreakdowns {
       XCTAssertEqual(breakdown.badgePlacement, .start)
-      XCTAssertEqual(breakdown.string, "available for orders between $50.00 – $200.00")
+      XCTAssertEqual(breakdown.string, "available for orders between $50 – $200")
     }
   }
 
@@ -118,7 +118,7 @@ class PriceBreakdownTests: XCTestCase {
 
     for breakdown in outOfRangeBreakdowns {
       XCTAssertEqual(breakdown.badgePlacement, .start)
-      XCTAssertEqual(breakdown.string, "available for orders between $1.00 – $200.00")
+      XCTAssertEqual(breakdown.string, "available for orders between $1 – $200")
     }
   }
 

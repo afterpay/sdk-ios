@@ -20,7 +20,7 @@ struct CurrencyFormatter {
     return formatter
   }()
 
-  func string(from decimal: Decimal) -> String? {
+  func string(from decimal: Decimal, maxDecimals: Int? = nil) -> String? {
     formatter.locale = clientLocale
 
     let currencyLocales = Locales.validArray.filter { $0.currencyCode == currencyCode }
@@ -60,6 +60,9 @@ struct CurrencyFormatter {
       default:
         formatter.positiveFormat = formatter.positiveFormat
       }
+    }
+    if maxDecimals != nil {
+      formatter.maximumFractionDigits = maxDecimals!
     }
 
     return formatter.string(from: decimal as NSDecimalNumber)

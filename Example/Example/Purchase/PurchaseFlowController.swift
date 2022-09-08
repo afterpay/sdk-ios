@@ -126,6 +126,9 @@ final class PurchaseFlowController: UIViewController {
       Afterpay.presentCheckoutV2Modally(over: ownedNavigationController, options: options) { result in
         switch result {
         case .success(let token):
+          // when launching the checkout with V2, the token must be generated
+          // with 'popupOriginUrl' set to 'https://static.afterpay.com' under the
+          // top level 'merchant' object
           logicController.success(with: token)
         case .cancelled(let reason):
           logicController.cancelled(with: reason)
