@@ -3,7 +3,7 @@ color_scheme: afterpay
 
 baseurl: "/sdk-ios"
 
-source: ./src
+destination: ../_site
 
 title: Afterpay iOS SDK
 permalink: pretty
