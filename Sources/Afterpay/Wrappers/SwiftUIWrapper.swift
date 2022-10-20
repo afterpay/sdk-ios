@@ -21,7 +21,8 @@ public extension View {
   ///   a checkout sheet is presented. If the URL changes a new sheet is presented. If nil is set
   ///   the sheet is dismissed.
   ///   - shouldLoadRedirectUrls: a boolean value that determines whether the redirect urls set
-  ///   when producing the checkout url should be redirected to. The default and recommended value is false
+  ///   when producing the checkout url should be allowed to start loading. The default and
+  ///   recommended value is false
   ///   - completion: Called with the result of a checkout after dismissal.
   func afterpayCheckout(
     url: Binding<URL?>,
