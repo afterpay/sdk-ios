@@ -23,7 +23,7 @@ jobs:
       workspace: Afterpay.xcworkspace
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Cache Mint Packages
       uses: actions/cache@v2
@@ -61,7 +61,7 @@ jobs:
           -destination '${{ env.destination }}'
 
     - name: Checkout Example Server
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: afterpay/sdk-example-server
         path: ./example-server
@@ -106,7 +106,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -127,7 +127,7 @@ jobs:
       workspace: .swiftpm/xcode/package.xcworkspace
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Validate Swift Package
       run: |
