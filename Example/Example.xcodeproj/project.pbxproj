@@ -795,7 +795,7 @@
 			repositoryURL = "https://github.com/datatheorem/TrustKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.6.5;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
