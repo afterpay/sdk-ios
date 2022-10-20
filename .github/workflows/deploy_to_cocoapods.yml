@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install Cocoapods
       run: gem install cocoapods
-      
+
     - name: Deploy to Cocoapods
       run: |
         set -eo pipefail
