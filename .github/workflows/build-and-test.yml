@@ -67,9 +67,9 @@ jobs:
         path: ./example-server
 
     - name: Setup Example Server
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: 16
 
     - name: Run Example Server
       working-directory: ./example-server
