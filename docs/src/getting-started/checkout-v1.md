@@ -33,6 +33,11 @@ import UIKit
 final class CheckoutViewController: UIViewController {
   // ...
   @objc func didTapPayWithAfterpay() {
+    /**
+     * `presentCheckoutModally` can take a `shouldLoadRedirectUrls` which is
+     * a boolean for whether the redirect urls set when generating
+     * the checkout url should load. Default and recommended value is false
+     */
     Afterpay.presentCheckoutModally(over: self, loading: self.checkoutUrl) { result in
       switch result {
       case .success(let token):

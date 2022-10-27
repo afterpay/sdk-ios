@@ -20,9 +20,13 @@ public extension View {
   ///   an Afterpay Checkout URL produced from the /checkouts endpoint. When a non nil URL is set,
   ///   a checkout sheet is presented. If the URL changes a new sheet is presented. If nil is set
   ///   the sheet is dismissed.
+  ///   - shouldLoadRedirectUrls: a boolean value that determines whether the redirect urls set
+  ///   when producing the checkout url should be allowed to start loading. The default and
+  ///   recommended value is false
   ///   - completion: Called with the result of a checkout after dismissal.
   func afterpayCheckout(
     url: Binding<URL?>,
+    shouldLoadRedirectUrls: Bool = false,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) -> some View {
     let itemBinding: Binding<URLItem?> = Binding(
@@ -94,10 +98,15 @@ struct URLItem: Identifiable {
 struct SwiftUIWrapper: UIViewControllerRepresentable {
 
   let checkoutURL: URL
+  let shouldLoadRedirectUrls: Bool = false
   let completion: (_ result: CheckoutResult) -> Void
 
   func makeUIViewController(context: Context) -> CheckoutWebViewController {
-    CheckoutWebViewController(checkoutUrl: checkoutURL, completion: completion)
+    CheckoutWebViewController(
+      checkoutUrl: checkoutURL,
+      shouldLoadRedirectUrls: shouldLoadRedirectUrls,
+      completion: completion
+    )
   }
 
   func updateUIViewController(_ uiViewController: CheckoutWebViewController, context: Context) {

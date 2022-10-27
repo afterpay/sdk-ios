@@ -196,6 +196,8 @@ final class PurchaseLogicController {
       errorMessageToShow = error.localizedDescription
     case .userInitiated:
       errorMessageToShow = nil
+    case .unretrievableUrl:
+      errorMessageToShow = nil
     case .invalidURL(let url):
       errorMessageToShow = "URL: \(url.absoluteString) is invalid for Afterpay Checkout"
     }
