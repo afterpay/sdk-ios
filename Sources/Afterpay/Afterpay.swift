@@ -20,12 +20,15 @@ import UIKit
 ///   - checkoutURL: The checkout URL to load generated via the /checkouts endpoint on the
 ///   Afterpay backend.
 ///   - animated: Pass true to animate the presentation; otherwise, pass false.
+///   - shouldLoadRedirectUrls: a boolean for whether the redirect urls set when generating
+///   the checkout url should load. Default and recommended value is false
 ///   - completion: The block executed after the user has completed the checkout.
 ///   - result: The result of the user's completion (a success or cancellation).
 public func presentCheckoutModally(
   over viewController: UIViewController,
   loading checkoutURL: URL,
   animated: Bool = true,
+  shouldLoadRedirectUrls: Bool = false,
   completion: @escaping (_ result: CheckoutResult) -> Void
 ) {
   if !enabled {
@@ -34,6 +37,7 @@ public func presentCheckoutModally(
 
   var viewControllerToPresent: UIViewController = CheckoutWebViewController(
     checkoutUrl: checkoutURL,
+    shouldLoadRedirectUrls: shouldLoadRedirectUrls,
     completion: completion
   )
 
