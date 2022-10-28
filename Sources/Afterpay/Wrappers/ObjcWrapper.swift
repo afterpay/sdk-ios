@@ -57,6 +57,10 @@ public final class ObjcWrapper: NSObject {
       CancellationReasonUserInitiated(())
     }
 
+    static func unretrievableUrl() -> CancellationReasonUnretrievableUrl {
+      CancellationReasonUnretrievableUrl(())
+    }
+
     static func networkError(error: Error) -> CancellationReasonNetworkError {
       CancellationReasonNetworkError(error)
     }
@@ -69,6 +73,11 @@ public final class ObjcWrapper: NSObject {
 
   @objc(APCancellationReasonUserInitiated)
   public class CancellationReasonUserInitiated: CancellationReason {
+    init(_ void: ()) {}
+  }
+
+  @objc(APCancellationReasonUnretrievableUrl)
+  public class CancellationReasonUnretrievableUrl: CancellationReason {
     init(_ void: ()) {}
   }
 
@@ -108,6 +117,9 @@ public final class ObjcWrapper: NSObject {
 
         case .cancelled(.userInitiated):
           completion(.cancelled(reason: .userInitiated()))
+
+        case .cancelled(.unretrievableUrl):
+          completion(.cancelled(reason: .unretrievableUrl()))
 
         case .cancelled(.networkError(let error)):
           completion(.cancelled(reason: .networkError(error: error)))

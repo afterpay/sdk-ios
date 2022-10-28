@@ -28,20 +28,20 @@ This is the recommended integration method.
 
 ``` swift
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "5.1.0"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "5.2.0"))
 ]
 ```
 
 ## Carthage
 
 ``` swift
-github "afterpay/sdk-ios" ~> 5.1
+github "afterpay/sdk-ios" ~> 5.2
 ```
 
 ## CocoaPods
 
 ``` swift
-pod 'Afterpay', '~> 5.1'
+pod 'Afterpay', '~> 5.2'
 ```
 ## Manual
 
@@ -60,7 +60,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule]{:target="_blank"} by na
 ``` sh
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 5.1.0
+git checkout 5.2.0
 ```
 
 #### Project / Workspace Integration

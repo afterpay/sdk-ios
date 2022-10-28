@@ -2,7 +2,7 @@ name: Build and Test
 
 env:
   afterpay-scheme: Afterpay
-  DEVELOPER_DIR: /Applications/Xcode_12.5.1.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
 
 on:
   push:
@@ -17,16 +17,16 @@ jobs:
     runs-on: macos-latest
 
     env:
-      destination: platform=iOS Simulator,name=iPhone 11,OS=14.5
+      destination: platform=iOS Simulator,name=iPhone 13,OS=15.2
       example-scheme: Example
       example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Cache Mint Packages
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: /usr/local/lib/mint
         key: ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}
@@ -45,7 +45,7 @@ jobs:
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.afterpay-scheme }} \
           -destination '${{ env.destination }}'
-  
+
     - name: Test SDK Project
       run: |
         xcodebuild test-without-building \
@@ -59,18 +59,18 @@ jobs:
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-scheme }} \
           -destination '${{ env.destination }}'
-          
+
     - name: Checkout Example Server
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: afterpay/sdk-example-server
         path: ./example-server
-        
+
     - name: Setup Example Server
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
-        node-version: '12'
-        
+        node-version: 16
+
     - name: Run Example Server
       working-directory: ./example-server
       run: |
@@ -88,15 +88,15 @@ jobs:
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-ui-test-scheme }} \
           -destination '${{ env.destination }}'
-          
+
         xcodebuild test-without-building \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-ui-test-scheme }} \
           -destination '${{ env.destination }}'
-            
+
     - name: Upload UI test artifacts
       if: ${{ always() }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: xcresults
         path: /Users/runner/Library/Developer/Xcode/DerivedData/Afterpay-*/Logs/Test/*
@@ -106,7 +106,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -127,7 +127,7 @@ jobs:
       workspace: .swiftpm/xcode/package.xcworkspace
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Validate Swift Package
       run: |

@@ -16,6 +16,7 @@ final class ExampleUITests: XCTestCase {
   override func setUp() {
     app.launchArguments.append(contentsOf: ["-com.afterpay.mock-widget-bootstrap", "YES"])
     app.launchArguments.append("-disableAnimations")
+
     app.launch()
 
     UIView.setAnimationsEnabled(false)

@@ -17,6 +17,7 @@ final class CheckoutWebViewController:
 { // swiftlint:disable:this opening_brace
 
   private let checkoutUrl: URL
+  private let shouldLoadRedirectUrls: Bool
   private let completion: (_ result: CheckoutResult) -> Void
 
   private var webView: WKWebView { view as! WKWebView }
@@ -25,10 +26,12 @@ final class CheckoutWebViewController:
 
   init(
     checkoutUrl: URL,
+    shouldLoadRedirectUrls: Bool,
     completion: @escaping (_ result: CheckoutResult) -> Void
   ) {
     self.checkoutUrl = checkoutUrl
     self.completion = completion
+    self.shouldLoadRedirectUrls = shouldLoadRedirectUrls
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -107,7 +110,7 @@ final class CheckoutWebViewController:
     init?(url: URL) {
       let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
       let statusItem = queryItems?.first { $0.name == "status" }
-      let orderTokenItem = queryItems?.first { $0.name == "orderToken" }
+      let orderTokenItem = queryItems?.first { $0.name == "orderToken" || $0.name == "token" }
 
       switch (statusItem?.value, orderTokenItem?.value) {
       case ("SUCCESS", let token?):
@@ -137,15 +140,54 @@ final class CheckoutWebViewController:
       UIApplication.shared.open(url)
 
     case (false, .success(let token)):
-      decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.success(token: token)) }
+      if self.shouldLoadRedirectUrls {
+        decisionHandler(.allow)
+      } else {
+        decisionHandler(.cancel)
+        dismiss(animated: true) { self.completion(.success(token: token)) }
+      }
 
     case (false, .cancelled):
-      decisionHandler(.cancel)
-      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+      if self.shouldLoadRedirectUrls {
+        decisionHandler(.allow)
+      } else {
+        decisionHandler(.cancel)
+        dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+      }
 
     case (false, nil):
       decisionHandler(.allow)
+    }
+  }
+
+  func webView(
+    _ webView: WKWebView,
+    decidePolicyFor navigationResponse: WKNavigationResponse,
+    decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void
+  ) {
+    if !self.shouldLoadRedirectUrls {
+      return decisionHandler(.allow)
+    }
+
+    let response = navigationResponse.response as? HTTPURLResponse
+    guard let url = response?.url else {
+      decisionHandler(.allow)
+      dismiss(animated: true) { self.completion(.cancelled(reason: .unretrievableUrl)) }
+      return
+    }
+
+    switch Completion(url: url) {
+    case(.success(let token)):
+      decisionHandler(.cancel)
+      dismiss(animated: true) { self.completion(.success(token: token)) }
+
+    case(.cancelled):
+      decisionHandler(.cancel)
+      dismiss(animated: true) { self.completion(.cancelled(reason: .userInitiated)) }
+
+    case(nil):
+      decisionHandler(.allow)
+
     }
   }
 
