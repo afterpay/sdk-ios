@@ -57,12 +57,12 @@ final class ComponentsViewController: UIViewController {
     ]
 
     install(
-      ContentStackViewController(stackTitle: "Light Content", userInterfaceStyle: .light),
+      ContentStackViewController(stackTitle: "Light Theme", userInterfaceStyle: .light),
       embed: contentStack.addArrangedSubview
     )
 
     install(
-      ContentStackViewController(stackTitle: "Dark Content", userInterfaceStyle: .dark),
+      ContentStackViewController(stackTitle: "Dark Theme", userInterfaceStyle: .dark),
       embed: contentStack.addArrangedSubview
     )
 
