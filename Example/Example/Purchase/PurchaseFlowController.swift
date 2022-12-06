@@ -76,6 +76,8 @@ final class PurchaseFlowController: UIViewController {
         switch event {
         case .didTapPay:
           logicController.payWithAfterpay()
+        case .didTapCashAppPay:
+          logicController.payWithCashApp()
         case .optionsChanged(.buyNow):
           logicController.toggleCheckoutV2Option(\.buyNow)
         case .optionsChanged(.pickup):
@@ -115,8 +117,14 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
+    case .beginPayWithCashApp(_):
+      print("hello3", "command for paying with cashapp")
+
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
+      
+    case .provideCashAppTokenResult(let tokenResult):
+      
 
     case .provideShippingOptionsResult(let shippingOptionsResult):
       checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)

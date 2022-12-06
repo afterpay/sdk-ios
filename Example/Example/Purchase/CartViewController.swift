@@ -21,6 +21,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   enum Event {
     case didTapPay
+    case didTapCashAppPay
     case optionsChanged(CheckoutOptionsCell.Event)
   }
 
@@ -63,10 +64,23 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
       view.addSubview(payButton)
 
+      let cashButton = UIButton(frame: .zero)
+      cashButton.isEnabled = cart.payEnabled
+      cashButton.accessibilityIdentifier = "payWithCashApp"
+      cashButton.addTarget(self, action: #selector(didTapCashAppPay), for: .touchUpInside)
+      cashButton.setTitle("Pay with Cash", for: .normal)
+      cashButton.backgroundColor = UIColor.magenta
+      cashButton.translatesAutoresizingMaskIntoConstraints = false
+
+      view.addSubview(cashButton)
+
       NSLayoutConstraint.activate([
         payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
+        cashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        cashButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 16),
+        cashButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
       ])
 
       tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor)
@@ -84,6 +98,10 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
   @objc private func didTapPay() {
     eventHandler(.didTapPay)
+  }
+  
+  @objc private func didTapCashAppPay() {
+    eventHandler(.didTapCashAppPay)
   }
 
   // MARK: UITableViewDataSource

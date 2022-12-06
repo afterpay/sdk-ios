@@ -17,8 +17,10 @@ final class PurchaseLogicController {
 
     case showAfterpayCheckoutV1(checkoutURL: URL)
 
+    case beginPayWithCashApp(Bool)
     case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
+    case provideCashAppTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case provideShippingOptionResult(ShippingOptionUpdateResult)
 
@@ -34,6 +36,7 @@ final class PurchaseLogicController {
     _ email: String,
     _ amount: String,
     _ checkoutMode: CheckoutMode,
+    _ isCashApp: Bool?,
     _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
@@ -118,11 +121,23 @@ final class PurchaseLogicController {
     }
   }
 
+  func payWithCashApp() {
+    commandHandler(.beginPayWithCashApp(true))
+
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    let amount = formatter.string(from: total)
+
+    checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
+      let tokenResult = result.map(\.token)
+      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
+    }
+  }
+
   func loadCheckoutURL(then command: @escaping (URL) -> Void) {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount, .v1) { result in
+    checkoutResponseProvider(email, amount, .v1, nil) { result in
       guard let url = try? result.map(\.url).get() else {
         return
       }
@@ -134,7 +149,7 @@ final class PurchaseLogicController {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount, .v2) { [weak self] result in
+    checkoutResponseProvider(email, amount, .v2, nil) { [weak self] result in
       let tokenResult = result.map(\.token)
       self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
     }
