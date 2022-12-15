@@ -35,6 +35,15 @@ import Foundation
     }
   }
 
+  var cashAppSigningURL: String {
+    switch self {
+    case .sandbox:
+      return "https://api-plus.us-sandbox.afterpay.com/v2/payments/sign-payment"
+    case .production:
+      return "unknown" // TODO: get the correct signing url
+    }
+  }
+
   var bootstrapCacheDisplayName: String { "afterpay.com" }
 
   var widgetBootstrapHTML: String {

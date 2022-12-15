@@ -238,6 +238,45 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
+public func launchCashAppPay(
+  didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
+  completion: @escaping (_ result: CheckoutResult) -> Void
+) {
+  guard let configuration = getConfiguration() else {
+    return assertionFailure(
+      "Configuration must be provided before using `launchCashAppPay`"
+    )
+  }
+
+  if !enabled {
+    return
+  }
+
+  let cashAppCheckout = CashAppPayCheckout(
+    configuration: configuration,
+    didCommenceCheckout: didCommenceCheckout,
+    completion: completion
+  )
+
+  cashAppCheckout.commenceCheckout()
+}
+
+public protocol CashAppPayCheckoutHandler: AnyObject {
+  func didCommenceCheckout(completion: @escaping TokenResultCompletion)
+
+  func stateDidChange(to state: String)
+}
+
+private weak var cashAppCheckoutHandler: CashAppPayCheckoutHandler?
+
+func getCashAppCheckoutHandler() -> CashAppPayCheckoutHandler? {
+  cashAppCheckoutHandler
+}
+
+public func setCashAppCheckoutHandler(_ handler: CashAppPayCheckoutHandler?) {
+  cashAppCheckoutHandler = handler
+}
+
 /// A handler of web view events from the widget.
 ///
 /// An object which conforms to the protocol and sent to `Afterpay.setWidgetHandler` will receive the web view events

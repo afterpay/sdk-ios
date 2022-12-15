@@ -17,9 +17,9 @@ final class PurchaseLogicController {
 
     case showAfterpayCheckoutV1(checkoutURL: URL)
 
-    case beginPayWithCashApp(Bool)
     case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
+    case startCashAppCheckout
     case provideCashAppTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case provideShippingOptionResult(ShippingOptionUpdateResult)
@@ -122,8 +122,18 @@ final class PurchaseLogicController {
   }
 
   func payWithCashApp() {
-    commandHandler(.beginPayWithCashApp(true))
+//    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+//    let amount = formatter.string(from: total)
+//
+//    checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
+//      let tokenResult = result.map(\.token)
+//      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
+//    }
 
+    commandHandler(.startCashAppCheckout)
+  }
+
+  func loadCashAppToken() {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 

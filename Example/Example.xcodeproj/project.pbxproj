@@ -11,6 +11,7 @@
 		1535ACB725DBA8AD00727818 /* CheckoutHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1535ACB625DBA8AD00727818 /* CheckoutHandler.swift */; };
 		155AD17124AB2464000013B4 /* PurchaseFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155AD17024AB2464000013B4 /* PurchaseFlowController.swift */; };
 		157C65AD25D0F19900115149 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C65AC25D0F19900115149 /* Result+Fold.swift */; };
+		4509D355293FF92B00952DAD /* CheckoutCashAppHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4509D354293FF92B00952DAD /* CheckoutCashAppHandler.swift */; };
 		5539D82C25EDE97E0088BC97 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5539D82B25EDE97E0088BC97 /* ControlCell.swift */; };
 		5539D83025F068F90088BC97 /* CheckoutOptionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5539D82F25F068F90088BC97 /* CheckoutOptionsCell.swift */; };
 		55432838263B7EC2005512E4 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55432837263B7EC2005512E4 /* ExampleUITests.swift */; };
@@ -88,6 +89,7 @@
 		42D1DDB5278D2AD600E5526A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		42D1DDB6278D2AE500E5526A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		42D1DDB7278D2AEC00E5526A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		4509D354293FF92B00952DAD /* CheckoutCashAppHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutCashAppHandler.swift; sourceTree = "<group>"; };
 		5539D82B25EDE97E0088BC97 /* ControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		5539D82F25F068F90088BC97 /* CheckoutOptionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOptionsCell.swift; sourceTree = "<group>"; };
 		55432835263B7EC2005512E4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +208,7 @@
 				66E6FDA724AC3BDD00ED81E8 /* PurchaseState.swift */,
 				66BD11B324ADB7EB00039DA6 /* TitleSubtitleCell.swift */,
 				55FA726F260025DC0006EFCB /* WidgetHandler.swift */,
+				4509D354293FF92B00952DAD /* CheckoutCashAppHandler.swift */,
 			);
 			path = Purchase;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
 				5539D83025F068F90088BC97 /* CheckoutOptionsCell.swift in Sources */,
 				157C65AD25D0F19900115149 /* Result+Fold.swift in Sources */,
+				4509D355293FF92B00952DAD /* CheckoutCashAppHandler.swift in Sources */,
 				66BD11AE24ADA94800039DA6 /* CartViewController.swift in Sources */,
 				948F664824B6E95900DC0202 /* SegmentedSettingCell.swift in Sources */,
 				660072B724A1B55E00E9A2BC /* TextSettingCell.swift in Sources */,

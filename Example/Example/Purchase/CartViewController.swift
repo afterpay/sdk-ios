@@ -99,7 +99,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   @objc private func didTapPay() {
     eventHandler(.didTapPay)
   }
-  
+
   @objc private func didTapCashAppPay() {
     eventHandler(.didTapCashAppPay)
   }

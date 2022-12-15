@@ -15,6 +15,7 @@ final class PurchaseFlowController: UIViewController {
   private let productsViewController: ProductsViewController
   private let ownedNavigationController: UINavigationController
   private let checkoutHandler: CheckoutHandler
+  private let checkoutCashAppHandler: CheckoutCashAppHandler
   private let widgetHandler: WidgetHandler
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
@@ -42,6 +43,10 @@ final class PurchaseFlowController: UIViewController {
     )
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
+
+    checkoutCashAppHandler = CheckoutCashAppHandler(didCommenceCheckout: logicController.loadCashAppToken)
+
+    Afterpay.setCashAppCheckoutHandler(checkoutCashAppHandler)
 
     widgetHandler = WidgetEventHandler()
     Afterpay.setWidgetHandler(widgetHandler)
@@ -117,14 +122,21 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
-    case .beginPayWithCashApp(_):
-      print("hello3", "command for paying with cashapp")
+    case .startCashAppCheckout:
+      Afterpay.launchCashAppPay { result in
+        switch result {
+        case .success(let token):
+          print("successful start cashapp checkout with token:", token)
+        case .cancelled(let reason):
+          print("unsuccesful start cashapp checkout. reason:", reason)
+        }
+      }
 
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
-      
+
     case .provideCashAppTokenResult(let tokenResult):
-      
+      checkoutCashAppHandler.provideTokenResult(tokenResult: tokenResult)
 
     case .provideShippingOptionsResult(let shippingOptionsResult):
       checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)
