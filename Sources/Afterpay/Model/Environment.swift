@@ -40,7 +40,16 @@ import Foundation
     case .sandbox:
       return "https://api-plus.us-sandbox.afterpay.com/v2/payments/sign-payment"
     case .production:
-      return "unknown" // TODO: get the correct signing url
+      return "https://api-plus.us-sandbox.afterpay.com/v2/payments/sign-payment"
+    }
+  }
+
+  var cashAppClientId: String {
+    switch self {
+    case .sandbox:
+      return "CAS-CI_AFTERPAY"
+    case .production:
+      return "CAS-CI_AFTERPAY"
     }
   }
 

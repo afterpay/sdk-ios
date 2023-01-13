@@ -8,6 +8,7 @@
 
 import Afterpay
 import Foundation
+import PayKitUI
 
 final class CartViewController: UIViewController, UITableViewDataSource {
 
@@ -19,9 +20,14 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
+  private lazy var cashButton = CashAppPayButton(size: .large) {
+    self.didTapCashAppPay()
+  }
+
   enum Event {
     case didTapPay
     case didTapCashAppPay
+    case cartDidLoad(CashAppPayButton)
     case optionsChanged(CheckoutOptionsCell.Event)
   }
 
@@ -64,12 +70,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
       view.addSubview(payButton)
 
-      let cashButton = UIButton(frame: .zero)
-      cashButton.isEnabled = cart.payEnabled
       cashButton.accessibilityIdentifier = "payWithCashApp"
-      cashButton.addTarget(self, action: #selector(didTapCashAppPay), for: .touchUpInside)
-      cashButton.setTitle("Pay with Cash", for: .normal)
-      cashButton.backgroundColor = UIColor.magenta
       cashButton.translatesAutoresizingMaskIntoConstraints = false
 
       view.addSubview(cashButton)
@@ -79,7 +80,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         cashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         cashButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 16),
+        cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 8),
         cashButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
       ])
 
@@ -92,6 +93,12 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       tableViewBottomAnchor,
     ])
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    eventHandler(.cartDidLoad(self.cashButton))
   }
 
   // MARK: Actions

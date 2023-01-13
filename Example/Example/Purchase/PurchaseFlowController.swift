@@ -79,6 +79,8 @@ final class PurchaseFlowController: UIViewController {
     case .showCart(let cart):
       let cartViewController = CartViewController(cart: cart) { event in
         switch event {
+        case .cartDidLoad(let button):
+          logicController.createCashAppRequest(cashButton: button)
         case .didTapPay:
           logicController.payWithAfterpay()
         case .didTapCashAppPay:
@@ -122,16 +124,6 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
-    case .startCashAppCheckout:
-      Afterpay.launchCashAppPay { result in
-        switch result {
-        case .success(let token):
-          print("successful start cashapp checkout with token:", token)
-        case .cancelled(let reason):
-          print("unsuccesful start cashapp checkout. reason:", reason)
-        }
-      }
-
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
 
@@ -151,6 +143,11 @@ final class PurchaseFlowController: UIViewController {
     case .showSuccessWithMessage(let message, let token):
       let widgetViewController = WidgetViewController(title: message, token: token)
       let viewControllers = [productsViewController, widgetViewController]
+      navigationController.setViewControllers(viewControllers, animated: true)
+
+    case .showCashSuccess(let amount, let cashTag, let grants):
+      let cashReceiptViewController = CashAppGrantsViewController(amount: amount, cashTag: cashTag, grants: grants)
+      let viewControllers = [productsViewController, cashReceiptViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     }
   }

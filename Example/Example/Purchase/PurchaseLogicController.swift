@@ -8,6 +8,8 @@
 
 import Afterpay
 import Foundation
+import PayKit
+import PayKitUI
 
 final class PurchaseLogicController {
 
@@ -19,13 +21,13 @@ final class PurchaseLogicController {
 
     case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
-    case startCashAppCheckout
     case provideCashAppTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case provideShippingOptionResult(ShippingOptionUpdateResult)
 
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
+    case showCashSuccess(String, String, [CustomerRequest.Grant])
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
@@ -122,15 +124,74 @@ final class PurchaseLogicController {
   }
 
   func payWithCashApp() {
-//    let formatter = CurrencyFormatter(currencyCode: currencyCode)
-//    let amount = formatter.string(from: total)
-//
-//    checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
-//      let tokenResult = result.map(\.token)
-//      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
-//    }
+    if cashRequest != nil {
+      paykit?.authorizeCustomerRequest(cashRequest!)
+    }
+  }
 
-    commandHandler(.startCashAppCheckout)
+  private var cashButton: CashAppPayButton?
+
+  private var cashRequest: CustomerRequest?
+
+  private lazy var paykit: PayKit? = {
+    guard let clientId = Afterpay.cashAppClientId else {
+      assertionFailure("Couldn't get cash app client id")
+      return nil
+    }
+
+    let sdk = PayKit(clientID: clientId)
+    sdk.endpoint = Afterpay.environment == .production ? .production : .sandbox
+    sdk.addObserver(self)
+
+    return sdk
+  }()
+
+  func enableCashButton() {
+    cashButton?.alpha = 1
+    cashButton?.isEnabled = true
+  }
+
+  func disableCashButton() {
+    cashButton?.isEnabled = false
+    cashButton?.alpha = 0.3
+  }
+
+  func createCashAppRequest(cashButton: CashAppPayButton? = nil) {
+    if cashButton != nil {
+      self.cashButton = cashButton
+    }
+    disableCashButton()
+
+    guard !quantities.isEmpty else {
+      return
+    }
+
+    Afterpay.launchCashAppPay { result in
+      switch result {
+      case .success(let cashData):
+        if let paykit = self.paykit {
+          paykit.createCustomerRequest(
+            params: CreateCustomerRequestParams(
+              actions: [
+                .oneTimePayment(
+                  scopeID: cashData.brandId,
+                  money: Money(
+                    amount: cashData.amount,
+                    currency: .USD
+                  )
+                ),
+              ],
+              channel: .IN_APP,
+              redirectURL: URL(string: "aftersnack://callback")!, // the cashData.redirectUri object could be used here
+              referenceID: nil,
+              metadata: nil
+            )
+          )
+        }
+      case .cancelled(let reason):
+        print("didn't create cash app request: \(reason)")
+      }
+    }
   }
 
   func loadCashAppToken() {
@@ -232,4 +293,40 @@ final class PurchaseLogicController {
     }
   }
 
+}
+
+extension PurchaseLogicController: PayKitObserver {
+  func stateDidChange(to state: PayKitState) {
+
+    print("Cash app state change:", Mirror(reflecting: state).children.first!.label!)
+
+    switch state {
+    case .notStarted,
+      .creatingCustomerRequest,
+      .updatingCustomerRequest,
+      .redirecting,
+      .polling,
+      .apiError,
+      .integrationError,
+      .networkError,
+      .unexpectedError:
+      return
+    case .readyToAuthorize(let request):
+      enableCashButton()
+      cashRequest = request
+    case .approved(let request, let grants):
+      quantities = [:]
+      commandHandler(.updateProducts(productDisplayModels))
+
+      let cashTag = request.customerProfile?.cashtag ?? "Unknown"
+
+      let formatter = CurrencyFormatter(currencyCode: currencyCode)
+      let total = grants.reduce(0) { $0 + ($1.action.money?.amount ?? 0) }
+      let amount = formatter.string(from: Decimal(total) / 100)
+
+      commandHandler(.showCashSuccess(amount, cashTag, grants))
+    case .declined:
+      createCashAppRequest()
+    }
+  }
 }

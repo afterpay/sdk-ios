@@ -11,7 +11,7 @@ import Foundation
 class CashAppPayCheckout {
   private let configuration: Configuration
   private let didCommenceCheckoutClosure: DidCommenceCheckoutClosure?
-  private let completion: (_ result: CheckoutResult) -> Void
+  private let completion: (_ result: CashAppResult) -> Void
 
   private var didCommenceCheckout: DidCommenceCheckoutClosure? {
     didCommenceCheckoutClosure ?? getCashAppCheckoutHandler()?.didCommenceCheckout
@@ -20,7 +20,7 @@ class CashAppPayCheckout {
   public init(
     configuration: Configuration,
     didCommenceCheckout: DidCommenceCheckoutClosure?,
-    completion: @escaping (_ result: CheckoutResult) -> Void
+    completion: @escaping (_ result: CashAppResult) -> Void
   ) {
     self.configuration = configuration
     self.didCommenceCheckoutClosure = didCommenceCheckout
@@ -41,38 +41,10 @@ class CashAppPayCheckout {
         case (.success(let token)):
           self.handleToken(token: token)
         case (.failure(let error)):
-          print("hello-3", error.localizedDescription)
+          self.completion(.cancelled(reason: .error(error: error)))
         }
       }
     }
-
-//    switch tokenResult {
-//    case .success(let token):
-//      let url = URL(string: configuration.environment.cashAppSigningURL)!
-//      var request = URLRequest(url: url)
-//      request.setValue("application/json", forHTTPHeaderField: "Accept")
-//      request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//      request.httpMethod = "POST"
-//      let requestBody: [String: Any] = [ "token": token ]
-//      request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody)
-//
-//      let session = URLSession.shared
-//      session.dataTask(with: request) { data, _, error in
-//        if let data = data {
-//          do {
-//            let decoder = JSONDecoder()
-//            let checkoutCashResponse = try decoder.decode(CashAppPayCheckoutResponse.self, from: data)
-//            let decodedJwt = checkoutCashResponse.decodeJwtToken()
-//
-//            print(decodedJwt)
-//          } catch {
-//            print(error)
-//          }
-//        }
-//      }.resume()
-//    case .failure(let error):
-//      print("hello-ono", error.localizedDescription) // TODO: handle failure of token
-//    }
   }
 
   private func handleToken(token: Token) {
@@ -83,12 +55,8 @@ class CashAppPayCheckout {
       return assertionFailure("Could not create signing request when handling CashApp token")
     }
 
-    signPayment(request: request) { jwt in
-      guard let jwt = jwt else {
-        return assertionFailure("Could not return jwt when signing payment")
-      }
-      
-      print("hello signed payment", jwt)
+    signPayment(request: request) { result in
+      self.completion(result)
     }
   }
 
@@ -109,7 +77,7 @@ class CashAppPayCheckout {
 
   private func signPayment(
     request: URLRequest,
-    signingCompletion: @escaping (_ jwt: CashAppPayCheckoutJWT?) -> Void
+    signingCompletion: @escaping (_ jwt: CashAppResult) -> Void
   ) {
     URLSession.shared.dataTask(with: request) { data, response, error in
       do {
@@ -121,20 +89,52 @@ class CashAppPayCheckout {
             let checkoutCashResponse = try decoder.decode(CashAppPayCheckoutResponse.self, from: data)
             let decodedJwt = checkoutCashResponse.decodeJwtToken()
 
-            signingCompletion(decodedJwt)
+            guard let decodedJwt = decodedJwt else {
+              signingCompletion(CashAppResult.cancelled(reason: .jwtDecodeNullError))
+              return
+            }
+
+            guard let amount = self.amountToCents(amount: decodedJwt.amount.amount) else {
+              signingCompletion(CashAppResult.cancelled(reason: .invalidAmount))
+              return
+            }
+
+            guard let redirectURL = URL(string: decodedJwt.redirectUrl) else {
+              signingCompletion(CashAppResult.cancelled(reason: .invalidRedirectUrl))
+              return
+            }
+
+            let cashAppData = CashAppData(
+              amount: amount,
+              redirectUri: redirectURL,
+              merchantId: decodedJwt.externalMerchantId,
+              brandId: checkoutCashResponse.externalBrandId
+            )
+
+            signingCompletion(CashAppResult.success(data: cashAppData))
           } else {
-            assertionFailure("Could not sign payment. HTTP status code: \(httpResponse.statusCode)")
-            signingCompletion(nil)
+            signingCompletion(CashAppResult.cancelled(reason: .httpError(errorCode: httpResponse.statusCode)))
+            return
           }
         }
       } catch {
-        assertionFailure("Could not decode JWT when attempting to sign payment. Reason: \(error)")
-        signingCompletion(nil)
+        signingCompletion(CashAppResult.cancelled(reason: .jwtDecodeError(error: error)))
+        return
       }
     }.resume()
   }
-  
-  private func createCashPayment(jwt: CashAppPayCheckoutJWT) {
-    
+
+  private func amountToCents(amount: String) -> UInt? {
+    guard let double = Double(amount) else {
+      return nil
+    }
+
+    let cents = double * 100
+
+    if cents >= Double(UInt.min) && cents < Double(UInt.max) {
+      return UInt(cents)
+    }
+
+    return nil
   }
 }

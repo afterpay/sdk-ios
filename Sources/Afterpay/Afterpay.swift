@@ -240,7 +240,7 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 
 public func launchCashAppPay(
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
-  completion: @escaping (_ result: CheckoutResult) -> Void
+  completion: @escaping (_ result: CashAppResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
     return assertionFailure(
@@ -406,4 +406,12 @@ internal var brand: Brand {
 
 public var enabled: Bool {
   language != nil
+}
+
+public var cashAppClientId: String? {
+  getConfiguration()?.environment.cashAppClientId
+}
+
+public var environment: Environment? {
+  getConfiguration()?.environment
 }
