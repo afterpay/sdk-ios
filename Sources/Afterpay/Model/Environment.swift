@@ -40,7 +40,7 @@ import Foundation
     case .sandbox:
       return "https://api-plus.us-sandbox.afterpay.com/v2/payments/sign-payment"
     case .production:
-      return "https://api-plus.us-sandbox.afterpay.com/v2/payments/sign-payment"
+      return "https://api-plus.us.afterpay.com/v2/payments/sign-payment"
     }
   }
 
@@ -49,7 +49,7 @@ import Foundation
     case .sandbox:
       return "CAS-CI_AFTERPAY"
     case .production:
-      return "CAS-CI_AFTERPAY"
+      return "CA-CI_AFTERPAY"
     }
   }
 
