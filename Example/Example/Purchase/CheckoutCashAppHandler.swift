@@ -23,8 +23,6 @@ final class CheckoutCashAppHandler: CashAppPayCheckoutHandler {
     didCommenceCheckoutClosure()
   }
 
-  func stateDidChange(to state: String) {}
-
   func provideTokenResult(tokenResult: TokenResult) {
     checkoutTokenResultCompletion?(tokenResult)
     checkoutTokenResultCompletion = nil

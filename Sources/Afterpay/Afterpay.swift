@@ -263,8 +263,6 @@ public func launchCashAppPay(
 
 public protocol CashAppPayCheckoutHandler: AnyObject {
   func didCommenceCheckout(completion: @escaping TokenResultCompletion)
-
-  func stateDidChange(to state: String)
 }
 
 private weak var cashAppCheckoutHandler: CashAppPayCheckoutHandler?
