@@ -19,13 +19,13 @@ private struct CheckoutsRequest: Encodable {
   let email: String
   let amount: String
   let mode: String?
-  let isCashApp: Bool?
+  let isCashAppPay: Bool?
 
   init(email: String, amount: String, checkoutMode: CheckoutMode, isCashApp: Bool?) {
     self.email = email
     self.amount = amount
     self.mode = checkoutMode == .v2 ? "express" : nil
-    self.isCashApp = isCashApp
+    self.isCashAppPay = isCashApp
   }
 }
 
@@ -62,7 +62,7 @@ struct APIClient {
     _ email: String,
     _ amount: String,
     _ checkoutMode: CheckoutMode,
-    _ isCashApp: Bool?,
+    _ isCashAppPay: Bool?,
     _ completion: @escaping Completion
   ) -> Void
 }
@@ -72,13 +72,13 @@ extension APIClient {
     configuration: { completion in
       session.request(.configuration, completion: completion)
     },
-    checkout: { email, amount, checkoutMode, isCashApp, completion in
+    checkout: { email, amount, checkoutMode, isCashAppPay, completion in
       session.request(
         .checkout(
           email: email,
           amount: amount,
           checkoutMode: checkoutMode,
-          isCashApp: isCashApp
+          isCashAppPay: isCashAppPay
         ),
         completion: completion
       )
@@ -88,7 +88,7 @@ extension APIClient {
 
 private enum Endpoint {
   case configuration
-  case checkout(email: String, amount: String, checkoutMode: CheckoutMode, isCashApp: Bool?)
+  case checkout(email: String, amount: String, checkoutMode: CheckoutMode, isCashAppPay: Bool?)
 
   var request: URLRequest? {
     switch self {
