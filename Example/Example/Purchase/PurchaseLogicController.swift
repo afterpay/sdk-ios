@@ -133,6 +133,8 @@ final class PurchaseLogicController {
 
   private var cashRequest: CustomerRequest?
 
+  static var cashData: CashAppSigningData?
+
   private lazy var paykit: PayKit? = {
     guard let clientId = Afterpay.cashAppClientId else {
       assertionFailure("Couldn't get cash app client id")
@@ -166,9 +168,11 @@ final class PurchaseLogicController {
       return
     }
 
-    Afterpay.launchCashAppPay { result in
+    Afterpay.signCashAppOrder { result in
       switch result {
       case .success(let cashData):
+        PurchaseLogicController.cashData = cashData
+
         if let paykit = self.paykit {
           paykit.createCustomerRequest(
             params: CreateCustomerRequestParams(
@@ -188,8 +192,9 @@ final class PurchaseLogicController {
             )
           )
         }
-      case .cancelled(let reason):
-        print("didn't create cash app request: \(reason)")
+      case .failed(let reason):
+        PurchaseLogicController.cashData = nil
+        print("didn't sign cash app order: \(reason)")
       }
     }
   }
@@ -315,16 +320,43 @@ extension PurchaseLogicController: PayKitObserver {
       enableCashButton()
       cashRequest = request
     case .approved(let request, let grants):
+      if
+        PurchaseLogicController.cashData == nil ||
+          request.customerProfile == nil ||
+          grants.isEmpty {
+        return
+      }
+
+      let customerProfile = request.customerProfile!
+      let grant = grants.first!
+      let cashData = PurchaseLogicController.cashData!
+
       quantities = [:]
       commandHandler(.updateProducts(productDisplayModels))
 
-      let cashTag = request.customerProfile?.cashtag ?? "Unknown"
+      let cashTag = customerProfile.cashtag
+      let customerId = customerProfile.id
 
       let formatter = CurrencyFormatter(currencyCode: currencyCode)
       let total = grants.reduce(0) { $0 + ($1.action.money?.amount ?? 0) }
       let amount = formatter.string(from: Decimal(total) / 100)
 
-      commandHandler(.showCashSuccess(amount, cashTag, grants))
+      Afterpay.validateCashAppOrder(jwt: cashData.jwt, customerId: customerId, grantId: grant.id) { result in
+        switch result {
+        case .success(let data):
+          print("validation data", data)
+          self.commandHandler(.showCashSuccess(amount, cashTag, grants))
+          return
+        case .failed(let reason):
+          switch reason {
+          case .httpError(let errorCode, let message):
+            print("validation failed (http)", errorCode, message)
+            return
+          default:
+            print("validation failed:", reason)
+          }
+        }
+      }
     case .declined:
       createCashAppRequest()
     }

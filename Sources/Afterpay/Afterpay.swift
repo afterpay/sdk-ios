@@ -238,13 +238,13 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
-public func launchCashAppPay(
+public func signCashAppOrder(
   didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
-  completion: @escaping (_ result: CashAppResult) -> Void
+  completion: @escaping (_ result: CashAppSigningResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
     return assertionFailure(
-      "Configuration must be provided before using `launchCashAppPay`"
+      "Configuration must be provided before using `signCashAppOrder`"
     )
   }
 
@@ -259,6 +259,31 @@ public func launchCashAppPay(
   )
 
   cashAppCheckout.commenceCheckout()
+}
+
+public func validateCashAppOrder(
+  jwt: String,
+  customerId: String,
+  grantId: String,
+  completion: @escaping (CashAppValidationResult) -> Void
+) {
+  guard let configuration = getConfiguration() else {
+    return assertionFailure(
+      "Configuration must be provided before using `validateCashAppOrder`"
+    )
+  }
+
+  if !enabled {
+    return
+  }
+
+  CashAppPayCheckout.validateOrder(
+    configuration: configuration,
+    jwt: jwt,
+    customerId: customerId,
+    grantId: grantId,
+    completion: completion
+  )
 }
 
 public protocol CashAppPayCheckoutHandler: AnyObject {

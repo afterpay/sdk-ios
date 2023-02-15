@@ -61,10 +61,8 @@ final class CashAppGrantsViewController: UIViewController {
     let text = UITextView()
     text.text = """
     Grants associated with the customer request \
-    can be used with Cash App’s Create Payment API. \
-    Pass those Grants to your backend and call the \
-    Create Payment API as a server-to-server \
-    call to complete your payment.
+    can be used in conjuction with the Afterpay Token \
+    to capture.
 
     = = = = = =
 
@@ -86,7 +84,7 @@ final class CashAppGrantsViewController: UIViewController {
       text.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 16),
       text.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: 16),
       text.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -16),
-      text.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor, constant: -40)
+      text.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor, constant: -40),
     ]
 
     NSLayoutConstraint.activate(constraints)

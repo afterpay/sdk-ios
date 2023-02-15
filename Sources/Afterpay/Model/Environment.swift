@@ -44,6 +44,15 @@ import Foundation
     }
   }
 
+  var cashAppValidationURL: String {
+    switch self {
+    case .sandbox:
+      return "https://api-plus.us-sandbox.afterpay.com/v2/payments/validate-payment"
+    case .production:
+      return "https://api-plus.us.afterpay.com/v2/payments/validate-payment"
+    }
+  }
+
   var cashAppClientId: String {
     switch self {
     case .sandbox:

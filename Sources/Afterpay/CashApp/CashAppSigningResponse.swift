@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CashAppPayCheckoutResponse: Decodable {
+struct CashAppSigningResponse: Decodable {
   var externalBrandId: String
   var jwtToken: String
   var redirectUrl: String
