@@ -141,8 +141,8 @@ final class PurchaseLogicController {
       return nil
     }
 
-    let sdk = PayKit(clientID: clientId)
-    sdk.endpoint = Afterpay.environment == .production ? .production : .sandbox
+    let paykitSdkEnv = Afterpay.environment == .production ? PayKit.Endpoint.production : PayKit.Endpoint.sandbox
+    let sdk = PayKit(clientID: clientId, endpoint: paykitSdkEnv)
     sdk.addObserver(self)
 
     return sdk
