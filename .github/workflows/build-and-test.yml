@@ -58,6 +58,7 @@ jobs:
         xcodebuild \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-scheme }} \
+          -skipPackagePluginValidation \
           -destination '${{ env.destination }}'
 
     - name: Checkout Example Server
