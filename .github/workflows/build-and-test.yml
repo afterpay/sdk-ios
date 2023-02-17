@@ -88,6 +88,7 @@ jobs:
         xcodebuild build-for-testing \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-ui-test-scheme }} \
+          -skipPackagePluginValidation \
           -destination '${{ env.destination }}'
 
         xcodebuild test-without-building \
