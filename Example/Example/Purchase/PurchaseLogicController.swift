@@ -304,7 +304,7 @@ final class PurchaseLogicController {
 extension PurchaseLogicController: PayKitObserver {
   func stateDidChange(to state: PayKitState) {
 
-    print("Cash app state change:", Mirror(reflecting: state).children.first!.label!)
+    print("Cash app state change:", Mirror(reflecting: state).children.first?.label ?? "Unknown")
 
     switch state {
     case .notStarted,
