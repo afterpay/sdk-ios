@@ -124,9 +124,10 @@ final class PurchaseLogicController {
   }
 
   func payWithCashApp() {
-    if cashRequest != nil {
-      paykit?.authorizeCustomerRequest(cashRequest!)
+    guard let cashRequest else {
+      return
     }
+    paykit?.authorizeCustomerRequest(cashRequest)
   }
 
   private var cashButton: CashAppPayButton?

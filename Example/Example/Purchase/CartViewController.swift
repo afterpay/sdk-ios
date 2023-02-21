@@ -20,8 +20,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
-  private lazy var cashButton = CashAppPayButton(size: .large) {
-    self.didTapCashAppPay()
+  private lazy var cashButton = CashAppPayButton(size: .large) { [weak self] in
+    self?.didTapCashAppPay()
   }
 
   enum Event {
