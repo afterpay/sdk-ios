@@ -60,7 +60,7 @@ final class Repository {
     email: String,
     amount: String,
     checkoutMode: CheckoutMode,
-    isCashApp: Bool? = nil,
+    isCashApp: Bool = false,
     completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) {
     apiClient.checkout(email, amount, checkoutMode, isCashApp) { result in

@@ -19,9 +19,9 @@ private struct CheckoutsRequest: Encodable {
   let email: String
   let amount: String
   let mode: String?
-  let isCashAppPay: Bool?
+  let isCashAppPay: Bool
 
-  init(email: String, amount: String, checkoutMode: CheckoutMode, isCashApp: Bool?) {
+  init(email: String, amount: String, checkoutMode: CheckoutMode, isCashApp: Bool = false) {
     self.email = email
     self.amount = amount
     self.mode = checkoutMode == .v2 ? "express" : nil
@@ -62,7 +62,7 @@ struct APIClient {
     _ email: String,
     _ amount: String,
     _ checkoutMode: CheckoutMode,
-    _ isCashAppPay: Bool?,
+    _ isCashAppPay: Bool,
     _ completion: @escaping Completion
   ) -> Void
 }
@@ -88,7 +88,7 @@ extension APIClient {
 
 private enum Endpoint {
   case configuration
-  case checkout(email: String, amount: String, checkoutMode: CheckoutMode, isCashAppPay: Bool?)
+  case checkout(email: String, amount: String, checkoutMode: CheckoutMode, isCashAppPay: Bool = false)
 
   var request: URLRequest? {
     switch self {

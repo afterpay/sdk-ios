@@ -38,7 +38,7 @@ final class PurchaseLogicController {
     _ email: String,
     _ amount: String,
     _ checkoutMode: CheckoutMode,
-    _ isCashApp: Bool?,
+    _ isCashApp: Bool,
     _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
@@ -214,7 +214,7 @@ final class PurchaseLogicController {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount, .v1, nil) { result in
+    checkoutResponseProvider(email, amount, .v1, false) { result in
       guard let url = try? result.map(\.url).get() else {
         return
       }
@@ -226,7 +226,7 @@ final class PurchaseLogicController {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount, .v2, nil) { [weak self] result in
+    checkoutResponseProvider(email, amount, .v2, false) { [weak self] result in
       let tokenResult = result.map(\.token)
       self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
     }
