@@ -82,7 +82,7 @@ class CashAppPayCheckout {
     request: URLRequest,
     signingCompletion: @escaping (_ jwt: CashAppSigningResult) -> Void
   ) {
-    URLSession.shared.dataTask(with: request) { data, response, error in
+    URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
       if error != nil {
         signingCompletion(CashAppSigningResult.failed(reason: .error(error: error!)))
         return
@@ -102,7 +102,7 @@ class CashAppPayCheckout {
               return
             }
 
-            guard let amount = self.amountToCents(amount: decodedJwt.amount.amount) else {
+            guard let amount = self?.amountToCents(amount: decodedJwt.amount.amount) else {
               signingCompletion(CashAppSigningResult.failed(reason: .invalidAmount))
               return
             }
