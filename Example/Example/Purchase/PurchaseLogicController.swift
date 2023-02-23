@@ -150,13 +150,11 @@ final class PurchaseLogicController {
   }()
 
   func enableCashButton() {
-    cashButton?.alpha = 1
     cashButton?.isEnabled = true
   }
 
   func disableCashButton() {
     cashButton?.isEnabled = false
-    cashButton?.alpha = 0.3
   }
 
   func createCashAppRequest(cashButton: CashAppPayButton? = nil) {

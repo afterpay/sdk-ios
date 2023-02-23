@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins" : [
-      {
-        "package" : "PayKit",
-        "repositoryURL" : "https://github.com/cashapp/cash-app-pay-ios-sdk",
-        "state" : {
-          "branch": null,
-          "revision" : "cad34a68717756c34505452a407d3e27c770ab7e",
-          "version" : "0.1.0"
-        }
-      },
-      {
-        "package" : "SwiftGenPlugin",
-        "repositoryURL" : "https://github.com/SwiftGen/SwiftGenPlugin",
-        "state" : {
-          "branch": null,
-          "revision" : "879b85a470cacd70c19e22eb7e11a3aed66f4068",
-          "version" : "6.6.2"
-        }
-      },
-      {
-        "package" : "TrustKit",
-        "repositoryURL" : "https://github.com/datatheorem/TrustKit",
-        "state" : {
-          "branch": null,
-          "revision" : "65d573e0e2687ea91ab0b1be377f9dd3eb1c2785",
-          "version" : "2.0.1"
-        }
+  "pins" : [
+    {
+      "identity" : "cash-app-pay-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cashapp/cash-app-pay-ios-sdk",
+      "state" : {
+        "revision" : "cf2faf3e2f563c5c41d20de9dad6a2b857263bd8",
+        "version" : "0.2.0"
       }
-    ]
-  },
-  "version" : 1
+    },
+    {
+      "identity" : "swiftgenplugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftGen/SwiftGenPlugin",
+      "state" : {
+        "revision" : "879b85a470cacd70c19e22eb7e11a3aed66f4068",
+        "version" : "6.6.2"
+      }
+    },
+    {
+      "identity" : "trustkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/datatheorem/TrustKit",
+      "state" : {
+        "revision" : "65d573e0e2687ea91ab0b1be377f9dd3eb1c2785",
+        "version" : "2.0.1"
+      }
+    }
+  ],
+  "version" : 2
 }
