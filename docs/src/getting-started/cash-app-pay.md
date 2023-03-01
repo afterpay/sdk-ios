@@ -127,9 +127,8 @@ You can create a customer request as soon as you know the amount you’d like to
 After retrieving the token from your server-to-server call, the order needs to be signed, so as to retrieve the JWT and associated data. This might look something like the below:
 
 ``` swift
-Afterpay.signCashAppOrder(didCommenceCheckout: { completion in
-    // TODO: Load the token passing the result to completion
-  }) { result in
+let token = retrieveTokenFromServerToServerCall()
+Afterpay.signCashAppOrderToken(token) { result in
   switch result {
   case .success(let cashData):
     // TODO: use `cashData` to create customer request (step 5B)
@@ -138,8 +137,6 @@ Afterpay.signCashAppOrder(didCommenceCheckout: { completion in
   }
 }
 ```
-
-The `didCommenceCheckout` parameter can be ignored if the Cash App Pay handler has been set via `Afterpay.setCashAppCheckoutHandler(handler:)` and implementing the `CashAppPayCheckoutHandler` protocol.
 
 ### Step 5B: Create a PayKit Customer Request
 
