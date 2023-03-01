@@ -285,20 +285,6 @@ public func validateCashAppOrder(
   )
 }
 
-public protocol CashAppPayCheckoutHandler: AnyObject {
-  func didCommenceCheckout(completion: @escaping TokenResultCompletion)
-}
-
-private weak var cashAppCheckoutHandler: CashAppPayCheckoutHandler?
-
-func getCashAppCheckoutHandler() -> CashAppPayCheckoutHandler? {
-  cashAppCheckoutHandler
-}
-
-public func setCashAppCheckoutHandler(_ handler: CashAppPayCheckoutHandler?) {
-  cashAppCheckoutHandler = handler
-}
-
 /// A handler of web view events from the widget.
 ///
 /// An object which conforms to the protocol and sent to `Afterpay.setWidgetHandler` will receive the web view events

@@ -21,7 +21,6 @@ final class PurchaseLogicController {
 
     case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
-    case provideCashAppTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case provideShippingOptionResult(ShippingOptionUpdateResult)
 
@@ -200,7 +199,6 @@ final class PurchaseLogicController {
 
     checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
       let tokenResult = result.map(\.token)
-      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
 
       switch tokenResult {
       case .success(let token):
@@ -208,16 +206,6 @@ final class PurchaseLogicController {
       case .failure(let error):
         print(error)
       }
-    }
-  }
-
-  func loadCashAppToken() {
-    let formatter = CurrencyFormatter(currencyCode: currencyCode)
-    let amount = formatter.string(from: total)
-
-    checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
-      let tokenResult = result.map(\.token)
-      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
     }
   }
 
