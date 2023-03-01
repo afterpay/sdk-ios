@@ -148,7 +148,7 @@ final class PurchaseLogicController {
     return sdk
   }()
 
-  private func isCashButtonEnabled(_ isEnabled: Bool) {
+  private func setCashButtonEnabled(_ isEnabled: Bool) {
     cashButton?.isEnabled = isEnabled
   }
 
@@ -188,7 +188,7 @@ final class PurchaseLogicController {
     if cashButton != nil {
       self.cashButton = cashButton
     }
-    isCashButtonEnabled(false)
+    setCashButtonEnabled(false)
 
     guard !quantities.isEmpty else {
       return
@@ -317,7 +317,7 @@ extension PurchaseLogicController: PayKitObserver {
       .unexpectedError:
       return
     case .readyToAuthorize(let request):
-      isCashButtonEnabled(true)
+      setCashButtonEnabled(true)
       cashRequest = request
     case .approved(let request, let grants):
       if
