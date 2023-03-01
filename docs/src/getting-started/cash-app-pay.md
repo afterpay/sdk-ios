@@ -133,7 +133,8 @@ Afterpay.signCashAppOrderToken(token) { result in
   case .success(let cashData):
     // TODO: use `cashData` to create customer request (step 5B)
   case .failed(let reason):
-    // TODO: handle failed signing
+    // TODO: handle failed signing either by retrying with a new Cash App
+    // token or disabling / hiding the Cash App Pay button
   }
 }
 ```
