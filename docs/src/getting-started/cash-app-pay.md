@@ -65,7 +65,7 @@ Your implementation should switch on the `state` parameter and handle the approp
 |:------|:------------|
 | `.integrationError` | A fixable bug in your integration |
 | `.apiError` | A degradation of Cash App Pay server APIs. Your app should temporarily hide Cash App Pay functionality |
-| `.integrationError` | A bug outside the normal flow. Report this bug (and what caused it) to Cash App Developer Support |
+| `.unexpectedError` | A bug outside the normal flow. Report this bug (and what caused it) to Cash App Developer Support |
 
 {: .info }
 > You must update your UI in response to these state changes
