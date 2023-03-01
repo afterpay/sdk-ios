@@ -153,17 +153,8 @@ final class PurchaseLogicController {
     cashButton?.isEnabled = isEnabled
   }
 
-  func createCashAppRequest(cashButton: CashAppPayButton? = nil) {
-    if cashButton != nil {
-      self.cashButton = cashButton
-    }
-    isCashButtonEnabled(false)
-
-    guard !quantities.isEmpty else {
-      return
-    }
-
-    Afterpay.signCashAppOrder { result in
+  func handleCashAppToken(token: Token) {
+    Afterpay.signCashAppOrderToken(token) { result in
       switch result {
       case .success(let cashData):
         PurchaseLogicController.cashData = cashData
@@ -190,6 +181,32 @@ final class PurchaseLogicController {
       case .failed(let reason):
         PurchaseLogicController.cashData = nil
         print("didn't sign cash app order: \(reason)")
+      }
+    }
+  }
+
+  func retrieveCashAppToken(cashButton: CashAppPayButton? = nil) {
+    if cashButton != nil {
+      self.cashButton = cashButton
+    }
+    isCashButtonEnabled(false)
+
+    guard !quantities.isEmpty else {
+      return
+    }
+
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    let amount = formatter.string(from: total)
+
+    checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
+      let tokenResult = result.map(\.token)
+      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
+
+      switch tokenResult {
+      case .success(let token):
+        self?.handleCashAppToken(token: token)
+      case .failure(let error):
+        print(error)
       }
     }
   }
@@ -353,7 +370,7 @@ extension PurchaseLogicController: PayKitObserver {
         }
       }
     case .declined:
-      createCashAppRequest()
+      retrieveCashAppToken()
     }
   }
 }

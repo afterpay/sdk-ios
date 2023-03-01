@@ -80,7 +80,7 @@ final class PurchaseFlowController: UIViewController {
       let cartViewController = CartViewController(cart: cart) { event in
         switch event {
         case .cartDidLoad(let button):
-          logicController.createCashAppRequest(cashButton: button)
+          logicController.retrieveCashAppToken(cashButton: button)
         case .didTapPay:
           logicController.payWithAfterpay()
         case .didTapCashAppPay:
