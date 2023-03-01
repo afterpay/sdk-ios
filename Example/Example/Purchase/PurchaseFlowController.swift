@@ -15,7 +15,6 @@ final class PurchaseFlowController: UIViewController {
   private let productsViewController: ProductsViewController
   private let ownedNavigationController: UINavigationController
   private let checkoutHandler: CheckoutHandler
-  private let checkoutCashAppHandler: CheckoutCashAppHandler
   private let widgetHandler: WidgetHandler
 
   init(logicController purchaseLogicController: PurchaseLogicController) {
@@ -43,10 +42,6 @@ final class PurchaseFlowController: UIViewController {
     )
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
-
-    checkoutCashAppHandler = CheckoutCashAppHandler(didCommenceCheckout: logicController.loadCashAppToken)
-
-    Afterpay.setCashAppCheckoutHandler(checkoutCashAppHandler)
 
     widgetHandler = WidgetEventHandler()
     Afterpay.setWidgetHandler(widgetHandler)
@@ -80,7 +75,7 @@ final class PurchaseFlowController: UIViewController {
       let cartViewController = CartViewController(cart: cart) { event in
         switch event {
         case .cartDidLoad(let button):
-          logicController.createCashAppRequest(cashButton: button)
+          logicController.retrieveCashAppToken(cashButton: button)
         case .didTapPay:
           logicController.payWithAfterpay()
         case .didTapCashAppPay:
@@ -126,9 +121,6 @@ final class PurchaseFlowController: UIViewController {
 
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
-
-    case .provideCashAppTokenResult(let tokenResult):
-      checkoutCashAppHandler.provideTokenResult(tokenResult: tokenResult)
 
     case .provideShippingOptionsResult(let shippingOptionsResult):
       checkoutHandler.provideShippingOptionsResult(result: shippingOptionsResult)

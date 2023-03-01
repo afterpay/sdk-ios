@@ -238,8 +238,8 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
-public func signCashAppOrder(
-  didCommenceCheckout: DidCommenceCheckoutClosure? = nil,
+public func signCashAppOrderToken(
+  _ token: Token,
   completion: @escaping (_ result: CashAppSigningResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
@@ -254,11 +254,10 @@ public func signCashAppOrder(
 
   let cashAppCheckout = CashAppPayCheckout(
     configuration: configuration,
-    didCommenceCheckout: didCommenceCheckout,
     completion: completion
   )
 
-  cashAppCheckout.commenceCheckout()
+  cashAppCheckout.signToken(token: token)
 }
 
 public func validateCashAppOrder(
@@ -284,20 +283,6 @@ public func validateCashAppOrder(
     grantId: grantId,
     completion: completion
   )
-}
-
-public protocol CashAppPayCheckoutHandler: AnyObject {
-  func didCommenceCheckout(completion: @escaping TokenResultCompletion)
-}
-
-private weak var cashAppCheckoutHandler: CashAppPayCheckoutHandler?
-
-func getCashAppCheckoutHandler() -> CashAppPayCheckoutHandler? {
-  cashAppCheckoutHandler
-}
-
-public func setCashAppCheckoutHandler(_ handler: CashAppPayCheckoutHandler?) {
-  cashAppCheckoutHandler = handler
 }
 
 /// A handler of web view events from the widget.

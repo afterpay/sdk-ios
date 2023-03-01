@@ -10,44 +10,17 @@ import Foundation
 
 class CashAppPayCheckout {
   private let configuration: Configuration
-  private let didCommenceCheckoutClosure: DidCommenceCheckoutClosure?
   private let completion: (_ result: CashAppSigningResult) -> Void
-
-  private var didCommenceCheckout: DidCommenceCheckoutClosure? {
-    didCommenceCheckoutClosure ?? getCashAppCheckoutHandler()?.didCommenceCheckout
-  }
 
   public init(
     configuration: Configuration,
-    didCommenceCheckout: DidCommenceCheckoutClosure?,
     completion: @escaping (_ result: CashAppSigningResult) -> Void
   ) {
     self.configuration = configuration
-    self.didCommenceCheckoutClosure = didCommenceCheckout
     self.completion = completion
   }
 
-  internal func commenceCheckout() {
-    guard let didCommenceCheckout = didCommenceCheckout else {
-      return assertionFailure(
-        "For checkout to function you must set `didCommenceCheckout` via either "
-          + "`Afterpay.presentCheckoutV2Modally` or `Afterpay.setCheckoutV2Handler`"
-      )
-    }
-
-    didCommenceCheckout { result in
-      DispatchQueue.main.async {
-        switch result {
-        case (.success(let token)):
-          self.handleToken(token: token)
-        case (.failure(let error)):
-          self.completion(.failed(reason: .error(error: error)))
-        }
-      }
-    }
-  }
-
-  private func handleToken(token: Token) {
+  internal func signToken(token: Token) {
     let requestBody: [String: Any] = [ "token": token ]
     let jsonRequestBody = try? JSONSerialization.data(withJSONObject: requestBody)
 
