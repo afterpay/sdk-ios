@@ -29,7 +29,7 @@ With our latest enhancements, you can now support taking Cash App Pay payments u
 {: .info }
 > When creating a checkout token, you must set both `redirectConfirmUrl` and `redirectCancelUrl`. If they are not set, an error will be returned from the server and the SDK will ouput a malformed JSON error. The SDK’s example merchant server sets the parameters [here][example-server-props]{:target='_blank'}. See more details at [Redirect Method][api-reference-props]{:target='_blank'} in the Standard Checkout API.
 
-## Step 1: Install the Cash App PayKit SDK
+## Step 1: Install the Cash App Pay Kit SDK
 
 ### Installation (Option One): SPM
 You can install Pay Kit via SPM. Create a new Xcode project and navigate to `File > Swift Packages > Add Package Dependency`. Enter the URL `https://github.com/cashapp/cash-app-pay-ios-sdk` and tap **Next**. Choose the `main` branch, and on the next screen, download the required packages.
@@ -55,30 +55,30 @@ Your implementation should switch on the `state` parameter and handle the approp
 
 | State | Description |
 |:------|:------------|
-| `ReadyToAuthorize` | Show a Cash App Pay button in your UI and call `authorizeCustomerRequest()` when it is tapped |
-| `Approved` | Grants are ready for your backend to use to create a payment |
-| `Declined` | Customer has declined the Cash App Pay authorization and must start the flow over or choose a new payment method |
+| `ReadyToAuthorize` | Show a Cash App Pay button in your UI and call `authorizeCustomerRequest()` when it is tapped. |
+| `Approved` | Grants are ready for your backend to use to create a payment. |
+| `Declined` | Customer has declined the Cash App Pay authorization and must start the flow over or choose a new payment method. |
 
 ### Error States
 
 | State | Description |
 |:------|:------------|
-| `.integrationError` | A fixable bug in your integration |
-| `.apiError` | A degradation of Cash App Pay server APIs. Your app should temporarily hide Cash App Pay functionality |
-| `.unexpectedError` | A bug outside the normal flow. Report this bug (and what caused it) to Cash App Developer Support |
+| `.integrationError` | A fixable bug in your integration. |
+| `.apiError` | A degradation of Cash App Pay server APIs. Your app should temporarily hide Cash App Pay functionality. |
+| `.unexpectedError` | A bug outside the normal flow. Report this bug (and what caused it) to Cash App Developer Support. |
 
 {: .info }
-> You must update your UI in response to these state changes
+> You must update your UI in response to these state changes.
 
 ## Step 3: Implement URL handling
 
-To use PayKit iOS, Cash App must be able to call a URL that will redirect back to your app. The simplest way to accomplish this is via [Custom URL Schemes][custom-url-schemes], but if your app supports [Universal Links][universal-links] you may use those URLs as well.
+To use Pay Kit iOS, Cash App must be able to call a URL that will redirect back to your app. The simplest way to accomplish this is via [Custom URL Schemes][custom-url-schemes], but if your app supports [Universal Links][universal-links] you may use those URLs as well.
 
-Choose a unique scheme for your application and register it in Xcode from the Info tab of your application’s Target.
+Choose a unique scheme for your application and register it in Xcode from the **Info** tab of your application’s Target.
 
 You’ll pass a URL that uses this scheme (or a Universal Link your app handles) into the `createCustomerRequest()` method that starts the authorization process.
 
-When your app is called back by Cash App, simply post the `PayKit.RedirectNotification` from your AppDelegate or SceneDelegate, and the SDK will handle the rest:
+When your app is called back by Cash App, simply post the `PayKit.RedirectNotification` from your `AppDelegate` or `SceneDelegate`, and the SDK will handle the rest:
 
 ``` swift
 import UIKit
@@ -97,16 +97,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 ```
 
-## Step 4: Instantiate PayKit iOS
+## Step 4: Instantiate Pay Kit iOS
 
 When you’re ready to authorize a payment using Cash App Pay,
 
-1. Instantiate the SDK with the Afterpay PayKit Client ID via `Afterpay.cashAppClientId`
-2. The SDK defaults to point to the production endpoint; for development, set the endpoint to `.sandbox`
-3. Add your observer to the PayKit SDK
+1. Instantiate the SDK with the Afterpay Pay Kit Client ID via `Afterpay.cashAppClientId`.
+2. The SDK defaults to point to the production endpoint; for development, set the endpoint to `.sandbox`.
+3. Add your observer to the Pay Kit SDK.
 
 {: .note }
-> Ensure that the Afterpay SDK is configured per the [instructions][afterpay-configuration] before attempting to access `Afterpay.cashAppClientId`
+> Ensure that the Afterpay SDK is configured per the [instructions][afterpay-configuration] before attempting to access `Afterpay.cashAppClientId`.
 
 For example, from your checkout view controller that implements the `PayKitObserver` protocol, you might instantiate the SDK to be:
 
@@ -120,7 +120,7 @@ private lazy var sdk: PayKit = {
 ```
 ## Step 5: Create a Customer Request
 
-You can create a customer request as soon as you know the amount you’d like to charge or if you'd like to create an on-file payment request. You’re encouraged to create this request as soon as your checkout view controller loads, so that your Customer can authorize the request without delay.
+You can create a customer request as soon as you know the amount you’d like to charge or if you'd like to create an on-file payment request. You must create this request as soon as your checkout view controller loads, so that your customer can authorize the request without delay.
 
 ### Step 5A: Sign the Order Token
 
@@ -139,7 +139,7 @@ Afterpay.signCashAppOrderToken(token) { result in
 }
 ```
 
-### Step 5B: Create a PayKit Customer Request
+### Step 5B: Create a Pay Kit Customer Request
 
 To charge a one-time payment, your **Create Request** call might look like this (in the following example, `cashData` is the response object that is returned in the `didCommenceCheckout` parameter from step 5A):
 
@@ -203,7 +203,7 @@ Afterpay.validateCashAppOrder(jwt: cashData.jwt, customerId: customerId, grantId
 
 ## Step 7: Pass Grants to the Backend and Capture Payment
 
-The approved CustomerRequest will have Grants associated with it which can be used with Afterpay’s capture payment API. Pass the `grantId` along with the token to capture using a server-to-server request.
+The approved customer request will have grants associated with it which can be used with Afterpay’s Capture Payment API. Pass the `grantId` along with the token to capture using a server-to-server request.
 
 
 [custom-url-schemes]: https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app
