@@ -49,6 +49,7 @@ func stateDidChange(to state: CashAppPaySDKState) {
 }
 ```
 
+
 ### States
 
 Your implementation should switch on the `state` parameter and handle the appropriate state changes. Some of these possible states are for information only, but most drive the logic of your integration. The most critical states to handle are listed in the table below:
