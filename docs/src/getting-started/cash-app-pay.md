@@ -211,3 +211,5 @@ The approved CustomerRequest will have Grants associated with it which can be us
 [afterpay-configuration]: ../configuration
 [cash-button]: https://cashapp-pay.stoplight.io/docs/api/technical-documentation/sdks/pay-kit/ios-getting-started#cashapppaybutton
 [afterpay-create-checkout-endpoint]: https://developers.afterpay.com/afterpay-online/reference/create-checkout-1
+[example-server-props]: https://github.com/afterpay/sdk-example-server/blob/5781eadb25d7f5c5d872e754fdbb7214a8068008/src/routes/checkout.ts#L26-L27
+[api-reference-props]: https://developers.afterpay.com/afterpay-online/reference/javascript-afterpayjs#redirect-method
