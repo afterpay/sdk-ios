@@ -2,7 +2,7 @@ name: Build and Test
 
 env:
   afterpay-scheme: Afterpay
-  DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     runs-on: macos-latest
 
     env:
-      destination: platform=iOS Simulator,name=iPhone 13,OS=15.2
+      destination: platform=iOS Simulator,name=iPhone 13,OS=16.2
       example-scheme: Example
       example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
@@ -58,6 +58,7 @@ jobs:
         xcodebuild \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-scheme }} \
+          -skipPackagePluginValidation \
           -destination '${{ env.destination }}'
 
     - name: Checkout Example Server
@@ -87,6 +88,7 @@ jobs:
         xcodebuild build-for-testing \
           -workspace ${{ env.workspace }} \
           -scheme ${{ env.example-ui-test-scheme }} \
+          -skipPackagePluginValidation \
           -destination '${{ env.destination }}'
 
         xcodebuild test-without-building \
