@@ -135,14 +135,15 @@ final class PurchaseLogicController {
 
   static var cashData: CashAppSigningData?
 
-  private lazy var paykit: PayKit? = {
+  private lazy var paykit: CashAppPay? = {
     guard let clientId = Afterpay.cashAppClientId else {
       assertionFailure("Couldn't get cash app client id")
       return nil
     }
 
-    let paykitSdkEnv = Afterpay.environment == .production ? PayKit.Endpoint.production : PayKit.Endpoint.sandbox
-    let sdk = PayKit(clientID: clientId, endpoint: paykitSdkEnv)
+    let paykitSdkEnv =
+      Afterpay.environment == .production ? CashAppPay.Endpoint.production : CashAppPay.Endpoint.sandbox
+    let sdk = CashAppPay(clientID: clientId, endpoint: paykitSdkEnv)
     sdk.addObserver(self)
 
     return sdk
@@ -300,8 +301,8 @@ final class PurchaseLogicController {
 
 }
 
-extension PurchaseLogicController: PayKitObserver {
-  func stateDidChange(to state: PayKitState) {
+extension PurchaseLogicController: CashAppPayObserver {
+  func stateDidChange(to state: CashAppPayState) {
 
     print("Cash app state change:", Mirror(reflecting: state).children.first?.label ?? "Unknown")
 
