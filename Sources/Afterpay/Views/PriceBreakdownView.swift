@@ -80,12 +80,15 @@ public final class PriceBreakdownView: UIView {
   public enum LogoType {
     case badge
     case lockup
+    case compactBadge
 
     var heightMultiplier: Double {
       switch self {
       case .badge:
         return 1.8
       case .lockup:
+        return 1
+      case .compactBadge:
         return 1
       }
     }
@@ -95,6 +98,8 @@ public final class PriceBreakdownView: UIView {
       case .badge:
         return 1
       case .lockup:
+        return 1.2
+      case .compactBadge:
         return 1.2
       }
     }
@@ -176,10 +181,13 @@ public final class PriceBreakdownView: UIView {
     self.isHidden = !Afterpay.enabled
 
     let logoView: AfterpayLogo
-    if logoType == .lockup {
+    switch logoType {
+    case .lockup:
       logoView = LockupView(colorScheme: logoColorScheme)
-    } else {
+    case .badge:
       logoView = BadgeView(colorScheme: logoColorScheme)
+    case .compactBadge:
+      logoView = CompactBadgeView(colorScheme: logoColorScheme)
     }
 
     let font: UIFont = fontProvider(traitCollection)

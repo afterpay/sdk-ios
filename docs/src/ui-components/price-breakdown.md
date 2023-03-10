@@ -82,7 +82,7 @@ Given the above, the price breakdown text will be rendered `or 4 payments of $##
 ## Logo Type
 Setting `logoType` is optional, will default to `.badge` and must be of type `LogoType`.
 
-Can be either of `.badge` or `.lockup`.
+Can be one of `.badge`, `.lockup` or `.compactBadge`.
 When setting color scheme on logo type of `.lockup`, only the foreground color will be applied. (See example)
 
 ```swift

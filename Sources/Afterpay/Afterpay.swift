@@ -238,6 +238,53 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
   checkoutV2Handler = handler
 }
 
+public func signCashAppOrderToken(
+  _ token: Token,
+  completion: @escaping (_ result: CashAppSigningResult) -> Void
+) {
+  guard let configuration = getConfiguration() else {
+    return assertionFailure(
+      "Configuration must be provided before using `signCashAppOrder`"
+    )
+  }
+
+  if !enabled {
+    return
+  }
+
+  let cashAppCheckout = CashAppPayCheckout(
+    configuration: configuration,
+    completion: completion
+  )
+
+  cashAppCheckout.signToken(token: token)
+}
+
+public func validateCashAppOrder(
+  jwt: String,
+  customerId: String,
+  grantId: String,
+  completion: @escaping (CashAppValidationResult) -> Void
+) {
+  guard let configuration = getConfiguration() else {
+    return assertionFailure(
+      "Configuration must be provided before using `validateCashAppOrder`"
+    )
+  }
+
+  if !enabled {
+    return
+  }
+
+  CashAppPayCheckout.validateOrder(
+    configuration: configuration,
+    jwt: jwt,
+    customerId: customerId,
+    grantId: grantId,
+    completion: completion
+  )
+}
+
 /// A handler of web view events from the widget.
 ///
 /// An object which conforms to the protocol and sent to `Afterpay.setWidgetHandler` will receive the web view events
@@ -367,4 +414,12 @@ internal var brand: Brand {
 
 public var enabled: Bool {
   language != nil
+}
+
+public var cashAppClientId: String? {
+  getConfiguration()?.environment.cashAppClientId
+}
+
+public var environment: Environment? {
+  getConfiguration()?.environment
 }

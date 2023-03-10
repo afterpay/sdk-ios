@@ -15,3 +15,7 @@ indentation_width:
 
 identifier_name:
   min_length: 1
+
+file_length:
+  warning: 500
+  error: 800

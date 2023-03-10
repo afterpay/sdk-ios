@@ -8,6 +8,7 @@
 
 import Afterpay
 import Foundation
+import PayKitUI
 
 final class CartViewController: UIViewController, UITableViewDataSource {
 
@@ -19,8 +20,14 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
+  private lazy var cashButton = CashAppPayButton(size: .large) { [weak self] in
+    self?.didTapCashAppPay()
+  }
+
   enum Event {
     case didTapPay
+    case didTapCashAppPay
+    case cartDidLoad(CashAppPayButton)
     case optionsChanged(CheckoutOptionsCell.Event)
     case didTapSingleUseCardButton
   }
@@ -64,10 +71,18 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
       view.addSubview(payButton)
 
+      cashButton.accessibilityIdentifier = "payWithCashApp"
+      cashButton.translatesAutoresizingMaskIntoConstraints = false
+
+      view.addSubview(cashButton)
+
       NSLayoutConstraint.activate([
         payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        payButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
+        cashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        cashButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 8),
+        cashButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
       ])
 
       tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor)
@@ -81,10 +96,20 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     ])
   }
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    eventHandler(.cartDidLoad(self.cashButton))
+  }
+
   // MARK: Actions
 
   @objc private func didTapPay() {
     eventHandler(.didTapSingleUseCardButton)
+  }
+
+  @objc private func didTapCashAppPay() {
+    eventHandler(.didTapCashAppPay)
   }
 
   // MARK: UITableViewDataSource

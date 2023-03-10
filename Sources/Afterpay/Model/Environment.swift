@@ -35,6 +35,33 @@ import Foundation
     }
   }
 
+  var cashAppSigningURL: String {
+    switch self {
+    case .sandbox:
+      return "https://api-plus.us-sandbox.afterpay.com/v2/payments/sign-payment"
+    case .production:
+      return "https://api-plus.us.afterpay.com/v2/payments/sign-payment"
+    }
+  }
+
+  var cashAppValidationURL: String {
+    switch self {
+    case .sandbox:
+      return "https://api-plus.us-sandbox.afterpay.com/v2/payments/validate-payment"
+    case .production:
+      return "https://api-plus.us.afterpay.com/v2/payments/validate-payment"
+    }
+  }
+
+  var cashAppClientId: String {
+    switch self {
+    case .sandbox:
+      return "CAS-CI_AFTERPAY"
+    case .production:
+      return "CA-CI_AFTERPAY"
+    }
+  }
+
   var bootstrapCacheDisplayName: String { "afterpay.com" }
 
   var widgetBootstrapHTML: String {

@@ -11,6 +11,9 @@
 		1535ACB725DBA8AD00727818 /* CheckoutHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1535ACB625DBA8AD00727818 /* CheckoutHandler.swift */; };
 		155AD17124AB2464000013B4 /* PurchaseFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155AD17024AB2464000013B4 /* PurchaseFlowController.swift */; };
 		157C65AD25D0F19900115149 /* Result+Fold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C65AC25D0F19900115149 /* Result+Fold.swift */; };
+		45255E76296E8C6600B5B793 /* CashAppGrantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45255E75296E8C6600B5B793 /* CashAppGrantsViewController.swift */; };
+		4589BA57299F10A00030DC7E /* PayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4589BA56299F10A00030DC7E /* PayKit */; };
+		4589BA59299F10A00030DC7E /* PayKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4589BA58299F10A00030DC7E /* PayKitUI */; };
 		5539D82C25EDE97E0088BC97 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5539D82B25EDE97E0088BC97 /* ControlCell.swift */; };
 		5539D83025F068F90088BC97 /* CheckoutOptionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5539D82F25F068F90088BC97 /* CheckoutOptionsCell.swift */; };
 		55432838263B7EC2005512E4 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55432837263B7EC2005512E4 /* ExampleUITests.swift */; };
@@ -89,6 +92,7 @@
 		42D1DDB5278D2AD600E5526A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		42D1DDB6278D2AE500E5526A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		42D1DDB7278D2AEC00E5526A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		45255E75296E8C6600B5B793 /* CashAppGrantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAppGrantsViewController.swift; sourceTree = "<group>"; };
 		5539D82B25EDE97E0088BC97 /* ControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		5539D82F25F068F90088BC97 /* CheckoutOptionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOptionsCell.swift; sourceTree = "<group>"; };
 		55432835263B7EC2005512E4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,8 +153,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4589BA57299F10A00030DC7E /* PayKit in Frameworks */,
 				66F9767824999F5C001D38FA /* Afterpay.framework in Frameworks */,
 				6640C15424D9208000F7F4CC /* SwiftUI.framework in Frameworks */,
+				4589BA59299F10A00030DC7E /* PayKitUI in Frameworks */,
 				667F833924C815DC0077DC5F /* TrustKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +170,13 @@
 				157C65AC25D0F19900115149 /* Result+Fold.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		45FF4C0E296D23D400EE929B /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		55432836263B7EC2005512E4 /* ExampleUITests */ = {
@@ -188,6 +201,7 @@
 				9490D1D524D8ED4F001E1EFC /* Repository.swift */,
 				66E255A624E3764B00C81F20 /* TextField.swift */,
 				66F2D8B924A0415700F65621 /* WindowHolder.swift */,
+				45255E75296E8C6600B5B793 /* CashAppGrantsViewController.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -255,6 +269,7 @@
 		668F161524877F950040345C = {
 			isa = PBXGroup;
 			children = (
+				45FF4C0E296D23D400EE929B /* Packages */,
 				668F162024877F950040345C /* Example */,
 				55432836263B7EC2005512E4 /* ExampleUITests */,
 				668F161F24877F950040345C /* Products */,
@@ -360,6 +375,8 @@
 			name = Example;
 			packageProductDependencies = (
 				667F833824C815DC0077DC5F /* TrustKit */,
+				4589BA56299F10A00030DC7E /* PayKit */,
+				4589BA58299F10A00030DC7E /* PayKitUI */,
 			);
 			productName = Example;
 			productReference = 668F161E24877F950040345C /* Example.app */;
@@ -400,6 +417,7 @@
 			mainGroup = 668F161524877F950040345C;
 			packageReferences = (
 				667F833724C815DC0077DC5F /* XCRemoteSwiftPackageReference "TrustKit" */,
+				4589BA55299F10A00030DC7E /* XCRemoteSwiftPackageReference "cash-app-pay-ios-sdk" */,
 			);
 			productRefGroup = 668F161F24877F950040345C /* Products */;
 			projectDirPath = "";
@@ -498,6 +516,7 @@
 				66F2D8BA24A0415700F65621 /* WindowHolder.swift in Sources */,
 				5539D83025F068F90088BC97 /* CheckoutOptionsCell.swift in Sources */,
 				157C65AD25D0F19900115149 /* Result+Fold.swift in Sources */,
+				45255E76296E8C6600B5B793 /* CashAppGrantsViewController.swift in Sources */,
 				66BD11AE24ADA94800039DA6 /* CartViewController.swift in Sources */,
 				948F664824B6E95900DC0202 /* SegmentedSettingCell.swift in Sources */,
 				660072B724A1B55E00E9A2BC /* TextSettingCell.swift in Sources */,
@@ -718,7 +737,7 @@
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Example/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -746,7 +765,7 @@
 				DEVELOPMENT_TEAM = KBY3G4JPGC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Example/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -794,6 +813,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4589BA55299F10A00030DC7E /* XCRemoteSwiftPackageReference "cash-app-pay-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cashapp/cash-app-pay-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.0;
+			};
+		};
 		667F833724C815DC0077DC5F /* XCRemoteSwiftPackageReference "TrustKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/datatheorem/TrustKit";
@@ -805,6 +832,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4589BA56299F10A00030DC7E /* PayKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4589BA55299F10A00030DC7E /* XCRemoteSwiftPackageReference "cash-app-pay-ios-sdk" */;
+			productName = PayKit;
+		};
+		4589BA58299F10A00030DC7E /* PayKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4589BA55299F10A00030DC7E /* XCRemoteSwiftPackageReference "cash-app-pay-ios-sdk" */;
+			productName = PayKitUI;
+		};
 		667F833824C815DC0077DC5F /* TrustKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 667F833724C815DC0077DC5F /* XCRemoteSwiftPackageReference "TrustKit" */;

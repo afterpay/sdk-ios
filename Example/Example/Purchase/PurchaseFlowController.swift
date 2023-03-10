@@ -92,8 +92,12 @@ final class PurchaseFlowController: UIViewController {
     case .showCart(let cart):
       let cartViewController = CartViewController(cart: cart) { event in
         switch event {
+        case .cartDidLoad(let button):
+          logicController.retrieveCashAppToken(cashButton: button)
         case .didTapPay:
           logicController.payWithAfterpay()
+        case .didTapCashAppPay:
+          logicController.payWithCashApp()
         case .optionsChanged(.buyNow):
           logicController.toggleCheckoutV2Option(\.buyNow)
         case .optionsChanged(.pickup):
@@ -169,6 +173,11 @@ final class PurchaseFlowController: UIViewController {
     case .showSuccessWithMessage(let message, let token):
       let widgetViewController = WidgetViewController(title: message, token: token)
       let viewControllers = [productsViewController, widgetViewController]
+      navigationController.setViewControllers(viewControllers, animated: true)
+
+    case .showCashSuccess(let amount, let cashTag, let grants):
+      let cashReceiptViewController = CashAppGrantsViewController(amount: amount, cashTag: cashTag, grants: grants)
+      let viewControllers = [productsViewController, cashReceiptViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     }
   }
