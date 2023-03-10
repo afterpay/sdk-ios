@@ -37,11 +37,11 @@ You can install Pay Kit via SPM. Create a new Xcode project and navigate to `Fil
 ### Installation (Option Two): Cocoapods
 Add Cocoapods to your project. Open the `Podfile` and add `pod 'CashAppPayKit'` and/or `pod 'CashAppPayKitUI'` and save your changes. Run `pod update` and Pay Kit will now be included through Cocoapods.
 
-## Step 2: Implement the Pay Kit Observer Protocol
+## Step 2: Implement the Cash App Pay Observer Protocol
 
-To receive updates from Pay Kit, you’ll need to implement the Pay Kit Observer protocol. Your checkout view controller can conform to this protocol, or you can create a dedicated observer class.
+To receive updates from Pay Kit, you’ll need to implement the Cash App Pay Observer protocol. Your checkout view controller can conform to this protocol, or you can create a dedicated observer class.
 
-The PayKitObserver protocol contains only one method:
+The `CashAppPayObserver` protocol contains only one method:
 
 ``` swift
 func stateDidChange(to state: CashAppPaySDKState) {
@@ -79,7 +79,7 @@ Choose a unique scheme for your application and register it in Xcode from the **
 
 You’ll pass a URL that uses this scheme (or a Universal Link your app handles) into the `createCustomerRequest()` method that starts the authorization process.
 
-When your app is called back by Cash App, simply post the `PayKit.RedirectNotification` from your `AppDelegate` or `SceneDelegate`, and the SDK will handle the rest:
+When your app is called back by Cash App, simply post the `CashAppPay.RedirectNotification` from your `AppDelegate` or `SceneDelegate`, and the SDK will handle the rest:
 
 ``` swift
 import UIKit
@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
     if let url = URLContexts.first?.url {
       NotificationCenter.default.post(
-        name: PayKit.RedirectNotification,
+        name: CashAppPay.RedirectNotification,
         object: nil,
         userInfo: [UIApplication.LaunchOptionsKey.url : url]
       )
@@ -113,8 +113,8 @@ For example, from your checkout view controller that implements the `PayKitObser
 
 ``` swift
 private let sandboxClientID = Afterpay.cashAppClientId
-private lazy var sdk: PayKit = {
-    let sdk = PayKit(clientID: sandboxClientID, endpoint: .sandbox)
+private lazy var sdk: CashAppPay = {
+    let sdk = CashAppPay(clientID: sandboxClientID, endpoint: .sandbox)
     sdk.addObserver(self)
     return sdk
 }()

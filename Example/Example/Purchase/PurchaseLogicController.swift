@@ -21,7 +21,6 @@ final class PurchaseLogicController {
 
     case showAfterpayCheckoutV2(CheckoutV2Options)
     case provideCheckoutTokenResult(TokenResult)
-    case provideCashAppTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case provideShippingOptionResult(ShippingOptionUpdateResult)
 
@@ -136,34 +135,26 @@ final class PurchaseLogicController {
 
   static var cashData: CashAppSigningData?
 
-  private lazy var paykit: PayKit? = {
+  private lazy var paykit: CashAppPay? = {
     guard let clientId = Afterpay.cashAppClientId else {
       assertionFailure("Couldn't get cash app client id")
       return nil
     }
 
-    let paykitSdkEnv = Afterpay.environment == .production ? PayKit.Endpoint.production : PayKit.Endpoint.sandbox
-    let sdk = PayKit(clientID: clientId, endpoint: paykitSdkEnv)
+    let paykitSdkEnv =
+      Afterpay.environment == .production ? CashAppPay.Endpoint.production : CashAppPay.Endpoint.sandbox
+    let sdk = CashAppPay(clientID: clientId, endpoint: paykitSdkEnv)
     sdk.addObserver(self)
 
     return sdk
   }()
 
-  private func isCashButtonEnabled(_ isEnabled: Bool) {
+  private func setCashButtonEnabled(_ isEnabled: Bool) {
     cashButton?.isEnabled = isEnabled
   }
 
-  func createCashAppRequest(cashButton: CashAppPayButton? = nil) {
-    if cashButton != nil {
-      self.cashButton = cashButton
-    }
-    isCashButtonEnabled(false)
-
-    guard !quantities.isEmpty else {
-      return
-    }
-
-    Afterpay.signCashAppOrder { result in
+  func handleCashAppToken(token: Token) {
+    Afterpay.signCashAppOrderToken(token) { result in
       switch result {
       case .success(let cashData):
         PurchaseLogicController.cashData = cashData
@@ -194,13 +185,28 @@ final class PurchaseLogicController {
     }
   }
 
-  func loadCashAppToken() {
+  func retrieveCashAppToken(cashButton: CashAppPayButton? = nil) {
+    if cashButton != nil {
+      self.cashButton = cashButton
+    }
+    setCashButtonEnabled(false)
+
+    guard !quantities.isEmpty else {
+      return
+    }
+
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
     checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
       let tokenResult = result.map(\.token)
-      self?.commandHandler(.provideCashAppTokenResult(tokenResult))
+
+      switch tokenResult {
+      case .success(let token):
+        self?.handleCashAppToken(token: token)
+      case .failure(let error):
+        print(error)
+      }
     }
   }
 
@@ -295,8 +301,8 @@ final class PurchaseLogicController {
 
 }
 
-extension PurchaseLogicController: PayKitObserver {
-  func stateDidChange(to state: PayKitState) {
+extension PurchaseLogicController: CashAppPayObserver {
+  func stateDidChange(to state: CashAppPayState) {
 
     print("Cash app state change:", Mirror(reflecting: state).children.first?.label ?? "Unknown")
 
@@ -312,7 +318,7 @@ extension PurchaseLogicController: PayKitObserver {
       .unexpectedError:
       return
     case .readyToAuthorize(let request):
-      isCashButtonEnabled(true)
+      setCashButtonEnabled(true)
       cashRequest = request
     case .approved(let request, let grants):
       if
@@ -353,7 +359,7 @@ extension PurchaseLogicController: PayKitObserver {
         }
       }
     case .declined:
-      createCashAppRequest()
+      retrieveCashAppToken()
     }
   }
 }
