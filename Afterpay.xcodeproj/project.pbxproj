@@ -21,6 +21,7 @@
 		4288AB7827BCB578009C9B69 /* PaymentButtonUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */; };
 		42927C39274209B600B26435 /* ShippingOptionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42927C38274209B600B26435 /* ShippingOptionUpdate.swift */; };
 		42DA4F9826E0740500204E75 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA4F9726E0740500204E75 /* IntroText.swift */; };
+		4509D351293473F500952DAD /* CompactBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4509D350293473F500952DAD /* CompactBadgeView.swift */; };
 		4509D357293FFB5200952DAD /* CashAppPayCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4509D356293FFB5200952DAD /* CashAppPayCheckout.swift */; };
 		4509D359294017C500952DAD /* CashAppSigningResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4509D358294017C500952DAD /* CashAppSigningResponse.swift */; };
 		4509D35B2940192400952DAD /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4509D35A2940192400952DAD /* JWT.swift */; };
@@ -100,6 +101,7 @@
 		4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonUIView.swift; sourceTree = "<group>"; };
 		42927C38274209B600B26435 /* ShippingOptionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingOptionUpdate.swift; sourceTree = "<group>"; };
 		42DA4F9726E0740500204E75 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
+		4509D350293473F500952DAD /* CompactBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactBadgeView.swift; sourceTree = "<group>"; };
 		4509D356293FFB5200952DAD /* CashAppPayCheckout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAppPayCheckout.swift; sourceTree = "<group>"; };
 		4509D358294017C500952DAD /* CashAppSigningResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAppSigningResponse.swift; sourceTree = "<group>"; };
 		4509D35A2940192400952DAD /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				66EE9BD624DCEC3D00A81C19 /* LinkTextView.swift */,
 				661CFDB52570E7F000D8A1E8 /* PaymentButton.swift */,
 				66483F3A24D7A164000BE6B5 /* PriceBreakdownView.swift */,
+				4509D350293473F500952DAD /* CompactBadgeView.swift */,
 				4288AB7527BC8C84009C9B69 /* LayeredImageView.swift */,
 				4288AB7727BCB578009C9B69 /* PaymentButtonUIView.swift */,
 				45144E6F27FCEFA30061EBE8 /* LockupView.swift */,
@@ -624,6 +627,7 @@
 				666D334C24A48F5C00FCD464 /* ObjcWrapper.swift in Sources */,
 				55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */,
 				42DA4F9826E0740500204E75 /* IntroText.swift in Sources */,
+				4509D351293473F500952DAD /* CompactBadgeView.swift in Sources */,
 				45D406D127FE4B67009AA4EE /* LogoView.swift in Sources */,
 				157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */,
 				55A2D307261BB36C00D8E23A /* Money.swift in Sources */,
