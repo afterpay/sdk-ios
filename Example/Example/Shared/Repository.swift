@@ -60,9 +60,10 @@ final class Repository {
     email: String,
     amount: String,
     checkoutMode: CheckoutMode,
+    isCashApp: Bool = false,
     completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) {
-    apiClient.checkout(email, amount, checkoutMode) { result in
+    apiClient.checkout(email, amount, checkoutMode, isCashApp) { result in
       completion(result.flatMap { data in
         Result { try JSONDecoder().decode(CheckoutsResponse.self, from: data) }
       })

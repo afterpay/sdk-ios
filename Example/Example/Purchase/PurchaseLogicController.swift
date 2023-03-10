@@ -8,6 +8,8 @@
 
 import Afterpay
 import Foundation
+import PayKit
+import PayKitUI
 
 final class PurchaseLogicController {
 
@@ -24,6 +26,7 @@ final class PurchaseLogicController {
 
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
+    case showCashSuccess(String, String, [CustomerRequest.Grant])
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
@@ -34,6 +37,7 @@ final class PurchaseLogicController {
     _ email: String,
     _ amount: String,
     _ checkoutMode: CheckoutMode,
+    _ isCashApp: Bool,
     _ completion: @escaping (Result<CheckoutsResponse, Error>) -> Void
   ) -> Void
 
@@ -118,11 +122,99 @@ final class PurchaseLogicController {
     }
   }
 
+  func payWithCashApp() {
+    guard let cashRequest else {
+      return
+    }
+    paykit?.authorizeCustomerRequest(cashRequest)
+  }
+
+  private var cashButton: CashAppPayButton?
+
+  private var cashRequest: CustomerRequest?
+
+  static var cashData: CashAppSigningData?
+
+  private lazy var paykit: CashAppPay? = {
+    guard let clientId = Afterpay.cashAppClientId else {
+      assertionFailure("Couldn't get cash app client id")
+      return nil
+    }
+
+    let paykitSdkEnv =
+      Afterpay.environment == .production ? CashAppPay.Endpoint.production : CashAppPay.Endpoint.sandbox
+    let sdk = CashAppPay(clientID: clientId, endpoint: paykitSdkEnv)
+    sdk.addObserver(self)
+
+    return sdk
+  }()
+
+  private func setCashButtonEnabled(_ isEnabled: Bool) {
+    cashButton?.isEnabled = isEnabled
+  }
+
+  func handleCashAppToken(token: Token) {
+    Afterpay.signCashAppOrderToken(token) { result in
+      switch result {
+      case .success(let cashData):
+        PurchaseLogicController.cashData = cashData
+
+        if let paykit = self.paykit {
+          paykit.createCustomerRequest(
+            params: CreateCustomerRequestParams(
+              actions: [
+                .oneTimePayment(
+                  scopeID: cashData.brandId,
+                  money: Money(
+                    amount: cashData.amount,
+                    currency: .USD
+                  )
+                ),
+              ],
+              channel: .IN_APP,
+              redirectURL: URL(string: "aftersnack://callback")!, // the cashData.redirectUri object could be used here
+              referenceID: nil,
+              metadata: nil
+            )
+          )
+        }
+      case .failed(let reason):
+        PurchaseLogicController.cashData = nil
+        print("didn't sign cash app order: \(reason)")
+      }
+    }
+  }
+
+  func retrieveCashAppToken(cashButton: CashAppPayButton? = nil) {
+    if cashButton != nil {
+      self.cashButton = cashButton
+    }
+    setCashButtonEnabled(false)
+
+    guard !quantities.isEmpty else {
+      return
+    }
+
+    let formatter = CurrencyFormatter(currencyCode: currencyCode)
+    let amount = formatter.string(from: total)
+
+    checkoutResponseProvider(email, amount, .v1, true) { [weak self] result in
+      let tokenResult = result.map(\.token)
+
+      switch tokenResult {
+      case .success(let token):
+        self?.handleCashAppToken(token: token)
+      case .failure(let error):
+        print(error)
+      }
+    }
+  }
+
   func loadCheckoutURL(then command: @escaping (URL) -> Void) {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount, .v1) { result in
+    checkoutResponseProvider(email, amount, .v1, false) { result in
       guard let url = try? result.map(\.url).get() else {
         return
       }
@@ -134,7 +226,7 @@ final class PurchaseLogicController {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     let amount = formatter.string(from: total)
 
-    checkoutResponseProvider(email, amount, .v2) { [weak self] result in
+    checkoutResponseProvider(email, amount, .v2, false) { [weak self] result in
       let tokenResult = result.map(\.token)
       self?.commandHandler(.provideCheckoutTokenResult(tokenResult))
     }
@@ -207,4 +299,67 @@ final class PurchaseLogicController {
     }
   }
 
+}
+
+extension PurchaseLogicController: CashAppPayObserver {
+  func stateDidChange(to state: CashAppPayState) {
+
+    print("Cash app state change:", Mirror(reflecting: state).children.first?.label ?? "Unknown")
+
+    switch state {
+    case .notStarted,
+      .creatingCustomerRequest,
+      .updatingCustomerRequest,
+      .redirecting,
+      .polling,
+      .apiError,
+      .integrationError,
+      .networkError,
+      .unexpectedError:
+      return
+    case .readyToAuthorize(let request):
+      setCashButtonEnabled(true)
+      cashRequest = request
+    case .approved(let request, let grants):
+      if
+        PurchaseLogicController.cashData == nil ||
+          request.customerProfile == nil ||
+          grants.isEmpty {
+        return
+      }
+
+      let customerProfile = request.customerProfile!
+      let grant = grants.first!
+      let cashData = PurchaseLogicController.cashData!
+
+      quantities = [:]
+      commandHandler(.updateProducts(productDisplayModels))
+
+      let cashTag = customerProfile.cashtag
+      let customerId = customerProfile.id
+
+      let formatter = CurrencyFormatter(currencyCode: currencyCode)
+      let total = grants.reduce(0) { $0 + ($1.action.money?.amount ?? 0) }
+      let amount = formatter.string(from: Decimal(total) / 100)
+
+      Afterpay.validateCashAppOrder(jwt: cashData.jwt, customerId: customerId, grantId: grant.id) { result in
+        switch result {
+        case .success(let data):
+          print("validation data", data)
+          self.commandHandler(.showCashSuccess(amount, cashTag, grants))
+          return
+        case .failed(let reason):
+          switch reason {
+          case .httpError(let errorCode, let message):
+            print("validation failed (http)", errorCode, message)
+            return
+          default:
+            print("validation failed:", reason)
+          }
+        }
+      }
+    case .declined:
+      retrieveCashAppToken()
+    }
+  }
 }
