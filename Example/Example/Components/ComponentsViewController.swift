@@ -178,7 +178,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
       priceBreakdown2.showInterestFreeText = false
       priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .blackOnMint, darkPalette: .whiteOnBlack)
       priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .moreInfoText)
-      priceBreakdown2.logoType = .lockup
+      priceBreakdown2.logoType = .compactBadge
       stack.addArrangedSubview(priceBreakdown2)
 
       let priceBreakdown3 = PriceBreakdownView()

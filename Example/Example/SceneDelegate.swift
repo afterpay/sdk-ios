@@ -8,6 +8,7 @@
 
 import Afterpay
 import UIKit
+import PayKit
 
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, WindowHolder {
@@ -27,6 +28,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, WindowHolder {
     }
     #endif
 
+  }
+
+  func scene(
+    _ scene: UIScene,
+    openURLContexts URLContexts: Set<UIOpenURLContext>
+  ) {
+    if let url = URLContexts.first?.url {
+      NotificationCenter.default.post(
+        name: CashAppPay.RedirectNotification,
+        object: nil,
+        userInfo: [UIApplication.LaunchOptionsKey.url: url]
+      )
+    }
   }
 
 }

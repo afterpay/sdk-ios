@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "compact-badge-clearpay-white-on-black.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

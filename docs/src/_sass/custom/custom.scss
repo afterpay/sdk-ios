@@ -1,16 +1,33 @@
 @import './navigation';
 
+$code-background: #111111;
+
 blockquote {
     margin-inline-start: 0;
     padding-inline-start: 1em;
 }
 
-code {
-    background-color: #111111;
+:not(pre, figure) > code {
+    background-color: $code-background;
+    color: coral;
 }
 
 div.highlighter-rouge {
-    background-color: #111111;
+    background-color: $code-background;
+
+    .highlight {
+        background-color: transparent;
+    }
+
+    button {
+        color: white;
+        background-color: $code-background;
+        border-color: $code-background;
+    }
+
+    code {
+        padding-right: 50px;
+    }
 }
 
 a code {
@@ -18,11 +35,19 @@ a code {
 }
 
 code {
-    color: coral;
+    color: white;
     display: inline-block;
     padding: 4px;
 }
 
 img {
     max-width: 400px;
+}
+
+h1 {
+    vertical-align: middle;
+}
+
+p.label {
+    text-transform: none;
 }

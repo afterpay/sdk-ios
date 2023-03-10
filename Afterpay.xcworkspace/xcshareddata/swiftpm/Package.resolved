@@ -1,16 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "TrustKit",
-        "repositoryURL": "https://github.com/datatheorem/TrustKit",
-        "state": {
-          "branch": null,
-          "revision": "65d573e0e2687ea91ab0b1be377f9dd3eb1c2785",
-          "version": "2.0.1"
-        }
+  "pins" : [
+    {
+      "identity" : "cash-app-pay-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cashapp/cash-app-pay-ios-sdk",
+      "state" : {
+        "revision" : "17df6b7c8f802ec5bf5cd012a270ff9fcbb50927",
+        "version" : "0.3.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swiftgenplugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftGen/SwiftGenPlugin.git",
+      "state" : {
+        "revision" : "879b85a470cacd70c19e22eb7e11a3aed66f4068",
+        "version" : "6.6.2"
+      }
+    },
+    {
+      "identity" : "trustkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/datatheorem/TrustKit",
+      "state" : {
+        "revision" : "65d573e0e2687ea91ab0b1be377f9dd3eb1c2785",
+        "version" : "2.0.1"
+      }
+    }
+  ],
+  "version" : 2
 }

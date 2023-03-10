@@ -16,7 +16,9 @@ struct CurrencyFormatter {
 
   func string(from decimal: Decimal) -> String {
     let formatter = Self.formatter
-    formatter.numberStyle = .none
+    formatter.numberStyle = .decimal
+    formatter.minimumFractionDigits = 2
+    formatter.maximumFractionDigits = 2
     return formatter.string(from: decimal as NSDecimalNumber)!
   }
 
