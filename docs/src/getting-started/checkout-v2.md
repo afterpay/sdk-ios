@@ -17,9 +17,6 @@ nav_order: 3
 {:toc}
 </details>
 
-{: .alert }
-Checkout v2 is not available at this time for the following regions: France, Italy, Spain.
-
 Checkout version 2 allows you to load the checkout token on demand via `didCommenceCheckout` while presenting a loading view. It also supports `express` checkout features and callbacks which can either be handled in line or via a checkout handler object.
 
 {: .note }
