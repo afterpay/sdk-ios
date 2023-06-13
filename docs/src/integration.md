@@ -40,7 +40,7 @@ github "afterpay/sdk-ios" ~> 5.3
 
 ## CocoaPods
 
-``` swift
+``` ruby
 pod 'Afterpay', '~> 5.3'
 ```
 ## Manual
