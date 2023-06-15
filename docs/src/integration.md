@@ -25,7 +25,7 @@ nav_order: 2
 {: .note }
 > While the native code in the SDK is iOS 12+ compatible, the Afterpay / Clearpay checkout is a WebView wrapper for the web checkout. Browser support for this is currently iOS Safari 13.4+. It is up to the implementation to handle this difference. This allows apps that support users on iOS 12+ to use the SDK, but only users that meet the WebView requirements to access Afterpay / Clearpay.
 >
-> One method of doing so would be to hide all assets for users under iOS 13.4. This could be acheived using the `@available` attribute: `@available(iOS 13.4, *)`.
+> One method of doing so would be to hide all assets for users under iOS 13.4. This could be achieved using the `@available` attribute: `@available(iOS 13.4, *)`.
 
 ## Swift Package Manager (recommended)
 
