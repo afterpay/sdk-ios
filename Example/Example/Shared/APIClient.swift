@@ -95,7 +95,7 @@ private enum Endpoint {
     case .configuration:
       return makeRequest("/configuration")
     case let .checkout(email, amount, checkoutMode, isCashApp):
-      return makeRequest("/checkouts") { request in
+      return makeRequest("/checkout") { request in
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // A failed encoding operation here would represent programmer error
