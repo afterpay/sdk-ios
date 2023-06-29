@@ -29,6 +29,7 @@
 		45144E7227FD10E00061EBE8 /* AfterpayAssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */; };
 		45144E7427FD11470061EBE8 /* AfterpayBundleFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45144E7327FD11470061EBE8 /* AfterpayBundleFinder.swift */; };
 		4559422027E04DDB00DF1956 /* ModalLinkStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */; };
+		4573E4B42A4D4DCB00F5CEAA /* LocaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4573E4B32A4D4DCB00F5CEAA /* LocaleTests.swift */; };
 		458E7D37296E1F9D001B696F /* CashAppSigningResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E7D36296E1F9D001B696F /* CashAppSigningResult.swift */; };
 		45BFEB9827ED27EF00A4AE48 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BFEB9727ED27EF00A4AE48 /* Brand.swift */; };
 		45D406D127FE4B67009AA4EE /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D406D027FE4B67009AA4EE /* LogoView.swift */; };
@@ -109,6 +110,7 @@
 		45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayAssetProvider.swift; sourceTree = "<group>"; };
 		45144E7327FD11470061EBE8 /* AfterpayBundleFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayBundleFinder.swift; sourceTree = "<group>"; };
 		4559421F27E04DDB00DF1956 /* ModalLinkStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalLinkStyle.swift; sourceTree = "<group>"; };
+		4573E4B32A4D4DCB00F5CEAA /* LocaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleTests.swift; sourceTree = "<group>"; };
 		458E7D36296E1F9D001B696F /* CashAppSigningResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAppSigningResult.swift; sourceTree = "<group>"; };
 		45BFEB9727ED27EF00A4AE48 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		45D406D027FE4B67009AA4EE /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				550D481A26255D8600C0B0C6 /* WidgetEventTests.swift */,
 				550D48142625539900C0B0C6 /* WidgetStatusTests.swift */,
 				557511BA264259C30040CC51 /* CombineWrapperTests.swift */,
+				4573E4B32A4D4DCB00F5CEAA /* LocaleTests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -580,6 +583,7 @@
 				550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */,
 				557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */,
 				66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */,
+				4573E4B42A4D4DCB00F5CEAA /* LocaleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

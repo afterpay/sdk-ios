@@ -397,7 +397,10 @@ func getLocale() -> Locale {
 }
 
 internal var language: Locale? {
-  getRegionLanguage(merchantLocale: getLocale(), clientLocale: Locale.current)
+  getRegionLanguage(
+    merchantLocale: getLocale(),
+    clientLocale: getConfiguration()?.consumerLocale ?? Locale.current
+  )
 }
 
 internal var string: Strings {
