@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target  = "12.0"
   spec.pod_target_xcconfig = { 'PRODUCT_BUNDLE_IDENTIFIER': 'com.afterpay.Afterpay' }
   spec.source        = { :git => "https://github.com/afterpay/sdk-ios.git", :tag => "#{spec.version}" }
-  spec.resources     = "Sources/Afterpay/**/*.{pdf,xcassets,json}"
+  spec.resource_bundles = { "Afterpay" => "Sources/Afterpay/**/*.{pdf,xcassets,json}" }
   spec.source_files  = "Sources/Afterpay/**/*.{plist,swift}"
   spec.swift_version = "5.2"
   spec.framework     = "UIKit"
