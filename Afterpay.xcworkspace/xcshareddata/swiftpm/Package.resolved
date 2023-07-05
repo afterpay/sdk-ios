@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/cashapp/cash-app-pay-ios-sdk",
       "state" : {
-        "revision" : "17df6b7c8f802ec5bf5cd012a270ff9fcbb50927",
-        "version" : "0.3.0"
+        "revision" : "89c8d2d09251009f6599b1b1582016e8f25854b4",
+        "version" : "0.3.3"
       }
     },
     {

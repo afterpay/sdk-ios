@@ -818,7 +818,7 @@
 			repositoryURL = "https://github.com/cashapp/cash-app-pay-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.0;
+				minimumVersion = 0.3.0;
 			};
 		};
 		667F833724C815DC0077DC5F /* XCRemoteSwiftPackageReference "TrustKit" */ = {
