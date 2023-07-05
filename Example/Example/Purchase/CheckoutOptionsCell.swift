@@ -8,6 +8,7 @@
 
 import Afterpay
 import Foundation
+import UIKit
 
 final class CheckoutOptionsCell: UITableViewCell {
 
