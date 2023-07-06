@@ -42,6 +42,7 @@ public struct Configuration {
   public var currencyCode: String
   public var locale: Locale
   public var environment: Environment
+  public var consumerLocale: Locale?
 
   /// Creates a new configuration by taking in a minimum and maximum amount as well as a currency
   /// code and locale.
@@ -84,7 +85,8 @@ public struct Configuration {
     maximumAmount: String,
     currencyCode: String,
     locale: Locale,
-    environment: Environment
+    environment: Environment,
+    consumerLocale: Locale? = nil
   ) throws {
     let minimumSupplied = minimumAmount != nil
     let minimumDecimal = minimumAmount.flatMap { Decimal(string: $0) }
@@ -116,6 +118,7 @@ public struct Configuration {
     self.currencyCode = currencyCode
     self.locale = locale
     self.environment = environment
+    self.consumerLocale = consumerLocale
   }
 
   init(_ object: Object, configuration: CheckoutV3Configuration) throws {

@@ -22,26 +22,31 @@ nav_order: 2
 - Swift 5.3+
 - Xcode 12.0+
 
+{: .note }
+> While the native code in the SDK is iOS 12+ compatible, the Afterpay / Clearpay checkout is a WebView wrapper for the web checkout. Browser support for this is currently iOS Safari 13.4+. It is up to the implementation to handle this difference. This allows apps that support users on iOS 12+ to use the SDK, but only users that meet the WebView requirements to access Afterpay / Clearpay.
+>
+> One method of doing so would be to hide all assets for users under iOS 13.4. This could be achieved using the `@available` attribute: `@available(iOS 13.4, *)`.
+
 ## Swift Package Manager (recommended)
 
 This is the recommended integration method.
 
 ``` swift
 dependencies: [
-    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "5.3.0"))
+    .package(url: "https://github.com/afterpay/sdk-ios.git", .upToNextMajor(from: "5.4.0"))
 ]
 ```
 
 ## Carthage
 
 ``` swift
-github "afterpay/sdk-ios" ~> 5.3
+github "afterpay/sdk-ios" ~> 5.4
 ```
 
 ## CocoaPods
 
-``` swift
-pod 'Afterpay', '~> 5.3'
+``` ruby
+pod 'Afterpay', '~> 5.4'
 ```
 ## Manual
 
@@ -60,7 +65,7 @@ Add the Afterpay SDK as a [git submodule][git-submodule]{:target="_blank"} by na
 ``` sh
 git submodule add https://github.com/afterpay/sdk-ios.git Afterpay
 cd Afterpay
-git checkout 5.3.0
+git checkout 5.4.0
 ```
 
 #### Project / Workspace Integration
