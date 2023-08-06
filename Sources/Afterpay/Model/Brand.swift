@@ -10,9 +10,6 @@ import Foundation
 
 private let clearpayLocales: Set<Locale> = [
   Locales.enGB,
-  Locales.esES,
-  Locales.frFR,
-  Locales.itIT,
 ]
 private let afterpayLocales: Set<Locale> = [
   Locales.enAU,

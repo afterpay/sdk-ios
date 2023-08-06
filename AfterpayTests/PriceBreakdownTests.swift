@@ -79,15 +79,15 @@ class PriceBreakdownTests: XCTestCase {
 
     let fiftyDollarBreakdown = PriceBreakdown(totalAmount: 50)
     XCTAssertEqual(fiftyDollarBreakdown.badgePlacement, .end)
-    XCTAssertEqual(fiftyDollarBreakdown.string, "or 3 interest-free payments of 16.67€ with")
+    XCTAssertEqual(fiftyDollarBreakdown.string, "or pay with")
 
     let oneHundredDollarBreakdown = PriceBreakdown(totalAmount: 100)
     XCTAssertEqual(oneHundredDollarBreakdown.badgePlacement, .end)
-    XCTAssertEqual(oneHundredDollarBreakdown.string, "or 3 interest-free payments of 33.33€ with")
+    XCTAssertEqual(oneHundredDollarBreakdown.string, "or pay with")
 
     let twoHundredDollarBreakdown = PriceBreakdown(totalAmount: 200)
     XCTAssertEqual(twoHundredDollarBreakdown.badgePlacement, .end)
-    XCTAssertEqual(twoHundredDollarBreakdown.string, "or 3 interest-free payments of 66.67€ with")
+    XCTAssertEqual(twoHundredDollarBreakdown.string, "or pay with")
   }
 
   func testOutOfRangeWithMinimum() {

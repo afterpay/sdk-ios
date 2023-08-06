@@ -40,13 +40,8 @@ struct CurrencyFormatter {
 
     let usCurrencySymbol = Locales.enUS.currencySymbol
     let gbCurrencySymbol = Locales.enGB.currencySymbol
-    let euCurrencySymbol = Locales.frFR.currencySymbol
 
-    if clientLocale == Locales.enUS {
-      if currencySymbol == euCurrencySymbol {
-        formatter.positiveFormat = "#,##0.00¤"
-      }
-    } else if clientLocale.currencyCode != locale.currencyCode {
+    if clientLocale != Locales.enUS && clientLocale.currencyCode != locale.currencyCode {
       formatter.currencySymbol = currencySymbol
 
       switch currencySymbol {
@@ -55,8 +50,6 @@ struct CurrencyFormatter {
         formatter.positiveFormat = "¤#,##0.00 ¤¤"
       case gbCurrencySymbol:
         formatter.positiveFormat = "¤#,##0.00"
-      case euCurrencySymbol:
-        formatter.positiveFormat = "#,##0.00¤"
       default:
         formatter.positiveFormat = formatter.positiveFormat
       }
