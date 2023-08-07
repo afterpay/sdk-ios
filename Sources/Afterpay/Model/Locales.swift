@@ -16,9 +16,6 @@ enum Locales: Hashable {
   static let enGB = Locale(identifier: "en_GB")
   static let enNZ = Locale(identifier: "en_NZ")
   static let enUS = Locale(identifier: "en_US")
-  static let frFR = Locale(identifier: "fr_FR")
-  static let itIT = Locale(identifier: "it_IT")
-  static let esES = Locale(identifier: "es_ES")
   static let enUSposix = Locale(identifier: "en_US_POSIX")
 
   static let validArray: [Locale] = [
@@ -28,9 +25,6 @@ enum Locales: Hashable {
     enGB,
     enNZ,
     enUS,
-    frFR,
-    itIT,
-    esES,
   ]
 }
 
@@ -40,9 +34,6 @@ private let validRegionLanguages = [
   Locales.enGB.regionCode!: [Locales.enGB],
   Locales.enNZ.regionCode!: [Locales.enNZ],
   Locales.enUS.regionCode!: [Locales.enUS],
-  Locales.frFR.regionCode!: [Locales.frFR, Locales.enGB],
-  Locales.itIT.regionCode!: [Locales.itIT, Locales.enGB],
-  Locales.esES.regionCode!: [Locales.esES, Locales.enGB],
 ]
 
 internal func getRegionLanguage(merchantLocale: Locale, clientLocale: Locale) -> Locale? {

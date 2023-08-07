@@ -416,7 +416,7 @@ internal var brand: Brand {
 }
 
 public var enabled: Bool {
-  language != nil
+  return language != nil && getConfiguration()?.locale != nil
 }
 
 public var cashAppClientId: String? {

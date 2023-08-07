@@ -16,9 +16,6 @@ private let localeLanguages: [Locale: Drawables] = [
   Locales.enUSposix: .enAfterpay,
   Locales.enCA: .enAfterpay,
   Locales.frCA: .frCA,
-  Locales.frFR: .fr,
-  Locales.itIT: .it,
-  Locales.esES: .es,
 ]
 
 enum Drawables {

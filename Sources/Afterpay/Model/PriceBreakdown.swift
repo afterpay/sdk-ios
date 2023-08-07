@@ -81,5 +81,5 @@ struct PriceBreakdown {
 }
 
 internal func getNumberOfInstalments(currencyCode: String?) -> Decimal {
-  return currencyCode == "EUR" && currencyCode != nil ? 3 : 4
+  return 4
 }

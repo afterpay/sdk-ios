@@ -16,9 +16,6 @@ private let localeLanguages: [Locale: Strings] = [
   Locales.enUSposix: .en,
   Locales.enCA: .en,
   Locales.frCA: .frCA,
-  Locales.frFR: .fr,
-  Locales.itIT: .it,
-  Locales.esES: .es,
 ]
 
 enum Strings {
