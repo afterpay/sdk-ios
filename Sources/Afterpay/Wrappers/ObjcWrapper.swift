@@ -146,6 +146,7 @@ public final class ObjcWrapper: NSObject {
     currencyCode: String,
     locale: Locale,
     environment: String,
+    consumerLocale: Locale,
     error: UnsafeMutablePointer<NSError>
   ) {
     let environment = Environment(rawValue: environment) ?? .production
@@ -155,7 +156,8 @@ public final class ObjcWrapper: NSObject {
         maximumAmount: maximumAmount,
         currencyCode: currencyCode,
         locale: locale,
-        environment: environment)
+        environment: environment,
+        consumerLocale: consumerLocale)
     }
 
     switch result {
