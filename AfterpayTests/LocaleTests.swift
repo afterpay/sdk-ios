@@ -12,7 +12,7 @@ import XCTest
 private struct LocaleCombination {
   let merchantLocale: Locale
   let consumerLocale: Locale
-  let valid: Bool
+  var valid: Bool?
 }
 
 class LocaleTests: XCTestCase {
@@ -24,9 +24,10 @@ class LocaleTests: XCTestCase {
   let enAuLocale = Locale(identifier: "en_AU")
   let enCaLocale = Locale(identifier: "en_CA")
   let frCaLocale = Locale(identifier: "fr_CA")
+
   let frFrLocale = Locale(identifier: "fr_FR")
   let esEsLocale = Locale(identifier: "es_ES")
-
+  let itITLocale = Locale(identifier: "it_IT")
   let esUsLocale = Locale(identifier: "es_US")
   let jpJPLocale = Locale(identifier: "jp_JP")
 
@@ -57,14 +58,6 @@ class LocaleTests: XCTestCase {
       LocaleCombination(merchantLocale: frCaLocale, consumerLocale: frCaLocale, valid: true),
       LocaleCombination(merchantLocale: frCaLocale, consumerLocale: frFrLocale, valid: true),
       LocaleCombination(merchantLocale: frCaLocale, consumerLocale: jpJPLocale, valid: false),
-
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: frFrLocale, valid: true),
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: enAuLocale, valid: true),
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: esUsLocale, valid: false),
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: esEsLocale, valid: false),
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: frCaLocale, valid: true),
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: enUsLocale, valid: true),
-      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: jpJPLocale, valid: false),
     ]
 
     for combination in localeCombinations {
@@ -85,6 +78,36 @@ class LocaleTests: XCTestCase {
         combination.valid,
         "Merchant: \(combination.merchantLocale), Consumer: \(combination.consumerLocale)"
       )
+    }
+  }
+
+  func testInvalidMerchantLocaleCombinations() {
+    let invalidMerchantLocales: [LocaleCombination] = [
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: frFrLocale),
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: enAuLocale),
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: esUsLocale),
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: esEsLocale),
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: frCaLocale),
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: enUsLocale),
+      LocaleCombination(merchantLocale: frFrLocale, consumerLocale: jpJPLocale),
+
+      LocaleCombination(merchantLocale: esEsLocale, consumerLocale: esEsLocale),
+      LocaleCombination(merchantLocale: itITLocale, consumerLocale: itITLocale),
+    ]
+
+    for combination in invalidMerchantLocales {
+      XCTAssertThrowsError(
+        try Configuration(
+          minimumAmount: one,
+          maximumAmount: oneThousand,
+          currencyCode: usdCode,
+          locale: combination.merchantLocale,
+          environment: .sandbox,
+          consumerLocale: combination.consumerLocale
+        )
+      ) { error in
+        XCTAssertEqual(error as? ConfigurationError, .invalidLocale(combination.merchantLocale))
+      }
     }
   }
 }
