@@ -56,7 +56,8 @@ final class ExampleUITests: XCTestCase {
     textField.typeText("444")
     app.buttons["Update"].tap()
 
-    XCTAssertTrue(webViewText.label.contains(#"{"amount":"444","currency":"USD"}"#))
+    XCTAssertTrue(webViewText.label.contains(#""amount":"444""#))
+    XCTAssertTrue(webViewText.label.contains(#""currency":"USD""#))
   }
 
 }
