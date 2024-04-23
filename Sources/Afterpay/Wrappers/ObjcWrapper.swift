@@ -173,8 +173,8 @@ public final class ObjcWrapper: NSObject {
   // Cash App
   // swiftlint:disable type_name
 
-  @objc static var cashAppClientId: String {
-    Afterpay.cashAppClientId ?? ""
+  @objc static var cashAppClientId: String? {
+    Afterpay.cashAppClientId
   }
 
   // Cash App signing
