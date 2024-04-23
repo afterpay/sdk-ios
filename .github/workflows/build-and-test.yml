@@ -17,7 +17,7 @@ jobs:
     runs-on: macos-latest
 
     env:
-      destination: platform=iOS Simulator,name=iPhone 15,OS=17.0
+      destination: platform=iOS Simulator,name=iPhone 15,OS=17.4
       example-scheme: Example
       example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
