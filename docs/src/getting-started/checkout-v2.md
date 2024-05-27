@@ -17,9 +17,6 @@ nav_order: 3
 {:toc}
 </details>
 
-{: .alert }
-Checkout v2 is not available at this time for the following regions: France, Italy, Spain.
-
 Checkout version 2 allows you to load the checkout token on demand via `didCommenceCheckout` while presenting a loading view. It also supports `express` checkout features and callbacks which can either be handled in line or via a checkout handler object.
 
 {: .note }
@@ -120,6 +117,52 @@ final class MyViewController: UIViewController {
     }
   }
 }
+```
+
+## Sequence Diagram
+
+The below diagram describes the happy path.
+
+``` mermaid
+sequenceDiagram
+  participant App
+  participant Afterpay SDK
+  participant Proxy Server
+  participant Afterpay API
+
+  Note over App,Afterpay API: Setup
+
+  App->>Afterpay SDK: Configure the SDK
+
+  App->>Afterpay SDK: Setup checkout handlers
+
+  Note over App,Afterpay API: Create checkout and Capture
+
+  App->>Proxy Server: Get Checkout Token Request
+
+  Proxy Server->>Afterpay API: Create Checkout Request
+  Note over Proxy Server,Afterpay API: Ensure same environment<br>as Afterpay SDK config
+
+  Afterpay API-->>Proxy Server: Create Checkout Response
+  Note over Afterpay API,Proxy Server: Body contains a Token
+
+  Proxy Server-->>App: Get Token Response
+
+  App->>Afterpay SDK: Launch the checkout<br>with the Token
+
+  Note over App,Afterpay API: Consumer confirms Afterpay checkout
+
+  Afterpay SDK-->>App: Checkout result
+
+  App->>Proxy Server: Capture request
+
+  Proxy Server->>Afterpay API: Capture request
+
+  Afterpay API-->>Proxy Server: Capture response
+
+  Proxy Server-->>App: Capture Response
+
+  App->>App: Handle response
 ```
 
 [example-server-param]: https://github.com/afterpay/sdk-example-server/blob/5781eadb25d7f5c5d872e754fdbb7214a8068008/src/routes/checkout.ts#L28

@@ -206,6 +206,83 @@ Afterpay.validateCashAppOrder(jwt: cashData.jwt, customerId: customerId, grantId
 
 The approved customer request will have grants associated with it which can be used with Afterpay’s Capture Payment API. Pass the `grantId` along with the token to capture using a server-to-server request.
 
+## Sequence Diagram
+
+The below diagram describes the happy path.
+
+``` mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#00c846',
+      'primaryTextColor': '#FFFFFF',
+      'primaryBorderColor': '#dfdfdf',
+      'signalTextColor': '#000000',
+      'signalColor': '#000000',
+      'secondaryColor': '#006100',
+      'tertiaryColor': '#fff'
+    }
+  }
+}%%
+
+sequenceDiagram
+  participant App
+  participant Afterpay SDK
+  participant Cash App Pay SDK
+  participant Proxy Server
+
+  participant Afterpay API
+  Note over App,Afterpay API: Setup
+
+  App->>Afterpay SDK: Configure the SDK
+  Note over App,Afterpay SDK: Required for setting environment
+
+  App->>Cash App Pay SDK: Create Cash App Pay instance
+  Note over App,Cash App Pay SDK: Ensure same environment<br>as Afterpay SDK config
+
+  App->>App: Implement<br>deep linking
+
+  App->>Cash App Pay SDK: Register for state updates
+
+  Note over App,Afterpay API: Create Customer Request and Capture
+
+  App->>Proxy Server: Get Token Request
+
+  Proxy Server->>Afterpay API: Create Checkout Request
+  Note over Proxy Server,Afterpay API: Ensure same environment<br>as Afterpay SDK config<br><br>Request body should<br>contain `isCashAppPay: true`
+
+  Afterpay API-->>Proxy Server: Create Checkout Response
+
+  Note over Afterpay API,Proxy Server: Body contains a token
+
+  Proxy Server-->>App: Get Token Response
+
+  App->>Afterpay SDK: Sign the token
+
+  Afterpay SDK->>Afterpay API: Token signing request
+
+  Afterpay API-->>Afterpay SDK: Token signing response
+
+  Afterpay SDK-->>App: Decoded token data
+
+  App->>Cash App Pay SDK: Create a customer request
+
+  App->>Cash App Pay SDK: Authorize the customer request
+
+  App->>Afterpay SDK: Validate the order
+
+  App->>Proxy Server: Upon approved state send capture request
+  Note over App,Proxy Server: Pass the Grant Id (from the approved state)<br>and token in the body
+
+  Proxy Server->>Afterpay API: Capture Payment Request
+
+  Afterpay API-->>Proxy Server: Capture Payment Response
+
+  Proxy Server-->>App: Capture Payment Respnse
+
+  App->>App: Handle payment<br>capture response
+```
 
 [custom-url-schemes]: https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app
 [universal-links]: https://developer.apple.com/ios/universal-links/
