@@ -18,7 +18,8 @@ let configuration = try Configuration(
   maximumAmount: response.maximumAmount.amount,
   currencyCode: response.maximumAmount.currency,
   locale: Locale(identifier: "en_US"),
-  environment: .sandbox
+  environment: .sandbox,
+  consumerLocale: Locale(identifier: "en_US") // optional. overrides device locale
 )
 
 Afterpay.setConfiguration(configuration)
