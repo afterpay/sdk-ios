@@ -107,3 +107,48 @@ struct MyView: View {
 
 }
 ```
+
+## Sequence Diagram
+
+The below diagram describes the happy path.
+
+``` mermaid
+sequenceDiagram
+  participant App
+  participant Afterpay SDK
+  participant Proxy Server
+  participant Afterpay API
+
+  Note over App,Afterpay API: Setup
+
+  App->>Afterpay SDK: Configure the SDK
+  Note over App,Afterpay SDK: Only required if<br>setting consumer locale
+
+  Note over App,Afterpay API: Create checkout and Capture
+
+  App->>Proxy Server: Get Checkout URL Request
+
+  Proxy Server->>Afterpay API: Create Checkout Request
+  Note over Proxy Server,Afterpay API: Ensure same environment<br>as Afterpay SDK config
+
+  Afterpay API-->>Proxy Server: Create Checkout Response
+  Note over Afterpay API,Proxy Server: Body contains a URL
+
+  Proxy Server-->>App: Get URL Response
+
+  App->>Afterpay SDK: Launch the checkout<br>with the URL
+
+  Note over App,Afterpay API: Consumer confirms Afterpay checkout
+
+  Afterpay SDK-->>App: Checkout result
+
+  App->>Proxy Server: Capture request
+
+  Proxy Server->>Afterpay API: Capture request
+
+  Afterpay API-->>Proxy Server: Capture response
+
+  Proxy Server-->>App: Capture Response
+
+  App->>App: Handle response
+```

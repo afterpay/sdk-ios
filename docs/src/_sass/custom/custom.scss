@@ -38,6 +38,10 @@ code {
     color: white;
     display: inline-block;
     padding: 4px;
+
+    &.language-mermaid {
+        display: block;
+    }
 }
 
 img {
