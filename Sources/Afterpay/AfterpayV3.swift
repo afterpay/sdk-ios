@@ -9,6 +9,104 @@
 import Foundation
 import UIKit
 
+// MARK: - Checkout V3 with Cash App Pay
+
+/// Creates a Button Checkout and signs the order for Cash App Pay.
+/// - Parameters:
+///   - consumer: The personal details of the customer, including shipping and billing addresses.
+///   - orderTotal: The order total: `Decimal`s representing the subtotal, tax and shipping.
+///   - items: An optional array of items that will be added to the checkout.
+///   These are not used to calculate the total amount due.
+///   - animated: Pass `true` to animate the presentation; otherwise, pass false.
+///   - configuration: A collection of options and values required to interact with the Afterpay API.
+///   Defaults to the current V3Configuration.
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result,
+///   and returns a `URLSessionDataTask`. Defaults to `URLSession.shared.dataTask`.
+///   - completion: The `CheckoutV3CashAppPayResult` on the main thread.
+public func checkoutV3WithCashAppPay(
+  consumer: CheckoutV3Consumer,
+  orderTotal: OrderTotal,
+  items: [CheckoutV3Item] = [],
+  configuration: CheckoutV3Configuration? = getV3Configuration(),
+  requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
+  completion: @escaping (_ result: CheckoutV3CashAppPayResult) -> Void
+) {
+  guard let configuration = configuration else {
+    return assertionFailure(
+      "For checkoutV3WithCashAppPay to function you must provide a `configuration` object via either "
+      + "`Afterpay.fetchMerchantConfiguration` or `Afterpay.setV3Configuration`"
+    )
+  }
+
+  CashAppPayCheckout.checkoutV3(
+    consumer: consumer,
+    orderTotal: orderTotal,
+    items: items,
+    configuration: configuration,
+    requestHandler: requestHandler) { checkoutResult in
+      switch checkoutResult {
+      case .success(let checkout):
+        signCashAppOrderToken(checkout.token) { signingResult in
+          switch signingResult {
+          case .success(let signingData):
+            let response = CheckoutV3CashAppPayPayload(
+              token: checkout.token,
+              singleUseCardToken: checkout.singleUseCardToken,
+              cashAppSigningData: signingData
+            )
+            completion(.success(data: response))
+          case .failed(let reason):
+            completion(.cancelled(reason: reason))
+          }
+        }
+      case .failure(let error):
+        completion(.failure(error: error))
+      }
+    }
+}
+
+// MARK: - Confirm Checkout V3 with Cash App Pay
+
+/// Confirm the payment with the Cash App Pay CustomerID and GrantID.
+/// - Parameters:
+///   - consumer: The personal details of the customer, including shipping and billing addresses.
+///   - orderTotal: The order total: `Decimal`s representing the subtotal, tax and shipping.
+///   - items: An optional array of items that will be added to the checkout.
+///   These are not used to calculate the total amount due.
+///   - animated: Pass `true` to animate the presentation; otherwise, pass false.
+///   - configuration: A collection of options and values required to interact with the Afterpay API.
+///   - requestHandler: A function that takes a `URLRequest` and a closure to handle the result,
+///   and returns a `URLSessionDataTask`. Defaults to `URLSession.shared.dataTask`.
+///   - completion: The `ConfirmationV3.Response` on the main thread.
+// swiftlint:disable:next function_parameter_count
+public func checkoutV3ConfirmForCashAppPay(
+  token: String,
+  singleUseCardToken: String,
+  cashAppPayCustomerID: String,
+  cashAppPayGrantID: String,
+  jwt: String,
+  configuration: CheckoutV3Configuration? = getV3Configuration(),
+  requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
+  completion: @escaping (Result<ConfirmationV3.CashAppPayResponse, Error>) -> Void
+) {
+  guard let configuration = configuration else {
+    return assertionFailure(
+      "For fetchMerchantConfiguration to function you must provide a `configuration` object via either "
+      + "`Afterpay.fetchMerchantConfiguration` or `Afterpay.setV3Configuration`"
+    )
+  }
+
+  CashAppPayCheckout.checkoutV3Confirm(
+    token: token,
+    singleUseCardToken: singleUseCardToken,
+    cashAppPayCustomerID: cashAppPayCustomerID,
+    cashAppPayGrantID: cashAppPayGrantID,
+    jwt: jwt,
+    configuration: configuration,
+    requestHandler: requestHandler,
+    completion: completion)
+}
+
 // MARK: - Update merchant reference
 
 /// Updates Afterpay's merchant reference for the transaction represented by the provided `tokens`.
@@ -137,6 +235,8 @@ public func presentCheckoutV3Modally(
   viewControllerToPresent = UINavigationController(rootViewController: viewControllerToPresent)
   viewController.present(viewControllerToPresent, animated: animated, completion: nil)
 }
+
+// MARK: - Configuration
 
 private var checkoutV3Configuration: CheckoutV3Configuration?
 

@@ -25,10 +25,13 @@ enum CheckoutV3 {
     let shipping: Contact?
     let billing: Contact?
 
+    let isCashAppPay: Bool
+
     init(
       consumer: CheckoutV3Consumer,
       orderTotal: OrderTotal,
       items: [CheckoutV3Item] = [],
+      isCashAppPay: Bool = false,
       configuration: CheckoutV3Configuration
     ) {
       self.shopDirectoryId = configuration.shopDirectoryId
@@ -60,6 +63,8 @@ enum CheckoutV3 {
 
       self.shipping = Contact(consumer.shippingInformation)
       self.billing = Contact(consumer.billingInformation)
+
+      self.isCashAppPay = isCashAppPay
     }
 
     // MARK: - Inner types
