@@ -10,11 +10,6 @@ import Foundation
 
 extension ConfirmationV3 {
   struct CashAppPayRequest: Encodable {
-    struct CashAppPspInfo: Encodable {
-      let externalCustomerId: String
-      let externalGrantId: String
-      let jwt: String
-    }
     let token: String
     let singleUseCardToken: String
     let cashAppPspInfo: CashAppPspInfo
@@ -23,5 +18,13 @@ extension ConfirmationV3 {
   public struct CashAppPayResponse: Decodable {
     public let paymentDetails: ConfirmationV3.Response.PaymentDetails
     public let cardValidUntil: Date?
+  }
+}
+
+extension ConfirmationV3.CashAppPayRequest {
+  struct CashAppPspInfo: Encodable {
+    let externalCustomerId: String
+    let externalGrantId: String
+    let jwt: String
   }
 }

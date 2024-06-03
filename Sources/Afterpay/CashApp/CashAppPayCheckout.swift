@@ -9,13 +9,16 @@
 import Foundation
 
 class CashAppPayCheckout {
+  private let urlSession: URLSession
   private let configuration: Configuration
   private let completion: (_ result: CashAppSigningResult) -> Void
 
   public init(
+    urlSession: URLSession,
     configuration: Configuration,
     completion: @escaping (_ result: CashAppSigningResult) -> Void
   ) {
+    self.urlSession = urlSession
     self.configuration = configuration
     self.completion = completion
   }
@@ -55,7 +58,7 @@ class CashAppPayCheckout {
     request: URLRequest,
     signingCompletion: @escaping (_ jwt: CashAppSigningResult) -> Void
   ) {
-    URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+    urlSession.dataTask(with: request) { [weak self] data, response, error in
       if error != nil {
         signingCompletion(CashAppSigningResult.failed(reason: .error(error: error!)))
         return
@@ -228,7 +231,6 @@ internal extension CashAppPayCheckout {
     ).resume()
   }
 
-  // swiftlint:disable:next function_parameter_count
   static func checkoutV3(
     consumer: CheckoutV3Consumer,
     orderTotal: OrderTotal,

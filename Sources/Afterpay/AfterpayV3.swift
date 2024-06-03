@@ -28,6 +28,7 @@ public func checkoutV3WithCashAppPay(
   orderTotal: OrderTotal,
   items: [CheckoutV3Item] = [],
   configuration: CheckoutV3Configuration? = getV3Configuration(),
+  urlSession: URLSession = .shared,
   requestHandler: @escaping URLRequestHandler = URLSession.shared.dataTask,
   completion: @escaping (_ result: CheckoutV3CashAppPayResult) -> Void
 ) {
@@ -43,24 +44,25 @@ public func checkoutV3WithCashAppPay(
     orderTotal: orderTotal,
     items: items,
     configuration: configuration,
-    requestHandler: requestHandler) { checkoutResult in
-      switch checkoutResult {
-      case .success(let checkout):
-        signCashAppOrderToken(checkout.token) { signingResult in
-          switch signingResult {
-          case .success(let signingData):
-            let response = CheckoutV3CashAppPayPayload(
-              token: checkout.token,
-              singleUseCardToken: checkout.singleUseCardToken,
-              cashAppSigningData: signingData
-            )
-            completion(.success(data: response))
-          case .failed(let reason):
-            completion(.cancelled(reason: reason))
-          }
+    requestHandler: requestHandler
+  ) { checkoutResult in
+    switch checkoutResult {
+    case .success(let checkout):
+      signCashAppOrderToken(checkout.token, urlSession: urlSession) { signingResult in
+        switch signingResult {
+        case .success(let signingData):
+          let response = CheckoutV3CashAppPayPayload(
+            token: checkout.token,
+            singleUseCardToken: checkout.singleUseCardToken,
+            cashAppSigningData: signingData
+          )
+          completion(.success(data: response))
+        case .failed(let reason):
+          completion(.cancelled(reason: reason))
         }
-      case .failure(let error):
-        completion(.failure(error: error))
+      }
+    case .failure(let error):
+      completion(.failure(error: error))
       }
     }
 }

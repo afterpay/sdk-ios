@@ -240,6 +240,7 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 
 public func signCashAppOrderToken(
   _ token: Token,
+  urlSession: URLSession = .shared,
   completion: @escaping (_ result: CashAppSigningResult) -> Void
 ) {
   guard let configuration = getConfiguration() else {
@@ -253,6 +254,7 @@ public func signCashAppOrderToken(
   }
 
   let cashAppCheckout = CashAppPayCheckout(
+    urlSession: urlSession,
     configuration: configuration,
     completion: completion
   )
