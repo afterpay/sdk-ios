@@ -26,14 +26,14 @@ final class URLSessionDataTaskMock: URLSessionDataTask {
 
 final class URLSessionMock: URLSession {
   typealias RequestDataTaskHandler = (URLRequest) -> (Data?, URLResponse?, Error?)
-  typealias DataTaskHandler = (URL) -> (Data?, URLResponse?, Error?)
+  typealias URLDataTaskHandler = (URL) -> (Data?, URLResponse?, Error?)
   typealias CompletionHandler = (Data?, URLResponse?, Error?) -> Void
 
-  private let dataTaskHandler: DataTaskHandler
+  private let dataTaskHandler: URLDataTaskHandler
   private let requestDataTaskHandler: RequestDataTaskHandler
 
   init(
-    dataTaskHandler: @escaping DataTaskHandler = { _ in (nil, nil, nil) },
+    dataTaskHandler: @escaping URLDataTaskHandler = { _ in (nil, nil, nil) },
     requestDataTaskHandler: @escaping RequestDataTaskHandler = { _ in (nil, nil, nil) }
   ) {
     self.dataTaskHandler = dataTaskHandler
