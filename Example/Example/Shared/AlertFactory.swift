@@ -35,4 +35,11 @@ import UIKit
     return alert
   }
 
+  static func alert(successMessage: String) -> UIAlertController {
+    let alert = UIAlertController(title: "Success", message: nil, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+    alert.message = successMessage
+    return alert
+  }
+
 }
