@@ -11,7 +11,6 @@ import Foundation
 import PayKitUI
 
 final class CartViewController: UIViewController, UITableViewDataSource {
-
   private var tableView: UITableView!
   private let cart: CartDisplay
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
@@ -94,7 +93,6 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         checkoutTypeTextField.bottomAnchor.constraint(equalTo: payButton.topAnchor),
         payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        payButton.bottomAnchor.constraint(equalTo: cashButton.topAnchor),
         cashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         cashButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 8),
@@ -151,7 +149,20 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   }
 
   @objc private func presentPickerController() {
-    let controller = CheckoutPickerViewController(delegate: self)
+    let selectedOption: CheckoutPickerOption?
+    switch event {
+    case .didTapSingleUseCardButton:
+      selectedOption = .button
+    case .didTapSingleUseCardButtonWithCashAppPay:
+      selectedOption = .buttonWithCashAppPay
+    default:
+      selectedOption = nil
+    }
+
+    guard let selectedOption else { return }
+
+    let controller = CheckoutPickerViewController(selectedOption: selectedOption, delegate: self)
+    controller.title = "Configuration"
     present(UINavigationController(rootViewController: controller), animated: true)
   }
 
@@ -239,7 +250,7 @@ extension CartViewController: CheckoutPickerControllerDelegate {
   func didSelectCancel(_ controller: CheckoutPickerViewController) {
     controller.dismiss(animated: true)
   }
-  
+
   func didSelectV3Checkout(_ controller: CheckoutPickerViewController) {
     event = .didTapSingleUseCardButton
     controller.dismiss(animated: true)
