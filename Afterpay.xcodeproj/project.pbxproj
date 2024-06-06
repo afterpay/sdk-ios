@@ -48,6 +48,10 @@
 		557511BF2644CAA50040CC51 /* WKWebView+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */; };
 		557511C12644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */; };
 		55A2D307261BB36C00D8E23A /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2D306261BB36C00D8E23A /* Money.swift */; };
+		5FB958DA2C0A526800137468 /* CheckoutV3CashAppPayResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958D92C0A526800137468 /* CheckoutV3CashAppPayResult.swift */; };
+		5FB958DC2C0A528300137468 /* ConfirmationV3+CashAppPay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */; };
+		5FB958DE2C0E00DC00137468 /* AfterpayV3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */; };
+		5FB958E32C0E126200137468 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958E22C0E126200137468 /* URLSessionMock.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
 		66169312257A06B200DF6CF4 /* CheckoutV2Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66169311257A06B200DF6CF4 /* CheckoutV2Message.swift */; };
@@ -140,6 +144,10 @@
 		557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Cache.swift"; sourceTree = "<group>"; };
 		557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+UserAgent.swift"; sourceTree = "<group>"; };
 		55A2D306261BB36C00D8E23A /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		5FB958D92C0A526800137468 /* CheckoutV3CashAppPayResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV3CashAppPayResult.swift; sourceTree = "<group>"; };
+		5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConfirmationV3+CashAppPay.swift"; sourceTree = "<group>"; };
+		5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayV3Tests.swift; sourceTree = "<group>"; };
+		5FB958E22C0E126200137468 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		6605666224E5199500DA588E /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
 		66169311257A06B200DF6CF4 /* CheckoutV2Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV2Message.swift; sourceTree = "<group>"; };
@@ -233,6 +241,8 @@
 				4509D358294017C500952DAD /* CashAppSigningResponse.swift */,
 				4509D356293FFB5200952DAD /* CashAppPayCheckout.swift */,
 				458E7D36296E1F9D001B696F /* CashAppSigningResult.swift */,
+				5FB958D92C0A526800137468 /* CheckoutV3CashAppPayResult.swift */,
+				5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */,
 			);
 			path = CashApp;
 			sourceTree = "<group>";
@@ -244,6 +254,14 @@
 				551BEDF725F9B95C00FDF9EE /* WidgetView.swift */,
 			);
 			path = Widget;
+			sourceTree = "<group>";
+		};
+		5FB958E12C0E124E00137468 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				5FB958E22C0E126200137468 /* URLSessionMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		661B233024DA87EA0010EBCD /* Views */ = {
@@ -293,6 +311,7 @@
 		665FC5782488766C00A5A93E /* AfterpayTests */ = {
 			isa = PBXGroup;
 			children = (
+				5FB958E12C0E124E00137468 /* Mocks */,
 				556DEBF92653531000BFC277 /* mock-widget-bootstrap.js */,
 				6635B95E24CAA9F000EBB3A6 /* ConfigurationTests.swift */,
 				66C3F7FA25397A810086DD0A /* CurrencyFormatterTests.swift */,
@@ -303,6 +322,7 @@
 				550D48142625539900C0B0C6 /* WidgetStatusTests.swift */,
 				557511BA264259C30040CC51 /* CombineWrapperTests.swift */,
 				4573E4B32A4D4DCB00F5CEAA /* LocaleTests.swift */,
+				5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -610,8 +630,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FB958E32C0E126200137468 /* URLSessionMock.swift in Sources */,
 				551BEDF125F98FA800FDF9EE /* FeaturesTests.swift in Sources */,
 				6635B95F24CAA9F000EBB3A6 /* ConfigurationTests.swift in Sources */,
+				5FB958DE2C0E00DC00137468 /* AfterpayV3Tests.swift in Sources */,
 				66DAAC8D24E109D200127460 /* PriceBreakdownTests.swift in Sources */,
 				550D481B26255D8600C0B0C6 /* WidgetEventTests.swift in Sources */,
 				550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */,
@@ -633,8 +655,10 @@
 				6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */,
 				42087EE727A746F700BE5442 /* MoreInfoOptions.swift in Sources */,
 				66B5458C256B65B7002B3DD5 /* CheckoutHost.swift in Sources */,
+				5FB958DA2C0A526800137468 /* CheckoutV3CashAppPayResult.swift in Sources */,
 				66169312257A06B200DF6CF4 /* CheckoutV2Message.swift in Sources */,
 				45144E7427FD11470061EBE8 /* AfterpayBundleFinder.swift in Sources */,
+				5FB958DC2C0A528300137468 /* ConfirmationV3+CashAppPay.swift in Sources */,
 				666818202591CB9800A2003E /* Alerts.swift in Sources */,
 				45144E7027FCEFA30061EBE8 /* LockupView.swift in Sources */,
 				6689536C24C96CB5005090B4 /* Configuration.swift in Sources */,

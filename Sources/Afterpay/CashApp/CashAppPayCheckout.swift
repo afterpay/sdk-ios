@@ -9,13 +9,16 @@
 import Foundation
 
 class CashAppPayCheckout {
+  private let urlSession: URLSession
   private let configuration: Configuration
   private let completion: (_ result: CashAppSigningResult) -> Void
 
   public init(
+    urlSession: URLSession,
     configuration: Configuration,
     completion: @escaping (_ result: CashAppSigningResult) -> Void
   ) {
+    self.urlSession = urlSession
     self.configuration = configuration
     self.completion = completion
   }
@@ -55,7 +58,7 @@ class CashAppPayCheckout {
     request: URLRequest,
     signingCompletion: @escaping (_ jwt: CashAppSigningResult) -> Void
   ) {
-    URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+    urlSession.dataTask(with: request) { [weak self] data, response, error in
       if error != nil {
         signingCompletion(CashAppSigningResult.failed(reason: .error(error: error!)))
         return
@@ -184,5 +187,81 @@ class CashAppPayCheckout {
         completion(CashAppValidationResult.failed(reason: .unknownError))
       }
     }.resume()
+  }
+}
+
+// MARK: - CheckoutV3
+
+internal extension CashAppPayCheckout {
+  // swiftlint:disable:next function_parameter_count
+  static func checkoutV3Confirm(
+    token: String,
+    singleUseCardToken: String,
+    cashAppPayCustomerID: String,
+    cashAppPayGrantID: String,
+    jwt: String,
+    configuration: CheckoutV3Configuration,
+    requestHandler: @escaping URLRequestHandler,
+    completion: @escaping (Result<ConfirmationV3.CashAppPayResponse, Error>) -> Void
+  ) {
+    let parameters = ConfirmationV3.CashAppPayRequest(
+      token: token,
+      singleUseCardToken: singleUseCardToken,
+      cashAppPspInfo: ConfirmationV3.CashAppPayRequest.CashAppPspInfo(
+        externalCustomerId: cashAppPayCustomerID,
+        externalGrantId: cashAppPayGrantID,
+        jwt: jwt
+      )
+    )
+
+    var request = ApiV3.request(from: configuration.v3CheckoutConfirmationUrl)
+    do {
+      request.httpBody = try JSONEncoder().encode(parameters)
+    } catch {
+      completion(.failure(error))
+    }
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    ApiV3.request(
+      requestHandler, request,
+      type: ConfirmationV3.CashAppPayResponse.self,
+      completion: completion
+    ).resume()
+  }
+
+  static func checkoutV3(
+    consumer: CheckoutV3Consumer,
+    orderTotal: OrderTotal,
+    items: [CheckoutV3Item] = [],
+    configuration: CheckoutV3Configuration,
+    requestHandler: @escaping URLRequestHandler,
+    completion: @escaping (Result<CheckoutV3.Response, Error>) -> Void
+  ) {
+    let parameters =  CheckoutV3.Request(
+      consumer: consumer,
+      orderTotal: orderTotal,
+      items: items,
+      isCashAppPay: true,
+      configuration: configuration
+    )
+
+    var request = ApiV3.request(from: configuration.v3CheckoutUrl)
+    do {
+      request.httpBody = try JSONEncoder().encode(parameters)
+    } catch {
+      completion(.failure(error))
+      return
+    }
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    ApiV3.request(
+      requestHandler, request,
+      type: CheckoutV3.Response.self,
+      completion: completion
+    ).resume()
   }
 }

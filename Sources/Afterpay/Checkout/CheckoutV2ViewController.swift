@@ -17,8 +17,7 @@ final class CheckoutV2ViewController:
   UIAdaptivePresentationControllerDelegate,
   WKNavigationDelegate,
   WKScriptMessageHandler,
-  WKUIDelegate
-{ // swiftlint:disable:this opening_brace
+  WKUIDelegate {
 
   private let configuration: Configuration
   private let options: CheckoutV2Options

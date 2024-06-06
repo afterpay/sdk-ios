@@ -13,8 +13,7 @@ import WebKit
 final class CheckoutV3ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
-  WKNavigationDelegate
-{ // swiftlint:disable:this opening_brace
+  WKNavigationDelegate {
 
   private let checkout: CheckoutV3.Request
   private let buyNow: Bool

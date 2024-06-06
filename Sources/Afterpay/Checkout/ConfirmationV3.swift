@@ -9,7 +9,7 @@
 import Foundation
 
 // swiftlint:disable nesting
-enum ConfirmationV3 {
+public enum ConfirmationV3 {
 
   struct Request: Encodable {
     let token: String
@@ -17,14 +17,14 @@ enum ConfirmationV3 {
     let ppaConfirmToken: String
   }
 
-  struct Response: Decodable {
+  public struct Response: Decodable {
     let paymentDetails: PaymentDetails
     let cardValidUntil: Date?
     let authToken: String
 
-    struct PaymentDetails: Decodable {
-      let virtualCard: Card?
-      let virtualCardToken: TokenizedCard?
+    public struct PaymentDetails: Decodable {
+      public let virtualCard: Card?
+      public let virtualCardToken: TokenizedCard?
     }
   }
 

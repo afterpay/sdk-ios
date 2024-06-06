@@ -13,8 +13,7 @@ import WebKit
 final class CheckoutWebViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,
-  WKNavigationDelegate
-{ // swiftlint:disable:this opening_brace
+  WKNavigationDelegate {
 
   private let checkoutUrl: URL
   private let shouldLoadRedirectUrls: Bool
