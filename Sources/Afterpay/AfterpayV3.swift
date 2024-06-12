@@ -242,7 +242,7 @@ public func presentCheckoutV3Modally(
 
 private var checkoutV3Configuration: CheckoutV3Configuration?
 
-public func setV3Configuration(_ configuration: CheckoutV3Configuration) {
+public func setV3Configuration(_ configuration: CheckoutV3Configuration?) {
   checkoutV3Configuration = configuration
 }
 

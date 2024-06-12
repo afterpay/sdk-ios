@@ -243,7 +243,12 @@ public func signCashAppOrderToken(
   urlSession: URLSession = .shared,
   completion: @escaping (_ result: CashAppSigningResult) -> Void
 ) {
-  guard let configuration = getConfiguration() else {
+
+  guard
+    getConfiguration() != nil || getV3Configuration() != nil,
+    let cashAppSigningURL = getConfiguration()?.environment.cashAppSigningURL ??
+      getV3Configuration()?.environment.cashAppSigningURL
+  else {
     return assertionFailure(
       "Configuration must be provided before using `signCashAppOrder`"
     )
@@ -255,7 +260,7 @@ public func signCashAppOrderToken(
 
   let cashAppCheckout = CashAppPayCheckout(
     urlSession: urlSession,
-    configuration: configuration,
+    cashAppSigningURL: cashAppSigningURL,
     completion: completion
   )
 
@@ -418,7 +423,9 @@ internal var brand: Brand {
 }
 
 public var enabled: Bool {
-  return language != nil && getConfiguration()?.locale != nil
+  let enabledByV2Config = language != nil && getConfiguration()?.locale != nil
+  let enabledByV3Config = language != nil  && getV3Configuration()?.region == .US
+  return enabledByV2Config || enabledByV3Config
 }
 
 public var cashAppClientId: String? {

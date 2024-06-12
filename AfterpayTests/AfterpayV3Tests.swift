@@ -21,19 +21,12 @@ final class AfterpayV3Tests: XCTestCase {
       environment: .production
     )
 
-    let v2Configuration = try Configuration(
-      minimumAmount: nil,
-      maximumAmount: "150",
-      currencyCode: "USD",
-      locale: Locale(identifier: "en_US"),
-      environment: .production
-    )
-    Afterpay.setConfiguration(v2Configuration)
+    Afterpay.setV3Configuration(v3Configuration)
   }
 
   override func tearDown() {
     v3Configuration = nil
-    Afterpay.setConfiguration(nil)
+    Afterpay.setV3Configuration(nil)
     super.tearDown()
   }
 
