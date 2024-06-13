@@ -52,6 +52,7 @@
 		5FB958DC2C0A528300137468 /* ConfirmationV3+CashAppPay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */; };
 		5FB958DE2C0E00DC00137468 /* AfterpayV3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */; };
 		5FB958E32C0E126200137468 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958E22C0E126200137468 /* URLSessionMock.swift */; };
+		5FBAABA02C1B3109003558AF /* CashAppPayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAAB9F2C1B3109003558AF /* CashAppPayTests.swift */; };
 		6602EF0F25358A8000A0468C /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6602EF0E25358A8000A0468C /* ColorScheme.swift */; };
 		6605666324E5199500DA588E /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6605666224E5199500DA588E /* Locales.swift */; };
 		66169312257A06B200DF6CF4 /* CheckoutV2Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66169311257A06B200DF6CF4 /* CheckoutV2Message.swift */; };
@@ -148,6 +149,7 @@
 		5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConfirmationV3+CashAppPay.swift"; sourceTree = "<group>"; };
 		5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayV3Tests.swift; sourceTree = "<group>"; };
 		5FB958E22C0E126200137468 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
+		5FBAAB9F2C1B3109003558AF /* CashAppPayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAppPayTests.swift; sourceTree = "<group>"; };
 		6602EF0E25358A8000A0468C /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		6605666224E5199500DA588E /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
 		66169311257A06B200DF6CF4 /* CheckoutV2Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV2Message.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				557511BA264259C30040CC51 /* CombineWrapperTests.swift */,
 				4573E4B32A4D4DCB00F5CEAA /* LocaleTests.swift */,
 				5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */,
+				5FBAAB9F2C1B3109003558AF /* CashAppPayTests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				550D48152625539900C0B0C6 /* WidgetStatusTests.swift in Sources */,
 				557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */,
 				66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */,
+				5FBAABA02C1B3109003558AF /* CashAppPayTests.swift in Sources */,
 				4573E4B42A4D4DCB00F5CEAA /* LocaleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
