@@ -244,11 +244,7 @@ public func signCashAppOrderToken(
   completion: @escaping (_ result: CashAppSigningResult) -> Void
 ) {
 
-  guard
-    getConfiguration() != nil || getV3Configuration() != nil,
-    let cashAppSigningURL = getConfiguration()?.environment.cashAppSigningURL ??
-      getV3Configuration()?.environment.cashAppSigningURL
-  else {
+  guard let configuration = getConfiguration() else {
     return assertionFailure(
       "Configuration must be provided before using `signCashAppOrder`"
     )
@@ -258,13 +254,11 @@ public func signCashAppOrderToken(
     return
   }
 
-  let cashAppCheckout = CashAppPayCheckout(
+  CashAppPayCheckout.signCashAppOrderToken(
+    token,
+    cashAppSigningURL: configuration.environment.cashAppSigningURL,
     urlSession: urlSession,
-    cashAppSigningURL: cashAppSigningURL,
-    completion: completion
-  )
-
-  cashAppCheckout.signToken(token: token)
+    completion: completion)
 }
 
 public func validateCashAppOrder(
@@ -423,13 +417,15 @@ internal var brand: Brand {
 }
 
 public var enabled: Bool {
-  let enabledByV2Config = language != nil && getConfiguration()?.locale != nil
-  let enabledByV3Config = language != nil  && getV3Configuration()?.region == .US
-  return enabledByV2Config || enabledByV3Config
+  return language != nil && getConfiguration()?.locale != nil
 }
 
 public var cashAppClientId: String? {
   getConfiguration()?.environment.cashAppClientId
+}
+
+public var checkoutV3CashAppClientId: String? {
+  getV3Configuration()?.environment.cashAppClientId
 }
 
 public var environment: Environment? {

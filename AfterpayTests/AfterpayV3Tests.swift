@@ -117,6 +117,10 @@ final class AfterpayV3Tests: XCTestCase {
 
     waitForExpectations(timeout: 0.5)
   }
+
+  func testCashAppClientIdForV3() {
+    XCTAssertEqual(Afterpay.checkoutV3CashAppClientId, "CA-CI_AFTERPAY")
+  }
 }
 
 // MARK: - Private

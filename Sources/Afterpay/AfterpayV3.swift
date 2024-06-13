@@ -48,7 +48,11 @@ public func checkoutV3WithCashAppPay(
   ) { checkoutResult in
     switch checkoutResult {
     case .success(let checkout):
-      signCashAppOrderToken(checkout.token, urlSession: urlSession) { signingResult in
+      CashAppPayCheckout.signCashAppOrderToken(
+        checkout.token,
+        cashAppSigningURL: configuration.environment.cashAppSigningURL,
+        urlSession: urlSession
+      ) { signingResult in
         switch signingResult {
         case .success(let signingData):
           let response = CheckoutV3CashAppPayPayload(

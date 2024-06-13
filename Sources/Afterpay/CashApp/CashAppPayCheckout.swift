@@ -264,4 +264,18 @@ internal extension CashAppPayCheckout {
       completion: completion
     ).resume()
   }
+
+  static func signCashAppOrderToken(
+    _ token: Token,
+    cashAppSigningURL: String,
+    urlSession: URLSession = .shared,
+    completion: @escaping (_ result: CashAppSigningResult) -> Void
+  ) {
+    let cashAppCheckout = CashAppPayCheckout(
+      urlSession: urlSession,
+      cashAppSigningURL: cashAppSigningURL,
+      completion: completion
+    )
+    cashAppCheckout.signToken(token: token)
+  }
 }
