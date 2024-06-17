@@ -48,6 +48,9 @@
 		557511BF2644CAA50040CC51 /* WKWebView+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */; };
 		557511C12644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */; };
 		55A2D307261BB36C00D8E23A /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2D306261BB36C00D8E23A /* Money.swift */; };
+		5F4336942C1FC3F700ECD0DE /* CheckoutV3RequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4336932C1FC3F700ECD0DE /* CheckoutV3RequestTests.swift */; };
+		5F4336982C1FC48C00ECD0DE /* KeyedEncodingContainerProtocolExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4336972C1FC48C00ECD0DE /* KeyedEncodingContainerProtocolExtensionTests.swift */; };
+		5F4336992C1FC8E600ECD0DE /* KeyedEncodingContainerProtocol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4336952C1FC46300ECD0DE /* KeyedEncodingContainerProtocol+Extensions.swift */; };
 		5FB958DA2C0A526800137468 /* CheckoutV3CashAppPayResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958D92C0A526800137468 /* CheckoutV3CashAppPayResult.swift */; };
 		5FB958DC2C0A528300137468 /* ConfirmationV3+CashAppPay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */; };
 		5FB958DE2C0E00DC00137468 /* AfterpayV3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */; };
@@ -145,6 +148,9 @@
 		557511BE2644CAA50040CC51 /* WKWebView+Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Cache.swift"; sourceTree = "<group>"; };
 		557511C02644D0890040CC51 /* WKWebViewConfiguration+UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+UserAgent.swift"; sourceTree = "<group>"; };
 		55A2D306261BB36C00D8E23A /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		5F4336932C1FC3F700ECD0DE /* CheckoutV3RequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV3RequestTests.swift; sourceTree = "<group>"; };
+		5F4336952C1FC46300ECD0DE /* KeyedEncodingContainerProtocol+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedEncodingContainerProtocol+Extensions.swift"; sourceTree = "<group>"; };
+		5F4336972C1FC48C00ECD0DE /* KeyedEncodingContainerProtocolExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedEncodingContainerProtocolExtensionTests.swift; sourceTree = "<group>"; };
 		5FB958D92C0A526800137468 /* CheckoutV3CashAppPayResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutV3CashAppPayResult.swift; sourceTree = "<group>"; };
 		5FB958DB2C0A528300137468 /* ConfirmationV3+CashAppPay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConfirmationV3+CashAppPay.swift"; sourceTree = "<group>"; };
 		5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterpayV3Tests.swift; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 				45144E7127FD10E00061EBE8 /* AfterpayAssetProvider.swift */,
 				45144E7327FD11470061EBE8 /* AfterpayBundleFinder.swift */,
 				4509D35A2940192400952DAD /* JWT.swift */,
+				5F4336952C1FC46300ECD0DE /* KeyedEncodingContainerProtocol+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -326,6 +333,8 @@
 				4573E4B32A4D4DCB00F5CEAA /* LocaleTests.swift */,
 				5FB958DD2C0E00DC00137468 /* AfterpayV3Tests.swift */,
 				5FBAAB9F2C1B3109003558AF /* CashAppPayTests.swift */,
+				5F4336932C1FC3F700ECD0DE /* CheckoutV3RequestTests.swift */,
+				5F4336972C1FC48C00ECD0DE /* KeyedEncodingContainerProtocolExtensionTests.swift */,
 			);
 			path = AfterpayTests;
 			sourceTree = "<group>";
@@ -643,7 +652,9 @@
 				557511BB264259C30040CC51 /* CombineWrapperTests.swift in Sources */,
 				66C3F7FB25397A810086DD0A /* CurrencyFormatterTests.swift in Sources */,
 				5FBAABA02C1B3109003558AF /* CashAppPayTests.swift in Sources */,
+				5F4336942C1FC3F700ECD0DE /* CheckoutV3RequestTests.swift in Sources */,
 				4573E4B42A4D4DCB00F5CEAA /* LocaleTests.swift in Sources */,
+				5F4336982C1FC48C00ECD0DE /* KeyedEncodingContainerProtocolExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,6 +710,7 @@
 				55432830263A61C4005512E4 /* CombineWrapper.swift in Sources */,
 				42DA4F9826E0740500204E75 /* IntroText.swift in Sources */,
 				4509D351293473F500952DAD /* CompactBadgeView.swift in Sources */,
+				5F4336992C1FC8E600ECD0DE /* KeyedEncodingContainerProtocol+Extensions.swift in Sources */,
 				45D406D127FE4B67009AA4EE /* LogoView.swift in Sources */,
 				157E88D125CBCA49007E54C4 /* Result+Fold.swift in Sources */,
 				55A2D307261BB36C00D8E23A /* Money.swift in Sources */,

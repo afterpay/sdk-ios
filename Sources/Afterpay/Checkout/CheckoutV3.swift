@@ -67,6 +67,37 @@ enum CheckoutV3 {
       self.isCashAppPay = isCashAppPay
     }
 
+    // MARK: - Encoding
+
+    enum CodingKeys: CodingKey {
+      case shopDirectoryId
+      case shopDirectoryMerchantId
+      case amount
+      case shippingAmount
+      case taxAmount
+      case items
+      case consumer
+      case merchant
+      case shipping
+      case billing
+      case isCashAppPay
+    }
+
+    func encode(to encoder: any Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(shopDirectoryId, forKey: .shopDirectoryId)
+      try container.encode(shopDirectoryMerchantId, forKey: .shopDirectoryMerchantId)
+      try container.encode(amount, forKey: .amount)
+      try container.encodeIfPresent(shippingAmount, forKey: .shippingAmount)
+      try container.encodeIfPresent(taxAmount, forKey: .taxAmount)
+      try container.encode(items, forKey: .items)
+      try container.encode(consumer, forKey: .consumer)
+      try container.encode(merchant, forKey: .merchant)
+      try container.encodeIfPresent(shipping, forKey: .shipping)
+      try container.encodeIfPresent(billing, forKey: .billing)
+      try container.encodeIfTrue(isCashAppPay, forKey: .isCashAppPay)
+    }
+
     // MARK: - Inner types
 
     struct Item: Encodable {
