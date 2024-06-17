@@ -30,14 +30,7 @@ final class PurchaseLogicController {
     case showSuccessWithMessage(String, Token)
     case showCashSuccess(String, String, [CustomerRequest.Grant])
 
-    case afterpayCheckoutV3WithCashAppPay(consumer: Consumer, cart: CartDisplay)
-    case confirmAfterpayCheckoutV3WithCashAppPay(
-      token: Token,
-      singleUseCardToke: Token,
-      customerID: String,
-      grantID: String,
-      jwt: String
-    )
+    case showSuccessForV3WithCashAppPay(String, ConfirmationV3.CashAppPayResponse)
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
@@ -82,6 +75,8 @@ final class PurchaseLogicController {
     }
   }
 
+  private let buttonCashAppPayCheckout = ButtonCashAppPayCheckout()
+
   init(
     checkoutResponseProvider: @escaping CheckoutResponseProvider,
     configurationProvider: @escaping ConfigurationProvider,
@@ -109,8 +104,8 @@ final class PurchaseLogicController {
     checkoutV2Options[keyPath: option] = !currentValue
   }
 
-  func toggleExpressCheckout() {
-    expressCheckout.toggle()
+  func setExpressCheckoutEnabled(_ isEnabled: Bool) {
+    expressCheckout = isEnabled
   }
 
   func buildCart() -> CartDisplay {
@@ -144,10 +139,11 @@ final class PurchaseLogicController {
   }
 
   func payWithAfterpayV3WithCashAppPay() {
-    commandHandler(.afterpayCheckoutV3WithCashAppPay(
+    buttonCashAppPayCheckout.delegate = self
+    buttonCashAppPayCheckout.checkoutV3(
       consumer: Consumer(email: email),
-      cart: buildCart()
-    ))
+      cartTotal: buildCart().total
+    )
   }
 
   func payWithCashApp() {
@@ -162,8 +158,6 @@ final class PurchaseLogicController {
   private var cashRequest: CustomerRequest?
 
   static var cashData: CashAppSigningData?
-
-  private(set) var checkoutV3CashAppPayPayload: CheckoutV3CashAppPayPayload?
 
   private lazy var paykit: CashAppPay? = {
     guard let clientId = Afterpay.cashAppClientId else {
@@ -213,28 +207,6 @@ final class PurchaseLogicController {
         print("didn't sign cash app order: \(reason)")
       }
     }
-  }
-
-  func doCap(cashAppPayload: CheckoutV3CashAppPayPayload) {
-    self.checkoutV3CashAppPayPayload = cashAppPayload
-
-    paykit?.createCustomerRequest(
-      params: CreateCustomerRequestParams(
-        actions: [
-          .oneTimePayment(
-            scopeID: cashAppPayload.cashAppSigningData.brandId,
-            money: Money(
-              amount: cashAppPayload.cashAppSigningData.amount,
-              currency: .USD
-            )
-          ),
-        ],
-        channel: .IN_APP,
-        redirectURL: URL(string: "aftersnack://callback")!, // the cashData.redirectUri object could be used here
-        referenceID: nil,
-        metadata: nil
-      )
-    )
   }
 
   func retrieveCashAppToken(cashButton: CashAppPayButton? = nil) {
@@ -360,29 +332,19 @@ extension PurchaseLogicController: CashAppPayObserver {
 
     switch state {
     case .notStarted,
-        .creatingCustomerRequest,
+      .creatingCustomerRequest,
         .updatingCustomerRequest,
         .redirecting,
         .polling,
         .apiError,
         .integrationError,
         .networkError,
-        .unexpectedError:
+        .unexpectedError,
+        .refreshing:
       return
     case .readyToAuthorize(let request):
       setCashButtonEnabled(true)
       cashRequest = request
-    case .approved(request: let request, grants: let grants) where checkoutV3CashAppPayPayload != nil:
-      commandHandler(
-        .confirmAfterpayCheckoutV3WithCashAppPay(
-          token: checkoutV3CashAppPayPayload!.token,
-          singleUseCardToke: checkoutV3CashAppPayPayload!.singleUseCardToken,
-          customerID: request.customerProfile!.id,
-          grantID: grants.first!.id,
-          jwt: checkoutV3CashAppPayPayload!.cashAppSigningData.jwt
-        )
-      )
-      checkoutV3CashAppPayPayload = nil
     case .approved(request: let request, grants: let grants):
       if
         PurchaseLogicController.cashData == nil ||
@@ -423,7 +385,29 @@ extension PurchaseLogicController: CashAppPayObserver {
       }
     case .declined:
       retrieveCashAppToken()
-      checkoutV3CashAppPayPayload = nil
+    }
+  }
+}
+
+// MARK: - ButtonCashAppPayCheckoutDelegate
+
+extension PurchaseLogicController: ButtonCashAppPayCheckoutDelegate {
+  func didFinish(result: Result<ConfirmationV3.CashAppPayResponse, ButtonCashAppPayError>) {
+    switch result {
+    case .success(let data):
+      commandHandler(.showSuccessForV3WithCashAppPay("Success", data))
+    case let .failure(.checkout(error: error)):
+      commandHandler(.showAlertForErrorMessage("V3 Checkout: error \(error)"))
+    case let .failure(.checkoutReason(reason)):
+      commandHandler(.showAlertForErrorMessage("V3 Checkout: reason \(reason)"))
+    case .failure(.customerRequestMissingGrant):
+      commandHandler(.showAlertForErrorMessage("Cash App Pay: missing grant"))
+    case .failure(.customerRequestDeclined):
+      commandHandler(.showAlertForErrorMessage("Cash App Pay: declined"))
+    case let .failure(.customerRequest(error: error)):
+      commandHandler(.showAlertForErrorMessage("Cash App Pay: error \(error)"))
+    case let .failure(.confirmation(error: error)):
+      commandHandler(.showAlertForErrorMessage("Confirmation: error \(error)"))
     }
   }
 }

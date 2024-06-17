@@ -10,15 +10,13 @@ import SwiftUI
 
 protocol CheckoutPickerControllerDelegate: AnyObject {
   func didSelectCancel(_ controller: CheckoutPickerViewController)
-  func didSelectV3Checkout(_ controller: CheckoutPickerViewController)
-  func didSelectV3CheckoutWithCashAppPay(_ controller: CheckoutPickerViewController)
+  func didSelectCheckoutOption(_ controller: CheckoutPickerViewController, option: CheckoutPickerOption)
 }
 
 enum CheckoutPickerOption {
-  // Checkout V3
-  case button
-  // Checkout V3 With Cash App Pay
-  case buttonWithCashAppPay
+  case v1
+  case v2
+  case v3
 }
 
 final class CheckoutPickerViewController: UIViewController {
@@ -83,13 +81,9 @@ final class CheckoutPickerViewController: UIViewController {
 extension CheckoutPickerViewController {
   private func makePickerViewModel() -> PickerViewModel {
     PickerViewModel(
-      onButtonTapped: { [weak self] in
+      onButtonTapped: { [weak self] option in
         guard let self else { return }
-        delegate?.didSelectV3Checkout(self)
-      },
-      onButtonWithCashAppPayTapped: { [weak self] in
-        guard let self else { return }
-        delegate?.didSelectV3CheckoutWithCashAppPay(self)
+        delegate?.didSelectCheckoutOption(self, option: option)
       },
       selectedOption: selectedOption
     )
@@ -98,8 +92,7 @@ extension CheckoutPickerViewController {
 
 extension CheckoutPickerViewController {
   struct PickerViewModel {
-    let onButtonTapped: () -> Void
-    let onButtonWithCashAppPayTapped: () -> Void
+    let onButtonTapped: (CheckoutPickerOption) -> Void
     let selectedOption: CheckoutPickerOption
   }
 
@@ -110,14 +103,19 @@ extension CheckoutPickerViewController {
     var body: some View {
       VStack {
         CustomButton(
-          "Button Checkout",
-          isSelected: viewModel.selectedOption == .button,
-          action: viewModel.onButtonTapped
+          "V1",
+          isSelected: viewModel.selectedOption == .v1,
+          action: { viewModel.onButtonTapped(.v1) }
         )
         CustomButton(
-          "Button Checkout With Cash App Pay",
-          isSelected: viewModel.selectedOption == .buttonWithCashAppPay,
-          action: viewModel.onButtonWithCashAppPayTapped
+          "V2 - Express",
+          isSelected: viewModel.selectedOption == .v2,
+          action: { viewModel.onButtonTapped(.v2) }
+        )
+        CustomButton(
+          "V3 - Button",
+          isSelected: viewModel.selectedOption == .v3,
+          action: { viewModel.onButtonTapped(.v3) }
         )
         Spacer()
       }.padding()

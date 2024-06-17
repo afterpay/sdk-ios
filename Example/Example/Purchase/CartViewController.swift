@@ -19,17 +19,17 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   private let titleSubtitleCellIdentifier = String(describing: TitleSubtitleCell.self)
   private let eventHandler: (Event) -> Void
 
-  private var event: Event = .didTapSingleUseCardButton {
-    didSet {
-      updateViewState()
-    }
-  }
-
   private lazy var cashButton = CashAppPayButton(size: .large) { [weak self] in
     self?.didTapCashAppPay()
   }
 
-  private let checkoutTypeTextField = UITextField()
+  private lazy var cashAppButtonForV3 = CashAppPayButton(size: .large) { [weak self] in
+    self?.eventHandler(.didTapSingleUseCardButtonWithCashAppPay)
+  }
+
+  private var checkoutOption: CheckoutPickerOption = .v1 {
+    didSet { updateViewState() }
+  }
 
   enum Event {
     case didTapPay
@@ -77,26 +77,20 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       payButton.accessibilityIdentifier = "payNow"
       payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
-      view.addSubview(payButton)
-      view.addSubview(checkoutTypeTextField)
-
       cashButton.accessibilityIdentifier = "payWithCashApp"
-      cashButton.translatesAutoresizingMaskIntoConstraints = false
+      cashAppButtonForV3.accessibilityIdentifier = "payWithV3UsingCashApp"
 
-      checkoutTypeTextField.translatesAutoresizingMaskIntoConstraints = false
-
-      view.addSubview(cashButton)
+      let stack = UIStackView(arrangedSubviews: [payButton, cashButton, cashAppButtonForV3])
+      stack.axis = .vertical
+      stack.isLayoutMarginsRelativeArrangement = true
+      stack.directionalLayoutMargins = .init(top: 16, leading: 16, bottom: 8, trailing: 16)
+      stack.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(stack)
 
       NSLayoutConstraint.activate([
-        checkoutTypeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        checkoutTypeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        checkoutTypeTextField.bottomAnchor.constraint(equalTo: payButton.topAnchor),
-        payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        cashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        cashButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 8),
-        cashButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
+        stack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        stack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        stack.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
       ])
 
       tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor)
@@ -125,23 +119,21 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     updateViewState()
   }
 
-  // MARK: - Private
-
   func updateViewState() {
-    switch event {
-    case .didTapPay, .didTapCashAppPay, .cartDidLoad, .optionsChanged:
-      break
-    case .didTapSingleUseCardButton:
-      checkoutTypeTextField.text = "Button Checkout V3"
-    case .didTapSingleUseCardButtonWithCashAppPay:
-      checkoutTypeTextField.text = "Button Checkout V3 with Cash App Pay"
-    }
+    cashButton.isHidden = (checkoutOption == .v1 || checkoutOption == .v3)
+    cashAppButtonForV3.isHidden = (checkoutOption == .v1 || checkoutOption == .v2)
+    eventHandler(.optionsChanged(.expressEnabled(checkoutOption == .v2)))
   }
 
   // MARK: Actions
 
   @objc private func didTapPay() {
-    eventHandler(event)
+    switch checkoutOption {
+    case .v1, .v2:
+      eventHandler(.didTapPay)
+    case .v3:
+      eventHandler(.didTapSingleUseCardButton)
+    }
   }
 
   @objc private func didTapCashAppPay() {
@@ -149,19 +141,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   }
 
   @objc private func presentPickerController() {
-    let selectedOption: CheckoutPickerOption?
-    switch event {
-    case .didTapSingleUseCardButton:
-      selectedOption = .button
-    case .didTapSingleUseCardButtonWithCashAppPay:
-      selectedOption = .buttonWithCashAppPay
-    default:
-      selectedOption = nil
-    }
-
-    guard let selectedOption else { return }
-
-    let controller = CheckoutPickerViewController(selectedOption: selectedOption, delegate: self)
+    let controller = CheckoutPickerViewController(selectedOption: checkoutOption, delegate: self)
     controller.title = "Configuration"
     present(UINavigationController(rootViewController: controller), animated: true)
   }
@@ -189,7 +169,12 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case .total:
       return 1
     case .options:
-      return 1
+      switch checkoutOption {
+      case .v1:
+        return 0
+      case .v2, .v3:
+        return 1
+      }
     }
   }
 
@@ -222,11 +207,22 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         withIdentifier: checkoutOptionsCellIdentifier,
         for: indexPath) as! CheckoutOptionsCell
 
-      optionsCell.configure(
-        options: cart.checkoutV2Options,
-        expressCheckout: cart.expressCheckout
-      ) { option in
-        self.eventHandler(.optionsChanged(option))
+      switch checkoutOption {
+      case .v1:
+        break
+      case .v2:
+        optionsCell.configure(
+          options: cart.checkoutV2Options,
+          expressCheckout: cart.expressCheckout
+        ) { [weak self] option in
+          self?.eventHandler(.optionsChanged(option))
+        }
+      case .v3:
+        optionsCell.configureForV3(
+          buyNow: cart.checkoutV2Options.buyNow
+        ) { [weak self] option in
+          self?.eventHandler(.optionsChanged(option))
+        }
       }
 
       cell = optionsCell
@@ -251,13 +247,9 @@ extension CartViewController: CheckoutPickerControllerDelegate {
     controller.dismiss(animated: true)
   }
 
-  func didSelectV3Checkout(_ controller: CheckoutPickerViewController) {
-    event = .didTapSingleUseCardButton
-    controller.dismiss(animated: true)
-  }
-
-  func didSelectV3CheckoutWithCashAppPay(_ controller: CheckoutPickerViewController) {
-    event = .didTapSingleUseCardButtonWithCashAppPay
+  func didSelectCheckoutOption(_ controller: CheckoutPickerViewController, option: CheckoutPickerOption) {
+    checkoutOption = option
+    tableView.reloadData()
     controller.dismiss(animated: true)
   }
 }

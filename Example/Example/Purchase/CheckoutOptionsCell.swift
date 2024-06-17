@@ -22,6 +22,12 @@ final class CheckoutOptionsCell: UITableViewCell {
   let shippingOptionRequiredLabel = UILabel()
   let shippingOptionRequiredSwitch = UISwitch()
 
+  private lazy var buyNowStack = UIStackView(arrangedSubviews: [buyNowLabel, buyNowSwitch])
+  private lazy var pickupStack = UIStackView(arrangedSubviews: [pickupLabel, pickupSwitch])
+  private lazy var shippingStack = UIStackView(
+    arrangedSubviews: [shippingOptionRequiredLabel, shippingOptionRequiredSwitch]
+  )
+
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -45,11 +51,10 @@ final class CheckoutOptionsCell: UITableViewCell {
 
     let verticalStack = UIStackView(
       arrangedSubviews: [
-//        UIStackView(arrangedSubviews: [expressLabel, expressSwitch]),
-//        checkoutOptionsTitle,
-        UIStackView(arrangedSubviews: [buyNowLabel, buyNowSwitch]),
-//        UIStackView(arrangedSubviews: [pickupLabel, pickupSwitch]),
-//        UIStackView(arrangedSubviews: [shippingOptionRequiredLabel, shippingOptionRequiredSwitch]),
+        checkoutOptionsTitle,
+        buyNowStack,
+        pickupStack,
+        shippingStack,
       ]
     )
 
@@ -87,10 +92,19 @@ final class CheckoutOptionsCell: UITableViewCell {
     case pickup
     case shippingOptionRequired
 
-    case expressToggled
+    case expressEnabled(Bool)
+  }
+
+  func configureForV3(buyNow: Bool?, eventHandler: ((Event) -> Void)? = nil) {
+    [checkoutOptionsTitle, pickupStack, shippingStack].forEach { $0.isHidden = true }
+    buyNowStack.isHidden = false
+    buyNowSwitch.isOn = buyNow == true
+    self.eventHandler = eventHandler
   }
 
   func configure(options: CheckoutV2Options, expressCheckout: Bool, eventHandler: ((Event) -> Void)? = nil) {
+    [checkoutOptionsTitle, buyNowStack, pickupStack, shippingStack].forEach { $0.isHidden = false }
+
     expressSwitch.isOn = expressCheckout
     configureCheckoutV2Options(enabled: expressCheckout)
 
@@ -109,7 +123,7 @@ final class CheckoutOptionsCell: UITableViewCell {
   private var eventHandler: ((Event) -> Void)?
 
   @objc public func expressToggled() {
-    eventHandler?(.expressToggled)
+    eventHandler?(.expressEnabled(expressSwitch.isOn))
     configureCheckoutV2Options(enabled: expressSwitch.isOn)
   }
 

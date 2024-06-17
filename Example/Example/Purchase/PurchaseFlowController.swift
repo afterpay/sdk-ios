@@ -104,8 +104,8 @@ final class PurchaseFlowController: UIViewController {
           logicController.toggleCheckoutV2Option(\.pickup)
         case .optionsChanged(.shippingOptionRequired):
           logicController.toggleCheckoutV2Option(\.shippingOptionRequired)
-        case .optionsChanged(.expressToggled):
-          logicController.toggleExpressCheckout()
+        case .optionsChanged(.expressEnabled(let isEnabled)):
+          logicController.setExpressCheckoutEnabled(isEnabled)
         case .didTapSingleUseCardButton:
           logicController.payWithAfterpayV3()
         case .didTapSingleUseCardButtonWithCashAppPay:
@@ -158,51 +158,6 @@ final class PurchaseFlowController: UIViewController {
           logicController.cancelled(with: reason)
         }
       }
-    case let .afterpayCheckoutV3WithCashAppPay(consumer, cart):
-      Afterpay.checkoutV3WithCashAppPay(
-        consumer: consumer,
-        orderTotal: OrderTotal(total: cart.total, shipping: 0, tax: 0)) { result in
-          switch result {
-          case .success(let data):
-            logicController.doCap(cashAppPayload: data)
-          case .cancelled:
-            let alert = AlertFactory.alert(successMessage: "Canceled")
-            navigationController.present(alert, animated: true, completion: nil)
-          case .failure(let error):
-            let alert = AlertFactory.alert(for: error)
-            navigationController.present(alert, animated: true, completion: nil)
-          }
-        }
-    case let .confirmAfterpayCheckoutV3WithCashAppPay(
-      token: token,
-      singleUseCardToke: cardToken,
-      customerID: customerID,
-      grantID: grantID,
-      jwt: jwt
-    ):
-      Afterpay.checkoutV3ConfirmForCashAppPay(
-        token: token,
-        singleUseCardToken: cardToken,
-        cashAppPayCustomerID: customerID,
-        cashAppPayGrantID: grantID,
-        jwt: jwt) { response in
-          print(response)
-          switch response {
-          case .success(let success):
-            let message = [
-              "Card": success.paymentDetails.virtualCard?.cardNumber,
-              "Expires": success.cardValidUntil.map { RelativeDateTimeFormatter().string(for: $0) ?? "" },
-            ].compactMapValues { $0 }
-              .map { (key: String, value: String) in key + ": " + value }
-              .joined(separator: "\n")
-            let alert = AlertFactory.alert(successMessage: message)
-            navigationController.present(alert, animated: true, completion: nil)
-          case .failure(let error):
-            let alert = AlertFactory.alert(for: error)
-            navigationController.present(alert, animated: true, completion: nil)
-          }
-        }
-
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
 
@@ -225,6 +180,16 @@ final class PurchaseFlowController: UIViewController {
       let cashReceiptViewController = CashAppGrantsViewController(amount: amount, cashTag: cashTag, grants: grants)
       let viewControllers = [productsViewController, cashReceiptViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
+    case .showSuccessForV3WithCashAppPay(let message, let payload):
+      var alert = AlertFactory.alert(successMessage: message)
+      alert.message = [
+        "Card": payload.paymentDetails.virtualCard?.cardNumber,
+        "Valid until": RelativeDateTimeFormatter().string(for: payload.cardValidUntil),
+      ].compactMapValues { $0 }
+        .map { (key, value) in
+          [key, value].joined(separator: ": ")
+        }.joined(separator: "\n")
+      navigationController.present(alert, animated: true, completion: nil)
     }
   }
 
