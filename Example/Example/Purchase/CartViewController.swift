@@ -27,7 +27,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     self?.eventHandler(.didTapSingleUseCardButtonWithCashAppPay)
   }
 
-  private var checkoutOption: CheckoutPickerOption = .v1 {
+  private var checkoutOption: CheckoutPickerOption = .v2 {
     didSet { updateViewState() }
   }
 
