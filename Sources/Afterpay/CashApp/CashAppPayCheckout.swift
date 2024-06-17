@@ -10,16 +10,16 @@ import Foundation
 
 class CashAppPayCheckout {
   private let urlSession: URLSession
-  private let configuration: Configuration
+  private let cashAppSigningURL: String
   private let completion: (_ result: CashAppSigningResult) -> Void
 
   public init(
     urlSession: URLSession,
-    configuration: Configuration,
+    cashAppSigningURL: String,
     completion: @escaping (_ result: CashAppSigningResult) -> Void
   ) {
     self.urlSession = urlSession
-    self.configuration = configuration
+    self.cashAppSigningURL = cashAppSigningURL
     self.completion = completion
   }
 
@@ -28,7 +28,7 @@ class CashAppPayCheckout {
     let jsonRequestBody = try? JSONSerialization.data(withJSONObject: requestBody)
 
     guard let request = CashAppPayCheckout.createRequest(
-      urlString: configuration.environment.cashAppSigningURL,
+      urlString: cashAppSigningURL,
       jsonRequestBody: jsonRequestBody
     ) else {
       return assertionFailure("Could not create signing request when handling CashApp token")
@@ -263,5 +263,19 @@ internal extension CashAppPayCheckout {
       type: CheckoutV3.Response.self,
       completion: completion
     ).resume()
+  }
+
+  static func signCashAppOrderToken(
+    _ token: Token,
+    cashAppSigningURL: String,
+    urlSession: URLSession = .shared,
+    completion: @escaping (_ result: CashAppSigningResult) -> Void
+  ) {
+    let cashAppCheckout = CashAppPayCheckout(
+      urlSession: urlSession,
+      cashAppSigningURL: cashAppSigningURL,
+      completion: completion
+    )
+    cashAppCheckout.signToken(token: token)
   }
 }
