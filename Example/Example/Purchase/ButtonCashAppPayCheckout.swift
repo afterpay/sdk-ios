@@ -124,11 +124,11 @@ extension ButtonCashAppPayCheckout: CashAppPayObserver {
   func stateDidChange(to state: CashAppPayState) {
     switch state {
     case .notStarted,
-        .creatingCustomerRequest,
-        .updatingCustomerRequest,
-        .redirecting,
-        .polling,
-        .refreshing:
+    .creatingCustomerRequest,
+    .updatingCustomerRequest,
+    .redirecting,
+    .polling,
+    .refreshing:
       break
     case .readyToAuthorize(let customerRequest):
       authorizeCustomerRequest(customerRequest: customerRequest)

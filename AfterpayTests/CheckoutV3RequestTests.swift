@@ -40,7 +40,7 @@ final class CheckoutV3RequestTests: XCTestCase {
       shippingInformation: nil,
       billingInformation: nil
     )
-    
+
     let request = CheckoutV3.Request(
       consumer: customer,
       orderTotal: OrderTotal(total: 1, shipping: 1, tax: 0),
