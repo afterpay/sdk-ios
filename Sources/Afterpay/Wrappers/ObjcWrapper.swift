@@ -70,6 +70,7 @@ public final class ObjcWrapper: NSObject {
     static func invalidURL(_ url: URL) -> CancellationReasonInvalidURL {
       CancellationReasonInvalidURL(url)
     }
+
   }
 
   @objc(APCancellationReasonUserInitiated)

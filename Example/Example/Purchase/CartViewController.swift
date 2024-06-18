@@ -11,7 +11,6 @@ import Foundation
 import PayKitUI
 
 final class CartViewController: UIViewController, UITableViewDataSource {
-
   private var tableView: UITableView!
   private let cart: CartDisplay
   private let genericCellIdentifier = String(describing: UITableViewCell.self)
@@ -24,11 +23,21 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     self?.didTapCashAppPay()
   }
 
+  private lazy var cashAppButtonForV3 = CashAppPayButton(size: .large) { [weak self] in
+    self?.eventHandler(.didTapSingleUseCardButtonWithCashAppPay)
+  }
+
+  private var checkoutOption: CheckoutPickerOption = .v2 {
+    didSet { updateViewState() }
+  }
+
   enum Event {
     case didTapPay
     case didTapCashAppPay
     case cartDidLoad(CashAppPayButton)
     case optionsChanged(CheckoutOptionsCell.Event)
+    case didTapSingleUseCardButton
+    case didTapSingleUseCardButtonWithCashAppPay
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
@@ -68,20 +77,20 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       payButton.accessibilityIdentifier = "payNow"
       payButton.addTarget(self, action: #selector(didTapPay), for: .touchUpInside)
 
-      view.addSubview(payButton)
-
       cashButton.accessibilityIdentifier = "payWithCashApp"
-      cashButton.translatesAutoresizingMaskIntoConstraints = false
+      cashAppButtonForV3.accessibilityIdentifier = "payWithV3UsingCashApp"
 
-      view.addSubview(cashButton)
+      let stack = UIStackView(arrangedSubviews: [payButton, cashButton, cashAppButtonForV3])
+      stack.axis = .vertical
+      stack.isLayoutMarginsRelativeArrangement = true
+      stack.directionalLayoutMargins = .init(top: 16, leading: 16, bottom: 8, trailing: 16)
+      stack.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(stack)
 
       NSLayoutConstraint.activate([
-        payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        cashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        cashButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        cashButton.topAnchor.constraint(equalTo: payButton.bottomAnchor, constant: 8),
-        cashButton.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor, constant: -16),
+        stack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        stack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        stack.bottomAnchor.constraint(equalTo: view.readableContentGuide.bottomAnchor),
       ])
 
       tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: payButton.topAnchor)
@@ -93,22 +102,48 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       tableViewBottomAnchor,
     ])
+
+    let editCheckoutButton = UIBarButtonItem(
+      title: "Edit",
+      style: .plain,
+      target: self,
+      action: #selector(presentPickerController)
+    )
+    navigationItem.setRightBarButton(editCheckoutButton, animated: false)
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
     eventHandler(.cartDidLoad(self.cashButton))
+
+    updateViewState()
+  }
+
+  func updateViewState() {
+    cashButton.isHidden = (checkoutOption == .v1 || checkoutOption == .v3)
+    cashAppButtonForV3.isHidden = (checkoutOption == .v1 || checkoutOption == .v2)
+    eventHandler(.optionsChanged(.expressEnabled(checkoutOption == .v2)))
   }
 
   // MARK: Actions
 
   @objc private func didTapPay() {
-    eventHandler(.didTapPay)
+    switch checkoutOption {
+    case .v1, .v2:
+      eventHandler(.didTapPay)
+    case .v3:
+      eventHandler(.didTapSingleUseCardButton)
+    }
   }
 
   @objc private func didTapCashAppPay() {
     eventHandler(.didTapCashAppPay)
+  }
+
+  @objc private func presentPickerController() {
+    let controller = CheckoutPickerViewController(selectedOption: checkoutOption, delegate: self)
+    controller.title = "Configuration"
+    present(UINavigationController(rootViewController: controller), animated: true)
   }
 
   // MARK: UITableViewDataSource
@@ -134,7 +169,12 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case .total:
       return 1
     case .options:
-      return 1
+      switch checkoutOption {
+      case .v1:
+        return 0
+      case .v2, .v3:
+        return 1
+      }
     }
   }
 
@@ -167,11 +207,22 @@ final class CartViewController: UIViewController, UITableViewDataSource {
         withIdentifier: checkoutOptionsCellIdentifier,
         for: indexPath) as! CheckoutOptionsCell
 
-      optionsCell.configure(
-        options: cart.checkoutV2Options,
-        expressCheckout: cart.expressCheckout
-      ) { option in
-        self.eventHandler(.optionsChanged(option))
+      switch checkoutOption {
+      case .v1:
+        break
+      case .v2:
+        optionsCell.configure(
+          options: cart.checkoutV2Options,
+          expressCheckout: cart.expressCheckout
+        ) { [weak self] option in
+          self?.eventHandler(.optionsChanged(option))
+        }
+      case .v3:
+        optionsCell.configureForV3(
+          buyNow: cart.checkoutV2Options.buyNow
+        ) { [weak self] option in
+          self?.eventHandler(.optionsChanged(option))
+        }
       }
 
       cell = optionsCell
@@ -187,4 +238,18 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     fatalError("init(coder:) has not been implemented")
   }
 
+}
+
+// MARK: - CheckoutPickerControllerDelegate
+
+extension CartViewController: CheckoutPickerControllerDelegate {
+  func didSelectCancel(_ controller: CheckoutPickerViewController) {
+    controller.dismiss(animated: true)
+  }
+
+  func didSelectCheckoutOption(_ controller: CheckoutPickerViewController, option: CheckoutPickerOption) {
+    checkoutOption = option
+    tableView.reloadData()
+    controller.dismiss(animated: true)
+  }
 }

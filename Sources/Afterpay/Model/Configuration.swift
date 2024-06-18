@@ -121,4 +121,19 @@ public struct Configuration {
     self.consumerLocale = consumerLocale
   }
 
+  init(_ object: Object, configuration: CheckoutV3Configuration) throws {
+    try self.init(
+      minimumAmount: object.minimumAmount.amount,
+      maximumAmount: object.maximumAmount.amount,
+      currencyCode: configuration.region.currencyCode,
+      locale: configuration.region.locale,
+      environment: configuration.environment
+    )
+  }
+
+  struct Object: Decodable {
+    let minimumAmount: Money
+    let maximumAmount: Money
+  }
+
 }

@@ -20,6 +20,7 @@ final class PurchaseLogicController {
     case showAfterpayCheckoutV1(checkoutURL: URL)
 
     case showAfterpayCheckoutV2(CheckoutV2Options)
+    case showAfterpayCheckoutV3(consumer: Consumer, cart: CartDisplay)
     case provideCheckoutTokenResult(TokenResult)
     case provideShippingOptionsResult(ShippingOptionsResult)
     case provideShippingOptionResult(ShippingOptionUpdateResult)
@@ -27,6 +28,8 @@ final class PurchaseLogicController {
     case showAlertForErrorMessage(String)
     case showSuccessWithMessage(String, Token)
     case showCashSuccess(String, String, [CustomerRequest.Grant])
+
+    case showSuccessForV3WithCashAppPay(String, ConfirmationV3.CashAppPayResponse)
   }
 
   var commandHandler: (Command) -> Void = { _ in } {
@@ -71,6 +74,8 @@ final class PurchaseLogicController {
     }
   }
 
+  private let buttonCashAppPayCheckout = ButtonCashAppPayCheckout()
+
   init(
     checkoutResponseProvider: @escaping CheckoutResponseProvider,
     configurationProvider: @escaping ConfigurationProvider,
@@ -98,20 +103,23 @@ final class PurchaseLogicController {
     checkoutV2Options[keyPath: option] = !currentValue
   }
 
-  func toggleExpressCheckout() {
-    expressCheckout.toggle()
+  func setExpressCheckoutEnabled(_ isEnabled: Bool) {
+    expressCheckout = isEnabled
   }
 
-  func viewCart() {
+  func buildCart() -> CartDisplay {
     let productsInCart = productDisplayModels.filter { (quantities[$0.id] ?? 0) > 0 }
-    let cart = CartDisplay(
+    return CartDisplay(
       products: productsInCart,
       total: total,
       currencyCode: currencyCode,
       expressCheckout: expressCheckout,
       initialCheckoutOptions: checkoutV2Options
     )
-    commandHandler(.showCart(cart))
+  }
+
+  func viewCart() {
+    commandHandler(.showCart(buildCart()))
   }
 
   func payWithAfterpay() {
@@ -120,6 +128,21 @@ final class PurchaseLogicController {
     } else {
       loadCheckoutURL(then: { self.commandHandler(.showAfterpayCheckoutV1(checkoutURL: $0)) })
     }
+  }
+
+  func payWithAfterpayV3() {
+    commandHandler(.showAfterpayCheckoutV3(
+      consumer: Consumer(email: email),
+      cart: buildCart()
+    ))
+  }
+
+  func payWithAfterpayV3WithCashAppPay() {
+    buttonCashAppPayCheckout.delegate = self
+    buttonCashAppPayCheckout.checkoutV3(
+      consumer: Consumer(email: email),
+      cartTotal: buildCart().total
+    )
   }
 
   func payWithCashApp() {
@@ -309,18 +332,19 @@ extension PurchaseLogicController: CashAppPayObserver {
     switch state {
     case .notStarted,
       .creatingCustomerRequest,
-      .updatingCustomerRequest,
-      .redirecting,
-      .polling,
-      .apiError,
-      .integrationError,
-      .networkError,
-      .unexpectedError:
+        .updatingCustomerRequest,
+        .redirecting,
+        .polling,
+        .apiError,
+        .integrationError,
+        .networkError,
+        .unexpectedError,
+        .refreshing:
       return
     case .readyToAuthorize(let request):
       setCashButtonEnabled(true)
       cashRequest = request
-    case .approved(let request, let grants):
+    case .approved(request: let request, grants: let grants):
       if
         PurchaseLogicController.cashData == nil ||
           request.customerProfile == nil ||
@@ -360,6 +384,29 @@ extension PurchaseLogicController: CashAppPayObserver {
       }
     case .declined:
       retrieveCashAppToken()
+    }
+  }
+}
+
+// MARK: - ButtonCashAppPayCheckoutDelegate
+
+extension PurchaseLogicController: ButtonCashAppPayCheckoutDelegate {
+  func didFinish(result: Result<ConfirmationV3.CashAppPayResponse, ButtonCashAppPayError>) {
+    switch result {
+    case .success(let data):
+      commandHandler(.showSuccessForV3WithCashAppPay("Success", data))
+    case let .failure(.checkout(error: error)):
+      commandHandler(.showAlertForErrorMessage("V3 Checkout: error \(error)"))
+    case let .failure(.checkoutReason(reason)):
+      commandHandler(.showAlertForErrorMessage("V3 Checkout: reason \(reason)"))
+    case .failure(.customerRequestMissingGrant):
+      commandHandler(.showAlertForErrorMessage("Cash App Pay: missing grant"))
+    case .failure(.customerRequestDeclined):
+      commandHandler(.showAlertForErrorMessage("Cash App Pay: declined"))
+    case let .failure(.customerRequest(error: error)):
+      commandHandler(.showAlertForErrorMessage("Cash App Pay: error \(error)"))
+    case let .failure(.confirmation(error: error)):
+      commandHandler(.showAlertForErrorMessage("Confirmation: error \(error)"))
     }
   }
 }

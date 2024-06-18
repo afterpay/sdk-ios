@@ -43,6 +43,14 @@ final class PurchaseFlowController: UIViewController {
 
     Afterpay.setCheckoutV2Handler(checkoutHandler)
 
+    // This configuration object may also be passed directly into calls to
+    // `Afterpay.presentCheckoutV3Modally` and `Afterpay.fetchMerchantConfiguration`
+    Afterpay.setV3Configuration(.init(
+      shopDirectoryMerchantId: "822ce7ffc2fa41258904baad1d0fe07351e89375108949e8bd951d387ef0e932",
+      region: .US,
+      environment: .sandbox
+    ))
+
     widgetHandler = WidgetEventHandler()
     Afterpay.setWidgetHandler(widgetHandler)
 
@@ -59,6 +67,16 @@ final class PurchaseFlowController: UIViewController {
 
     logicController.commandHandler = { [unowned self] command in
       DispatchQueue.main.async { self.execute(command: command) }
+    }
+
+    Afterpay.fetchMerchantConfiguration { result in
+      switch result {
+      case .success(let configuration):
+        Afterpay.setConfiguration(configuration)
+      case .failure(let error):
+        let alert = AlertFactory.alert(for: error.localizedDescription)
+        self.present(alert, animated: true)
+      }
     }
   }
 
@@ -86,8 +104,12 @@ final class PurchaseFlowController: UIViewController {
           logicController.toggleCheckoutV2Option(\.pickup)
         case .optionsChanged(.shippingOptionRequired):
           logicController.toggleCheckoutV2Option(\.shippingOptionRequired)
-        case .optionsChanged(.expressToggled):
-          logicController.toggleExpressCheckout()
+        case .optionsChanged(.expressEnabled(let isEnabled)):
+          logicController.setExpressCheckoutEnabled(isEnabled)
+        case .didTapSingleUseCardButton:
+          logicController.payWithAfterpayV3()
+        case .didTapSingleUseCardButtonWithCashAppPay:
+          logicController.payWithAfterpayV3WithCashAppPay()
         }
       }
 
@@ -119,6 +141,23 @@ final class PurchaseFlowController: UIViewController {
         }
       }
 
+    case .showAfterpayCheckoutV3(let consumer, let cart):
+      Afterpay.presentCheckoutV3Modally(
+        over: ownedNavigationController,
+        consumer: consumer,
+        orderTotal: OrderTotal(total: cart.total, shipping: 0, tax: 0),
+        items: cart.products,
+        buyNow: cart.checkoutV2Options.buyNow ?? false,
+        requestHandler: APIClient.live.session.dataTask
+      ) { result in
+        switch result {
+        case .success(let data):
+          let controller = SingleUseCardResultViewController(data: data)
+          navigationController.pushViewController(controller, animated: true)
+        case .cancelled(let reason):
+          logicController.cancelled(with: reason)
+        }
+      }
     case .provideCheckoutTokenResult(let tokenResult):
       checkoutHandler.provideTokenResult(tokenResult: tokenResult)
 
@@ -141,6 +180,16 @@ final class PurchaseFlowController: UIViewController {
       let cashReceiptViewController = CashAppGrantsViewController(amount: amount, cashTag: cashTag, grants: grants)
       let viewControllers = [productsViewController, cashReceiptViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
+    case .showSuccessForV3WithCashAppPay(let message, let payload):
+      var alert = AlertFactory.alert(successMessage: message)
+      alert.message = [
+        "Card": payload.paymentDetails.virtualCard?.cardNumber,
+        "Valid until": RelativeDateTimeFormatter().string(for: payload.cardValidUntil),
+      ].compactMapValues { $0 }
+        .map { (key, value) in
+          [key, value].joined(separator: ": ")
+        }.joined(separator: "\n")
+      navigationController.present(alert, animated: true, completion: nil)
     }
   }
 

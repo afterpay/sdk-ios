@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let session = URLSession(configuration: .default)
+private let urlSession = URLSession(configuration: .default)
 
 enum CheckoutMode: Equatable {
   case v1
@@ -57,6 +57,7 @@ enum NetworkError: Error {
 struct APIClient {
   typealias Completion = (Result<Data, Error>) -> Void
 
+  var session: URLSession { urlSession }
   var configuration: (_ completion: @escaping Completion) -> Void
   var checkout: (
     _ email: String,
@@ -70,10 +71,10 @@ struct APIClient {
 extension APIClient {
   static let live = Self(
     configuration: { completion in
-      session.request(.configuration, completion: completion)
+      urlSession.request(.configuration, completion: completion)
     },
     checkout: { email, amount, checkoutMode, isCashAppPay, completion in
-      session.request(
+      urlSession.request(
         .checkout(
           email: email,
           amount: amount,

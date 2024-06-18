@@ -6,6 +6,7 @@
 //  Copyright © 2020 Afterpay. All rights reserved.
 //
 
+import Afterpay
 import Foundation
 
 struct Product {
@@ -38,14 +39,17 @@ extension Collection where Element == Product {
 }
 
 struct ProductDisplay {
-
+  private let product: Product
+  let quantity: UInt
   let id: UUID
   let title: String
   let subtitle: String
   let displayPrice: String
-  let quantity: String
+  let displayQuantity: String
 
   init(product: Product, quantity: UInt, currencyCode: String) {
+    self.product = product
+    self.quantity = quantity
     id = product.id
     title = product.name
     subtitle = product.description
@@ -53,7 +57,7 @@ struct ProductDisplay {
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     displayPrice = formatter.displayString(from: product.price)
 
-    self.quantity = "\(quantity)"
+    self.displayQuantity = "\(quantity)"
   }
 
   static func products(
@@ -70,4 +74,14 @@ struct ProductDisplay {
     }
   }
 
+}
+
+extension ProductDisplay: CheckoutV3Item {
+  var name: String { title }
+  var price: Decimal { product.price }
+  var sku: String? { id.uuidString }
+  var pageUrl: URL? { nil }
+  var imageUrl: URL? { nil }
+  var categories: [[String]]? { nil }
+  var estimatedShipmentDate: String? { nil }
 }

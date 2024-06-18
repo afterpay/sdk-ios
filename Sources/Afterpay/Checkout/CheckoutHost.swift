@@ -14,6 +14,8 @@ enum CheckoutHost: String, CaseIterable {
 
   case afterpay = "portal.afterpay.com"
   case afterpaySandbox = "portal.sandbox.afterpay.com"
+  case afterpayPlusSandbox = "api-plus.us-sandbox.afterpay.com"
+  case afterpayPlus = "api-plus.us.afterpay.com"
   case clearpay = "portal.clearpay.co.uk"
   case clearpaySandbox = "portal.sandbox.clearpay.co.uk"
   case euClearpay = "checkout.clearpay.com"

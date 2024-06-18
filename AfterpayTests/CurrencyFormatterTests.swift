@@ -116,4 +116,19 @@ class CurrencyFormatterTests: XCTestCase {
     let usd: CurrencyFormatter
   }
 
+  func testOrderTotalDecimalToStringPerformsRounding() {
+    let region = CheckoutV3Configuration.Region.US
+
+    XCTAssertEqual(region.formatted(currency: 9), "9")
+    XCTAssertEqual(region.formatted(currency: 9.9), "9.9")
+    XCTAssertEqual(region.formatted(currency: 9.99), "9.99")
+    XCTAssertEqual(region.formatted(currency: 9.999), "10")
+    XCTAssertEqual(region.formatted(currency: 9.995), "9.99")
+    XCTAssertEqual(region.formatted(currency: 9.996), "10")
+    // This test was added to make sure that the grouping seperator
+    // was omitted from the formatted currency
+    // ie 1196.996 should not return 1,197 but 1197
+    XCTAssertEqual(region.formatted(currency: 1196.996), "1197")
+  }
+
 }

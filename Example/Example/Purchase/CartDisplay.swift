@@ -13,6 +13,7 @@ struct CartDisplay {
 
   let products: [ProductDisplay]
   let message: String?
+  let total: Decimal
   let displayTotal: String
   let payEnabled: Bool
   let checkoutV2Options: CheckoutV2Options
@@ -30,6 +31,7 @@ struct CartDisplay {
     self.message = products.isEmpty ? "Please add some items to your cart." : nil
     self.payEnabled = products.isEmpty ? false : true
 
+    self.total = total
     let formatter = CurrencyFormatter(currencyCode: currencyCode)
     self.displayTotal = formatter.displayString(from: total)
     self.expressCheckout = expressCheckout

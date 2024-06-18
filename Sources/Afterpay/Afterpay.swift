@@ -240,8 +240,10 @@ public func setCheckoutV2Handler(_ handler: CheckoutV2Handler?) {
 
 public func signCashAppOrderToken(
   _ token: Token,
+  urlSession: URLSession = .shared,
   completion: @escaping (_ result: CashAppSigningResult) -> Void
 ) {
+
   guard let configuration = getConfiguration() else {
     return assertionFailure(
       "Configuration must be provided before using `signCashAppOrder`"
@@ -252,12 +254,11 @@ public func signCashAppOrderToken(
     return
   }
 
-  let cashAppCheckout = CashAppPayCheckout(
-    configuration: configuration,
-    completion: completion
-  )
-
-  cashAppCheckout.signToken(token: token)
+  CashAppPayCheckout.signCashAppOrderToken(
+    token,
+    cashAppSigningURL: configuration.environment.cashAppSigningURL,
+    urlSession: urlSession,
+    completion: completion)
 }
 
 public func validateCashAppOrder(
@@ -421,6 +422,10 @@ public var enabled: Bool {
 
 public var cashAppClientId: String? {
   getConfiguration()?.environment.cashAppClientId
+}
+
+public var checkoutV3CashAppClientId: String? {
+  getV3Configuration()?.environment.cashAppClientId
 }
 
 public var environment: Environment? {
