@@ -62,6 +62,18 @@ func stateDidChange(to state: CashAppPayState) {
         // This Customer Request is in a terminal state and any subsequent actions on this Customer Request will yield an error.
         // To retry the customer will need to restart the Customer Request flow.
         // You should make sure customers can select other payment methods at this point.
+    case .integrationError:
+        // There is an issue with the way you are transitioning between states. Refer to the documentation to ensure you are
+        // moving between states in the correct order.
+        // You can perform a valid transition from this state.
+    case .apiError:
+        // Cash App Pay API is suffering degraded performance. You can can retry your event or discard this checkout.
+        // Retrying may fix the issue or reach out to Developer Support for additional help.
+    case .unexpectedError:
+        // This should never happen however in the event you receive this please reach out to Developer Support to diagnose the issue.
+    case .networkError:
+        // The Cash App Pay SDK attempts to retry network failures however in the event that a customer is unable
+        // to perform their checkout due to network connectivity issues you may want to retry the checkout.
     ...
     // handle the other state changes
     ...
