@@ -14,16 +14,11 @@ enum ApiV3 {
 
   private static let decoder: JSONDecoder = {
     let decoder = JSONDecoder()
-    let formatter = ISO8601DateFormatter()
+    let formatter = DateFormatter()
 
     formatter.timeZone = TimeZone(abbreviation: "GMT")
-    formatter.formatOptions = [
-      .withInternetDateTime,
-      .withDashSeparatorInDate,
-      .withColonSeparatorInTime,
-      .withTimeZone,
-      .withFractionalSeconds,
-    ]
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     decoder.dateDecodingStrategy = .custom { decoder in
       let container = try decoder.singleValueContainer()
       let string = try container.decode(String.self)

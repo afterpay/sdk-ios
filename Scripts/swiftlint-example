@@ -9,6 +9,6 @@ unset SDKROOT
 cd ..
 
 ./Tools/mint/mint run swiftlint \
+  --config .swiftlint.yml \
   --quiet \
-  --path Example \
-  --config .swiftlint.yml
+  -- Example \

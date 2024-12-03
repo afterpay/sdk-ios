@@ -149,7 +149,7 @@ public struct CustomButton: View {
     .buttonStyle(CustomButtonStyle(isSelected: isSelected))
   }
 
-  public init(_ text: String, isSelected: Bool, action: @escaping() -> Void) {
+  public init(_ text: String, isSelected: Bool, action: @escaping () -> Void) {
     self.text = text
     self.action = action
     self.isSelected = isSelected

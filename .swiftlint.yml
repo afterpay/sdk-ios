@@ -2,6 +2,12 @@ disabled_rules:
   # force casting is a common part of UIKit development discretion is left to the developer
   - force_cast
   - function_body_length
+  - blanket_disable_command
+  - non_optional_string_data_conversion
+  - large_tuple
+  - switch_case_alignment
+  - orphaned_doc_comment
+  - unavailable_condition
 
 opt_in_rules:
   - indentation_width

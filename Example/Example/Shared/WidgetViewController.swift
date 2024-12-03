@@ -14,7 +14,7 @@ final class WidgetViewController: UIViewController {
   private var messageLabel = UILabel()
   private var widgetView: WidgetView!
 
-  private let updateAmountField = Field(
+  private lazy var updateAmountField = Field(
     text: "Total Amount:",
     placeholder: "0.00",
     keyboardType: .decimalPad,

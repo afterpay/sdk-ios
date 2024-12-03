@@ -11,6 +11,7 @@ import Foundation
 import PayKit
 import PayKitUI
 
+// swiftlint:disable:next type_body_length
 final class PurchaseLogicController {
 
   enum Command {
