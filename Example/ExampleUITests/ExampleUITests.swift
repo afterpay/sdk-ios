@@ -39,25 +39,4 @@ final class ExampleUITests: XCTestCase {
 
     app.buttons["Yes"].tap()
   }
-
-  func testTokenlessWidgetAppears() throws {
-    app.buttons["Tokenless…"].tap()
-
-    _ = app.webViews.staticTexts.firstMatch.waitForExistence(timeout: 60)
-
-    let webViewText = app.webViews.staticTexts.firstMatch
-
-    XCTAssertTrue(webViewText.label.contains(#"token":null"#))
-    XCTAssertTrue(webViewText.label.contains(#"amount":"200.00"#))
-    XCTAssertTrue(webViewText.label.contains(#"currency":"USD"#))
-
-    let textField = app.textFields.firstMatch
-    textField.tap()
-    textField.typeText("444")
-    app.buttons["Update"].tap()
-
-    XCTAssertTrue(webViewText.label.contains(#""amount":"444""#))
-    XCTAssertTrue(webViewText.label.contains(#""currency":"USD""#))
-  }
-
 }

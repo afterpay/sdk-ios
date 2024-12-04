@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
-// swiftlint:disable:next colon
 final class CheckoutWebViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,

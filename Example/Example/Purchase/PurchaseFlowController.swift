@@ -181,7 +181,7 @@ final class PurchaseFlowController: UIViewController {
       let viewControllers = [productsViewController, cashReceiptViewController]
       navigationController.setViewControllers(viewControllers, animated: true)
     case .showSuccessForV3WithCashAppPay(let message, let payload):
-      var alert = AlertFactory.alert(successMessage: message)
+      let alert = AlertFactory.alert(successMessage: message)
       alert.message = [
         "Card": payload.paymentDetails.virtualCard?.cardNumber,
         "Valid until": RelativeDateTimeFormatter().string(for: payload.cardValidUntil),

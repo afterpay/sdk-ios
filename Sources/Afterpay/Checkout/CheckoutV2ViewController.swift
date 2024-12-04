@@ -9,9 +9,9 @@
 import Foundation
 import os.log
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
-// swiftlint:disable:next colon type_body_length
+// swiftlint:disable:next type_body_length
 final class CheckoutV2ViewController:
   UIViewController,
   UIAdaptivePresentationControllerDelegate,

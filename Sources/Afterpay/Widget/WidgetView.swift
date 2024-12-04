@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 public final class WidgetView: UIView, WKNavigationDelegate, WKScriptMessageHandler {
 

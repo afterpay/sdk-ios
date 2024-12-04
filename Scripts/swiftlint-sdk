@@ -9,6 +9,7 @@ unset SDKROOT
 
 if [ "$CARTHAGE" != "YES" ]; then
   ./Tools/mint/mint run swiftlint \
+    --config .swiftlint.yml \
     --quiet \
     -- \
     Package.swift \
