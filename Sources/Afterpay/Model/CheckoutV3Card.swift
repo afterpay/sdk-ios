@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Virtual Card
+
 public enum VirtualCard {
   case card(Card)
   case tokenized(TokenizedCard)
@@ -24,13 +26,24 @@ public enum VirtualCard {
   }
 }
 
-public struct Card: Decodable {
+// MARK: - Card
+
+public struct Card {
   public let cardType: String
   public let cardNumber: String
   public let cvc: String
   public let expiryMonth: Int
   public let expiryYear: Int
 
+  /// A convenience method that returns the `expiryMonth` in zero padded format.
+  ///
+  /// - Returns: Returns the expiry month in zero padded format.
+  public var zeroPaddedExpiryMonth: String {
+    String(format: "%02d", expiryMonth)
+  }
+}
+
+extension Card: Decodable {
   private enum CodingKeys: String, CodingKey {
     case cardNumber, cvc, expiry, cardType
   }
@@ -67,6 +80,8 @@ public struct Card: Decodable {
     self.cardType = try container.decode(String.self, forKey: .cardType)
   }
 }
+
+// MARK: - TokenizedCard
 
 public struct TokenizedCard: Decodable {
   public let paymentGateway: String
