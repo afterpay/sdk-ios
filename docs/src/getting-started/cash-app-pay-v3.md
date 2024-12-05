@@ -94,10 +94,10 @@ Your implementation should switch on the `state` parameter and handle the approp
 |`approved` |Grants are ready for your backend to use to create a payment.|
 |`declined`|Customer has declined the Cash App Pay authorization and must start the flow over or choose a new payment method.|
 
-### Error States
-
 {: .alert }
 > Customer Requests can fail for a number of reasons, such as when customer exits the flow prematurely or are declined by Cash App for risk reasons. You must respond to these state changes and be ready to update your UI appropriately.
+
+### Error States
 
 | State | Description |
 |:------|:------------|
