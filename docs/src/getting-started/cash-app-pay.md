@@ -45,31 +45,80 @@ The `CashAppPayObserver` protocol contains only one method:
 
 ``` swift
 func stateDidChange(to state: CashAppPaySDKState) {
-	// handle state changes
+  // handle state changes
 }
 ```
 
+Your implementation should switch on the `state` parameter and respond to each of the [state changes](#states). Below is a partial implementation of the most important states.
+
+```swift
+func stateDidChange(to state: CashAppPayState) {
+    switch state {
+    case let .readyToAuthorize(customerRequest):
+        // The customer is ready to authorize the Customer Request by deep linking in to Cash App.
+        // Enable the Cash App Pay Button.
+    case let .approved(request: customerRequest, grants: grants):
+        // The customer has deep linked back to your App from Cash App and they approved the Customer Request!
+        // The checkout is now complete.
+    case let .declined(customerRequest):
+        // The customer has deep linked back to your App from Cash App and the Customer Request is declined.
+        // This Customer Request is in a terminal state and any subsequent actions on this Customer Request will yield an error.
+        // To retry the customer will need to restart the Customer Request flow.
+        // You should make sure customers can select other payment methods at this point.
+    case .integrationError:
+        // There is an issue with the way you are transitioning between states. Refer to the documentation to ensure you are
+        // moving between states in the correct order.
+        // You can perform a valid transition from this state.
+    case .apiError:
+        // Cash App Pay API is suffering degraded performance. You can can retry your event or discard this checkout.
+        // Retrying may fix the issue or reach out to Developer Support for additional help.
+    case .unexpectedError:
+        // This should never happen however in the event you receive this please reach out to Developer Support to diagnose the issue.
+    case .networkError:
+        // The Cash App Pay SDK attempts to retry network failures however in the event that a customer is unable
+        // to perform their checkout due to network connectivity issues you may want to retry the checkout.
+    ...
+    // handle the other state changes
+    ...
+    }
+}
+```
 
 ### States
+
+{: .info }
+> You must update your UI in response to these state changes.
 
 Your implementation should switch on the `state` parameter and handle the appropriate state changes. Some of these possible states are for information only, but most drive the logic of your integration. The most critical states to handle are listed in the table below:
 
 | State | Description |
 |:------|:------------|
-| `ReadyToAuthorize` | Show a Cash App Pay button in your UI and call `authorizeCustomerRequest()` when it is tapped. |
-| `Approved` | Grants are ready for your backend to use to create a payment. |
-| `Declined` | Customer has declined the Cash App Pay authorization and must start the flow over or choose a new payment method. |
+|`readyToAuthorize` | Show a Cash App Pay button in your UI and call `authorizeCustomerRequest()` when it is tapped. |
+|`approved` |Grants are ready for your backend to use to create a payment.|
+|`declined`|Customer has declined the Cash App Pay authorization and must start the flow over or choose a new payment method.|
 
 ### Error States
 
+{: .alert }
+> Customer Requests can fail for a number of reasons, such as when customer exits the flow prematurely or are declined by Cash App for risk reasons. You must respond to these state changes and be ready to update your UI appropriately.
+
 | State | Description |
 |:------|:------------|
-| `.integrationError` | A fixable bug in your integration. |
-| `.apiError` | A degradation of Cash App Pay server APIs. Your app should temporarily hide Cash App Pay functionality. |
-| `.unexpectedError` | A bug outside the normal flow. Report this bug (and what caused it) to Cash App Developer Support. |
+|`integrationError` |A fixable bug in your integration.|
+|`apiError` | A degradation of Cash App Pay server APIs. Your app should temporarily hide Cash App Pay functionality. |
+|`unexpectedError` |A bug outside the normal flow. Report this bug (and what caused it) to Cash App Developer Support. |
+|`networkError` |A networking error, likely due to poor internet connectivity. |
 
-{: .info }
-> You must update your UI in response to these state changes.
+### Informational states
+
+| State | Description |
+|:------|:------------|
+|`notStarted`|Ready for a Create Customer Request to be initiated.|
+|`creatingCustomerRequest` |CustomerRequest is being created. For information only.|
+|`updatingCustomerRequest`|CustomerRequest is being updated. For information only.|
+|`redirecting`|SDK is redirecting to Cash App for authorization. Show loading indicator if desired.|
+|`polling`|SDK is retrieving authorized CustomerRequest. Show loading indicator if desired.|
+|`refreshing`|CustomerRequest is being refreshed as a result of the AuthFlowTriggers expiring. Show loading indicator if desired|
 
 ## Step 3: Implement URL handling
 
