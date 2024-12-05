@@ -46,7 +46,7 @@ func stateDidChange(to state: CashAppPaySDKState) {
 }
 ```
 
-Your implementation should switch on the `state` parameter and handle the appropriate state changes. Below is a partial implementation of the most important states. 
+Your implementation should switch on the `state` parameter and respond to each of the [state changes](#states). Below is a partial implementation of the most important states.
 
 ```swift
 func stateDidChange(to state: CashAppPayState) {
@@ -107,7 +107,8 @@ Your implementation should switch on the `state` parameter and handle the approp
 |`networkError` |A networking error, likely due to poor internet connectivity. |
 
 ### Informational states
-|State|Description|
+
+| State | Description |
 |:------|:------------|
 |`notStarted`|Ready for a Create Customer Request to be initiated.|
 |`creatingCustomerRequest` |CustomerRequest is being created. For information only.|
