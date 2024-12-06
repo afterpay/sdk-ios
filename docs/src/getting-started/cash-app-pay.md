@@ -237,7 +237,7 @@ Your app will redirect to Cash App for authorization. When the authorization is 
 
 ### Unhappy Path
 
-If the Customer does not have Cash App installed on thier device then they will redriect to a webpage prompting them to download Cash App. In the event the customer does not download Cash App, then the SDK will remain in the `polling` state. The SDK does not handle this edge case and instead it is up to the implementor to set a reasonable timeout and treat the checkout as failed once that timeout is exceeded. It is suggested to dismiss any loading states and restart the Cash App Pay flow as to not block the customer from checking out.
+If the Customer does not have Cash App installed on their device then they will redirect to a webpage prompting them to download Cash App. In the event the customer does not download Cash App, then the SDK will remain in the `polling` state. The SDK does not handle this edge case and instead it is up to the implementor to set a reasonable timeout and treat the checkout as failed once that timeout is exceeded. It is suggested to dismiss any loading states and restart the Cash App Pay flow as to not block the customer from checking out.
 
 ### Step 6B: Validate the Cash App Pay Order
 
