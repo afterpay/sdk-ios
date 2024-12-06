@@ -65,6 +65,10 @@ func stateDidChange(to state: CashAppPayState) {
         // This Customer Request is in a terminal state and any subsequent actions on this Customer Request will yield an error.
         // To retry the customer will need to restart the Customer Request flow.
         // You should make sure customers can select other payment methods at this point.
+    case .redirecting:
+        // The customer is being redirected to Cash App you can present a loading spinner if desired.
+        // NOTE: In the event that the customer does not have Cash App installed and navigates back to your app then it is
+        // up to you to set a reasonable timeout after which you dismiss the loading spinner and treat the Customer Request as failed.
     case .integrationError:
         // There is an issue with the way you are transitioning between states. Refer to the documentation to ensure you are
         // moving between states in the correct order.
@@ -231,7 +235,9 @@ Once the SDK is in the `.readyToAuthorize` state, you can store the associated `
 
 Your app will redirect to Cash App for authorization. When the authorization is completed, your redirect URL will be called and the `RedirectNotification` will post. Then, the SDK will fetch your authorized request and return it to your Observer, as part of the change to the `.approved` state.
 
+### Unhappy Path
 
+If the Customer does not have Cash App installed on thier device then they will redriect to a webpage prompting them to download Cash App. In the event the customer does not download Cash App, then the SDK will remain in the `polling` state. The SDK does not handle this edge case and instead it is up to the implementor to set a reasonable timeout and treat the checkout as failed once that timeout is exceeded. It is suggested to dismiss any loading states and restart the Cash App Pay flow as to not block the customer from checking out.
 
 ### Step 6B: Validate the Cash App Pay Order
 
