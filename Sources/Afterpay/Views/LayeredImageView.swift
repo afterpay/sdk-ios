@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public class LayeredImageView: UIView {
-  public var colorScheme: ColorScheme = .static(.blackOnMint) {
+  public var colorScheme: ColorScheme = .static(.default) {
     didSet { updateColors(withTraits: traitCollection) }
   }
 
@@ -21,10 +21,12 @@ public class LayeredImageView: UIView {
   internal var imageLayers: (background: String?, foreground: String?) = (background: nil, foreground: nil) {
     didSet { updateImages() }
   }
-
-  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+  internal var polyChromeImageLayer: String?
+  internal var currentPalette: ColorPalette?
+  private var isMigratedRegion = false
+  public init(colorScheme: ColorScheme = .static(.default)) {
     self.colorScheme = colorScheme
-
+    isMigratedRegion = Afterpay.isCashAppAfterpayRegion
     super.init(frame: .zero)
 
     sharedInit()
@@ -70,14 +72,24 @@ public class LayeredImageView: UIView {
   internal func updateColors(withTraits traitCollection: UITraitCollection) {
     switch traitCollection.userInterfaceStyle {
     case .dark:
-      backgroundImageView.tintColor = colorScheme.darkPalette.uiColors.background
-      foregroundImageView.tintColor = colorScheme.darkPalette.uiColors.foreground
+      currentPalette = colorScheme.darkPalette
     case .light, .unspecified:
       fallthrough
     @unknown default:
-      backgroundImageView.tintColor = colorScheme.lightPalette.uiColors.background
-      foregroundImageView.tintColor = colorScheme.lightPalette.uiColors.foreground
+      currentPalette = colorScheme.lightPalette
     }
+    if let currentPalette {
+      let color = resolveColorScheme(palette: currentPalette)
+      backgroundImageView.tintColor = color.background
+      foregroundImageView.tintColor = color.foreground
+    }
+  }
+
+  private func resolveColorScheme(palette: ColorPalette) -> (foreground: UIColor?, background: UIColor?) {
+    if isMigratedRegion {
+      return palette.uiColorsCashAppAfterpay
+    }
+    return palette.uiColors
   }
 
   private var aspectRatioConstraint: NSLayoutConstraint!
@@ -100,15 +112,38 @@ public class LayeredImageView: UIView {
     NSLayoutConstraint.activate([ aspectRatioConstraint, minimumWidthConstraint ])
   }
 
+  private func resolveForegroundImage() -> UIImage? {
+    /// requiresPolychrome checks if we're using a color palette that requires using the polychrome asset
+    /// which right now is only the default color scheme.  isMigratedRegion checks if the region has migrated
+    /// to the CashAppAfterpay convergence branding.  If both are true, then we should use the new CashAppAfterpay
+    /// polychrome asset. Otherwise use the legacy Afterpay/Clearpay branding
+    if let currentPalette,
+      let polyChromeImageLayer,
+      currentPalette.requiresPolychrome &&
+      isMigratedRegion {
+        return AfterpayAssetProvider.image(named: polyChromeImageLayer)
+    } else if let foreground = imageLayers.foreground {
+      return AfterpayAssetProvider.image(named: foreground)
+    }
+    return nil
+  }
+
+  private func drawBackgroundBorder() {
+    guard let currentPalette, isMigratedRegion && currentPalette == .lightMono else { return }
+    backgroundImageView.layer.borderWidth = 1
+    backgroundImageView.layer.borderColor = UIColor.black.cgColor
+    backgroundImageView.layer.cornerRadius = 10
+  }
+
   internal func updateImages() {
     self.isHidden = !Afterpay.enabled
 
-    if let background = imageLayers.background, let foreground = imageLayers.foreground {
+    if let background = imageLayers.background {
       deactivateConstraints()
 
       let backgroundImage = AfterpayAssetProvider.image(named: background)
-      let foregroundImage = AfterpayAssetProvider.image(named: foreground)
-
+      let foregroundImage = resolveForegroundImage()
+      drawBackgroundBorder()
       ratio = backgroundImage!.size.height / backgroundImage!.size.width
 
       backgroundImageView.image = backgroundImage

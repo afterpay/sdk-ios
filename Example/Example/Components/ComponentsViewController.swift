@@ -152,23 +152,52 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
     stack.addArrangedSubview(titleLabel)
 
     if Afterpay.enabled {
-      let badge = BadgeView(colorScheme: .dynamic(lightPalette: .mintOnBlack, darkPalette: .blackOnMint))
-      badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
+      if !Afterpay.isCashAppAfterpayRegion {
+        let badge = BadgeView(colorScheme: .dynamic(lightPalette: .default, darkPalette: .alt))
+        badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
-      let badgeStack = UIStackView(arrangedSubviews: [badge, UIView()])
-      stack.addArrangedSubview(badgeStack)
+        let badge2 = BadgeView(colorScheme: .dynamic(lightPalette: .darkMono, darkPalette: .lightMono))
+        badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
-      let lockup = LockupView(colorScheme: .dynamic(lightPalette: .blackOnWhite, darkPalette: .whiteOnBlack))
-      lockup.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        let badgeStack = UIStackView(arrangedSubviews: [badge,badge2, UIView()])
+        stack.addArrangedSubview(badgeStack)
+        let lockup = LockupView(colorScheme: .dynamic(lightPalette: .lightMono, darkPalette: .darkMono))
+        lockup.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
-      let lockupStack = UIStackView(arrangedSubviews: [lockup, UIView()])
-      stack.addArrangedSubview(lockupStack)
+        let lockup2 = LockupView(colorScheme: .dynamic(lightPalette: .darkMono, darkPalette: .default))
+        lockup.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        let lockupStack = UIStackView(arrangedSubviews: [lockup, lockup2, UIView()])
+        stack.addArrangedSubview(lockupStack)
+      }
+
+      let payButton: UIButton = PaymentButton(
+        colorScheme: .dynamic(lightPalette: .default, darkPalette: .alt),
+        buttonKind: .buyNow
+      )
+      stack.addArrangedSubview(payButton)
+      let payButton2: UIButton = PaymentButton(
+        colorScheme: .dynamic(lightPalette: .lightMono, darkPalette: .darkMono),
+        buttonKind: .checkout
+      )
+      stack.addArrangedSubview(payButton2)
+      let payButton3: UIButton = PaymentButton(
+        colorScheme: .dynamic(lightPalette: .alt, darkPalette: .default),
+        buttonKind: .payNow
+      )
+      stack.addArrangedSubview(payButton3)
+      let payButton4: UIButton = PaymentButton(
+        colorScheme: .dynamic(lightPalette: .darkMono, darkPalette: .lightMono),
+        buttonKind: .placeOrder
+      )
+      stack.addArrangedSubview(payButton4)
 
       let priceBreakdown1 = PriceBreakdownView()
       priceBreakdown1.introText = .payInTitle
       priceBreakdown1.totalAmount = 103.50
       priceBreakdown1.delegate = self
       priceBreakdown1.moreInfoOptions = MoreInfoOptions(modalTheme: .white)
+      priceBreakdown1.logoColorScheme = .dynamic(lightPalette: .darkMono, darkPalette: .alt)
+
       stack.addArrangedSubview(priceBreakdown1)
 
       let priceBreakdown2 = PriceBreakdownView()
@@ -176,7 +205,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
       priceBreakdown2.delegate = self
       priceBreakdown2.showWithText = false
       priceBreakdown2.showInterestFreeText = false
-      priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .blackOnMint, darkPalette: .whiteOnBlack)
+      priceBreakdown2.logoColorScheme = .dynamic(lightPalette: .default, darkPalette: .lightMono)
       priceBreakdown2.moreInfoOptions = MoreInfoOptions(modalLinkStyle: .moreInfoText)
       priceBreakdown2.logoType = .compactBadge
       stack.addArrangedSubview(priceBreakdown2)
@@ -184,6 +213,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
       let priceBreakdown3 = PriceBreakdownView()
       priceBreakdown3.totalAmount = 3000
       priceBreakdown3.delegate = self
+      priceBreakdown3.logoColorScheme = .dynamic(lightPalette: .darkMono, darkPalette: .lightMono)
       stack.addArrangedSubview(priceBreakdown3)
     }
 

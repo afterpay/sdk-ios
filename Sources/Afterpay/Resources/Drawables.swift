@@ -12,7 +12,7 @@ private let localeLanguages: [Locale: Drawables] = [
   Locales.enAU: .enAfterpay,
   Locales.enGB: .enClearpay,
   Locales.enNZ: .enAfterpay,
-  Locales.enUS: .enAfterpay,
+  Locales.enUS: .enCashAppAfterpay,
   Locales.enUSposix: .enAfterpay,
   Locales.enCA: .enAfterpay,
   Locales.frCA: .frCA,
@@ -21,6 +21,7 @@ private let localeLanguages: [Locale: Drawables] = [
 enum Drawables {
 
   case enAfterpay
+  case enCashAppAfterpay
   case enClearpay
   case frCA
   case fr
@@ -31,6 +32,25 @@ enum Drawables {
     return localeLanguages[Afterpay.language ?? Locales.enAU] ?? .enAfterpay
   }
 
+  internal var polyLocalized: LocalizedDrawable {
+    switch self {
+    case .enCashAppAfterpay:
+      return LocalizedDrawable(
+        buttonBuyNowForeground: "buy-now-cashappafterpay-poly-en",
+        buttonCheckoutForeground: "checkout-cashappafterpay-poly-en",
+        buttonPayNowForeground: "pay-cashappafterpay-poly-en",
+        buttonPlaceOrderForeground: "continue-cashappafterpay-poly-en"
+        )
+    default:
+      return LocalizedDrawable(
+        buttonBuyNowForeground: "buy-now-cashappafterpay-poly-en",
+        buttonCheckoutForeground: "checkout-cashappafterpay-poly-en",
+        buttonPayNowForeground: "pay-cashappafterpay-poly-en",
+        buttonPlaceOrderForeground: "continue-cashappafterpay-poly-en"
+        )
+      }
+  }
+
   internal var localized: LocalizedDrawable {
     switch self {
     case .enAfterpay:
@@ -39,6 +59,13 @@ enum Drawables {
         buttonCheckoutForeground: "button-foreground-checkout-afterpay-en",
         buttonPayNowForeground: "button-foreground-pay-now-afterpay-en",
         buttonPlaceOrderForeground: "button-foreground-place-order-afterpay-en"
+      )
+    case .enCashAppAfterpay:
+      return LocalizedDrawable(
+        buttonBuyNowForeground: "buy-now-cashappafterpay-mono-en",
+        buttonCheckoutForeground: "checkout-cashappafterpay-mono-en",
+        buttonPayNowForeground: "pay-cashappafterpay-mono-en",
+        buttonPlaceOrderForeground: "continue-cashappafterpay-mono-en"
       )
     case .enClearpay:
       return LocalizedDrawable(

@@ -416,6 +416,10 @@ internal var brand: Brand {
   Brand.forLocale(locale: getLocale())
 }
 
+public var isCashAppAfterpayRegion: Bool {
+  brand.isCashAppAfterpayRegion
+}
+
 public var enabled: Bool {
   return language != nil && getConfiguration()?.locale != nil
 }

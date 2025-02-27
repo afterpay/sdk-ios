@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public class LockupView: AfterpayLogo {
-  override public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+  override public init(colorScheme: ColorScheme = .static(.default)) {
     super.init(colorScheme: colorScheme)
   }
 
@@ -23,11 +23,17 @@ public class LockupView: AfterpayLogo {
   }
 
   override internal func getImageColor() -> String {
-    var color = colorScheme.lightPalette.foreground
-    if traitCollection.userInterfaceStyle == .dark {
-      color = colorScheme.darkPalette.foreground
+    guard Afterpay.isCashAppAfterpayRegion else {
+      var color = colorScheme.lightPalette.foreground
+      if traitCollection.userInterfaceStyle == .dark {
+        color = colorScheme.darkPalette.foreground
+      }
+      return color
     }
-
+    var color = colorScheme.lightPalette.foregroundCashAppAfterpay
+    if traitCollection.userInterfaceStyle == .dark {
+      color = colorScheme.darkPalette.foregroundCashAppAfterpay
+    }
     return color
   }
 }

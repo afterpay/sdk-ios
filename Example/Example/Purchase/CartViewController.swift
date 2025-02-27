@@ -70,7 +70,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
 
     if Afterpay.enabled {
       let payButton: UIButton = PaymentButton(
-        colorScheme: .dynamic(lightPalette: .blackOnMint, darkPalette: .mintOnBlack),
+        colorScheme: .dynamic(lightPalette: .default, darkPalette: .lightMono),
         buttonKind: .checkout
       )
       payButton.isEnabled = cart.payEnabled

@@ -71,9 +71,9 @@ public final class PriceBreakdownView: UIView {
   }()
 
   @available(*, deprecated, renamed: "logoColorScheme")
-  public var badgeColorScheme: ColorScheme = .static(.blackOnMint)
+  public var badgeColorScheme: ColorScheme = .static(.default)
 
-  public var logoColorScheme: ColorScheme = .static(.blackOnMint) {
+  public var logoColorScheme: ColorScheme = .static(.default) {
     didSet { updateAttributedText() }
   }
 
@@ -132,7 +132,7 @@ public final class PriceBreakdownView: UIView {
     sharedInit()
   }
 
-  public init(logoColorScheme: ColorScheme = .static(.blackOnMint)) {
+  public init(logoColorScheme: ColorScheme = .static(.default)) {
     self.logoColorScheme = logoColorScheme
 
     super.init(frame: .zero)
@@ -181,13 +181,19 @@ public final class PriceBreakdownView: UIView {
     self.isHidden = !Afterpay.enabled
 
     let logoView: AfterpayLogo
-    switch logoType {
-    case .lockup:
+
+    // Only lockups exist for CashappAfterpay convergence branding
+    if Afterpay.isCashAppAfterpayRegion {
       logoView = LockupView(colorScheme: logoColorScheme)
-    case .badge:
-      logoView = BadgeView(colorScheme: logoColorScheme)
-    case .compactBadge:
-      logoView = CompactBadgeView(colorScheme: logoColorScheme)
+    } else {
+      switch logoType {
+      case .lockup:
+        logoView = LockupView(colorScheme: logoColorScheme)
+      case .badge:
+        logoView = BadgeView(colorScheme: logoColorScheme)
+      case .compactBadge:
+        logoView = CompactBadgeView(colorScheme: logoColorScheme)
+      }
     }
 
     let font: UIFont = fontProvider(traitCollection)
