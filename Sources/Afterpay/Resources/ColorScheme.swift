@@ -34,29 +34,36 @@ public enum ColorScheme {
 }
 
 public enum ColorPalette {
-  case blackOnMint
-  case mintOnBlack
-  case whiteOnBlack
-  case blackOnWhite
+  case `default`
+  case alt
+  case darkMono
+  case lightMono
 
-  var uiColors: (foreground: UIColor?, background: UIColor?) {
+  var requiresPolychrome: Bool {
     switch self {
-    case .blackOnMint:
+    case .default: return true
+    default: return false
+    }
+  }
+
+  var uiColorsCashAppAfterpay: (foreground: UIColor?, background: UIColor?) {
+    switch self {
+    case .alt:
       return (
         foreground: UIColor.black,
-        background: AfterpayAssetProvider.color(named: "BondiMint")
+        background: AfterpayAssetProvider.color(named: "CashGreen")
       )
-    case .mintOnBlack:
+    case .default:
       return (
-        foreground: AfterpayAssetProvider.color(named: "BondiMint"),
+        foreground: UIColor.clear,
         background: UIColor.black
       )
-    case .whiteOnBlack:
+    case .darkMono:
       return (
         foreground: UIColor.white,
         background: UIColor.black
       )
-    case .blackOnWhite:
+    case .lightMono:
       return (
         foreground: UIColor.black,
         background: UIColor.white
@@ -64,28 +71,78 @@ public enum ColorPalette {
     }
   }
 
+  var uiColors: (foreground: UIColor?, background: UIColor?) {
+    switch self {
+    case .alt:
+      return (
+        foreground: UIColor.black,
+        background: AfterpayAssetProvider.color(named: "BondiMint")
+      )
+    case .default:
+      return (
+        foreground: AfterpayAssetProvider.color(named: "BondiMint"),
+        background: UIColor.black
+      )
+    case .darkMono:
+      return (
+        foreground: UIColor.white,
+        background: UIColor.black
+      )
+    case .lightMono:
+      return (
+        foreground: UIColor.black,
+        background: UIColor.white
+      )
+    }
+  }
+
+  var slugCashAppAfterpay: String {
+    switch self {
+    case .alt:
+      return "alt"
+    case .default:
+      return "preferred"
+    case .darkMono:
+      return "darkMono"
+    case .lightMono:
+      return "lightMono"
+    }
+  }
+
   var slug: String {
     switch self {
-    case .blackOnMint:
+    case .alt:
       return "black-on-mint"
-    case .mintOnBlack:
+    case .default:
       return "mint-on-black"
-    case .whiteOnBlack:
+    case .darkMono:
       return "white-on-black"
-    case .blackOnWhite:
+    case .lightMono:
       return "black-on-white"
+    }
+  }
+  var foregroundCashAppAfterpay: String {
+    switch self {
+    case .alt:
+      return "alt"
+    case .default:
+      return "preferred"
+    case .darkMono:
+      return "darkMono"
+    case .lightMono:
+      return "lightMono"
     }
   }
 
   var foreground: String {
     switch self {
-    case .blackOnMint:
+    case .alt:
       return "black"
-    case .mintOnBlack:
+    case .default:
       return "mint"
-    case .whiteOnBlack:
+    case .darkMono:
       return "white"
-    case .blackOnWhite:
+    case .lightMono:
       return "black"
     }
   }

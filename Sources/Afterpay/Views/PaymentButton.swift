@@ -13,7 +13,7 @@ public final class PaymentButton: UIButton {
 
   internal var paymentButtonView: PaymentButtonUIView = PaymentButtonUIView()
 
-  public var colorScheme: ColorScheme = .static(.blackOnMint) {
+  public var colorScheme: ColorScheme = .static(.default) {
     didSet { paymentButtonView.colorScheme = colorScheme }
   }
 
@@ -21,7 +21,7 @@ public final class PaymentButton: UIButton {
     didSet { updatePaymentButtonView() }
   }
 
-  public init(colorScheme: ColorScheme = .static(.blackOnMint), buttonKind: ButtonKind = .buyNow) {
+  public init(colorScheme: ColorScheme = .static(.default), buttonKind: ButtonKind = .buyNow) {
     self.colorScheme = colorScheme
     self.buttonKind = buttonKind
     self.paymentButtonView = PaymentButtonUIView(colorScheme: colorScheme)

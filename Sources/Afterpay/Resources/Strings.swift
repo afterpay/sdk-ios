@@ -198,6 +198,7 @@ enum Strings {
 
   static let accessibleAfterpay = "after pay"
   static let accessibleClearpay = "clear pay"
+  static let accessibleCashAppAfterpay = "cash app after pay"
 
 }
 

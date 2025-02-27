@@ -16,6 +16,9 @@ private let afterpayLocales: Set<Locale> = [
   Locales.enCA,
   Locales.frCA,
   Locales.enNZ,
+]
+
+private let cashAppAfterpayLocales: Set<Locale> = [
   Locales.enUS,
   Locales.enUSposix,
 ]
@@ -23,6 +26,7 @@ private let afterpayLocales: Set<Locale> = [
 private let brandLocales: [Set<Locale>: Brand] = [
   clearpayLocales: Brand.clearpay,
   afterpayLocales: Brand.afterpay,
+  cashAppAfterpayLocales: Brand.cashAppAfterpay,
 ]
 
 internal struct BrandDetails {
@@ -34,6 +38,7 @@ internal struct BrandDetails {
 internal enum Brand {
   case afterpay
   case clearpay
+  case cashAppAfterpay
 
   public var details: BrandDetails {
     switch self {
@@ -49,7 +54,17 @@ internal enum Brand {
         accessibleName: Strings.accessibleClearpay,
         lowerCaseName: "clearpay"
       )
+    case .cashAppAfterpay:
+      return BrandDetails(
+        name: "CashAppAfterpay",
+        accessibleName: Strings.accessibleCashAppAfterpay,
+        lowerCaseName: "cashappafterpay"
+      )
     }
+  }
+
+  public var isCashAppAfterpayRegion: Bool {
+    return self == .cashAppAfterpay
   }
 
   static func forLocale(locale: Locale) -> Brand {

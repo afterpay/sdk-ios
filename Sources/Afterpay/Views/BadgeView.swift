@@ -10,7 +10,10 @@ import Foundation
 import UIKit
 
 public class BadgeView: AfterpayLogo {
-  override public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+  override public init(colorScheme: ColorScheme = .static(.default)) {
+    if Afterpay.isCashAppAfterpayRegion {
+      assertionFailure("Cash App Afterpay badge is not supported")
+    }
     super.init(colorScheme: colorScheme)
   }
 

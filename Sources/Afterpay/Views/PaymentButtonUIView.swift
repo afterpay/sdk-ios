@@ -24,6 +24,10 @@ public final class PaymentButtonUIView: LayeredImageView {
   }
 
   override internal func setForeground() {
+    /// There is an additional type of foreground asset where we don't apply a tint.
+    /// Since the ultimate resolution of the tint and kind aren't resolved until updateImages()
+    /// in LayeredImageView, we pass both foreground asset types forward
+    polyChromeImageLayer = buttonKind.polyForegroundString
     imageLayers.foreground = buttonKind.foregroundString
   }
 }
@@ -44,6 +48,19 @@ public enum ButtonKind {
       return Afterpay.drawable.localized.buttonPayNowForeground
     case .placeOrder:
       return Afterpay.drawable.localized.buttonPlaceOrderForeground
+    }
+  }
+
+  var polyForegroundString: String {
+    switch self {
+    case .buyNow:
+      return Afterpay.drawable.polyLocalized.buttonBuyNowForeground
+    case .checkout:
+      return Afterpay.drawable.polyLocalized.buttonCheckoutForeground
+    case .payNow:
+      return Afterpay.drawable.polyLocalized.buttonPayNowForeground
+    case .placeOrder:
+      return Afterpay.drawable.polyLocalized.buttonPlaceOrderForeground
     }
   }
 

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public class AfterpayLogo: UIView {
-  public var colorScheme: ColorScheme = .static(.blackOnMint) {
+  public var colorScheme: ColorScheme = .static(.default) {
     didSet { updateImage(withTraits: traitCollection) }
   }
 
@@ -21,7 +21,7 @@ public class AfterpayLogo: UIView {
 
   public var ratio: CGFloat?
 
-  public init(colorScheme: ColorScheme = .static(.blackOnMint)) {
+  public init(colorScheme: ColorScheme = .static(.default)) {
     self.colorScheme = colorScheme
 
     super.init(frame: .zero)
