@@ -187,7 +187,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
       stack.addArrangedSubview(payButton3)
       let payButton4: UIButton = PaymentButton(
         colorScheme: .dynamic(lightPalette: .darkMono, darkPalette: .lightMono),
-        buttonKind: .placeOrder
+        buttonKind: .continueWith
       )
       stack.addArrangedSubview(payButton4)
 
