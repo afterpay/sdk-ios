@@ -13,7 +13,7 @@ private let localeLanguages: [Locale: Drawables] = [
   Locales.enGB: .enClearpay,
   Locales.enNZ: .enAfterpay,
   Locales.enUS: .enCashAppAfterpay,
-  Locales.enUSposix: .enAfterpay,
+  Locales.enUSposix: .enCashAppAfterpay,
   Locales.enCA: .enAfterpay,
   Locales.frCA: .frCA,
 ]

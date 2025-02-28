@@ -36,7 +36,7 @@ public enum ButtonKind {
   case buyNow
   case checkout
   case payNow
-  case placeOrder
+  case continueWith
 
   var foregroundString: String {
     switch self {
@@ -46,7 +46,7 @@ public enum ButtonKind {
       return Afterpay.drawable.localized.buttonCheckoutForeground
     case .payNow:
       return Afterpay.drawable.localized.buttonPayNowForeground
-    case .placeOrder:
+    case .continueWith:
       return Afterpay.drawable.localized.buttonPlaceOrderForeground
     }
   }
@@ -59,7 +59,7 @@ public enum ButtonKind {
       return Afterpay.drawable.polyLocalized.buttonCheckoutForeground
     case .payNow:
       return Afterpay.drawable.polyLocalized.buttonPayNowForeground
-    case .placeOrder:
+    case .continueWith:
       return Afterpay.drawable.polyLocalized.buttonPlaceOrderForeground
     }
   }
@@ -72,8 +72,8 @@ public enum ButtonKind {
       return "checkout with"
     case .payNow:
       return "pay now with"
-    case .placeOrder:
-      return "place order with"
+    case .continueWith:
+      return "continue with"
     }
   }
 }
