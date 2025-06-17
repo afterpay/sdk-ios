@@ -159,7 +159,7 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
         let badge2 = BadgeView(colorScheme: .dynamic(lightPalette: .darkMono, darkPalette: .lightMono))
         badge.widthAnchor.constraint(equalToConstant: 64).isActive = true
 
-        let badgeStack = UIStackView(arrangedSubviews: [badge,badge2, UIView()])
+        let badgeStack = UIStackView(arrangedSubviews: [badge, badge2, UIView()])
         stack.addArrangedSubview(badgeStack)
         let lockup = LockupView(colorScheme: .dynamic(lightPalette: .lightMono, darkPalette: .darkMono))
         lockup.widthAnchor.constraint(equalToConstant: 64).isActive = true
