@@ -215,6 +215,8 @@ private final class ContentStackViewController: UIViewController, PriceBreakdown
       priceBreakdown3.delegate = self
       priceBreakdown3.logoColorScheme = .dynamic(lightPalette: .darkMono, darkPalette: .lightMono)
       stack.addArrangedSubview(priceBreakdown3)
+      let b = BadgeView(colorScheme: .dynamic(lightPalette: .alt, darkPalette: .darkMono))
+      stack.addArrangedSubview(b)
     }
 
     let stackConstraints = [
