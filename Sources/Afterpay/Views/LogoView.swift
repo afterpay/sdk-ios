@@ -72,17 +72,15 @@ public class AfterpayLogo: UIView {
     deactivateConstraints()
 
     let color = getImageColor()
-    image = AfterpayAssetProvider.image(named: getImageName(brand: brand.details.lowerCaseName, color: color))
-
-    ratio = image!.size.height / image!.size.width
-
-    imageView.image = image
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-
-    addSubview(imageView)
-
-    setImageViewConstraints()
-    setupConstraints()
+    if let image = AfterpayAssetProvider.image(named: getImageName(brand: brand.details.lowerCaseName, color: color)) {
+      self.image = image
+      ratio = image.size.height / image.size.width
+      imageView.image = image
+      imageView.translatesAutoresizingMaskIntoConstraints = false
+      addSubview(imageView)
+      setImageViewConstraints()
+      setupConstraints()
+    }
   }
 
   internal func setImageViewConstraints() {
