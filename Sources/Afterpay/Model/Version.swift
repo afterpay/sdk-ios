@@ -9,6 +9,6 @@
 import Foundation
 
 final class Version {
-  static let shortVersion = "5.8.0"
+  static let shortVersion = "5.9.0"
   static let sdkVersion = "\(shortVersion)-ios"
 }
