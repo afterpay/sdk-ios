@@ -115,6 +115,11 @@ jobs:
     - name: Install Dependencies
       run: gem install cocoapods
 
+    - name: Create iOS Simulator
+      run: |
+        RUNTIME=$(xcrun simctl list runtimes | grep -oE 'com.apple.CoreSimulator.SimRuntime.iOS-[0-9-]+' | head -1)
+        xcrun simctl create "iPhone 16" "iPhone 16" "$RUNTIME" || true
+
     - name: Validate Pod
       run: |
         export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
