@@ -2,7 +2,6 @@ name: Build and Test
 
 env:
   afterpay-scheme: Afterpay
-  DEVELOPER_DIR: /Applications/Xcode_16.1.app/Contents/Developer
 
 on:
   push:
@@ -14,16 +13,26 @@ jobs:
 
   build-and-test:
     name: Build and Test
-    runs-on: macos-latest
+    runs-on: macos-15
 
     env:
-      destination: platform=iOS Simulator,name=iPhone 16
       example-scheme: Example
       example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
+
+    - name: List Available Simulators
+      run: xcrun simctl list devices available | grep iPhone | head -20
+
+    - name: Set Destination
+      run: |
+        SIMULATOR_NAME=$(xcrun simctl list devices available | grep -oE 'iPhone [0-9]+' | head -1)
+        echo "destination=platform=iOS Simulator,name=$SIMULATOR_NAME" >> $GITHUB_ENV
 
     - name: Cache Mint Packages
       uses: actions/cache@v4
@@ -105,20 +114,18 @@ jobs:
 
   validate-cocoapods:
     name: Validate Pod
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
+
     - name: Install Dependencies
       run: gem install cocoapods
-
-    - name: Create iOS Simulator
-      run: |
-        RUNTIME=$(xcrun simctl list runtimes | grep -oE 'com.apple.CoreSimulator.SimRuntime.iOS-[0-9-]+' | head -1)
-        xcrun simctl create "iPhone 16" "iPhone 16" "$RUNTIME" || true
 
     - name: Validate Pod
       run: |
@@ -127,7 +134,7 @@ jobs:
 
   validate-swift-package:
     name: Validate Swift Package
-    runs-on: macos-latest
+    runs-on: macos-15
 
     env:
       destination: platform=macOS,variant=Mac Catalyst
@@ -135,6 +142,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
     - name: Validate Swift Package
       run: |
