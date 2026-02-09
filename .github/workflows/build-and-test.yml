@@ -31,8 +31,7 @@ jobs:
 
     - name: Set Destination
       run: |
-        SIMULATOR_NAME=$(xcrun simctl list devices available | grep -oE 'iPhone [0-9]+' | head -1)
-        echo "destination=platform=iOS Simulator,name=$SIMULATOR_NAME" >> $GITHUB_ENV
+        echo "destination=platform=iOS Simulator,OS=latest" >> $GITHUB_ENV
 
     - name: Cache Mint Packages
       uses: actions/cache@v4
