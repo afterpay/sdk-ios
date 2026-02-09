@@ -2,7 +2,6 @@ name: Build and Test
 
 env:
   afterpay-scheme: Afterpay
-  DEVELOPER_DIR: /Applications/Xcode_16.1.app/Contents/Developer
 
 on:
   push:
@@ -17,13 +16,27 @@ jobs:
     runs-on: macos-latest
 
     env:
-      destination: platform=iOS Simulator,name=iPhone 16
       example-scheme: Example
       example-ui-test-scheme: ExampleUITests
       workspace: Afterpay.xcworkspace
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: List Available Simulators
+      run: xcrun simctl list devices available
+
+    - name: Set Destination
+      run: |
+        # Find any available iPhone simulator
+        SIMULATOR_NAME=$(xcrun simctl list devices available | grep 'iPhone' | grep -v 'unavailable' | head -1 | sed -E 's/.*iPhone ([0-9]+).*/iPhone \1/')
+        if [ -z "$SIMULATOR_NAME" ]; then
+          echo "No iPhone simulator found, falling back to generic iOS Simulator"
+          echo "destination=platform=iOS Simulator" >> $GITHUB_ENV
+        else
+          echo "Using simulator: $SIMULATOR_NAME"
+          echo "destination=platform=iOS Simulator,name=$SIMULATOR_NAME" >> $GITHUB_ENV
+        fi
 
     - name: Cache Mint Packages
       uses: actions/cache@v4
@@ -114,11 +127,6 @@ jobs:
 
     - name: Install Dependencies
       run: gem install cocoapods
-
-    - name: Create iOS Simulator
-      run: |
-        RUNTIME=$(xcrun simctl list runtimes | grep -oE 'com.apple.CoreSimulator.SimRuntime.iOS-[0-9-]+' | head -1)
-        xcrun simctl create "iPhone 16" "iPhone 16" "$RUNTIME" || true
 
     - name: Validate Pod
       run: |
