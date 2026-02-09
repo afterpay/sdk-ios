@@ -13,7 +13,7 @@ jobs:
 
   build-and-test:
     name: Build and Test
-    runs-on: macos-15
+    runs-on: macos-latest
 
     env:
       example-scheme: Example
@@ -23,15 +23,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
-
     - name: List Available Simulators
-      run: xcrun simctl list devices available | grep iPhone | head -20
+      run: xcrun simctl list devices available
 
     - name: Set Destination
       run: |
-        echo "destination=platform=iOS Simulator,OS=latest" >> $GITHUB_ENV
+        # Find any available iPhone simulator
+        SIMULATOR_NAME=$(xcrun simctl list devices available | grep 'iPhone' | grep -v 'unavailable' | head -1 | sed -E 's/.*iPhone ([0-9]+).*/iPhone \1/')
+        if [ -z "$SIMULATOR_NAME" ]; then
+          echo "No iPhone simulator found, falling back to generic iOS Simulator"
+          echo "destination=platform=iOS Simulator" >> $GITHUB_ENV
+        else
+          echo "Using simulator: $SIMULATOR_NAME"
+          echo "destination=platform=iOS Simulator,name=$SIMULATOR_NAME" >> $GITHUB_ENV
+        fi
 
     - name: Cache Mint Packages
       uses: actions/cache@v4
@@ -113,15 +118,12 @@ jobs:
 
   validate-cocoapods:
     name: Validate Pod
-    runs-on: macos-15
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
     - name: Install Dependencies
       run: gem install cocoapods
@@ -133,7 +135,7 @@ jobs:
 
   validate-swift-package:
     name: Validate Swift Package
-    runs-on: macos-15
+    runs-on: macos-latest
 
     env:
       destination: platform=macOS,variant=Mac Catalyst
@@ -141,9 +143,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
     - name: Validate Swift Package
       run: |
