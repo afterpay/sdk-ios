@@ -108,8 +108,8 @@ final class PurchaseFlowController: UIViewController {
           logicController.setExpressCheckoutEnabled(isEnabled)
         case .didTapSingleUseCardButton:
           logicController.payWithAfterpayV3()
-        case .didTapSingleUseCardButtonWithCashAppPay:
-          logicController.payWithAfterpayV3WithCashAppPay()
+        case .didTapSingleUseCardButtonWithCashAppPay(let mode):
+          logicController.payWithAfterpayV3WithCashAppPay(mode: mode)
         }
       }
 

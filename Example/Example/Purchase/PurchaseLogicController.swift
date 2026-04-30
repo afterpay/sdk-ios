@@ -138,11 +138,12 @@ final class PurchaseLogicController {
     ))
   }
 
-  func payWithAfterpayV3WithCashAppPay() {
+  func payWithAfterpayV3WithCashAppPay(mode: CashAppPayMode) {
     buttonCashAppPayCheckout.delegate = self
     buttonCashAppPayCheckout.checkoutV3(
       consumer: Consumer(email: email),
-      cartTotal: buildCart().total
+      cartTotal: buildCart().total,
+      mode: mode
     )
   }
 

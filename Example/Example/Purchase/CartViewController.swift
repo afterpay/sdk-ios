@@ -24,8 +24,28 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   }
 
   private lazy var cashAppButtonForV3 = CashAppPayButton(size: .large) { [weak self] in
-    self?.eventHandler(.didTapSingleUseCardButtonWithCashAppPay)
+    guard let self = self else { return }
+    let mode: CashAppPayMode = self.cashAppModeControl.selectedSegmentIndex == 0
+      ? .oneTime
+      : .onFile
+    self.eventHandler(.didTapSingleUseCardButtonWithCashAppPay(mode))
   }
+
+  private lazy var cashAppModeLabel: UILabel = {
+    let label = UILabel()
+    label.text = "Cash App Pay grant type"
+    label.font = .preferredFont(forTextStyle: .footnote)
+    label.textColor = .secondaryLabel
+    label.textAlignment = .center
+    return label
+  }()
+
+  private lazy var cashAppModeControl: UISegmentedControl = {
+    let control = UISegmentedControl(items: ["One-time", "On-file"])
+    control.selectedSegmentIndex = 0
+    control.accessibilityIdentifier = "cashAppPayMode"
+    return control
+  }()
 
   private var checkoutOption: CheckoutPickerOption = .v2 {
     didSet { updateViewState() }
@@ -37,7 +57,7 @@ final class CartViewController: UIViewController, UITableViewDataSource {
     case cartDidLoad(CashAppPayButton)
     case optionsChanged(CheckoutOptionsCell.Event)
     case didTapSingleUseCardButton
-    case didTapSingleUseCardButtonWithCashAppPay
+    case didTapSingleUseCardButtonWithCashAppPay(CashAppPayMode)
   }
 
   init(cart: CartDisplay, eventHandler: @escaping (Event) -> Void) {
@@ -80,12 +100,23 @@ final class CartViewController: UIViewController, UITableViewDataSource {
       cashButton.accessibilityIdentifier = "payWithCashApp"
       cashAppButtonForV3.accessibilityIdentifier = "payWithV3UsingCashApp"
 
-      let stack = UIStackView(arrangedSubviews: [payButton, cashButton, cashAppButtonForV3])
+      let cashAppModeStack = UIStackView(arrangedSubviews: [cashAppModeLabel, cashAppModeControl])
+      cashAppModeStack.axis = .vertical
+      cashAppModeStack.spacing = 4
+
+      let stack = UIStackView(arrangedSubviews: [
+        payButton, cashButton, cashAppModeStack, cashAppButtonForV3,
+      ])
       stack.axis = .vertical
+      stack.spacing = 8
       stack.isLayoutMarginsRelativeArrangement = true
       stack.directionalLayoutMargins = .init(top: 16, leading: 16, bottom: 8, trailing: 16)
       stack.translatesAutoresizingMaskIntoConstraints = false
       view.addSubview(stack)
+
+      // The mode picker only makes sense alongside the V3-CAP button.
+      cashAppModeLabel.isHidden = cashAppButtonForV3.isHidden
+      cashAppModeControl.isHidden = cashAppButtonForV3.isHidden
 
       NSLayoutConstraint.activate([
         stack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -122,6 +153,8 @@ final class CartViewController: UIViewController, UITableViewDataSource {
   func updateViewState() {
     cashButton.isHidden = (checkoutOption == .v1 || checkoutOption == .v3)
     cashAppButtonForV3.isHidden = (checkoutOption == .v1 || checkoutOption == .v2)
+    cashAppModeLabel.isHidden = cashAppButtonForV3.isHidden
+    cashAppModeControl.isHidden = cashAppButtonForV3.isHidden
     eventHandler(.optionsChanged(.expressEnabled(checkoutOption == .v2)))
   }
 
