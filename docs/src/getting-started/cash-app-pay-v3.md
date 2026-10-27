@@ -6,6 +6,8 @@ nav_order: 6
 ---
 
 # Cash App Pay with Checkout V3
+
+{% include deprecation_notice.md path="ios-sdk/present-checkout/cash-app-pay#afterpay-button" %}
 {: .d-inline-block .no_toc }
 NEW (v5.7.0)
 {: .label .label-green }

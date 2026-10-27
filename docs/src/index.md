@@ -6,6 +6,8 @@ nav_order: 1
 
 # Welcome
 
+{% include deprecation_notice.md path="ios-sdk" %}
+
 Welcome to the Afterpay iOS SDK.
 
 The Afterpay iOS SDK provides conveniences to make your Afterpay integration experience as smooth and straightforward as possible. We're working on crafting a great framework for developers with easy drop in components to make payments easy for your customers.

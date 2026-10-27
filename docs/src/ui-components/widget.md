@@ -8,6 +8,8 @@ nav_order: 5
 # Widget
 {: .no_toc }
 
+{% include deprecation_notice.md path="ios-sdk/ui-components/checkout-widget" %}
+
 <details open markdown="block">
   <summary>
     Table of contents

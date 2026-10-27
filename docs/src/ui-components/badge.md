@@ -7,6 +7,8 @@ nav_order: 1
 
 # Badge
 
+{% include deprecation_notice.md path="ios-sdk/ui-components/lockup" %}
+
 The Afterpay badge is a simple `UIView` that can be scaled to suit the needs of your app. As per branding guidelines it has a minimum width constraint of 64 points.
 
 ```swift

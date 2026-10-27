@@ -8,6 +8,8 @@ nav_order: 4
 # Price Breakdown
 {: .no_toc }
 
+{% include deprecation_notice.md path="ios-sdk/ui-components/price-breakdown" %}
+
 <details open markdown="block">
   <summary>
     Table of contents

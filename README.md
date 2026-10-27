@@ -1,5 +1,11 @@
 # Afterpay iOS SDK
 
+> [!IMPORTANT]
+> The documentation for this SDK has moved. The guides on [afterpay.github.io/sdk-ios](https://afterpay.github.io/sdk-ios/) are no longer maintained.
+>
+> - US merchants: [Cash App Afterpay developer docs](https://developers.cash.app/afterpay/guides/sdk/ios-sdk)
+> - Other regions: [Afterpay developer docs](https://developers.afterpay.com/afterpay-online-developer/guides/sdk/ios-sdk)
+
 ![Build and Test][badge-ci]
 [![Swift Package Manager compatible][badge-spm]][spm]
 [![Carthage compatible][badge-carthage]][carthage]
@@ -9,7 +15,7 @@
 
 
 # Documentation
-Documentation for usage can be found [here][docs], including the [getting started][docs-getting-started] guide and [UI component][docs-ui] docs.
+See the [Cash App Afterpay developer docs][docs-cash-app] for US merchants, or the [Afterpay developer docs][docs-afterpay] for other regions. Both include a quickstart, guides to presenting checkout, and the UI components.
 
 # Contributing
 
@@ -20,9 +26,8 @@ Contributions are welcome! Please read our [contributing guidelines][contributin
 This project is licensed under the terms of the Apache 2.0 license. See the [LICENSE][license] file for more information.
 
 <!-- Links: -->
-[docs]: https://afterpay.github.io/sdk-ios
-[docs-ui]: https://afterpay.github.io/sdk-ios/ui-components/
-[docs-getting-started]: https://afterpay.github.io/sdk-ios/getting-started/
+[docs-cash-app]: https://developers.cash.app/afterpay/guides/sdk/ios-sdk
+[docs-afterpay]: https://developers.afterpay.com/afterpay-online-developer/guides/sdk/ios-sdk
 
 [badge-ci]: https://github.com/afterpay/sdk-ios/workflows/Build%20and%20Test/badge.svg?branch=master&event=push
 [badge-spm]: https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat

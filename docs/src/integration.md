@@ -7,6 +7,8 @@ nav_order: 2
 # Integration
 {: .no_toc }
 
+{% include deprecation_notice.md path="ios-sdk#install-the-sdk" %}
+
 <details open markdown="block">
   <summary>
     Table of contents

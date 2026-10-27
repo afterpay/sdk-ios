@@ -8,6 +8,8 @@ nav_order: 4
 # Getting Started
 {: .no_toc }
 
+{% include deprecation_notice.md path="ios-sdk/present-checkout" %}
+
 <details open markdown="block">
   <summary>
     Table of contents

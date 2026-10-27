@@ -6,6 +6,8 @@ nav_order: 5
 ---
 
 # Cash App Pay
+
+{% include deprecation_notice.md path="ios-sdk/present-checkout/cash-app-pay#server-checkout" %}
 {: .d-inline-block .no_toc }
 NEW (v5.3.0)
 {: .label .label-green }
