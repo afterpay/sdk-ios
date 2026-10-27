@@ -7,6 +7,8 @@ nav_order: 3
 
 # Payment Button
 
+{% include deprecation_notice.md path="ios-sdk/ui-components/payment-button" %}
+
 The Afterpay `PaymentButton` is a subclass of `UIButton` that can be scaled to suit your layout, to guarantee legibility it has a maximum width constraint of 256 points.
 
 Below are examples of the button in each of the [color schemes](../#color-schemes):

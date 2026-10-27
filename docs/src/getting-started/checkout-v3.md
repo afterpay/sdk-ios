@@ -6,6 +6,8 @@ nav_order:  4
 ---
 # Checkout V3
 {: .no_toc }
+
+{% include deprecation_notice.md path="ios-sdk/present-checkout/afterpay-button" %}
 <details open markdown="block">
   <summary>
     Table of contents

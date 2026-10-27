@@ -8,6 +8,8 @@ nav_order: 3
 # Checkout V2
 {: .no_toc }
 
+{% include deprecation_notice.md path="ios-sdk/present-checkout/built-in-ui" %}
+
 <details open markdown="block">
   <summary>
     Table of contents

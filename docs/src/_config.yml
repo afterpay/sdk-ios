@@ -19,6 +19,9 @@ back_to_top: true
 back_to_top_text: "Back to top"
 
 callouts:
+  deprecated:
+    title: Deprecated
+    color: red
   note:
     title: Note
     color: yellow

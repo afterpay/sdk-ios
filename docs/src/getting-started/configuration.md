@@ -7,6 +7,8 @@ nav_order: 1
 
 # Configuring the SDK
 
+{% include deprecation_notice.md path="ios-sdk#configure-the-sdk" %}
+
 Configuration is used by the SDK for rendering UI components with the correct branding and assets, T&Cs, web links, and currency formatting.
 
 For version 2 of Checkout a configuration is required to determine the endpoint and environment. Your configuration should be formed from the configuration API as well as the localization settings of your store. The `locale` determines the endpoint checkout v2 will use, for locales with a `US` region the US checkout URL will be used for instance. For environment we recommend using `.sandbox` in debug and `.production` for release builds.

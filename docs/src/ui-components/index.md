@@ -7,6 +7,8 @@ nav_order: 5
 
 # UI Components
 
+{% include deprecation_notice.md path="ios-sdk/ui-components" %}
+
 The Afterpay Android SDK provides powerful and customizable UI elements that can be used out-of-the-box to allow users to shop now and pay later.
 
 {: .info }
